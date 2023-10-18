@@ -51,7 +51,7 @@ defmodule CDPotion.Domain.Debugger do
         call_frame_id,
         expression,
         object_group \\ nil,
-        include_command_line_ap_i \\ nil,
+        include_command_line_api \\ nil,
         silent \\ nil,
         return_by_value \\ nil,
         generate_preview \\ nil,

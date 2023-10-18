@@ -43,7 +43,7 @@ defmodule CDPotion.Domain.Audits do
   ## Parameters:
     - `reportAAA:boolean`: (Optional) Whether to report WCAG AAA level issues. Default is false.
   """
-  def check_contrast(report_aa_a \\ nil) do
+  def check_contrast(report_aaa \\ nil) do
     params = as_query([{"reportAAA", report_aaa}])
     {"Audits.checkContrast", params}
   end

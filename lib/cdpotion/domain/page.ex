@@ -26,7 +26,7 @@ defmodule CDPotion.Domain.Page do
   def add_script_to_evaluate_on_new_document(
         source,
         world_name \\ nil,
-        include_command_line_ap_i \\ nil,
+        include_command_line_api \\ nil,
         run_immediately \\ nil
       ) do
     params =

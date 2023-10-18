@@ -11,7 +11,7 @@ defmodule CDPotion.Domain.WebAuthn do
   Supported at the embedder's discretion if UI is available.
   Defaults to false.
   """
-  def enable(enable_u_i \\ nil) do
+  def enable(enable_ui \\ nil) do
     params = as_query([{"enableUI", enable_ui}])
     {"WebAuthn.enable", params}
   end
@@ -47,8 +47,8 @@ defmodule CDPotion.Domain.WebAuthn do
   def set_response_override_bits(
         authenticator_id,
         is_bogus_signature \\ nil,
-        is_bad_u_v \\ nil,
-        is_bad_u_p \\ nil
+        is_bad_uv \\ nil,
+        is_bad_up \\ nil
       ) do
     params =
       as_query([

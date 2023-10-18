@@ -76,8 +76,8 @@ defmodule CDPotion.Domain.HeapProfiler do
   """
   def start_sampling(
         sampling_interval \\ nil,
-        include_objects_collected_by_major_g_c \\ nil,
-        include_objects_collected_by_minor_g_c \\ nil
+        include_objects_collected_by_major_gc \\ nil,
+        include_objects_collected_by_minor_gc \\ nil
       ) do
     params =
       as_query([

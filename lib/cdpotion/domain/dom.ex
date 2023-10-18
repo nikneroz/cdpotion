@@ -227,7 +227,7 @@ defmodule CDPotion.Domain.DOM do
   def get_node_for_location(
         x,
         y,
-        include_user_agent_shadow_do_m \\ nil,
+        include_user_agent_shadow_dom \\ nil,
         ignore_pointer_events_none \\ nil
       ) do
     params =
@@ -332,7 +332,7 @@ defmodule CDPotion.Domain.DOM do
     - `query:string`: Plain text or query selector or XPath search query.
     - `includeUserAgentShadowDOM:boolean`: (Optional) True to search in user agent shadow DOM.
   """
-  def perform_search(query, include_user_agent_shadow_do_m \\ nil) do
+  def perform_search(query, include_user_agent_shadow_dom \\ nil) do
     params =
       as_query([{"query", query}, {"includeUserAgentShadowDOM", include_user_agent_shadow_dom}])
 

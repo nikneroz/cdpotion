@@ -181,7 +181,7 @@ defmodule CDPotion.Domain.Runtime do
   def evaluate(
         expression,
         object_group \\ nil,
-        include_command_line_ap_i \\ nil,
+        include_command_line_api \\ nil,
         silent \\ nil,
         context_id \\ nil,
         return_by_value \\ nil,
@@ -192,7 +192,7 @@ defmodule CDPotion.Domain.Runtime do
         timeout \\ nil,
         disable_breaks \\ nil,
         repl_mode \\ nil,
-        allow_unsafe_eval_blocked_by_cs_p \\ nil,
+        allow_unsafe_eval_blocked_by_csp \\ nil,
         unique_context_id \\ nil,
         generate_web_driver_value \\ nil,
         serialization_options \\ nil
@@ -334,7 +334,7 @@ defmodule CDPotion.Domain.Runtime do
         execution_context_id \\ nil,
         object_group \\ nil,
         silent \\ nil,
-        include_command_line_ap_i \\ nil,
+        include_command_line_api \\ nil,
         return_by_value \\ nil,
         generate_preview \\ nil,
         await_promise \\ nil

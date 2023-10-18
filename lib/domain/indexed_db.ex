@@ -3,7 +3,7 @@ defmodule CDPotion.Domain.IndexedDB do
 @doc """
 Clears all entries from an object store.
 ## Parameters:
-- `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+  - `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
 Security origin.
   - `storageKey:string`: (Optional) Storage key.
   - `storageBucket:Storage.StorageBucket`: (Optional) Storage bucket. If not specified, it uses the default bucket.
@@ -23,7 +23,7 @@ end
 @doc """
 Deletes a database.
 ## Parameters:
-- `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+  - `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
 Security origin.
   - `storageKey:string`: (Optional) Storage key.
   - `storageBucket:Storage.StorageBucket`: (Optional) Storage bucket. If not specified, it uses the default bucket.
@@ -41,7 +41,7 @@ end
 @doc """
 Delete a range of entries from an object store
 ## Parameters:
-- `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+  - `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
 Security origin.
   - `storageKey:string`: (Optional) Storage key.
   - `storageBucket:Storage.StorageBucket`: (Optional) Storage bucket. If not specified, it uses the default bucket.
@@ -77,7 +77,7 @@ end
 @doc """
 Requests data from object store or index.
 ## Parameters:
-- `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+  - `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
 Security origin.
   - `storageKey:string`: (Optional) Storage key.
   - `storageBucket:Storage.StorageBucket`: (Optional) Storage bucket. If not specified, it uses the default bucket.
@@ -105,7 +105,7 @@ end
 @doc """
 Gets metadata of an object store.
 ## Parameters:
-- `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+  - `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
 Security origin.
   - `storageKey:string`: (Optional) Storage key.
   - `storageBucket:Storage.StorageBucket`: (Optional) Storage bucket. If not specified, it uses the default bucket.
@@ -125,7 +125,7 @@ end
 @doc """
 Requests database with given name in given frame.
 ## Parameters:
-- `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+  - `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
 Security origin.
   - `storageKey:string`: (Optional) Storage key.
   - `storageBucket:Storage.StorageBucket`: (Optional) Storage bucket. If not specified, it uses the default bucket.
@@ -143,7 +143,7 @@ end
 @doc """
 Requests database names for given security origin.
 ## Parameters:
-- `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+  - `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
 Security origin.
   - `storageKey:string`: (Optional) Storage key.
   - `storageBucket:Storage.StorageBucket`: (Optional) Storage bucket. If not specified, it uses the default bucket.

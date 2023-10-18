@@ -3,7 +3,7 @@ defmodule CDPotion.Domain.Input do
 @doc """
 Dispatches a drag event into the page.
 ## Parameters:
-- `type:string`: Type of the drag event.
+  - `type:string`: Type of the drag event.
   - `x:number`: X coordinate of the event relative to the main frame's viewport in CSS pixels.
   - `y:number`: Y coordinate of the event relative to the main frame's viewport in CSS pixels. 0 refers to
 the top of the viewport and Y increases as it proceeds towards the bottom of the viewport.
@@ -18,7 +18,7 @@ end
 @doc """
 Dispatches a key event to the page.
 ## Parameters:
-- `type:string`: Type of the key event.
+  - `type:string`: Type of the key event.
   - `modifiers:integer`: (Optional) Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8
 (default: 0).
   - `timestamp:TimeSinceEpoch`: (Optional) Time at which the event occurred.
@@ -65,7 +65,7 @@ end
 This method emulates inserting text that doesn't come from a key press,
 for example an emoji keyboard or an IME.
 ## Parameters:
-- `text:string`: The text to insert.
+  - `text:string`: The text to insert.
 """
 def insert_text(text) do
   execute(session, :navigate, %{"url" => url})
@@ -76,7 +76,7 @@ This method sets the current candidate text for ime.
 Use imeCommitComposition to commit the final text.
 Use imeSetComposition with empty string as text to cancel composition.
 ## Parameters:
-- `text:string`: The text to insert
+  - `text:string`: The text to insert
   - `selectionStart:integer`: selection start
   - `selectionEnd:integer`: selection end
   - `replacementStart:integer`: (Optional) replacement start
@@ -95,7 +95,7 @@ end
 @doc """
 Dispatches a mouse event to the page.
 ## Parameters:
-- `type:string`: Type of the mouse event.
+  - `type:string`: Type of the mouse event.
   - `x:number`: X coordinate of the event relative to the main frame's viewport in CSS pixels.
   - `y:number`: Y coordinate of the event relative to the main frame's viewport in CSS pixels. 0 refers to
 the top of the viewport and Y increases as it proceeds towards the bottom of the viewport.
@@ -139,7 +139,7 @@ end
 @doc """
 Dispatches a touch event to the page.
 ## Parameters:
-- `type:string`: Type of the touch event. TouchEnd and TouchCancel must not contain any touch points, while
+  - `type:string`: Type of the touch event. TouchEnd and TouchCancel must not contain any touch points, while
 TouchStart and TouchMove must contains at least one.
   - `touchPoints:array`: Active touch points on the touch device. One event per any changed point (compared to
 previous touch event in a sequence) is generated, emulating pressing/moving/releasing points
@@ -162,7 +162,7 @@ end
 @doc """
 Emulates touch event from the mouse event parameters.
 ## Parameters:
-- `type:string`: Type of the mouse event.
+  - `type:string`: Type of the mouse event.
   - `x:integer`: X coordinate of the mouse pointer in DIP.
   - `y:integer`: Y coordinate of the mouse pointer in DIP.
   - `button:MouseButton`: Mouse button. Only "none", "left", "right" are supported.
@@ -190,7 +190,7 @@ end
 @doc """
 Ignores input events (useful while auditing page).
 ## Parameters:
-- `ignore:boolean`: Ignores input events processing when set to true.
+  - `ignore:boolean`: Ignores input events processing when set to true.
 """
 def set_ignore_input_events(ignore) do
   execute(session, :navigate, %{"url" => url})
@@ -200,7 +200,7 @@ end
 Prevents default drag and drop behavior and instead emits `Input.dragIntercepted` events.
 Drag and drop behavior can be directly controlled via `Input.dispatchDragEvent`.
 ## Parameters:
-- `enabled:boolean`: description not provided :(
+  - `enabled:boolean`: description not provided :(
 """
 def set_intercept_drags(enabled) do
   execute(session, :navigate, %{"url" => url})
@@ -209,7 +209,7 @@ end
 @doc """
 Synthesizes a pinch gesture over a time period by issuing appropriate touch events.
 ## Parameters:
-- `x:number`: X coordinate of the start of the gesture in CSS pixels.
+  - `x:number`: X coordinate of the start of the gesture in CSS pixels.
   - `y:number`: Y coordinate of the start of the gesture in CSS pixels.
   - `scaleFactor:number`: Relative scale factor after zooming (>1.0 zooms in, <1.0 zooms out).
   - `relativeSpeed:integer`: (Optional) Relative pointer speed in pixels per second (default: 800).
@@ -229,7 +229,7 @@ end
 @doc """
 Synthesizes a scroll gesture over a time period by issuing appropriate touch events.
 ## Parameters:
-- `x:number`: X coordinate of the start of the gesture in CSS pixels.
+  - `x:number`: X coordinate of the start of the gesture in CSS pixels.
   - `y:number`: Y coordinate of the start of the gesture in CSS pixels.
   - `xDistance:number`: (Optional) The distance to scroll along the X axis (positive to scroll left).
   - `yDistance:number`: (Optional) The distance to scroll along the Y axis (positive to scroll up).
@@ -265,7 +265,7 @@ end
 @doc """
 Synthesizes a tap gesture over a time period by issuing appropriate touch events.
 ## Parameters:
-- `x:number`: X coordinate of the start of the gesture in CSS pixels.
+  - `x:number`: X coordinate of the start of the gesture in CSS pixels.
   - `y:number`: Y coordinate of the start of the gesture in CSS pixels.
   - `duration:integer`: (Optional) Duration between touchdown and touchup events in ms (default: 50).
   - `tapCount:integer`: (Optional) Number of times to perform the tap (e.g. 2 for double tap, default: 1).

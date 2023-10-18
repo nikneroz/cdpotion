@@ -3,7 +3,7 @@ defmodule CDPotion.Domain.Page do
 @doc """
 Deprecated, please use addScriptToEvaluateOnNewDocument instead.
 ## Parameters:
-- `scriptSource:string`: description not provided :(
+  - `scriptSource:string`: description not provided :(
 """
 def add_script_to_evaluate_on_load(script_source) do
   execute(session, :navigate, %{"url" => url})
@@ -12,7 +12,7 @@ end
 @doc """
 Evaluates given script in every frame upon creation (before loading frame's scripts).
 ## Parameters:
-- `source:string`: description not provided :(
+  - `source:string`: description not provided :(
   - `worldName:string`: (Optional) If specified, creates an isolated world with the given name and evaluates given script in it.
 This world name will be used as the ExecutionContextDescription::name when the corresponding
 event is emitted.
@@ -40,7 +40,7 @@ end
 @doc """
 Capture page screenshot.
 ## Parameters:
-- `format:string`: (Optional) Image compression format (defaults to png).
+  - `format:string`: (Optional) Image compression format (defaults to png).
   - `quality:integer`: (Optional) Compression quality from range [0..100] (jpeg only).
   - `clip:Viewport`: (Optional) Capture the screenshot of a given region only.
   - `fromSurface:boolean`: (Optional) Capture the screenshot from the surface, rather than the view. Defaults to true.
@@ -62,7 +62,7 @@ end
 Returns a snapshot of the page as a string. For MHTML format, the serialization includes
 iframes, shadow DOM, external resources, and element-inline styles.
 ## Parameters:
-- `format:string`: (Optional) Format (defaults to mhtml).
+  - `format:string`: (Optional) Format (defaults to mhtml).
 """
 def capture_snapshot(format \\ nil) do
   execute(session, :navigate, %{"url" => url})
@@ -92,7 +92,7 @@ end
 @doc """
 Creates an isolated world for the given frame.
 ## Parameters:
-- `frameId:FrameId`: Id of the frame in which the isolated world should be created.
+  - `frameId:FrameId`: Id of the frame in which the isolated world should be created.
   - `worldName:string`: (Optional) An optional name which is reported in the Execution Context.
   - `grantUniveralAccess:boolean`: (Optional) Whether or not universal access should be granted to the isolated world. This is a powerful
 option, use with caution.
@@ -104,7 +104,7 @@ end
 @doc """
 Deletes browser cookie with given name, domain and path.
 ## Parameters:
-- `cookieName:string`: Name of the cookie to remove.
+  - `cookieName:string`: Name of the cookie to remove.
   - `url:string`: URL to match cooke domain and path.
 """
 def delete_cookie(cookie_name, url) do
@@ -154,7 +154,7 @@ end
 
 @doc """
 ## Parameters:
-- `frameId:FrameId`: description not provided :(
+  - `frameId:FrameId`: description not provided :(
 """
 def get_ad_script_id(frame_id) do
   execute(session, :navigate, %{"url" => url})
@@ -200,7 +200,7 @@ end
 @doc """
 Returns content of the given resource.
 ## Parameters:
-- `frameId:FrameId`: Frame id to get resource for.
+  - `frameId:FrameId`: Frame id to get resource for.
   - `url:string`: URL of the resource to get content for.
 """
 def get_resource_content(frame_id, url) do
@@ -217,7 +217,7 @@ end
 @doc """
 Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
 ## Parameters:
-- `accept:boolean`: Whether to accept or dismiss the dialog.
+  - `accept:boolean`: Whether to accept or dismiss the dialog.
   - `promptText:string`: (Optional) The text to enter into the dialog prompt before accepting. Used only if this is a prompt
 dialog.
 """
@@ -228,7 +228,7 @@ end
 @doc """
 Navigates current page to the given URL.
 ## Parameters:
-- `url:string`: URL to navigate the page to.
+  - `url:string`: URL to navigate the page to.
   - `referrer:string`: (Optional) Referrer URL.
   - `transitionType:TransitionType`: (Optional) Intended transition type.
   - `frameId:FrameId`: (Optional) Frame id to navigate, if not specified navigates the top frame.
@@ -247,7 +247,7 @@ end
 @doc """
 Navigates current page to the given history entry.
 ## Parameters:
-- `entryId:integer`: Unique id of the entry to navigate to.
+  - `entryId:integer`: Unique id of the entry to navigate to.
 """
 def navigate_to_history_entry(entry_id) do
   execute(session, :navigate, %{"url" => url})
@@ -256,7 +256,7 @@ end
 @doc """
 Print page as PDF.
 ## Parameters:
-- `landscape:boolean`: (Optional) Paper orientation. Defaults to false.
+  - `landscape:boolean`: (Optional) Paper orientation. Defaults to false.
   - `displayHeaderFooter:boolean`: (Optional) Display header and footer. Defaults to false.
   - `printBackground:boolean`: (Optional) Print background graphics. Defaults to false.
   - `scale:number`: (Optional) Scale of the webpage rendering. Defaults to 1.
@@ -310,7 +310,7 @@ end
 @doc """
 Reloads given page optionally ignoring the cache.
 ## Parameters:
-- `ignoreCache:boolean`: (Optional) If true, browser cache is ignored (as if the user pressed Shift+refresh).
+  - `ignoreCache:boolean`: (Optional) If true, browser cache is ignored (as if the user pressed Shift+refresh).
   - `scriptToEvaluateOnLoad:string`: (Optional) If set, the script will be injected into all frames of the inspected page after reload.
 Argument will be ignored if reloading dataURL origin.
 """
@@ -321,7 +321,7 @@ end
 @doc """
 Deprecated, please use removeScriptToEvaluateOnNewDocument instead.
 ## Parameters:
-- `identifier:ScriptIdentifier`: description not provided :(
+  - `identifier:ScriptIdentifier`: description not provided :(
 """
 def remove_script_to_evaluate_on_load(identifier) do
   execute(session, :navigate, %{"url" => url})
@@ -330,7 +330,7 @@ end
 @doc """
 Removes given script from the list.
 ## Parameters:
-- `identifier:ScriptIdentifier`: description not provided :(
+  - `identifier:ScriptIdentifier`: description not provided :(
 """
 def remove_script_to_evaluate_on_new_document(identifier) do
   execute(session, :navigate, %{"url" => url})
@@ -339,7 +339,7 @@ end
 @doc """
 Acknowledges that a screencast frame has been received by the frontend.
 ## Parameters:
-- `sessionId:integer`: Frame number.
+  - `sessionId:integer`: Frame number.
 """
 def screencast_frame_ack(session_id) do
   execute(session, :navigate, %{"url" => url})
@@ -348,7 +348,7 @@ end
 @doc """
 Searches for given string in resource content.
 ## Parameters:
-- `frameId:FrameId`: Frame id for resource to search in.
+  - `frameId:FrameId`: Frame id for resource to search in.
   - `url:string`: URL of the resource to search in.
   - `query:string`: String to search for.
   - `caseSensitive:boolean`: (Optional) If true, search is case sensitive.
@@ -361,7 +361,7 @@ end
 @doc """
 Enable Chrome's experimental ad filter on all sites.
 ## Parameters:
-- `enabled:boolean`: Whether to block ads.
+  - `enabled:boolean`: Whether to block ads.
 """
 def set_ad_blocking_enabled(enabled) do
   execute(session, :navigate, %{"url" => url})
@@ -370,7 +370,7 @@ end
 @doc """
 Enable page Content Security Policy by-passing.
 ## Parameters:
-- `enabled:boolean`: Whether to bypass page CSP.
+  - `enabled:boolean`: Whether to bypass page CSP.
 """
 def set_bypass_csp(enabled) do
   execute(session, :navigate, %{"url" => url})
@@ -379,7 +379,7 @@ end
 @doc """
 Get Permissions Policy state on given frame.
 ## Parameters:
-- `frameId:FrameId`: description not provided :(
+  - `frameId:FrameId`: description not provided :(
 """
 def get_permissions_policy_state(frame_id) do
   execute(session, :navigate, %{"url" => url})
@@ -388,7 +388,7 @@ end
 @doc """
 Get Origin Trials on given frame.
 ## Parameters:
-- `frameId:FrameId`: description not provided :(
+  - `frameId:FrameId`: description not provided :(
 """
 def get_origin_trials(frame_id) do
   execute(session, :navigate, %{"url" => url})
@@ -399,7 +399,7 @@ Overrides the values of device screen dimensions (window.screen.width, window.sc
 window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
 query results).
 ## Parameters:
-- `width:integer`: Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
+  - `width:integer`: Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
   - `height:integer`: Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
   - `deviceScaleFactor:number`: Overriding device scale factor value. 0 disables the override.
   - `mobile:boolean`: Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text
@@ -433,7 +433,7 @@ end
 @doc """
 Overrides the Device Orientation.
 ## Parameters:
-- `alpha:number`: Mock alpha
+  - `alpha:number`: Mock alpha
   - `beta:number`: Mock beta
   - `gamma:number`: Mock gamma
 """
@@ -444,7 +444,7 @@ end
 @doc """
 Set generic font families.
 ## Parameters:
-- `fontFamilies:FontFamilies`: Specifies font families to set. If a font family is not specified, it won't be changed.
+  - `fontFamilies:FontFamilies`: Specifies font families to set. If a font family is not specified, it won't be changed.
   - `forScripts:array`: (Optional) Specifies font families to set for individual scripts.
 """
 def set_font_families(font_families, for_scripts \\ nil) do
@@ -454,7 +454,7 @@ end
 @doc """
 Set default font sizes.
 ## Parameters:
-- `fontSizes:FontSizes`: Specifies font sizes to set. If a font size is not specified, it won't be changed.
+  - `fontSizes:FontSizes`: Specifies font sizes to set. If a font size is not specified, it won't be changed.
 """
 def set_font_sizes(font_sizes) do
   execute(session, :navigate, %{"url" => url})
@@ -463,7 +463,7 @@ end
 @doc """
 Sets given markup as the document's HTML.
 ## Parameters:
-- `frameId:FrameId`: Frame id to set HTML for.
+  - `frameId:FrameId`: Frame id to set HTML for.
   - `html:string`: HTML content to set.
 """
 def set_document_content(frame_id, html) do
@@ -473,7 +473,7 @@ end
 @doc """
 Set the behavior when downloading a file.
 ## Parameters:
-- `behavior:string`: Whether to allow all or deny all download requests, or use default Chrome behavior if
+  - `behavior:string`: Whether to allow all or deny all download requests, or use default Chrome behavior if
 available (otherwise deny).
   - `downloadPath:string`: (Optional) The default path to save downloaded files to. This is required if behavior is set to 'allow'
 """
@@ -485,7 +485,7 @@ end
 Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
 unavailable.
 ## Parameters:
-- `latitude:number`: (Optional) Mock latitude
+  - `latitude:number`: (Optional) Mock latitude
   - `longitude:number`: (Optional) Mock longitude
   - `accuracy:number`: (Optional) Mock accuracy
 """
@@ -496,7 +496,7 @@ end
 @doc """
 Controls whether page will emit lifecycle events.
 ## Parameters:
-- `enabled:boolean`: If true, starts emitting lifecycle events.
+  - `enabled:boolean`: If true, starts emitting lifecycle events.
 """
 def set_lifecycle_events_enabled(enabled) do
   execute(session, :navigate, %{"url" => url})
@@ -505,7 +505,7 @@ end
 @doc """
 Toggles mouse event-based touch event emulation.
 ## Parameters:
-- `enabled:boolean`: Whether the touch event emulation should be enabled.
+  - `enabled:boolean`: Whether the touch event emulation should be enabled.
   - `configuration:string`: (Optional) Touch/gesture events configuration. Default: current platform.
 """
 def set_touch_emulation_enabled(enabled, configuration \\ nil) do
@@ -515,7 +515,7 @@ end
 @doc """
 Starts sending each frame using the `screencastFrame` event.
 ## Parameters:
-- `format:string`: (Optional) Image compression format.
+  - `format:string`: (Optional) Image compression format.
   - `quality:integer`: (Optional) Compression quality from range [0..100].
   - `maxWidth:integer`: (Optional) Maximum screenshot width.
   - `maxHeight:integer`: (Optional) Maximum screenshot height.
@@ -557,7 +557,7 @@ Tries to update the web lifecycle state of the page.
 It will transition the page to the given state according to:
 https://github.com/WICG/web-lifecycle/
 ## Parameters:
-- `state:string`: Target lifecycle state
+  - `state:string`: Target lifecycle state
 """
 def set_web_lifecycle_state(state) do
   execute(session, :navigate, %{"url" => url})
@@ -578,7 +578,7 @@ When script with a matching URL is encountered, the cache is optionally
 produced upon backend discretion, based on internal heuristics.
 See also: `Page.compilationCacheProduced`.
 ## Parameters:
-- `scripts:array`: description not provided :(
+  - `scripts:array`: description not provided :(
 """
 def produce_compilation_cache(scripts) do
   execute(session, :navigate, %{"url" => url})
@@ -588,7 +588,7 @@ end
 Seeds compilation cache for given url. Compilation cache does not survive
 cross-process navigation.
 ## Parameters:
-- `url:string`: description not provided :(
+  - `url:string`: description not provided :(
   - `data:string`: Base64-encoded data (Encoded as a base64 string when passed over JSON)
 """
 def add_compilation_cache(url, data) do
@@ -606,7 +606,7 @@ end
 Sets the Secure Payment Confirmation transaction mode.
 https://w3c.github.io/secure-payment-confirmation/#sctn-automation-set-spc-transaction-mode
 ## Parameters:
-- `mode:AutoResponseMode`: description not provided :(
+  - `mode:AutoResponseMode`: description not provided :(
 """
 def set_spc_transaction_mode(mode) do
   execute(session, :navigate, %{"url" => url})
@@ -616,7 +616,7 @@ end
 Extensions for Custom Handlers API:
 https://html.spec.whatwg.org/multipage/system-state.html#rph-automation
 ## Parameters:
-- `mode:AutoResponseMode`: description not provided :(
+  - `mode:AutoResponseMode`: description not provided :(
 """
 def set_rph_registration_mode(mode) do
   execute(session, :navigate, %{"url" => url})
@@ -625,7 +625,7 @@ end
 @doc """
 Generates a report for testing.
 ## Parameters:
-- `message:string`: Message to be displayed in the report.
+  - `message:string`: Message to be displayed in the report.
   - `group:string`: (Optional) Specifies the endpoint group to deliver the report to.
 """
 def generate_test_report(message, group \\ nil) do
@@ -644,7 +644,7 @@ Intercept file chooser requests and transfer control to protocol clients.
 When file chooser interception is enabled, native file chooser dialog is not shown.
 Instead, a protocol event `Page.fileChooserOpened` is emitted.
 ## Parameters:
-- `enabled:boolean`: description not provided :(
+  - `enabled:boolean`: description not provided :(
 """
 def set_intercept_file_chooser_dialog(enabled) do
   execute(session, :navigate, %{"url" => url})
@@ -657,7 +657,7 @@ See https://docs.google.com/document/d/12HVmFxYj5Jc-eJr5OmWsa2bqTJsbgGLKI6ZIyx0_
 for more details.
 TODO(https://crbug.com/1440085): Remove this once Puppeteer supports tab targets.
 ## Parameters:
-- `isAllowed:boolean`: description not provided :(
+  - `isAllowed:boolean`: description not provided :(
 """
 def set_prerendering_allowed(is_allowed) do
   execute(session, :navigate, %{"url" => url})

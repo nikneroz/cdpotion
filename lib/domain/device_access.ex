@@ -17,7 +17,7 @@ end
 @doc """
 Select a device in response to a DeviceAccess.deviceRequestPrompted event.
 ## Parameters:
-- `id:RequestId`: description not provided :(
+  - `id:RequestId`: description not provided :(
   - `deviceId:DeviceId`: description not provided :(
 """
 def select_prompt(id, device_id) do
@@ -27,7 +27,7 @@ end
 @doc """
 Cancel a prompt in response to a DeviceAccess.deviceRequestPrompted event.
 ## Parameters:
-- `id:RequestId`: description not provided :(
+  - `id:RequestId`: description not provided :(
 """
 def cancel_prompt(id) do
   execute(session, :navigate, %{"url" => url})

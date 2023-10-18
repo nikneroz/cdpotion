@@ -3,7 +3,7 @@ defmodule CDPotion.Domain.CacheStorage do
 @doc """
 Deletes a cache.
 ## Parameters:
-- `cacheId:CacheId`: Id of cache for deletion.
+  - `cacheId:CacheId`: Id of cache for deletion.
 """
 def delete_cache(cache_id) do
   execute(session, :navigate, %{"url" => url})
@@ -12,7 +12,7 @@ end
 @doc """
 Deletes a cache entry.
 ## Parameters:
-- `cacheId:CacheId`: Id of cache where the entry will be deleted.
+  - `cacheId:CacheId`: Id of cache where the entry will be deleted.
   - `request:string`: URL spec of the request.
 """
 def delete_entry(cache_id, request) do
@@ -22,7 +22,7 @@ end
 @doc """
 Requests cache names.
 ## Parameters:
-- `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, storageBucket must be specified.
+  - `securityOrigin:string`: (Optional) At least and at most one of securityOrigin, storageKey, storageBucket must be specified.
 Security origin.
   - `storageKey:string`: (Optional) Storage key.
   - `storageBucket:Storage.StorageBucket`: (Optional) Storage bucket. If not specified, it uses the default bucket.
@@ -34,7 +34,7 @@ end
 @doc """
 Fetches cache entry.
 ## Parameters:
-- `cacheId:CacheId`: Id of cache that contains the entry.
+  - `cacheId:CacheId`: Id of cache that contains the entry.
   - `requestURL:string`: URL spec of the request.
   - `requestHeaders:array`: headers of the request.
 """
@@ -45,7 +45,7 @@ end
 @doc """
 Requests data from cache.
 ## Parameters:
-- `cacheId:CacheId`: ID of cache to get entries from.
+  - `cacheId:CacheId`: ID of cache to get entries from.
   - `skipCount:integer`: (Optional) Number of records to skip.
   - `pageSize:integer`: (Optional) Number of records to fetch.
   - `pathFilter:string`: (Optional) If present, only return the entries containing this substring in the path

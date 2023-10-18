@@ -17,7 +17,7 @@ end
 @doc """
 Fetch the realtime data from the registered contexts.
 ## Parameters:
-- `contextId:GraphObjectId`: description not provided :(
+  - `contextId:GraphObjectId`: description not provided :(
 """
 def get_realtime_data(context_id) do
   execute(session, :navigate, %{"url" => url})

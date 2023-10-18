@@ -10,7 +10,7 @@ end
 @doc """
 Overrides the Device Orientation.
 ## Parameters:
-- `alpha:number`: Mock alpha
+  - `alpha:number`: Mock alpha
   - `beta:number`: Mock beta
   - `gamma:number`: Mock gamma
 """

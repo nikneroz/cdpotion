@@ -4,7 +4,7 @@ defmodule CDPotion.Domain.CSS do
 Inserts a new rule with the given `ruleText` in a stylesheet with given `styleSheetId`, at the
 position specified by `location`.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: The css style sheet identifier where a new rule should be inserted.
+  - `styleSheetId:StyleSheetId`: The css style sheet identifier where a new rule should be inserted.
   - `ruleText:string`: The text of a new rule.
   - `location:SourceRange`: Text position of a new rule in the target style sheet.
 """
@@ -15,7 +15,7 @@ end
 @doc """
 Returns all class names from specified stylesheet.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: description not provided :(
+  - `styleSheetId:StyleSheetId`: description not provided :(
 """
 def collect_class_names(style_sheet_id) do
   execute(session, :navigate, %{"url" => url})
@@ -24,7 +24,7 @@ end
 @doc """
 Creates a new special "via-inspector" stylesheet in the frame with given `frameId`.
 ## Parameters:
-- `frameId:Page.FrameId`: Identifier of the frame where "via-inspector" stylesheet should be created.
+  - `frameId:Page.FrameId`: Identifier of the frame where "via-inspector" stylesheet should be created.
 """
 def create_style_sheet(frame_id) do
   execute(session, :navigate, %{"url" => url})
@@ -49,7 +49,7 @@ end
 Ensures that the given node will have specified pseudo-classes whenever its style is computed by
 the browser.
 ## Parameters:
-- `nodeId:DOM.NodeId`: The element id for which to force the pseudo state.
+  - `nodeId:DOM.NodeId`: The element id for which to force the pseudo state.
   - `forcedPseudoClasses:array`: Element pseudo classes to force when computing the element's style.
 """
 def force_pseudo_state(node_id, forced_pseudo_classes) do
@@ -58,7 +58,7 @@ end
 
 @doc """
 ## Parameters:
-- `nodeId:DOM.NodeId`: Id of the node to get background colors for.
+  - `nodeId:DOM.NodeId`: Id of the node to get background colors for.
 """
 def get_background_colors(node_id) do
   execute(session, :navigate, %{"url" => url})
@@ -67,7 +67,7 @@ end
 @doc """
 Returns the computed style for a DOM node identified by `nodeId`.
 ## Parameters:
-- `nodeId:DOM.NodeId`: description not provided :(
+  - `nodeId:DOM.NodeId`: description not provided :(
 """
 def get_computed_style_for_node(node_id) do
   execute(session, :navigate, %{"url" => url})
@@ -77,7 +77,7 @@ end
 Returns the styles defined inline (explicitly in the "style" attribute and implicitly, using DOM
 attributes) for a DOM node identified by `nodeId`.
 ## Parameters:
-- `nodeId:DOM.NodeId`: description not provided :(
+  - `nodeId:DOM.NodeId`: description not provided :(
 """
 def get_inline_styles_for_node(node_id) do
   execute(session, :navigate, %{"url" => url})
@@ -86,7 +86,7 @@ end
 @doc """
 Returns requested styles for a DOM node identified by `nodeId`.
 ## Parameters:
-- `nodeId:DOM.NodeId`: description not provided :(
+  - `nodeId:DOM.NodeId`: description not provided :(
 """
 def get_matched_styles_for_node(node_id) do
   execute(session, :navigate, %{"url" => url})
@@ -103,7 +103,7 @@ end
 Requests information about platform fonts which we used to render child TextNodes in the given
 node.
 ## Parameters:
-- `nodeId:DOM.NodeId`: description not provided :(
+  - `nodeId:DOM.NodeId`: description not provided :(
 """
 def get_platform_fonts_for_node(node_id) do
   execute(session, :navigate, %{"url" => url})
@@ -112,7 +112,7 @@ end
 @doc """
 Returns the current textual content for a stylesheet.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: description not provided :(
+  - `styleSheetId:StyleSheetId`: description not provided :(
 """
 def get_style_sheet_text(style_sheet_id) do
   execute(session, :navigate, %{"url" => url})
@@ -124,7 +124,7 @@ Given a DOM element identified by nodeId, getLayersForNode returns the root
 layer for the nearest ancestor document or shadow root. The layer root contains
 the full layer tree for the tree scope and their ordering.
 ## Parameters:
-- `nodeId:DOM.NodeId`: description not provided :(
+  - `nodeId:DOM.NodeId`: description not provided :(
 """
 def get_layers_for_node(node_id) do
   execute(session, :navigate, %{"url" => url})
@@ -138,7 +138,7 @@ The changes to computed style properties are only tracked for nodes pushed to th
 by the DOM agent. If no changes to the tracked properties occur after the node has been pushed
 to the front-end, no updates will be issued for the node.
 ## Parameters:
-- `propertiesToTrack:array`: description not provided :(
+  - `propertiesToTrack:array`: description not provided :(
 """
 def track_computed_style_updates(properties_to_track) do
   execute(session, :navigate, %{"url" => url})
@@ -155,7 +155,7 @@ end
 Find a rule with the given active property for the given node and set the new value for this
 property
 ## Parameters:
-- `nodeId:DOM.NodeId`: The element id for which to set property.
+  - `nodeId:DOM.NodeId`: The element id for which to set property.
   - `propertyName:string`: description not provided :(
   - `value:string`: description not provided :(
 """
@@ -166,7 +166,7 @@ end
 @doc """
 Modifies the keyframe rule key text.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: description not provided :(
+  - `styleSheetId:StyleSheetId`: description not provided :(
   - `range:SourceRange`: description not provided :(
   - `keyText:string`: description not provided :(
 """
@@ -177,7 +177,7 @@ end
 @doc """
 Modifies the rule selector.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: description not provided :(
+  - `styleSheetId:StyleSheetId`: description not provided :(
   - `range:SourceRange`: description not provided :(
   - `text:string`: description not provided :(
 """
@@ -188,7 +188,7 @@ end
 @doc """
 Modifies the expression of a container query.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: description not provided :(
+  - `styleSheetId:StyleSheetId`: description not provided :(
   - `range:SourceRange`: description not provided :(
   - `text:string`: description not provided :(
 """
@@ -199,7 +199,7 @@ end
 @doc """
 Modifies the expression of a supports at-rule.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: description not provided :(
+  - `styleSheetId:StyleSheetId`: description not provided :(
   - `range:SourceRange`: description not provided :(
   - `text:string`: description not provided :(
 """
@@ -210,7 +210,7 @@ end
 @doc """
 Modifies the expression of a scope at-rule.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: description not provided :(
+  - `styleSheetId:StyleSheetId`: description not provided :(
   - `range:SourceRange`: description not provided :(
   - `text:string`: description not provided :(
 """
@@ -221,7 +221,7 @@ end
 @doc """
 Modifies the rule selector.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: description not provided :(
+  - `styleSheetId:StyleSheetId`: description not provided :(
   - `range:SourceRange`: description not provided :(
   - `selector:string`: description not provided :(
 """
@@ -232,7 +232,7 @@ end
 @doc """
 Sets the new stylesheet text.
 ## Parameters:
-- `styleSheetId:StyleSheetId`: description not provided :(
+  - `styleSheetId:StyleSheetId`: description not provided :(
   - `text:string`: description not provided :(
 """
 def set_style_sheet_text(style_sheet_id, text) do
@@ -242,7 +242,7 @@ end
 @doc """
 Applies specified style edits one after another in the given order.
 ## Parameters:
-- `edits:array`: description not provided :(
+  - `edits:array`: description not provided :(
 """
 def set_style_texts(edits) do
   execute(session, :navigate, %{"url" => url})
@@ -274,7 +274,7 @@ end
 @doc """
 Enables/disables rendering of local CSS fonts (enabled by default).
 ## Parameters:
-- `enabled:boolean`: Whether rendering of local fonts is enabled.
+  - `enabled:boolean`: Whether rendering of local fonts is enabled.
 """
 def set_local_fonts_enabled(enabled) do
   execute(session, :navigate, %{"url" => url})

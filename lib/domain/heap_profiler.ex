@@ -4,7 +4,7 @@ defmodule CDPotion.Domain.HeapProfiler do
 Enables console to refer to the node with given id via $x (see Command Line API for more details
 $x functions).
 ## Parameters:
-- `heapObjectId:HeapSnapshotObjectId`: Heap snapshot object id to be accessible by means of $x command line API.
+  - `heapObjectId:HeapSnapshotObjectId`: Heap snapshot object id to be accessible by means of $x command line API.
 """
 def add_inspected_heap_object(heap_object_id) do
   execute(session, :navigate, %{"url" => url})
@@ -30,7 +30,7 @@ end
 
 @doc """
 ## Parameters:
-- `objectId:Runtime.RemoteObjectId`: Identifier of the object to get heap object id for.
+  - `objectId:Runtime.RemoteObjectId`: Identifier of the object to get heap object id for.
 """
 def get_heap_object_id(object_id) do
   execute(session, :navigate, %{"url" => url})
@@ -38,7 +38,7 @@ end
 
 @doc """
 ## Parameters:
-- `objectId:HeapSnapshotObjectId`: description not provided :(
+  - `objectId:HeapSnapshotObjectId`: description not provided :(
   - `objectGroup:string`: (Optional) Symbolic group name that can be used to release multiple objects.
 """
 def get_object_by_heap_object_id(object_id, object_group \\ nil) do
@@ -53,7 +53,7 @@ end
 
 @doc """
 ## Parameters:
-- `samplingInterval:number`: (Optional) Average sample interval in bytes. Poisson distribution is used for the intervals. The
+  - `samplingInterval:number`: (Optional) Average sample interval in bytes. Poisson distribution is used for the intervals. The
 default value is 32768 bytes.
   - `includeObjectsCollectedByMajorGC:boolean`: (Optional) By default, the sampling heap profiler reports only objects which are
 still alive when the profile is returned via getSamplingProfile or
@@ -80,7 +80,7 @@ end
 
 @doc """
 ## Parameters:
-- `trackAllocations:boolean`: (Optional) description not provided :(
+  - `trackAllocations:boolean`: (Optional) description not provided :(
 """
 def start_tracking_heap_objects(track_allocations \\ nil) do
   execute(session, :navigate, %{"url" => url})
@@ -94,7 +94,7 @@ end
 
 @doc """
 ## Parameters:
-- `reportProgress:boolean`: (Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
+  - `reportProgress:boolean`: (Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
 when the tracking is stopped.
   - `treatGlobalObjectsAsRoots:boolean`: (Optional) Deprecated in favor of `exposeInternals`.
   - `captureNumericValue:boolean`: (Optional) If true, numerical values are included in the snapshot
@@ -111,7 +111,7 @@ end
 
 @doc """
 ## Parameters:
-- `reportProgress:boolean`: (Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.
+  - `reportProgress:boolean`: (Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.
   - `treatGlobalObjectsAsRoots:boolean`: (Optional) If true, a raw snapshot without artificial roots will be generated.
 Deprecated in favor of `exposeInternals`.
   - `captureNumericValue:boolean`: (Optional) If true, numerical values are included in the snapshot

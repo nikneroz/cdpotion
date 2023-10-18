@@ -22,7 +22,7 @@ end
 @doc """
 Enable/disable suppressing memory pressure notifications in all processes.
 ## Parameters:
-- `suppressed:boolean`: If true, memory pressure notifications will be suppressed.
+  - `suppressed:boolean`: If true, memory pressure notifications will be suppressed.
 """
 def set_pressure_notifications_suppressed(suppressed) do
   execute(session, :navigate, %{"url" => url})
@@ -31,7 +31,7 @@ end
 @doc """
 Simulate a memory pressure notification in all processes.
 ## Parameters:
-- `level:PressureLevel`: Memory pressure level of the notification.
+  - `level:PressureLevel`: Memory pressure level of the notification.
 """
 def simulate_pressure_notification(level) do
   execute(session, :navigate, %{"url" => url})
@@ -40,7 +40,7 @@ end
 @doc """
 Start collecting native memory profile.
 ## Parameters:
-- `samplingInterval:integer`: (Optional) Average number of bytes between samples.
+  - `samplingInterval:integer`: (Optional) Average number of bytes between samples.
   - `suppressRandomness:boolean`: (Optional) Do not randomize intervals between samples.
 """
 def start_sampling(sampling_interval \\ nil, suppress_randomness \\ nil) do

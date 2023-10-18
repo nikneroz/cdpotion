@@ -11,7 +11,7 @@ end
 Enables issuing of requestPaused events. A request will be paused until client
 calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
 ## Parameters:
-- `patterns:array`: (Optional) If specified, only requests matching any of these patterns will produce
+  - `patterns:array`: (Optional) If specified, only requests matching any of these patterns will produce
 fetchRequested event and will be paused until clients response. If not set,
 all requests will be affected.
   - `handleAuthRequests:boolean`: (Optional) If true, authRequired events will be issued and requests will be paused
@@ -24,7 +24,7 @@ end
 @doc """
 Causes the request to fail with specified reason.
 ## Parameters:
-- `requestId:RequestId`: An id the client received in requestPaused event.
+  - `requestId:RequestId`: An id the client received in requestPaused event.
   - `errorReason:Network.ErrorReason`: Causes the request to fail with the given reason.
 """
 def fail_request(request_id, error_reason) do
@@ -34,7 +34,7 @@ end
 @doc """
 Provides response to the request.
 ## Parameters:
-- `requestId:RequestId`: An id the client received in requestPaused event.
+  - `requestId:RequestId`: An id the client received in requestPaused event.
   - `responseCode:integer`: An HTTP response code.
   - `responseHeaders:array`: (Optional) Response headers.
   - `binaryResponseHeaders:string`: (Optional) Alternative way of specifying response headers as a \0-separated
@@ -61,7 +61,7 @@ end
 @doc """
 Continues the request, optionally modifying some of its parameters.
 ## Parameters:
-- `requestId:RequestId`: An id the client received in requestPaused event.
+  - `requestId:RequestId`: An id the client received in requestPaused event.
   - `url:string`: (Optional) If set, the request url will be modified in a way that's not observable by page.
   - `method:string`: (Optional) If set, the request method is overridden.
   - `postData:string`: (Optional) If set, overrides the post data in the request. (Encoded as a base64 string when passed over JSON)
@@ -84,7 +84,7 @@ end
 @doc """
 Continues a request supplying authChallengeResponse following authRequired event.
 ## Parameters:
-- `requestId:RequestId`: An id the client received in authRequired event.
+  - `requestId:RequestId`: An id the client received in authRequired event.
   - `authChallengeResponse:AuthChallengeResponse`: Response to  with an authChallenge.
 """
 def continue_with_auth(request_id, auth_challenge_response) do
@@ -96,7 +96,7 @@ Continues loading of the paused response, optionally modifying the
 response headers. If either responseCode or headers are modified, all of them
 must be present.
 ## Parameters:
-- `requestId:RequestId`: An id the client received in requestPaused event.
+  - `requestId:RequestId`: An id the client received in requestPaused event.
   - `responseCode:integer`: (Optional) An HTTP response code. If absent, original response code will be used.
   - `responsePhrase:string`: (Optional) A textual representation of responseCode.
 If absent, a standard phrase matching responseCode is used.
@@ -128,7 +128,7 @@ paused in the _redirect received_ state may be differentiated by
 `responseCode` and presence of `location` response header, see
 comments to `requestPaused` for details.
 ## Parameters:
-- `requestId:RequestId`: Identifier for the intercepted request to get body for.
+  - `requestId:RequestId`: Identifier for the intercepted request to get body for.
 """
 def get_response_body(request_id) do
   execute(session, :navigate, %{"url" => url})
@@ -146,7 +146,7 @@ This method is mutually exclusive with getResponseBody.
 Calling other methods that affect the request or disabling fetch
 domain before body is received results in an undefined behavior.
 ## Parameters:
-- `requestId:RequestId`: description not provided :(
+  - `requestId:RequestId`: description not provided :(
 """
 def take_response_body_as_stream(request_id) do
   execute(session, :navigate, %{"url" => url})

@@ -16,7 +16,7 @@ end
 
 @doc """
 ## Parameters:
-- `databaseId:DatabaseId`: description not provided :(
+  - `databaseId:DatabaseId`: description not provided :(
   - `query:string`: description not provided :(
 """
 def execute_sql(database_id, query) do
@@ -25,7 +25,7 @@ end
 
 @doc """
 ## Parameters:
-- `databaseId:DatabaseId`: description not provided :(
+  - `databaseId:DatabaseId`: description not provided :(
 """
 def get_database_table_names(database_id) do
   execute(session, :navigate, %{"url" => url})

@@ -25,7 +25,7 @@ end
 @doc """
 start violation reporting.
 ## Parameters:
-- `config:array`: Configuration for violations.
+  - `config:array`: Configuration for violations.
 """
 def start_violations_report(config) do
   execute(session, :navigate, %{"url" => url})

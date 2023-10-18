@@ -3,7 +3,7 @@ defmodule CDPotion.Domain.Runtime do
 @doc """
 Add handler to promise with given promise object id.
 ## Parameters:
-- `promiseObjectId:RemoteObjectId`: Identifier of the promise.
+  - `promiseObjectId:RemoteObjectId`: Identifier of the promise.
   - `returnByValue:boolean`: (Optional) Whether the result is expected to be a JSON object that should be sent by value.
   - `generatePreview:boolean`: (Optional) Whether preview should be generated for the result.
 """
@@ -15,7 +15,7 @@ end
 Calls function with given declaration on the given object. Object group of the result is
 inherited from the target object.
 ## Parameters:
-- `functionDeclaration:string`: Declaration of the function to call.
+  - `functionDeclaration:string`: Declaration of the function to call.
   - `objectId:RemoteObjectId`: (Optional) Identifier of the object to call function on. Either objectId or executionContextId should
 be specified.
   - `arguments:array`: (Optional) Call arguments. All call arguments must belong to the same JavaScript world as the target
@@ -68,7 +68,7 @@ end
 @doc """
 Compiles expression.
 ## Parameters:
-- `expression:string`: Expression to compile.
+  - `expression:string`: Expression to compile.
   - `sourceURL:string`: Source url to be set for the script.
   - `persistScript:boolean`: Specifies whether the compiled script should be persisted.
   - `executionContextId:ExecutionContextId`: (Optional) Specifies in which execution context to perform script run. If the parameter is omitted the
@@ -104,7 +104,7 @@ end
 @doc """
 Evaluates expression on global object.
 ## Parameters:
-- `expression:string`: Expression to evaluate.
+  - `expression:string`: Expression to evaluate.
   - `objectGroup:string`: (Optional) Symbolic group name that can be used to release multiple objects.
   - `includeCommandLineAPI:boolean`: (Optional) Determines whether Command Line API should be available during the evaluation.
   - `silent:boolean`: (Optional) In silent mode exceptions thrown during evaluation are not reported and do not pause
@@ -185,7 +185,7 @@ end
 Returns properties of a given object. Object group of the result is inherited from the target
 object.
 ## Parameters:
-- `objectId:RemoteObjectId`: Identifier of the object to return properties for.
+  - `objectId:RemoteObjectId`: Identifier of the object to return properties for.
   - `ownProperties:boolean`: (Optional) If true, returns properties belonging only to the element itself, not to its prototype
 chain.
   - `accessorPropertiesOnly:boolean`: (Optional) If true, returns accessor properties (with getter/setter) only; internal properties are not
@@ -206,7 +206,7 @@ end
 @doc """
 Returns all let, const and class variables from global scope.
 ## Parameters:
-- `executionContextId:ExecutionContextId`: (Optional) Specifies in which execution context to lookup global scope variables.
+  - `executionContextId:ExecutionContextId`: (Optional) Specifies in which execution context to lookup global scope variables.
 """
 def global_lexical_scope_names(execution_context_id \\ nil) do
   execute(session, :navigate, %{"url" => url})
@@ -214,7 +214,7 @@ end
 
 @doc """
 ## Parameters:
-- `prototypeObjectId:RemoteObjectId`: Identifier of the prototype to return objects for.
+  - `prototypeObjectId:RemoteObjectId`: Identifier of the prototype to return objects for.
   - `objectGroup:string`: (Optional) Symbolic group name that can be used to release the results.
 """
 def query_objects(prototype_object_id, object_group \\ nil) do
@@ -224,7 +224,7 @@ end
 @doc """
 Releases remote object with given id.
 ## Parameters:
-- `objectId:RemoteObjectId`: Identifier of the object to release.
+  - `objectId:RemoteObjectId`: Identifier of the object to release.
 """
 def release_object(object_id) do
   execute(session, :navigate, %{"url" => url})
@@ -233,7 +233,7 @@ end
 @doc """
 Releases all remote objects that belong to a given group.
 ## Parameters:
-- `objectGroup:string`: Symbolic object group name.
+  - `objectGroup:string`: Symbolic object group name.
 """
 def release_object_group(object_group) do
   execute(session, :navigate, %{"url" => url})
@@ -249,7 +249,7 @@ end
 @doc """
 Runs script with given id in a given context.
 ## Parameters:
-- `scriptId:ScriptId`: Id of the script to run.
+  - `scriptId:ScriptId`: Id of the script to run.
   - `executionContextId:ExecutionContextId`: (Optional) Specifies in which execution context to perform script run. If the parameter is omitted the
 evaluation will be performed in the context of the inspected page.
   - `objectGroup:string`: (Optional) Symbolic group name that can be used to release multiple objects.
@@ -277,7 +277,7 @@ end
 @doc """
 Enables or disables async call stacks tracking.
 ## Parameters:
-- `maxDepth:integer`: Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
+  - `maxDepth:integer`: Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
 call stacks (default).
 """
 def set_async_call_stack_depth(max_depth) do
@@ -286,7 +286,7 @@ end
 
 @doc """
 ## Parameters:
-- `enabled:boolean`: description not provided :(
+  - `enabled:boolean`: description not provided :(
 """
 def set_custom_object_formatter_enabled(enabled) do
   execute(session, :navigate, %{"url" => url})
@@ -294,7 +294,7 @@ end
 
 @doc """
 ## Parameters:
-- `size:integer`: description not provided :(
+  - `size:integer`: description not provided :(
 """
 def set_max_call_stack_size_to_capture(size) do
   execute(session, :navigate, %{"url" => url})
@@ -316,7 +316,7 @@ Binding function takes exactly one argument, this argument should be string,
 in case of any other input, function throws an exception.
 Each binding function call produces Runtime.bindingCalled notification.
 ## Parameters:
-- `name:string`: description not provided :(
+  - `name:string`: description not provided :(
   - `executionContextId:ExecutionContextId`: (Optional) If specified, the binding would only be exposed to the specified
 execution context. If omitted and `executionContextName` is not set,
 the binding is exposed to all execution contexts of the target.
@@ -338,7 +338,7 @@ end
 This method does not remove binding function from global object but
 unsubscribes current runtime agent from Runtime.bindingCalled notifications.
 ## Parameters:
-- `name:string`: description not provided :(
+  - `name:string`: description not provided :(
 """
 def remove_binding(name) do
   execute(session, :navigate, %{"url" => url})
@@ -351,7 +351,7 @@ Note that the stackTrace portion of the resulting exceptionDetails will
 only be populated if the Runtime domain was enabled at the time when the
 Error was thrown.
 ## Parameters:
-- `errorObjectId:RemoteObjectId`: The error object for which to resolve the exception details.
+  - `errorObjectId:RemoteObjectId`: The error object for which to resolve the exception details.
 """
 def get_exception_details(error_object_id) do
   execute(session, :navigate, %{"url" => url})

@@ -2,7 +2,7 @@ defmodule CDPotion.Domain.FedCm do
 
 @doc """
 ## Parameters:
-- `disableRejectionDelay:boolean`: (Optional) Allows callers to disable the promise rejection delay that would
+  - `disableRejectionDelay:boolean`: (Optional) Allows callers to disable the promise rejection delay that would
 normally happen, if this is unimportant to what's being tested.
 (step 4 of https://fedidcg.github.io/FedCM/#browser-api-rp-sign-in)
 """
@@ -18,7 +18,7 @@ end
 
 @doc """
 ## Parameters:
-- `dialogId:string`: description not provided :(
+  - `dialogId:string`: description not provided :(
   - `accountIndex:integer`: description not provided :(
 """
 def select_account(dialog_id, account_index) do
@@ -27,7 +27,7 @@ end
 
 @doc """
 ## Parameters:
-- `dialogId:string`: description not provided :(
+  - `dialogId:string`: description not provided :(
   - `triggerCooldown:boolean`: (Optional) description not provided :(
 """
 def dismiss_dialog(dialog_id, trigger_cooldown \\ nil) do

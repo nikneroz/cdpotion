@@ -23,7 +23,7 @@ end
 @doc """
 Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
 ## Parameters:
-- `interval:integer`: New sampling interval in microseconds.
+  - `interval:integer`: New sampling interval in microseconds.
 """
 def set_sampling_interval(interval) do
   execute(session, :navigate, %{"url" => url})
@@ -40,7 +40,7 @@ Enable precise code coverage. Coverage data for JavaScript executed before enabl
 coverage may be incomplete. Enabling prevents running optimized code and resets execution
 counters.
 ## Parameters:
-- `callCount:boolean`: (Optional) Collect accurate call counts beyond simple 'covered' or 'not covered'.
+  - `callCount:boolean`: (Optional) Collect accurate call counts beyond simple 'covered' or 'not covered'.
   - `detailed:boolean`: (Optional) Collect block-based coverage.
   - `allowTriggeredUpdates:boolean`: (Optional) Allow the backend to send updates on its own initiative
 """

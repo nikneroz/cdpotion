@@ -10,7 +10,7 @@ end
 @doc """
 Returns information about the feature state.
 ## Parameters:
-- `featureState:string`: description not provided :(
+  - `featureState:string`: description not provided :(
 """
 def get_feature_state(feature_state) do
   execute(session, :navigate, %{"url" => url})

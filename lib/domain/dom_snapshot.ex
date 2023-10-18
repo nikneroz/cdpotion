@@ -20,7 +20,7 @@ template contents, and imported documents) in a flattened array, as well as layo
 white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
 flattened.
 ## Parameters:
-- `computedStyleWhitelist:array`: Whitelist of computed styles to return.
+  - `computedStyleWhitelist:array`: Whitelist of computed styles to return.
   - `includeEventListeners:boolean`: (Optional) Whether or not to retrieve details of DOM listeners (default false).
   - `includePaintOrder:boolean`: (Optional) Whether to determine and include the paint order index of LayoutTreeNodes (default false).
   - `includeUserAgentShadowTree:boolean`: (Optional) Whether to include UA shadow tree in the snapshot (default false).
@@ -40,7 +40,7 @@ template contents, and imported documents) in a flattened array, as well as layo
 white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
 flattened.
 ## Parameters:
-- `computedStyles:array`: Whitelist of computed styles to return.
+  - `computedStyles:array`: Whitelist of computed styles to return.
   - `includePaintOrder:boolean`: (Optional) Whether to include layout object paint orders into the snapshot.
   - `includeDOMRects:boolean`: (Optional) Whether to include DOM rectangles (offsetRects, clientRects, scrollRects) into the snapshot
   - `includeBlendedBackgroundColors:boolean`: (Optional) Whether to include blended background colors in the snapshot (default: false).

@@ -18,7 +18,7 @@ end
 @doc """
 Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
 ## Parameters:
-- `nodeId:DOM.NodeId`: (Optional) Identifier of the node to get the partial accessibility tree for.
+  - `nodeId:DOM.NodeId`: (Optional) Identifier of the node to get the partial accessibility tree for.
   - `backendNodeId:DOM.BackendNodeId`: (Optional) Identifier of the backend node to get the partial accessibility tree for.
   - `objectId:Runtime.RemoteObjectId`: (Optional) JavaScript object id of the node wrapper to get the partial accessibility tree for.
   - `fetchRelatives:boolean`: (Optional) Whether to fetch this node's ancestors, siblings and children. Defaults to true.
@@ -35,7 +35,7 @@ end
 @doc """
 Fetches the entire accessibility tree for the root Document
 ## Parameters:
-- `depth:integer`: (Optional) The maximum depth at which descendants of the root node should be retrieved.
+  - `depth:integer`: (Optional) The maximum depth at which descendants of the root node should be retrieved.
 If omitted, the full tree is returned.
   - `frameId:Page.FrameId`: (Optional) The frame for whose document the AX tree should be retrieved.
 If omited, the root frame is used.
@@ -48,7 +48,7 @@ end
 Fetches the root node.
 Requires `enable()` to have been called previously.
 ## Parameters:
-- `frameId:Page.FrameId`: (Optional) The frame in whose document the node resides.
+  - `frameId:Page.FrameId`: (Optional) The frame in whose document the node resides.
 If omitted, the root frame is used.
 """
 def get_root_ax_node(frame_id \\ nil) do
@@ -59,7 +59,7 @@ end
 Fetches a node and all ancestors up to and including the root.
 Requires `enable()` to have been called previously.
 ## Parameters:
-- `nodeId:DOM.NodeId`: (Optional) Identifier of the node to get.
+  - `nodeId:DOM.NodeId`: (Optional) Identifier of the node to get.
   - `backendNodeId:DOM.BackendNodeId`: (Optional) Identifier of the backend node to get.
   - `objectId:Runtime.RemoteObjectId`: (Optional) JavaScript object id of the node wrapper to get.
 """
@@ -71,7 +71,7 @@ end
 Fetches a particular accessibility node by AXNodeId.
 Requires `enable()` to have been called previously.
 ## Parameters:
-- `id:AXNodeId`: description not provided :(
+  - `id:AXNodeId`: description not provided :(
   - `frameId:Page.FrameId`: (Optional) The frame in whose document the node resides.
 If omitted, the root frame is used.
 """
@@ -86,7 +86,7 @@ ignored for accessibility, and returns those that mactch the specified name and 
 node is specified, or the DOM node does not exist, the command returns an error. If neither
 `accessibleName` or `role` is specified, it returns all the accessibility nodes in the subtree.
 ## Parameters:
-- `nodeId:DOM.NodeId`: (Optional) Identifier of the node for the root to query.
+  - `nodeId:DOM.NodeId`: (Optional) Identifier of the node for the root to query.
   - `backendNodeId:DOM.BackendNodeId`: (Optional) Identifier of the backend node for the root to query.
   - `objectId:Runtime.RemoteObjectId`: (Optional) JavaScript object id of the node wrapper for the root to query.
   - `accessibleName:string`: (Optional) Find nodes with this computed name.

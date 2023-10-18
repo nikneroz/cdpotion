@@ -2,7 +2,7 @@ defmodule CDPotion.Domain.ServiceWorker do
 
 @doc """
 ## Parameters:
-- `origin:string`: description not provided :(
+  - `origin:string`: description not provided :(
   - `registrationId:RegistrationID`: description not provided :(
   - `data:string`: description not provided :(
 """
@@ -18,7 +18,7 @@ end
 
 @doc """
 ## Parameters:
-- `origin:string`: description not provided :(
+  - `origin:string`: description not provided :(
   - `registrationId:RegistrationID`: description not provided :(
   - `tag:string`: description not provided :(
   - `lastChance:boolean`: description not provided :(
@@ -29,7 +29,7 @@ end
 
 @doc """
 ## Parameters:
-- `origin:string`: description not provided :(
+  - `origin:string`: description not provided :(
   - `registrationId:RegistrationID`: description not provided :(
   - `tag:string`: description not provided :(
 """
@@ -45,7 +45,7 @@ end
 
 @doc """
 ## Parameters:
-- `versionId:string`: description not provided :(
+  - `versionId:string`: description not provided :(
 """
 def inspect_worker(version_id) do
   execute(session, :navigate, %{"url" => url})
@@ -53,7 +53,7 @@ end
 
 @doc """
 ## Parameters:
-- `forceUpdateOnPageLoad:boolean`: description not provided :(
+  - `forceUpdateOnPageLoad:boolean`: description not provided :(
 """
 def set_force_update_on_page_load(force_update_on_page_load) do
   execute(session, :navigate, %{"url" => url})
@@ -61,7 +61,7 @@ end
 
 @doc """
 ## Parameters:
-- `scopeURL:string`: description not provided :(
+  - `scopeURL:string`: description not provided :(
 """
 def skip_waiting(scope_url) do
   execute(session, :navigate, %{"url" => url})
@@ -69,7 +69,7 @@ end
 
 @doc """
 ## Parameters:
-- `scopeURL:string`: description not provided :(
+  - `scopeURL:string`: description not provided :(
 """
 def start_worker(scope_url) do
   execute(session, :navigate, %{"url" => url})
@@ -83,7 +83,7 @@ end
 
 @doc """
 ## Parameters:
-- `versionId:string`: description not provided :(
+  - `versionId:string`: description not provided :(
 """
 def stop_worker(version_id) do
   execute(session, :navigate, %{"url" => url})
@@ -91,7 +91,7 @@ end
 
 @doc """
 ## Parameters:
-- `scopeURL:string`: description not provided :(
+  - `scopeURL:string`: description not provided :(
 """
 def unregister(scope_url) do
   execute(session, :navigate, %{"url" => url})
@@ -99,7 +99,7 @@ end
 
 @doc """
 ## Parameters:
-- `scopeURL:string`: description not provided :(
+  - `scopeURL:string`: description not provided :(
 """
 def update_registration(scope_url) do
   execute(session, :navigate, %{"url" => url})

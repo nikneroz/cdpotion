@@ -17,7 +17,7 @@ end
 @doc """
 Record a clock sync marker in the trace.
 ## Parameters:
-- `syncId:string`: The ID of this clock sync marker
+  - `syncId:string`: The ID of this clock sync marker
 """
 def record_clock_sync_marker(sync_id) do
   execute(session, :navigate, %{"url" => url})
@@ -26,7 +26,7 @@ end
 @doc """
 Request a global memory dump.
 ## Parameters:
-- `deterministic:boolean`: (Optional) Enables more deterministic results by forcing garbage collection
+  - `deterministic:boolean`: (Optional) Enables more deterministic results by forcing garbage collection
   - `levelOfDetail:MemoryDumpLevelOfDetail`: (Optional) Specifies level of details in memory dump. Defaults to "detailed".
 """
 def request_memory_dump(deterministic \\ nil, level_of_detail \\ nil) do
@@ -36,7 +36,7 @@ end
 @doc """
 Start trace events collection.
 ## Parameters:
-- `categories:string`: (Optional) Category/tag filter
+  - `categories:string`: (Optional) Category/tag filter
   - `options:string`: (Optional) Tracing options
   - `bufferUsageReportingInterval:number`: (Optional) If set, the agent will issue bufferUsage events at this interval, specified in milliseconds
   - `transferMode:string`: (Optional) Whether to report trace events as series of dataCollected events or to save trace to a

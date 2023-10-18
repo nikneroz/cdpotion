@@ -2,7 +2,7 @@ defmodule CDPotion.Domain.DOMStorage do
 
 @doc """
 ## Parameters:
-- `storageId:StorageId`: description not provided :(
+  - `storageId:StorageId`: description not provided :(
 """
 def clear(storage_id) do
   execute(session, :navigate, %{"url" => url})
@@ -24,7 +24,7 @@ end
 
 @doc """
 ## Parameters:
-- `storageId:StorageId`: description not provided :(
+  - `storageId:StorageId`: description not provided :(
 """
 def get_dom_storage_items(storage_id) do
   execute(session, :navigate, %{"url" => url})
@@ -32,7 +32,7 @@ end
 
 @doc """
 ## Parameters:
-- `storageId:StorageId`: description not provided :(
+  - `storageId:StorageId`: description not provided :(
   - `key:string`: description not provided :(
 """
 def remove_dom_storage_item(storage_id, key) do
@@ -41,7 +41,7 @@ end
 
 @doc """
 ## Parameters:
-- `storageId:StorageId`: description not provided :(
+  - `storageId:StorageId`: description not provided :(
   - `key:string`: description not provided :(
   - `value:string`: description not provided :(
 """

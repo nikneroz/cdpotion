@@ -43,6 +43,7 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
   @doc """
   Stop trace events collection.
   """
+  @spec end!() :: {String.t(), map()}
   def end!() do
     {"Tracing.end", %{}}
   end
@@ -50,6 +51,7 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
   @doc """
   Gets supported tracing categories.
   """
+  @spec get_categories() :: {String.t(), map()}
   def get_categories() do
     {"Tracing.getCategories", %{}}
   end
@@ -57,8 +59,9 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
   @doc """
   Record a clock sync marker in the trace.
   ## Parameters:
-    - `syncId:string`: The ID of this clock sync marker
+    - `sync_id`:The ID of this clock sync marker
   """
+  @spec record_clock_sync_marker(String.t()) :: {String.t(), map()}
   def record_clock_sync_marker(sync_id) do
     params = as_query([{"syncId", sync_id}])
     {"Tracing.recordClockSyncMarker", params}
@@ -67,9 +70,11 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
   @doc """
   Request a global memory dump.
   ## Parameters:
-    - `deterministic:boolean`: (Optional) Enables more deterministic results by forcing garbage collection
-    - `levelOfDetail:MemoryDumpLevelOfDetail`: (Optional) Specifies level of details in memory dump. Defaults to "detailed".
+    - `deterministic`:(Optional) Enables more deterministic results by forcing garbage collection
+  - `level_of_detail`:(Optional) Specifies level of details in memory dump. Defaults to "detailed".
   """
+  @spec request_memory_dump(boolean(), CDPotion.Domain.Tracing.MemoryDumpLevelOfDetail) ::
+          {String.t(), map()}
   def request_memory_dump(deterministic \\ nil, level_of_detail \\ nil) do
     params = as_query([{"deterministic", deterministic}, {"levelOfDetail", level_of_detail}])
     {"Tracing.requestMemoryDump", params}
@@ -78,21 +83,32 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
   @doc """
   Start trace events collection.
   ## Parameters:
-    - `categories:string`: (Optional) Category/tag filter
-    - `options:string`: (Optional) Tracing options
-    - `bufferUsageReportingInterval:number`: (Optional) If set, the agent will issue bufferUsage events at this interval, specified in milliseconds
-    - `transferMode:string`: (Optional) Whether to report trace events as series of dataCollected events or to save trace to a
+    - `categories`:(Optional) Category/tag filter
+  - `options`:(Optional) Tracing options
+  - `buffer_usage_reporting_interval`:(Optional) If set, the agent will issue bufferUsage events at this interval, specified in milliseconds
+  - `transfer_mode`:(Optional) Whether to report trace events as series of dataCollected events or to save trace to a
   stream (defaults to `ReportEvents`).
-    - `streamFormat:StreamFormat`: (Optional) Trace data format to use. This only applies when using `ReturnAsStream`
+  - `stream_format`:(Optional) Trace data format to use. This only applies when using `ReturnAsStream`
   transfer mode (defaults to `json`).
-    - `streamCompression:StreamCompression`: (Optional) Compression format to use. This only applies when using `ReturnAsStream`
+  - `stream_compression`:(Optional) Compression format to use. This only applies when using `ReturnAsStream`
   transfer mode (defaults to `none`)
-    - `traceConfig:TraceConfig`: (Optional) description not provided :(
-    - `perfettoConfig:string`: (Optional) Base64-encoded serialized perfetto.protos.TraceConfig protobuf message
+  - `trace_config`:(Optional) description not provided :(
+  - `perfetto_config`:(Optional) Base64-encoded serialized perfetto.protos.TraceConfig protobuf message
   When specified, the parameters `categories`, `options`, `traceConfig`
   are ignored. (Encoded as a base64 string when passed over JSON)
-    - `tracingBackend:TracingBackend`: (Optional) Backend type (defaults to `auto`)
+  - `tracing_backend`:(Optional) Backend type (defaults to `auto`)
   """
+  @spec start(
+          String.t(),
+          String.t(),
+          number(),
+          String.t(),
+          CDPotion.Domain.Tracing.StreamFormat,
+          CDPotion.Domain.Tracing.StreamCompression,
+          CDPotion.Domain.Tracing.TraceConfig,
+          String.t(),
+          CDPotion.Domain.Tracing.TracingBackend
+        ) :: {String.t(), map()}
   def start(
         categories \\ nil,
         options \\ nil,

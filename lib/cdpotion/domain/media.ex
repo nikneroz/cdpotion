@@ -44,6 +44,7 @@ Corresponds to kMessage"
   @doc """
   Enables the Media domain
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Media.enable", %{}}
   end
@@ -51,6 +52,7 @@ Corresponds to kMessage"
   @doc """
   Disables the Media domain.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Media.disable", %{}}
   end

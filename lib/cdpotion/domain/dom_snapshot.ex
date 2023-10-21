@@ -155,6 +155,7 @@ stable and may change between versions."
   @doc """
   Disables DOM snapshot agent for the given page.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"DOMSnapshot.disable", %{}}
   end
@@ -162,6 +163,7 @@ stable and may change between versions."
   @doc """
   Enables DOM snapshot agent for the given page.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"DOMSnapshot.enable", %{}}
   end
@@ -172,11 +174,12 @@ stable and may change between versions."
   white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
   flattened.
   ## Parameters:
-    - `computedStyleWhitelist:array`: Whitelist of computed styles to return.
-    - `includeEventListeners:boolean`: (Optional) Whether or not to retrieve details of DOM listeners (default false).
-    - `includePaintOrder:boolean`: (Optional) Whether to determine and include the paint order index of LayoutTreeNodes (default false).
-    - `includeUserAgentShadowTree:boolean`: (Optional) Whether to include UA shadow tree in the snapshot (default false).
+    - `computed_style_whitelist`:Whitelist of computed styles to return.
+  - `include_event_listeners`:(Optional) Whether or not to retrieve details of DOM listeners (default false).
+  - `include_paint_order`:(Optional) Whether to determine and include the paint order index of LayoutTreeNodes (default false).
+  - `include_user_agent_shadow_tree`:(Optional) Whether to include UA shadow tree in the snapshot (default false).
   """
+  @spec get_snapshot(list(String.t()), boolean(), boolean(), boolean()) :: {String.t(), map()}
   def get_snapshot(
         computed_style_whitelist,
         include_event_listeners \\ nil,
@@ -200,16 +203,18 @@ stable and may change between versions."
   white-listed computed style information for the nodes. Shadow DOM in the returned DOM tree is
   flattened.
   ## Parameters:
-    - `computedStyles:array`: Whitelist of computed styles to return.
-    - `includePaintOrder:boolean`: (Optional) Whether to include layout object paint orders into the snapshot.
-    - `includeDOMRects:boolean`: (Optional) Whether to include DOM rectangles (offsetRects, clientRects, scrollRects) into the snapshot
-    - `includeBlendedBackgroundColors:boolean`: (Optional) Whether to include blended background colors in the snapshot (default: false).
+    - `computed_styles`:Whitelist of computed styles to return.
+  - `include_paint_order`:(Optional) Whether to include layout object paint orders into the snapshot.
+  - `include_dom_rects`:(Optional) Whether to include DOM rectangles (offsetRects, clientRects, scrollRects) into the snapshot
+  - `include_blended_background_colors`:(Optional) Whether to include blended background colors in the snapshot (default: false).
   Blended background color is achieved by blending background colors of all elements
   that overlap with the current element.
-    - `includeTextColorOpacities:boolean`: (Optional) Whether to include text color opacity in the snapshot (default: false).
+  - `include_text_color_opacities`:(Optional) Whether to include text color opacity in the snapshot (default: false).
   An element might have the opacity property set that affects the text color of the element.
   The final text color opacity is computed based on the opacity of all overlapping elements.
   """
+  @spec capture_snapshot(list(String.t()), boolean(), boolean(), boolean(), boolean()) ::
+          {String.t(), map()}
   def capture_snapshot(
         computed_styles,
         include_paint_order \\ nil,

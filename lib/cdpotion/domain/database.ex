@@ -20,6 +20,7 @@ defmodule CDPotion.Domain.Database do
   @doc """
   Disables database tracking, prevents database events from being sent to the client.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Database.disable", %{}}
   end
@@ -27,24 +28,29 @@ defmodule CDPotion.Domain.Database do
   @doc """
   Enables database tracking, database events will now be delivered to the client.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Database.enable", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `databaseId:DatabaseId`: description not provided :(
-    - `query:string`: description not provided :(
+    - `database_id`:description not provided :(
+  - `query`:description not provided :(
   """
+  @spec execute_sql(CDPotion.Domain.Database.DatabaseId, String.t()) :: {String.t(), map()}
   def execute_sql(database_id, query) do
     params = as_query([{"databaseId", database_id}, {"query", query}])
     {"Database.executeSQL", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `databaseId:DatabaseId`: description not provided :(
+    - `database_id`:description not provided :(
   """
+  @spec get_database_table_names(CDPotion.Domain.Database.DatabaseId) :: {String.t(), map()}
   def get_database_table_names(database_id) do
     params = as_query([{"databaseId", database_id}])
     {"Database.getDatabaseTableNames", params}

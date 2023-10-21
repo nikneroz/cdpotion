@@ -44,6 +44,7 @@ defmodule CDPotion.Domain.Log do
   @doc """
   Clears the log.
   """
+  @spec clear() :: {String.t(), map()}
   def clear() do
     {"Log.clear", %{}}
   end
@@ -51,6 +52,7 @@ defmodule CDPotion.Domain.Log do
   @doc """
   Disables log domain, prevents further log entries from being reported to the client.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Log.disable", %{}}
   end
@@ -59,6 +61,7 @@ defmodule CDPotion.Domain.Log do
   Enables log domain, sends the entries collected so far to the client by means of the
   `entryAdded` notification.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Log.enable", %{}}
   end
@@ -66,8 +69,9 @@ defmodule CDPotion.Domain.Log do
   @doc """
   start violation reporting.
   ## Parameters:
-    - `config:array`: Configuration for violations.
+    - `config`:Configuration for violations.
   """
+  @spec start_violations_report(list(CDPotion.Domain.Log.ViolationSetting)) :: {String.t(), map()}
   def start_violations_report(config) do
     params = as_query([{"config", config}])
     {"Log.startViolationsReport", params}
@@ -76,6 +80,7 @@ defmodule CDPotion.Domain.Log do
   @doc """
   Stop violation reporting.
   """
+  @spec stop_violations_report() :: {String.t(), map()}
   def stop_violations_report() do
     {"Log.stopViolationsReport", %{}}
   end

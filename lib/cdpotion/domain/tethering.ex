@@ -4,8 +4,9 @@ defmodule CDPotion.Domain.Tethering do
   @doc """
   Request browser port binding.
   ## Parameters:
-    - `port:integer`: Port number to bind.
+    - `port`:Port number to bind.
   """
+  @spec bind(integer()) :: {String.t(), map()}
   def bind(port) do
     params = as_query([{"port", port}])
     {"Tethering.bind", params}
@@ -14,8 +15,9 @@ defmodule CDPotion.Domain.Tethering do
   @doc """
   Request browser port unbinding.
   ## Parameters:
-    - `port:integer`: Port number to unbind.
+    - `port`:Port number to unbind.
   """
+  @spec unbind(integer()) :: {String.t(), map()}
   def unbind(port) do
     params = as_query([{"port", port}])
     {"Tethering.unbind", params}

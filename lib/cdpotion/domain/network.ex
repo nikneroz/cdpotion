@@ -608,8 +608,10 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Sets a list of content encodings that will be accepted. Empty list means no encoding is accepted.
   ## Parameters:
-    - `encodings:array`: List of accepted content encodings.
+    - `encodings`:List of accepted content encodings.
   """
+  @spec set_accepted_encodings(list(CDPotion.Domain.Network.ContentEncoding)) ::
+          {String.t(), map()}
   def set_accepted_encodings(encodings) do
     params = as_query([{"encodings", encodings}])
     {"Network.setAcceptedEncodings", params}
@@ -618,6 +620,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Clears accepted encodings set by setAcceptedEncodings
   """
+  @spec clear_accepted_encodings_override() :: {String.t(), map()}
   def clear_accepted_encodings_override() do
     {"Network.clearAcceptedEncodingsOverride", %{}}
   end
@@ -625,6 +628,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Tells whether clearing browser cache is supported.
   """
+  @spec can_clear_browser_cache() :: {String.t(), map()}
   def can_clear_browser_cache() do
     {"Network.canClearBrowserCache", %{}}
   end
@@ -632,6 +636,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Tells whether clearing browser cookies is supported.
   """
+  @spec can_clear_browser_cookies() :: {String.t(), map()}
   def can_clear_browser_cookies() do
     {"Network.canClearBrowserCookies", %{}}
   end
@@ -639,6 +644,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Tells whether emulation of network conditions is supported.
   """
+  @spec can_emulate_network_conditions() :: {String.t(), map()}
   def can_emulate_network_conditions() do
     {"Network.canEmulateNetworkConditions", %{}}
   end
@@ -646,6 +652,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Clears browser cache.
   """
+  @spec clear_browser_cache() :: {String.t(), map()}
   def clear_browser_cache() do
     {"Network.clearBrowserCache", %{}}
   end
@@ -653,6 +660,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Clears browser cookies.
   """
+  @spec clear_browser_cookies() :: {String.t(), map()}
   def clear_browser_cookies() do
     {"Network.clearBrowserCookies", %{}}
   end
@@ -664,21 +672,31 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   event will be sent with the same InterceptionId.
   Deprecated, use Fetch.continueRequest, Fetch.fulfillRequest and Fetch.failRequest instead.
   ## Parameters:
-    - `interceptionId:InterceptionId`: description not provided :(
-    - `errorReason:ErrorReason`: (Optional) If set this causes the request to fail with the given reason. Passing `Aborted` for requests
+    - `interception_id`:description not provided :(
+  - `error_reason`:(Optional) If set this causes the request to fail with the given reason. Passing `Aborted` for requests
   marked with `isNavigationRequest` also cancels the navigation. Must not be set in response
   to an authChallenge.
-    - `rawResponse:string`: (Optional) If set the requests completes using with the provided base64 encoded raw response, including
+  - `raw_response`:(Optional) If set the requests completes using with the provided base64 encoded raw response, including
   HTTP status line and headers etc... Must not be set in response to an authChallenge. (Encoded as a base64 string when passed over JSON)
-    - `url:string`: (Optional) If set the request url will be modified in a way that's not observable by page. Must not be
+  - `url`:(Optional) If set the request url will be modified in a way that's not observable by page. Must not be
   set in response to an authChallenge.
-    - `method:string`: (Optional) If set this allows the request method to be overridden. Must not be set in response to an
+  - `method`:(Optional) If set this allows the request method to be overridden. Must not be set in response to an
   authChallenge.
-    - `postData:string`: (Optional) If set this allows postData to be set. Must not be set in response to an authChallenge.
-    - `headers:Headers`: (Optional) If set this allows the request headers to be changed. Must not be set in response to an
+  - `post_data`:(Optional) If set this allows postData to be set. Must not be set in response to an authChallenge.
+  - `headers`:(Optional) If set this allows the request headers to be changed. Must not be set in response to an
   authChallenge.
-    - `authChallengeResponse:AuthChallengeResponse`: (Optional) Response to a requestIntercepted with an authChallenge. Must not be set otherwise.
+  - `auth_challenge_response`:(Optional) Response to a requestIntercepted with an authChallenge. Must not be set otherwise.
   """
+  @spec continue_intercepted_request(
+          CDPotion.Domain.Network.InterceptionId,
+          CDPotion.Domain.Network.ErrorReason,
+          String.t(),
+          String.t(),
+          String.t(),
+          String.t(),
+          CDPotion.Domain.Network.Headers,
+          CDPotion.Domain.Network.AuthChallengeResponse
+        ) :: {String.t(), map()}
   def continue_intercepted_request(
         interception_id,
         error_reason \\ nil,
@@ -707,12 +725,13 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Deletes browser cookies with matching name and url or domain/path pair.
   ## Parameters:
-    - `name:string`: Name of the cookies to remove.
-    - `url:string`: (Optional) If specified, deletes all the cookies with the given name where domain and path match
+    - `name`:Name of the cookies to remove.
+  - `url`:(Optional) If specified, deletes all the cookies with the given name where domain and path match
   provided URL.
-    - `domain:string`: (Optional) If specified, deletes only cookies with the exact domain.
-    - `path:string`: (Optional) If specified, deletes only cookies with the exact path.
+  - `domain`:(Optional) If specified, deletes only cookies with the exact domain.
+  - `path`:(Optional) If specified, deletes only cookies with the exact path.
   """
+  @spec delete_cookies(String.t(), String.t(), String.t(), String.t()) :: {String.t(), map()}
   def delete_cookies(name, url \\ nil, domain \\ nil, path \\ nil) do
     params = as_query([{"name", name}, {"url", url}, {"domain", domain}, {"path", path}])
     {"Network.deleteCookies", params}
@@ -721,6 +740,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Disables network tracking, prevents network events from being sent to the client.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Network.disable", %{}}
   end
@@ -728,12 +748,19 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Activates emulation of network conditions.
   ## Parameters:
-    - `offline:boolean`: True to emulate internet disconnection.
-    - `latency:number`: Minimum latency from request sent to response headers received (ms).
-    - `downloadThroughput:number`: Maximal aggregated download throughput (bytes/sec). -1 disables download throttling.
-    - `uploadThroughput:number`: Maximal aggregated upload throughput (bytes/sec).  -1 disables upload throttling.
-    - `connectionType:ConnectionType`: (Optional) Connection type if known.
+    - `offline`:True to emulate internet disconnection.
+  - `latency`:Minimum latency from request sent to response headers received (ms).
+  - `download_throughput`:Maximal aggregated download throughput (bytes/sec). -1 disables download throttling.
+  - `upload_throughput`:Maximal aggregated upload throughput (bytes/sec).  -1 disables upload throttling.
+  - `connection_type`:(Optional) Connection type if known.
   """
+  @spec emulate_network_conditions(
+          boolean(),
+          number(),
+          number(),
+          number(),
+          CDPotion.Domain.Network.ConnectionType
+        ) :: {String.t(), map()}
   def emulate_network_conditions(
         offline,
         latency,
@@ -756,10 +783,11 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Enables network tracking, network events will now be delivered to the client.
   ## Parameters:
-    - `maxTotalBufferSize:integer`: (Optional) Buffer size in bytes to use when preserving network payloads (XHRs, etc).
-    - `maxResourceBufferSize:integer`: (Optional) Per-resource buffer size in bytes to use when preserving network payloads (XHRs, etc).
-    - `maxPostDataSize:integer`: (Optional) Longest post body size (in bytes) that would be included in requestWillBeSent notification
+    - `max_total_buffer_size`:(Optional) Buffer size in bytes to use when preserving network payloads (XHRs, etc).
+  - `max_resource_buffer_size`:(Optional) Per-resource buffer size in bytes to use when preserving network payloads (XHRs, etc).
+  - `max_post_data_size`:(Optional) Longest post body size (in bytes) that would be included in requestWillBeSent notification
   """
+  @spec enable(integer(), integer(), integer()) :: {String.t(), map()}
   def enable(
         max_total_buffer_size \\ nil,
         max_resource_buffer_size \\ nil,
@@ -780,6 +808,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   information in the `cookies` field.
   Deprecated. Use Storage.getCookies instead.
   """
+  @spec get_all_cookies() :: {String.t(), map()}
   def get_all_cookies() do
     {"Network.getAllCookies", %{}}
   end
@@ -787,8 +816,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Returns the DER-encoded certificate.
   ## Parameters:
-    - `origin:string`: Origin to get certificate for.
+    - `origin`:Origin to get certificate for.
   """
+  @spec get_certificate(String.t()) :: {String.t(), map()}
   def get_certificate(origin) do
     params = as_query([{"origin", origin}])
     {"Network.getCertificate", params}
@@ -798,10 +828,11 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   Returns all browser cookies for the current URL. Depending on the backend support, will return
   detailed cookie information in the `cookies` field.
   ## Parameters:
-    - `urls:array`: (Optional) The list of URLs for which applicable cookies will be fetched.
+    - `urls`:(Optional) The list of URLs for which applicable cookies will be fetched.
   If not specified, it's assumed to be set to the list containing
   the URLs of the page and all of its subframes.
   """
+  @spec get_cookies(list(String.t())) :: {String.t(), map()}
   def get_cookies(urls \\ nil) do
     params = as_query([{"urls", urls}])
     {"Network.getCookies", params}
@@ -810,8 +841,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Returns content served for the given request.
   ## Parameters:
-    - `requestId:RequestId`: Identifier of the network request to get content for.
+    - `request_id`:Identifier of the network request to get content for.
   """
+  @spec get_response_body(CDPotion.Domain.Network.RequestId) :: {String.t(), map()}
   def get_response_body(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Network.getResponseBody", params}
@@ -820,8 +852,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Returns post data sent with the request. Returns an error when no data was sent with the request.
   ## Parameters:
-    - `requestId:RequestId`: Identifier of the network request to get content for.
+    - `request_id`:Identifier of the network request to get content for.
   """
+  @spec get_request_post_data(CDPotion.Domain.Network.RequestId) :: {String.t(), map()}
   def get_request_post_data(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Network.getRequestPostData", params}
@@ -830,8 +863,10 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Returns content served for the given currently intercepted request.
   ## Parameters:
-    - `interceptionId:InterceptionId`: Identifier for the intercepted request to get body for.
+    - `interception_id`:Identifier for the intercepted request to get body for.
   """
+  @spec get_response_body_for_interception(CDPotion.Domain.Network.InterceptionId) ::
+          {String.t(), map()}
   def get_response_body_for_interception(interception_id) do
     params = as_query([{"interceptionId", interception_id}])
     {"Network.getResponseBodyForInterception", params}
@@ -843,8 +878,10 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   the response body. The stream only supports sequential read, IO.read will fail if the position
   is specified.
   ## Parameters:
-    - `interceptionId:InterceptionId`: description not provided :(
+    - `interception_id`:description not provided :(
   """
+  @spec take_response_body_for_interception_as_stream(CDPotion.Domain.Network.InterceptionId) ::
+          {String.t(), map()}
   def take_response_body_for_interception_as_stream(interception_id) do
     params = as_query([{"interceptionId", interception_id}])
     {"Network.takeResponseBodyForInterceptionAsStream", params}
@@ -855,8 +892,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   parameters should be identical: method, url, async, request body, extra headers, withCredentials
   attribute, user, password.
   ## Parameters:
-    - `requestId:RequestId`: Identifier of XHR to replay.
+    - `request_id`:Identifier of XHR to replay.
   """
+  @spec replay_xhr(CDPotion.Domain.Network.RequestId) :: {String.t(), map()}
   def replay_xhr(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Network.replayXHR", params}
@@ -865,11 +903,17 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Searches for given string in response content.
   ## Parameters:
-    - `requestId:RequestId`: Identifier of the network response to search.
-    - `query:string`: String to search for.
-    - `caseSensitive:boolean`: (Optional) If true, search is case sensitive.
-    - `isRegex:boolean`: (Optional) If true, treats string parameter as regex.
+    - `request_id`:Identifier of the network response to search.
+  - `query`:String to search for.
+  - `case_sensitive`:(Optional) If true, search is case sensitive.
+  - `is_regex`:(Optional) If true, treats string parameter as regex.
   """
+  @spec search_in_response_body(
+          CDPotion.Domain.Network.RequestId,
+          String.t(),
+          boolean(),
+          boolean()
+        ) :: {String.t(), map()}
   def search_in_response_body(request_id, query, case_sensitive \\ nil, is_regex \\ nil) do
     params =
       as_query([
@@ -885,8 +929,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Blocks URLs from loading.
   ## Parameters:
-    - `urls:array`: URL patterns to block. Wildcards ('*') are allowed.
+    - `urls`:URL patterns to block. Wildcards ('*') are allowed.
   """
+  @spec set_blocked_ur_ls(list(String.t())) :: {String.t(), map()}
   def set_blocked_ur_ls(urls) do
     params = as_query([{"urls", urls}])
     {"Network.setBlockedURLs", params}
@@ -895,8 +940,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Toggles ignoring of service worker for each request.
   ## Parameters:
-    - `bypass:boolean`: Bypass service worker and load from network.
+    - `bypass`:Bypass service worker and load from network.
   """
+  @spec set_bypass_service_worker(boolean()) :: {String.t(), map()}
   def set_bypass_service_worker(bypass) do
     params = as_query([{"bypass", bypass}])
     {"Network.setBypassServiceWorker", params}
@@ -905,8 +951,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Toggles ignoring cache for each request. If `true`, cache will not be used.
   ## Parameters:
-    - `cacheDisabled:boolean`: Cache disabled state.
+    - `cache_disabled`:Cache disabled state.
   """
+  @spec set_cache_disabled(boolean()) :: {String.t(), map()}
   def set_cache_disabled(cache_disabled) do
     params = as_query([{"cacheDisabled", cache_disabled}])
     {"Network.setCacheDisabled", params}
@@ -915,26 +962,42 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Sets a cookie with the given cookie data; may overwrite equivalent cookies if they exist.
   ## Parameters:
-    - `name:string`: Cookie name.
-    - `value:string`: Cookie value.
-    - `url:string`: (Optional) The request-URI to associate with the setting of the cookie. This value can affect the
+    - `name`:Cookie name.
+  - `value`:Cookie value.
+  - `url`:(Optional) The request-URI to associate with the setting of the cookie. This value can affect the
   default domain, path, source port, and source scheme values of the created cookie.
-    - `domain:string`: (Optional) Cookie domain.
-    - `path:string`: (Optional) Cookie path.
-    - `secure:boolean`: (Optional) True if cookie is secure.
-    - `httpOnly:boolean`: (Optional) True if cookie is http-only.
-    - `sameSite:CookieSameSite`: (Optional) Cookie SameSite type.
-    - `expires:TimeSinceEpoch`: (Optional) Cookie expiration date, session cookie if not set
-    - `priority:CookiePriority`: (Optional) Cookie Priority type.
-    - `sameParty:boolean`: (Optional) True if cookie is SameParty.
-    - `sourceScheme:CookieSourceScheme`: (Optional) Cookie source scheme type.
-    - `sourcePort:integer`: (Optional) Cookie source port. Valid values are {-1, [1, 65535]}, -1 indicates an unspecified port.
+  - `domain`:(Optional) Cookie domain.
+  - `path`:(Optional) Cookie path.
+  - `secure`:(Optional) True if cookie is secure.
+  - `http_only`:(Optional) True if cookie is http-only.
+  - `same_site`:(Optional) Cookie SameSite type.
+  - `expires`:(Optional) Cookie expiration date, session cookie if not set
+  - `priority`:(Optional) Cookie Priority type.
+  - `same_party`:(Optional) True if cookie is SameParty.
+  - `source_scheme`:(Optional) Cookie source scheme type.
+  - `source_port`:(Optional) Cookie source port. Valid values are {-1, [1, 65535]}, -1 indicates an unspecified port.
   An unspecified port value allows protocol clients to emulate legacy cookie scope for the port.
   This is a temporary ability and it will be removed in the future.
-    - `partitionKey:string`: (Optional) Cookie partition key. The site of the top-level URL the browser was visiting at the start
+  - `partition_key`:(Optional) Cookie partition key. The site of the top-level URL the browser was visiting at the start
   of the request to the endpoint that set the cookie.
   If not set, the cookie will be set as not partitioned.
   """
+  @spec set_cookie(
+          String.t(),
+          String.t(),
+          String.t(),
+          String.t(),
+          String.t(),
+          boolean(),
+          boolean(),
+          CDPotion.Domain.Network.CookieSameSite,
+          CDPotion.Domain.Network.TimeSinceEpoch,
+          CDPotion.Domain.Network.CookiePriority,
+          boolean(),
+          CDPotion.Domain.Network.CookieSourceScheme,
+          integer(),
+          String.t()
+        ) :: {String.t(), map()}
   def set_cookie(
         name,
         value,
@@ -975,8 +1038,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Sets given cookies.
   ## Parameters:
-    - `cookies:array`: Cookies to be set.
+    - `cookies`:Cookies to be set.
   """
+  @spec set_cookies(list(CDPotion.Domain.Network.CookieParam)) :: {String.t(), map()}
   def set_cookies(cookies) do
     params = as_query([{"cookies", cookies}])
     {"Network.setCookies", params}
@@ -985,8 +1049,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Specifies whether to always send extra HTTP headers with the requests from this page.
   ## Parameters:
-    - `headers:Headers`: Map with extra HTTP headers.
+    - `headers`:Map with extra HTTP headers.
   """
+  @spec set_extra_http_headers(CDPotion.Domain.Network.Headers) :: {String.t(), map()}
   def set_extra_http_headers(headers) do
     params = as_query([{"headers", headers}])
     {"Network.setExtraHTTPHeaders", params}
@@ -995,8 +1060,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Specifies whether to attach a page script stack id in requests
   ## Parameters:
-    - `enabled:boolean`: Whether to attach a page script stack for debugging purpose.
+    - `enabled`:Whether to attach a page script stack for debugging purpose.
   """
+  @spec set_attach_debug_stack(boolean()) :: {String.t(), map()}
   def set_attach_debug_stack(enabled) do
     params = as_query([{"enabled", enabled}])
     {"Network.setAttachDebugStack", params}
@@ -1006,9 +1072,11 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   Sets the requests to intercept that match the provided patterns and optionally resource types.
   Deprecated, please use Fetch.enable instead.
   ## Parameters:
-    - `patterns:array`: Requests matching any of these patterns will be forwarded and wait for the corresponding
+    - `patterns`:Requests matching any of these patterns will be forwarded and wait for the corresponding
   continueInterceptedRequest call.
   """
+  @spec set_request_interception(list(CDPotion.Domain.Network.RequestPattern)) ::
+          {String.t(), map()}
   def set_request_interception(patterns) do
     params = as_query([{"patterns", patterns}])
     {"Network.setRequestInterception", params}
@@ -1017,11 +1085,17 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Allows overriding user agent with the given string.
   ## Parameters:
-    - `userAgent:string`: User agent to use.
-    - `acceptLanguage:string`: (Optional) Browser langugage to emulate.
-    - `platform:string`: (Optional) The platform navigator.platform should return.
-    - `userAgentMetadata:Emulation.UserAgentMetadata`: (Optional) To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData
+    - `user_agent`:User agent to use.
+  - `accept_language`:(Optional) Browser langugage to emulate.
+  - `platform`:(Optional) The platform navigator.platform should return.
+  - `user_agent_metadata`:(Optional) To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData
   """
+  @spec set_user_agent_override(
+          String.t(),
+          String.t(),
+          String.t(),
+          CDPotion.Domain.Emulation.UserAgentMetadata
+        ) :: {String.t(), map()}
   def set_user_agent_override(
         user_agent,
         accept_language \\ nil,
@@ -1042,8 +1116,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Returns information about the COEP/COOP isolation status.
   ## Parameters:
-    - `frameId:Page.FrameId`: (Optional) If no frameId is provided, the status of the target is provided.
+    - `frame_id`:(Optional) If no frameId is provided, the status of the target is provided.
   """
+  @spec get_security_isolation_status(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
   def get_security_isolation_status(frame_id \\ nil) do
     params = as_query([{"frameId", frame_id}])
     {"Network.getSecurityIsolationStatus", params}
@@ -1053,8 +1128,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   Enables tracking for the Reporting API, events generated by the Reporting API will now be delivered to the client.
   Enabling triggers 'reportingApiReportAdded' for all existing reports.
   ## Parameters:
-    - `enable:boolean`: Whether to enable or disable events for the Reporting API
+    - `enable`:Whether to enable or disable events for the Reporting API
   """
+  @spec enable_reporting_api(boolean()) :: {String.t(), map()}
   def enable_reporting_api(enable) do
     params = as_query([{"enable", enable}])
     {"Network.enableReportingApi", params}
@@ -1063,11 +1139,16 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   @doc """
   Fetches the resource and returns the content.
   ## Parameters:
-    - `frameId:Page.FrameId`: (Optional) Frame id to get the resource for. Mandatory for frame targets, and
+    - `frame_id`:(Optional) Frame id to get the resource for. Mandatory for frame targets, and
   should be omitted for worker targets.
-    - `url:string`: URL of the resource to get content for.
-    - `options:LoadNetworkResourceOptions`: Options for the request.
+  - `url`:URL of the resource to get content for.
+  - `options`:Options for the request.
   """
+  @spec load_network_resource(
+          CDPotion.Domain.Page.FrameId,
+          String.t(),
+          CDPotion.Domain.Network.LoadNetworkResourceOptions
+        ) :: {String.t(), map()}
   def load_network_resource(frame_id \\ nil, url, options) do
     params = as_query([{"frameId", frame_id}, {"url", url}, {"options", options}])
     {"Network.loadNetworkResource", params}

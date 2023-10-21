@@ -156,13 +156,17 @@ See https://github.com/WICG/nav-speculation/blob/main/triggers.md#window-name-ta
   @type speculation_target_hint :: :Blank | :Self
 
   @doc """
+
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Preload.enable", %{}}
   end
 
   @doc """
+
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Preload.disable", %{}}
   end

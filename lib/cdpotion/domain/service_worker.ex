@@ -41,29 +41,41 @@ defmodule CDPotion.Domain.ServiceWorker do
           :new | :installing | :installed | :activating | :activated | :redundant
 
   @doc """
+
   ## Parameters:
-    - `origin:string`: description not provided :(
-    - `registrationId:RegistrationID`: description not provided :(
-    - `data:string`: description not provided :(
+    - `origin`:description not provided :(
+  - `registration_id`:description not provided :(
+  - `data`:description not provided :(
   """
+  @spec deliver_push_message(String.t(), CDPotion.Domain.ServiceWorker.RegistrationID, String.t()) ::
+          {String.t(), map()}
   def deliver_push_message(origin, registration_id, data) do
     params = as_query([{"origin", origin}, {"registrationId", registration_id}, {"data", data}])
     {"ServiceWorker.deliverPushMessage", params}
   end
 
   @doc """
+
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"ServiceWorker.disable", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `origin:string`: description not provided :(
-    - `registrationId:RegistrationID`: description not provided :(
-    - `tag:string`: description not provided :(
-    - `lastChance:boolean`: description not provided :(
+    - `origin`:description not provided :(
+  - `registration_id`:description not provided :(
+  - `tag`:description not provided :(
+  - `last_chance`:description not provided :(
   """
+  @spec dispatch_sync_event(
+          String.t(),
+          CDPotion.Domain.ServiceWorker.RegistrationID,
+          String.t(),
+          boolean()
+        ) :: {String.t(), map()}
   def dispatch_sync_event(origin, registration_id, tag, last_chance) do
     params =
       as_query([
@@ -77,86 +89,110 @@ defmodule CDPotion.Domain.ServiceWorker do
   end
 
   @doc """
+
   ## Parameters:
-    - `origin:string`: description not provided :(
-    - `registrationId:RegistrationID`: description not provided :(
-    - `tag:string`: description not provided :(
+    - `origin`:description not provided :(
+  - `registration_id`:description not provided :(
+  - `tag`:description not provided :(
   """
+  @spec dispatch_periodic_sync_event(
+          String.t(),
+          CDPotion.Domain.ServiceWorker.RegistrationID,
+          String.t()
+        ) :: {String.t(), map()}
   def dispatch_periodic_sync_event(origin, registration_id, tag) do
     params = as_query([{"origin", origin}, {"registrationId", registration_id}, {"tag", tag}])
     {"ServiceWorker.dispatchPeriodicSyncEvent", params}
   end
 
   @doc """
+
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"ServiceWorker.enable", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `versionId:string`: description not provided :(
+    - `version_id`:description not provided :(
   """
+  @spec inspect_worker(String.t()) :: {String.t(), map()}
   def inspect_worker(version_id) do
     params = as_query([{"versionId", version_id}])
     {"ServiceWorker.inspectWorker", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `forceUpdateOnPageLoad:boolean`: description not provided :(
+    - `force_update_on_page_load`:description not provided :(
   """
+  @spec set_force_update_on_page_load(boolean()) :: {String.t(), map()}
   def set_force_update_on_page_load(force_update_on_page_load) do
     params = as_query([{"forceUpdateOnPageLoad", force_update_on_page_load}])
     {"ServiceWorker.setForceUpdateOnPageLoad", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `scopeURL:string`: description not provided :(
+    - `scope_url`:description not provided :(
   """
+  @spec skip_waiting(String.t()) :: {String.t(), map()}
   def skip_waiting(scope_url) do
     params = as_query([{"scopeURL", scope_url}])
     {"ServiceWorker.skipWaiting", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `scopeURL:string`: description not provided :(
+    - `scope_url`:description not provided :(
   """
+  @spec start_worker(String.t()) :: {String.t(), map()}
   def start_worker(scope_url) do
     params = as_query([{"scopeURL", scope_url}])
     {"ServiceWorker.startWorker", params}
   end
 
   @doc """
+
   """
+  @spec stop_all_workers() :: {String.t(), map()}
   def stop_all_workers() do
     {"ServiceWorker.stopAllWorkers", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `versionId:string`: description not provided :(
+    - `version_id`:description not provided :(
   """
+  @spec stop_worker(String.t()) :: {String.t(), map()}
   def stop_worker(version_id) do
     params = as_query([{"versionId", version_id}])
     {"ServiceWorker.stopWorker", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `scopeURL:string`: description not provided :(
+    - `scope_url`:description not provided :(
   """
+  @spec unregister(String.t()) :: {String.t(), map()}
   def unregister(scope_url) do
     params = as_query([{"scopeURL", scope_url}])
     {"ServiceWorker.unregister", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `scopeURL:string`: description not provided :(
+    - `scope_url`:description not provided :(
   """
+  @spec update_registration(String.t()) :: {String.t(), map()}
   def update_registration(scope_url) do
     params = as_query([{"scopeURL", scope_url}])
     {"ServiceWorker.updateRegistration", params}

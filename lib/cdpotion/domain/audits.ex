@@ -449,11 +449,13 @@ transferred to a context that is not cross-origin isolated."
   Returns the response body and size if it were re-encoded with the specified settings. Only
   applies to images.
   ## Parameters:
-    - `requestId:Network.RequestId`: Identifier of the network request to get content for.
-    - `encoding:string`: The encoding to use.
-    - `quality:number`: (Optional) The quality of the encoding (0-1). (defaults to 1)
-    - `sizeOnly:boolean`: (Optional) Whether to only return the size information (defaults to false).
+    - `request_id`:Identifier of the network request to get content for.
+  - `encoding`:The encoding to use.
+  - `quality`:(Optional) The quality of the encoding (0-1). (defaults to 1)
+  - `size_only`:(Optional) Whether to only return the size information (defaults to false).
   """
+  @spec get_encoded_response(CDPotion.Domain.Network.RequestId, String.t(), number(), boolean()) ::
+          {String.t(), map()}
   def get_encoded_response(request_id, encoding, quality \\ nil, size_only \\ nil) do
     params =
       as_query([
@@ -469,6 +471,7 @@ transferred to a context that is not cross-origin isolated."
   @doc """
   Disables issues domain, prevents further issues from being reported to the client.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Audits.disable", %{}}
   end
@@ -477,6 +480,7 @@ transferred to a context that is not cross-origin isolated."
   Enables issues domain, sends the issues collected so far to the client by means of the
   `issueAdded` event.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Audits.enable", %{}}
   end
@@ -485,8 +489,9 @@ transferred to a context that is not cross-origin isolated."
   Runs the contrast check for the target page. Found issues are reported
   using Audits.issueAdded event.
   ## Parameters:
-    - `reportAAA:boolean`: (Optional) Whether to report WCAG AAA level issues. Default is false.
+    - `report_aaa`:(Optional) Whether to report WCAG AAA level issues. Default is false.
   """
+  @spec check_contrast(boolean()) :: {String.t(), map()}
   def check_contrast(report_aaa \\ nil) do
     params = as_query([{"reportAAA", report_aaa}])
     {"Audits.checkContrast", params}
@@ -496,6 +501,7 @@ transferred to a context that is not cross-origin isolated."
   Runs the form issues check for the target page. Found issues are reported
   using Audits.issueAdded event.
   """
+  @spec check_forms_issues() :: {String.t(), map()}
   def check_forms_issues() do
     {"Audits.checkFormsIssues", %{}}
   end

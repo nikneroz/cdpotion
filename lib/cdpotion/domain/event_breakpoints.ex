@@ -4,8 +4,9 @@ defmodule CDPotion.Domain.EventBreakpoints do
   @doc """
   Sets breakpoint on particular native event.
   ## Parameters:
-    - `eventName:string`: Instrumentation name to stop on.
+    - `event_name`:Instrumentation name to stop on.
   """
+  @spec set_instrumentation_breakpoint(String.t()) :: {String.t(), map()}
   def set_instrumentation_breakpoint(event_name) do
     params = as_query([{"eventName", event_name}])
     {"EventBreakpoints.setInstrumentationBreakpoint", params}
@@ -14,8 +15,9 @@ defmodule CDPotion.Domain.EventBreakpoints do
   @doc """
   Removes breakpoint on particular native event.
   ## Parameters:
-    - `eventName:string`: Instrumentation name to stop on.
+    - `event_name`:Instrumentation name to stop on.
   """
+  @spec remove_instrumentation_breakpoint(String.t()) :: {String.t(), map()}
   def remove_instrumentation_breakpoint(event_name) do
     params = as_query([{"eventName", event_name}])
     {"EventBreakpoints.removeInstrumentationBreakpoint", params}

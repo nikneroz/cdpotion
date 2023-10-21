@@ -52,6 +52,7 @@ resource fetches."
   @doc """
   Tells whether emulation is supported.
   """
+  @spec can_emulate() :: {String.t(), map()}
   def can_emulate() do
     {"Emulation.canEmulate", %{}}
   end
@@ -59,6 +60,7 @@ resource fetches."
   @doc """
   Clears the overridden device metrics.
   """
+  @spec clear_device_metrics_override() :: {String.t(), map()}
   def clear_device_metrics_override() do
     {"Emulation.clearDeviceMetricsOverride", %{}}
   end
@@ -66,6 +68,7 @@ resource fetches."
   @doc """
   Clears the overridden Geolocation Position and Error.
   """
+  @spec clear_geolocation_override() :: {String.t(), map()}
   def clear_geolocation_override() do
     {"Emulation.clearGeolocationOverride", %{}}
   end
@@ -73,6 +76,7 @@ resource fetches."
   @doc """
   Requests that page scale factor is reset to initial values.
   """
+  @spec reset_page_scale_factor() :: {String.t(), map()}
   def reset_page_scale_factor() do
     {"Emulation.resetPageScaleFactor", %{}}
   end
@@ -80,8 +84,9 @@ resource fetches."
   @doc """
   Enables or disables simulating a focused and active page.
   ## Parameters:
-    - `enabled:boolean`: Whether to enable to disable focus emulation.
+    - `enabled`:Whether to enable to disable focus emulation.
   """
+  @spec set_focus_emulation_enabled(boolean()) :: {String.t(), map()}
   def set_focus_emulation_enabled(enabled) do
     params = as_query([{"enabled", enabled}])
     {"Emulation.setFocusEmulationEnabled", params}
@@ -90,9 +95,10 @@ resource fetches."
   @doc """
   Automatically render all web contents using a dark theme.
   ## Parameters:
-    - `enabled:boolean`: (Optional) Whether to enable or disable automatic dark mode.
+    - `enabled`:(Optional) Whether to enable or disable automatic dark mode.
   If not specified, any existing override will be cleared.
   """
+  @spec set_auto_dark_mode_override(boolean()) :: {String.t(), map()}
   def set_auto_dark_mode_override(enabled \\ nil) do
     params = as_query([{"enabled", enabled}])
     {"Emulation.setAutoDarkModeOverride", params}
@@ -101,8 +107,9 @@ resource fetches."
   @doc """
   Enables CPU throttling to emulate slow CPUs.
   ## Parameters:
-    - `rate:number`: Throttling rate as a slowdown factor (1 is no throttle, 2 is 2x slowdown, etc).
+    - `rate`:Throttling rate as a slowdown factor (1 is no throttle, 2 is 2x slowdown, etc).
   """
+  @spec set_cpu_throttling_rate(number()) :: {String.t(), map()}
   def set_cpu_throttling_rate(rate) do
     params = as_query([{"rate", rate}])
     {"Emulation.setCPUThrottlingRate", params}
@@ -112,9 +119,10 @@ resource fetches."
   Sets or clears an override of the default background color of the frame. This override is used
   if the content does not specify one.
   ## Parameters:
-    - `color:DOM.RGBA`: (Optional) RGBA of the default background color. If not specified, any existing override will be
+    - `color`:(Optional) RGBA of the default background color. If not specified, any existing override will be
   cleared.
   """
+  @spec set_default_background_color_override(CDPotion.Domain.DOM.RGBA) :: {String.t(), map()}
   def set_default_background_color_override(color \\ nil) do
     params = as_query([{"color", color}])
     {"Emulation.setDefaultBackgroundColorOverride", params}
@@ -125,23 +133,38 @@ resource fetches."
   window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
   query results).
   ## Parameters:
-    - `width:integer`: Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
-    - `height:integer`: Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
-    - `deviceScaleFactor:number`: Overriding device scale factor value. 0 disables the override.
-    - `mobile:boolean`: Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text
+    - `width`:Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
+  - `height`:Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
+  - `device_scale_factor`:Overriding device scale factor value. 0 disables the override.
+  - `mobile`:Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text
   autosizing and more.
-    - `scale:number`: (Optional) Scale to apply to resulting view image.
-    - `screenWidth:integer`: (Optional) Overriding screen width value in pixels (minimum 0, maximum 10000000).
-    - `screenHeight:integer`: (Optional) Overriding screen height value in pixels (minimum 0, maximum 10000000).
-    - `positionX:integer`: (Optional) Overriding view X position on screen in pixels (minimum 0, maximum 10000000).
-    - `positionY:integer`: (Optional) Overriding view Y position on screen in pixels (minimum 0, maximum 10000000).
-    - `dontSetVisibleSize:boolean`: (Optional) Do not set visible view size, rely upon explicit setVisibleSize call.
-    - `screenOrientation:ScreenOrientation`: (Optional) Screen orientation override.
-    - `viewport:Page.Viewport`: (Optional) If set, the visible area of the page will be overridden to this viewport. This viewport
+  - `scale`:(Optional) Scale to apply to resulting view image.
+  - `screen_width`:(Optional) Overriding screen width value in pixels (minimum 0, maximum 10000000).
+  - `screen_height`:(Optional) Overriding screen height value in pixels (minimum 0, maximum 10000000).
+  - `position_x`:(Optional) Overriding view X position on screen in pixels (minimum 0, maximum 10000000).
+  - `position_y`:(Optional) Overriding view Y position on screen in pixels (minimum 0, maximum 10000000).
+  - `dont_set_visible_size`:(Optional) Do not set visible view size, rely upon explicit setVisibleSize call.
+  - `screen_orientation`:(Optional) Screen orientation override.
+  - `viewport`:(Optional) If set, the visible area of the page will be overridden to this viewport. This viewport
   change is not observed by the page, e.g. viewport-relative elements do not change positions.
-    - `displayFeature:DisplayFeature`: (Optional) If set, the display feature of a multi-segment screen. If not set, multi-segment support
+  - `display_feature`:(Optional) If set, the display feature of a multi-segment screen. If not set, multi-segment support
   is turned-off.
   """
+  @spec set_device_metrics_override(
+          integer(),
+          integer(),
+          number(),
+          boolean(),
+          number(),
+          integer(),
+          integer(),
+          integer(),
+          integer(),
+          boolean(),
+          CDPotion.Domain.Emulation.ScreenOrientation,
+          CDPotion.Domain.Page.Viewport,
+          CDPotion.Domain.Emulation.DisplayFeature
+        ) :: {String.t(), map()}
   def set_device_metrics_override(
         width,
         height,
@@ -178,28 +201,34 @@ resource fetches."
   end
 
   @doc """
+
   ## Parameters:
-    - `hidden:boolean`: Whether scrollbars should be always hidden.
+    - `hidden`:Whether scrollbars should be always hidden.
   """
+  @spec set_scrollbars_hidden(boolean()) :: {String.t(), map()}
   def set_scrollbars_hidden(hidden) do
     params = as_query([{"hidden", hidden}])
     {"Emulation.setScrollbarsHidden", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `disabled:boolean`: Whether document.coookie API should be disabled.
+    - `disabled`:Whether document.coookie API should be disabled.
   """
+  @spec set_document_cookie_disabled(boolean()) :: {String.t(), map()}
   def set_document_cookie_disabled(disabled) do
     params = as_query([{"disabled", disabled}])
     {"Emulation.setDocumentCookieDisabled", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `enabled:boolean`: Whether touch emulation based on mouse input should be enabled.
-    - `configuration:string`: (Optional) Touch/gesture events configuration. Default: current platform.
+    - `enabled`:Whether touch emulation based on mouse input should be enabled.
+  - `configuration`:(Optional) Touch/gesture events configuration. Default: current platform.
   """
+  @spec set_emit_touch_events_for_mouse(boolean(), String.t()) :: {String.t(), map()}
   def set_emit_touch_events_for_mouse(enabled, configuration \\ nil) do
     params = as_query([{"enabled", enabled}, {"configuration", configuration}])
     {"Emulation.setEmitTouchEventsForMouse", params}
@@ -208,9 +237,11 @@ resource fetches."
   @doc """
   Emulates the given media type or media feature for CSS media queries.
   ## Parameters:
-    - `media:string`: (Optional) Media type to emulate. Empty string disables the override.
-    - `features:array`: (Optional) Media features to emulate.
+    - `media`:(Optional) Media type to emulate. Empty string disables the override.
+  - `features`:(Optional) Media features to emulate.
   """
+  @spec set_emulated_media(String.t(), list(CDPotion.Domain.Emulation.MediaFeature)) ::
+          {String.t(), map()}
   def set_emulated_media(media \\ nil, features \\ nil) do
     params = as_query([{"media", media}, {"features", features}])
     {"Emulation.setEmulatedMedia", params}
@@ -219,9 +250,10 @@ resource fetches."
   @doc """
   Emulates the given vision deficiency.
   ## Parameters:
-    - `type:string`: Vision deficiency to emulate. Order: best-effort emulations come first, followed by any
+    - `type`:Vision deficiency to emulate. Order: best-effort emulations come first, followed by any
   physiologically accurate emulations for medically recognized color vision deficiencies.
   """
+  @spec set_emulated_vision_deficiency(String.t()) :: {String.t(), map()}
   def set_emulated_vision_deficiency(type) do
     params = as_query([{"type", type}])
     {"Emulation.setEmulatedVisionDeficiency", params}
@@ -231,10 +263,11 @@ resource fetches."
   Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
   unavailable.
   ## Parameters:
-    - `latitude:number`: (Optional) Mock latitude
-    - `longitude:number`: (Optional) Mock longitude
-    - `accuracy:number`: (Optional) Mock accuracy
+    - `latitude`:(Optional) Mock latitude
+  - `longitude`:(Optional) Mock longitude
+  - `accuracy`:(Optional) Mock accuracy
   """
+  @spec set_geolocation_override(number(), number(), number()) :: {String.t(), map()}
   def set_geolocation_override(latitude \\ nil, longitude \\ nil, accuracy \\ nil) do
     params = as_query([{"latitude", latitude}, {"longitude", longitude}, {"accuracy", accuracy}])
     {"Emulation.setGeolocationOverride", params}
@@ -243,9 +276,10 @@ resource fetches."
   @doc """
   Overrides the Idle state.
   ## Parameters:
-    - `isUserActive:boolean`: Mock isUserActive
-    - `isScreenUnlocked:boolean`: Mock isScreenUnlocked
+    - `is_user_active`:Mock isUserActive
+  - `is_screen_unlocked`:Mock isScreenUnlocked
   """
+  @spec set_idle_override(boolean(), boolean()) :: {String.t(), map()}
   def set_idle_override(is_user_active, is_screen_unlocked) do
     params =
       as_query([{"isUserActive", is_user_active}, {"isScreenUnlocked", is_screen_unlocked}])
@@ -256,6 +290,7 @@ resource fetches."
   @doc """
   Clears Idle state overrides.
   """
+  @spec clear_idle_override() :: {String.t(), map()}
   def clear_idle_override() do
     {"Emulation.clearIdleOverride", %{}}
   end
@@ -263,8 +298,9 @@ resource fetches."
   @doc """
   Overrides value returned by the javascript navigator object.
   ## Parameters:
-    - `platform:string`: The platform navigator.platform should return.
+    - `platform`:The platform navigator.platform should return.
   """
+  @spec set_navigator_overrides(String.t()) :: {String.t(), map()}
   def set_navigator_overrides(platform) do
     params = as_query([{"platform", platform}])
     {"Emulation.setNavigatorOverrides", params}
@@ -273,8 +309,9 @@ resource fetches."
   @doc """
   Sets a specified page scale factor.
   ## Parameters:
-    - `pageScaleFactor:number`: Page scale factor.
+    - `page_scale_factor`:Page scale factor.
   """
+  @spec set_page_scale_factor(number()) :: {String.t(), map()}
   def set_page_scale_factor(page_scale_factor) do
     params = as_query([{"pageScaleFactor", page_scale_factor}])
     {"Emulation.setPageScaleFactor", params}
@@ -283,8 +320,9 @@ resource fetches."
   @doc """
   Switches script execution in the page.
   ## Parameters:
-    - `value:boolean`: Whether script execution should be disabled in the page.
+    - `value`:Whether script execution should be disabled in the page.
   """
+  @spec set_script_execution_disabled(boolean()) :: {String.t(), map()}
   def set_script_execution_disabled(value) do
     params = as_query([{"value", value}])
     {"Emulation.setScriptExecutionDisabled", params}
@@ -293,9 +331,10 @@ resource fetches."
   @doc """
   Enables touch on platforms which do not support them.
   ## Parameters:
-    - `enabled:boolean`: Whether the touch event emulation should be enabled.
-    - `maxTouchPoints:integer`: (Optional) Maximum touch points supported. Defaults to one.
+    - `enabled`:Whether the touch event emulation should be enabled.
+  - `max_touch_points`:(Optional) Maximum touch points supported. Defaults to one.
   """
+  @spec set_touch_emulation_enabled(boolean(), integer()) :: {String.t(), map()}
   def set_touch_emulation_enabled(enabled, max_touch_points \\ nil) do
     params = as_query([{"enabled", enabled}, {"maxTouchPoints", max_touch_points}])
     {"Emulation.setTouchEmulationEnabled", params}
@@ -305,13 +344,19 @@ resource fetches."
   Turns on virtual time for all frames (replacing real-time with a synthetic time source) and sets
   the current virtual time policy.  Note this supersedes any previous time budget.
   ## Parameters:
-    - `policy:VirtualTimePolicy`: description not provided :(
-    - `budget:number`: (Optional) If set, after this many virtual milliseconds have elapsed virtual time will be paused and a
+    - `policy`:description not provided :(
+  - `budget`:(Optional) If set, after this many virtual milliseconds have elapsed virtual time will be paused and a
   virtualTimeBudgetExpired event is sent.
-    - `maxVirtualTimeTaskStarvationCount:integer`: (Optional) If set this specifies the maximum number of tasks that can be run before virtual is forced
+  - `max_virtual_time_task_starvation_count`:(Optional) If set this specifies the maximum number of tasks that can be run before virtual is forced
   forwards to prevent deadlock.
-    - `initialVirtualTime:Network.TimeSinceEpoch`: (Optional) If set, base::Time::Now will be overridden to initially return this value.
+  - `initial_virtual_time`:(Optional) If set, base::Time::Now will be overridden to initially return this value.
   """
+  @spec set_virtual_time_policy(
+          CDPotion.Domain.Emulation.VirtualTimePolicy,
+          number(),
+          integer(),
+          CDPotion.Domain.Network.TimeSinceEpoch
+        ) :: {String.t(), map()}
   def set_virtual_time_policy(
         policy,
         budget \\ nil,
@@ -332,9 +377,10 @@ resource fetches."
   @doc """
   Overrides default host system locale with the specified one.
   ## Parameters:
-    - `locale:string`: (Optional) ICU style C locale (e.g. "en_US"). If not specified or empty, disables the override and
+    - `locale`:(Optional) ICU style C locale (e.g. "en_US"). If not specified or empty, disables the override and
   restores default host system locale.
   """
+  @spec set_locale_override(String.t()) :: {String.t(), map()}
   def set_locale_override(locale \\ nil) do
     params = as_query([{"locale", locale}])
     {"Emulation.setLocaleOverride", params}
@@ -343,9 +389,10 @@ resource fetches."
   @doc """
   Overrides default host system timezone with the specified one.
   ## Parameters:
-    - `timezoneId:string`: The timezone identifier. If empty, disables the override and
+    - `timezone_id`:The timezone identifier. If empty, disables the override and
   restores default host system timezone.
   """
+  @spec set_timezone_override(String.t()) :: {String.t(), map()}
   def set_timezone_override(timezone_id) do
     params = as_query([{"timezoneId", timezone_id}])
     {"Emulation.setTimezoneOverride", params}
@@ -356,27 +403,33 @@ resource fetches."
   (e.g. browser window). Can be used to produce screenshots of the specified size. Not supported
   on Android.
   ## Parameters:
-    - `width:integer`: Frame width (DIP).
-    - `height:integer`: Frame height (DIP).
+    - `width`:Frame width (DIP).
+  - `height`:Frame height (DIP).
   """
+  @spec set_visible_size(integer(), integer()) :: {String.t(), map()}
   def set_visible_size(width, height) do
     params = as_query([{"width", width}, {"height", height}])
     {"Emulation.setVisibleSize", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `imageTypes:array`: Image types to disable.
+    - `image_types`:Image types to disable.
   """
+  @spec set_disabled_image_types(list(CDPotion.Domain.Emulation.DisabledImageType)) ::
+          {String.t(), map()}
   def set_disabled_image_types(image_types) do
     params = as_query([{"imageTypes", image_types}])
     {"Emulation.setDisabledImageTypes", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `hardwareConcurrency:integer`: Hardware concurrency to report
+    - `hardware_concurrency`:Hardware concurrency to report
   """
+  @spec set_hardware_concurrency_override(integer()) :: {String.t(), map()}
   def set_hardware_concurrency_override(hardware_concurrency) do
     params = as_query([{"hardwareConcurrency", hardware_concurrency}])
     {"Emulation.setHardwareConcurrencyOverride", params}
@@ -385,11 +438,17 @@ resource fetches."
   @doc """
   Allows overriding user agent with the given string.
   ## Parameters:
-    - `userAgent:string`: User agent to use.
-    - `acceptLanguage:string`: (Optional) Browser langugage to emulate.
-    - `platform:string`: (Optional) The platform navigator.platform should return.
-    - `userAgentMetadata:UserAgentMetadata`: (Optional) To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData
+    - `user_agent`:User agent to use.
+  - `accept_language`:(Optional) Browser langugage to emulate.
+  - `platform`:(Optional) The platform navigator.platform should return.
+  - `user_agent_metadata`:(Optional) To be sent in Sec-CH-UA-* headers and returned in navigator.userAgentData
   """
+  @spec set_user_agent_override(
+          String.t(),
+          String.t(),
+          String.t(),
+          CDPotion.Domain.Emulation.UserAgentMetadata
+        ) :: {String.t(), map()}
   def set_user_agent_override(
         user_agent,
         accept_language \\ nil,
@@ -410,8 +469,9 @@ resource fetches."
   @doc """
   Allows overriding the automation flag.
   ## Parameters:
-    - `enabled:boolean`: Whether the override should be enabled.
+    - `enabled`:Whether the override should be enabled.
   """
+  @spec set_automation_override(boolean()) :: {String.t(), map()}
   def set_automation_override(enabled) do
     params = as_query([{"enabled", enabled}])
     {"Emulation.setAutomationOverride", params}

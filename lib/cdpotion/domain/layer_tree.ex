@@ -53,8 +53,9 @@ defmodule CDPotion.Domain.LayerTree do
   @doc """
   Provides the reasons why the given layer was composited.
   ## Parameters:
-    - `layerId:LayerId`: The id of the layer for which we want to get the reasons it was composited.
+    - `layer_id`:The id of the layer for which we want to get the reasons it was composited.
   """
+  @spec compositing_reasons(CDPotion.Domain.LayerTree.LayerId) :: {String.t(), map()}
   def compositing_reasons(layer_id) do
     params = as_query([{"layerId", layer_id}])
     {"LayerTree.compositingReasons", params}
@@ -63,6 +64,7 @@ defmodule CDPotion.Domain.LayerTree do
   @doc """
   Disables compositing tree inspection.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"LayerTree.disable", %{}}
   end
@@ -70,6 +72,7 @@ defmodule CDPotion.Domain.LayerTree do
   @doc """
   Enables compositing tree inspection.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"LayerTree.enable", %{}}
   end
@@ -77,8 +80,9 @@ defmodule CDPotion.Domain.LayerTree do
   @doc """
   Returns the snapshot identifier.
   ## Parameters:
-    - `tiles:array`: An array of tiles composing the snapshot.
+    - `tiles`:An array of tiles composing the snapshot.
   """
+  @spec load_snapshot(list(CDPotion.Domain.LayerTree.PictureTile)) :: {String.t(), map()}
   def load_snapshot(tiles) do
     params = as_query([{"tiles", tiles}])
     {"LayerTree.loadSnapshot", params}
@@ -87,20 +91,28 @@ defmodule CDPotion.Domain.LayerTree do
   @doc """
   Returns the layer snapshot identifier.
   ## Parameters:
-    - `layerId:LayerId`: The id of the layer.
+    - `layer_id`:The id of the layer.
   """
+  @spec make_snapshot(CDPotion.Domain.LayerTree.LayerId) :: {String.t(), map()}
   def make_snapshot(layer_id) do
     params = as_query([{"layerId", layer_id}])
     {"LayerTree.makeSnapshot", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `snapshotId:SnapshotId`: The id of the layer snapshot.
-    - `minRepeatCount:integer`: (Optional) The maximum number of times to replay the snapshot (1, if not specified).
-    - `minDuration:number`: (Optional) The minimum duration (in seconds) to replay the snapshot.
-    - `clipRect:DOM.Rect`: (Optional) The clip rectangle to apply when replaying the snapshot.
+    - `snapshot_id`:The id of the layer snapshot.
+  - `min_repeat_count`:(Optional) The maximum number of times to replay the snapshot (1, if not specified).
+  - `min_duration`:(Optional) The minimum duration (in seconds) to replay the snapshot.
+  - `clip_rect`:(Optional) The clip rectangle to apply when replaying the snapshot.
   """
+  @spec profile_snapshot(
+          CDPotion.Domain.LayerTree.SnapshotId,
+          integer(),
+          number(),
+          CDPotion.Domain.DOM.Rect
+        ) :: {String.t(), map()}
   def profile_snapshot(
         snapshot_id,
         min_repeat_count \\ nil,
@@ -121,8 +133,9 @@ defmodule CDPotion.Domain.LayerTree do
   @doc """
   Releases layer snapshot captured by the back-end.
   ## Parameters:
-    - `snapshotId:SnapshotId`: The id of the layer snapshot.
+    - `snapshot_id`:The id of the layer snapshot.
   """
+  @spec release_snapshot(CDPotion.Domain.LayerTree.SnapshotId) :: {String.t(), map()}
   def release_snapshot(snapshot_id) do
     params = as_query([{"snapshotId", snapshot_id}])
     {"LayerTree.releaseSnapshot", params}
@@ -131,11 +144,13 @@ defmodule CDPotion.Domain.LayerTree do
   @doc """
   Replays the layer snapshot and returns the resulting bitmap.
   ## Parameters:
-    - `snapshotId:SnapshotId`: The id of the layer snapshot.
-    - `fromStep:integer`: (Optional) The first step to replay from (replay from the very start if not specified).
-    - `toStep:integer`: (Optional) The last step to replay to (replay till the end if not specified).
-    - `scale:number`: (Optional) The scale to apply while replaying (defaults to 1).
+    - `snapshot_id`:The id of the layer snapshot.
+  - `from_step`:(Optional) The first step to replay from (replay from the very start if not specified).
+  - `to_step`:(Optional) The last step to replay to (replay till the end if not specified).
+  - `scale`:(Optional) The scale to apply while replaying (defaults to 1).
   """
+  @spec replay_snapshot(CDPotion.Domain.LayerTree.SnapshotId, integer(), integer(), number()) ::
+          {String.t(), map()}
   def replay_snapshot(snapshot_id, from_step \\ nil, to_step \\ nil, scale \\ nil) do
     params =
       as_query([
@@ -151,8 +166,9 @@ defmodule CDPotion.Domain.LayerTree do
   @doc """
   Replays the layer snapshot and returns canvas log.
   ## Parameters:
-    - `snapshotId:SnapshotId`: The id of the layer snapshot.
+    - `snapshot_id`:The id of the layer snapshot.
   """
+  @spec snapshot_command_log(CDPotion.Domain.LayerTree.SnapshotId) :: {String.t(), map()}
   def snapshot_command_log(snapshot_id) do
     params = as_query([{"snapshotId", snapshot_id}])
     {"LayerTree.snapshotCommandLog", params}

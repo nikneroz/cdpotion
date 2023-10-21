@@ -14,9 +14,11 @@ defmodule CDPotion.Domain.DOMStorage do
         }
 
   @doc """
+
   ## Parameters:
-    - `storageId:StorageId`: description not provided :(
+    - `storage_id`:description not provided :(
   """
+  @spec clear(CDPotion.Domain.DOMStorage.StorageId) :: {String.t(), map()}
   def clear(storage_id) do
     params = as_query([{"storageId", storage_id}])
     {"DOMStorage.clear", params}
@@ -25,6 +27,7 @@ defmodule CDPotion.Domain.DOMStorage do
   @doc """
   Disables storage tracking, prevents storage events from being sent to the client.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"DOMStorage.disable", %{}}
   end
@@ -32,35 +35,44 @@ defmodule CDPotion.Domain.DOMStorage do
   @doc """
   Enables storage tracking, storage events will now be delivered to the client.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"DOMStorage.enable", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `storageId:StorageId`: description not provided :(
+    - `storage_id`:description not provided :(
   """
+  @spec get_dom_storage_items(CDPotion.Domain.DOMStorage.StorageId) :: {String.t(), map()}
   def get_dom_storage_items(storage_id) do
     params = as_query([{"storageId", storage_id}])
     {"DOMStorage.getDOMStorageItems", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `storageId:StorageId`: description not provided :(
-    - `key:string`: description not provided :(
+    - `storage_id`:description not provided :(
+  - `key`:description not provided :(
   """
+  @spec remove_dom_storage_item(CDPotion.Domain.DOMStorage.StorageId, String.t()) ::
+          {String.t(), map()}
   def remove_dom_storage_item(storage_id, key) do
     params = as_query([{"storageId", storage_id}, {"key", key}])
     {"DOMStorage.removeDOMStorageItem", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `storageId:StorageId`: description not provided :(
-    - `key:string`: description not provided :(
-    - `value:string`: description not provided :(
+    - `storage_id`:description not provided :(
+  - `key`:description not provided :(
+  - `value`:description not provided :(
   """
+  @spec set_dom_storage_item(CDPotion.Domain.DOMStorage.StorageId, String.t(), String.t()) ::
+          {String.t(), map()}
   def set_dom_storage_item(storage_id, key, value) do
     params = as_query([{"storageId", storage_id}, {"key", key}, {"value", value}])
     {"DOMStorage.setDOMStorageItem", params}

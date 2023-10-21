@@ -24,6 +24,7 @@ defmodule CDPotion.Domain.Console do
   @doc """
   Does nothing.
   """
+  @spec clear_messages() :: {String.t(), map()}
   def clear_messages() do
     {"Console.clearMessages", %{}}
   end
@@ -31,6 +32,7 @@ defmodule CDPotion.Domain.Console do
   @doc """
   Disables console domain, prevents further console messages from being reported to the client.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Console.disable", %{}}
   end
@@ -39,6 +41,7 @@ defmodule CDPotion.Domain.Console do
   Enables console domain, sends the messages collected so far to the client by means of the
   `messageAdded` notification.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Console.enable", %{}}
   end

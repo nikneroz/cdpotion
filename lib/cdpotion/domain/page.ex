@@ -533,8 +533,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Deprecated, please use addScriptToEvaluateOnNewDocument instead.
   ## Parameters:
-    - `scriptSource:string`: description not provided :(
+    - `script_source`:description not provided :(
   """
+  @spec add_script_to_evaluate_on_load(String.t()) :: {String.t(), map()}
   def add_script_to_evaluate_on_load(script_source) do
     params = as_query([{"scriptSource", script_source}])
     {"Page.addScriptToEvaluateOnLoad", params}
@@ -543,15 +544,17 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Evaluates given script in every frame upon creation (before loading frame's scripts).
   ## Parameters:
-    - `source:string`: description not provided :(
-    - `worldName:string`: (Optional) If specified, creates an isolated world with the given name and evaluates given script in it.
+    - `source`:description not provided :(
+  - `world_name`:(Optional) If specified, creates an isolated world with the given name and evaluates given script in it.
   This world name will be used as the ExecutionContextDescription::name when the corresponding
   event is emitted.
-    - `includeCommandLineAPI:boolean`: (Optional) Specifies whether command line API should be available to the script, defaults
+  - `include_command_line_api`:(Optional) Specifies whether command line API should be available to the script, defaults
   to false.
-    - `runImmediately:boolean`: (Optional) If true, runs the script immediately on existing execution contexts or worlds.
+  - `run_immediately`:(Optional) If true, runs the script immediately on existing execution contexts or worlds.
   Default: false.
   """
+  @spec add_script_to_evaluate_on_new_document(String.t(), String.t(), boolean(), boolean()) ::
+          {String.t(), map()}
   def add_script_to_evaluate_on_new_document(
         source,
         world_name \\ nil,
@@ -572,6 +575,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Brings page to front (activates tab).
   """
+  @spec bring_to_front() :: {String.t(), map()}
   def bring_to_front() do
     {"Page.bringToFront", %{}}
   end
@@ -579,13 +583,21 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Capture page screenshot.
   ## Parameters:
-    - `format:string`: (Optional) Image compression format (defaults to png).
-    - `quality:integer`: (Optional) Compression quality from range [0..100] (jpeg only).
-    - `clip:Viewport`: (Optional) Capture the screenshot of a given region only.
-    - `fromSurface:boolean`: (Optional) Capture the screenshot from the surface, rather than the view. Defaults to true.
-    - `captureBeyondViewport:boolean`: (Optional) Capture the screenshot beyond the viewport. Defaults to false.
-    - `optimizeForSpeed:boolean`: (Optional) Optimize image encoding for speed, not for resulting size (defaults to false)
+    - `format`:(Optional) Image compression format (defaults to png).
+  - `quality`:(Optional) Compression quality from range [0..100] (jpeg only).
+  - `clip`:(Optional) Capture the screenshot of a given region only.
+  - `from_surface`:(Optional) Capture the screenshot from the surface, rather than the view. Defaults to true.
+  - `capture_beyond_viewport`:(Optional) Capture the screenshot beyond the viewport. Defaults to false.
+  - `optimize_for_speed`:(Optional) Optimize image encoding for speed, not for resulting size (defaults to false)
   """
+  @spec capture_screenshot(
+          String.t(),
+          integer(),
+          CDPotion.Domain.Page.Viewport,
+          boolean(),
+          boolean(),
+          boolean()
+        ) :: {String.t(), map()}
   def capture_screenshot(
         format \\ nil,
         quality \\ nil,
@@ -611,8 +623,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   Returns a snapshot of the page as a string. For MHTML format, the serialization includes
   iframes, shadow DOM, external resources, and element-inline styles.
   ## Parameters:
-    - `format:string`: (Optional) Format (defaults to mhtml).
+    - `format`:(Optional) Format (defaults to mhtml).
   """
+  @spec capture_snapshot(String.t()) :: {String.t(), map()}
   def capture_snapshot(format \\ nil) do
     params = as_query([{"format", format}])
     {"Page.captureSnapshot", params}
@@ -621,6 +634,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Clears the overridden device metrics.
   """
+  @spec clear_device_metrics_override() :: {String.t(), map()}
   def clear_device_metrics_override() do
     {"Page.clearDeviceMetricsOverride", %{}}
   end
@@ -628,6 +642,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Clears the overridden Device Orientation.
   """
+  @spec clear_device_orientation_override() :: {String.t(), map()}
   def clear_device_orientation_override() do
     {"Page.clearDeviceOrientationOverride", %{}}
   end
@@ -635,6 +650,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Clears the overridden Geolocation Position and Error.
   """
+  @spec clear_geolocation_override() :: {String.t(), map()}
   def clear_geolocation_override() do
     {"Page.clearGeolocationOverride", %{}}
   end
@@ -642,11 +658,13 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Creates an isolated world for the given frame.
   ## Parameters:
-    - `frameId:FrameId`: Id of the frame in which the isolated world should be created.
-    - `worldName:string`: (Optional) An optional name which is reported in the Execution Context.
-    - `grantUniveralAccess:boolean`: (Optional) Whether or not universal access should be granted to the isolated world. This is a powerful
+    - `frame_id`:Id of the frame in which the isolated world should be created.
+  - `world_name`:(Optional) An optional name which is reported in the Execution Context.
+  - `grant_univeral_access`:(Optional) Whether or not universal access should be granted to the isolated world. This is a powerful
   option, use with caution.
   """
+  @spec create_isolated_world(CDPotion.Domain.Page.FrameId, String.t(), boolean()) ::
+          {String.t(), map()}
   def create_isolated_world(frame_id, world_name \\ nil, grant_univeral_access \\ nil) do
     params =
       as_query([
@@ -661,9 +679,10 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Deletes browser cookie with given name, domain and path.
   ## Parameters:
-    - `cookieName:string`: Name of the cookie to remove.
-    - `url:string`: URL to match cooke domain and path.
+    - `cookie_name`:Name of the cookie to remove.
+  - `url`:URL to match cooke domain and path.
   """
+  @spec delete_cookie(String.t(), String.t()) :: {String.t(), map()}
   def delete_cookie(cookie_name, url) do
     params = as_query([{"cookieName", cookie_name}, {"url", url}])
     {"Page.deleteCookie", params}
@@ -672,6 +691,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Disables page domain notifications.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Page.disable", %{}}
   end
@@ -679,18 +699,23 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Enables page domain notifications.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Page.enable", %{}}
   end
 
   @doc """
+
   """
+  @spec get_app_manifest() :: {String.t(), map()}
   def get_app_manifest() do
     {"Page.getAppManifest", %{}}
   end
 
   @doc """
+
   """
+  @spec get_installability_errors() :: {String.t(), map()}
   def get_installability_errors() do
     {"Page.getInstallabilityErrors", %{}}
   end
@@ -698,6 +723,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Deprecated because it's not guaranteed that the returned icon is in fact the one used for PWA installation.
   """
+  @spec get_manifest_icons() :: {String.t(), map()}
   def get_manifest_icons() do
     {"Page.getManifestIcons", %{}}
   end
@@ -706,14 +732,17 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   Returns the unique (PWA) app id.
   Only returns values if the feature flag 'WebAppEnableManifestId' is enabled
   """
+  @spec get_app_id() :: {String.t(), map()}
   def get_app_id() do
     {"Page.getAppId", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `frameId:FrameId`: description not provided :(
+    - `frame_id`:description not provided :(
   """
+  @spec get_ad_script_id(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
   def get_ad_script_id(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"Page.getAdScriptId", params}
@@ -724,6 +753,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   on the backend support, will return detailed cookie information in the
   `cookies` field.
   """
+  @spec get_cookies() :: {String.t(), map()}
   def get_cookies() do
     {"Page.getCookies", %{}}
   end
@@ -731,6 +761,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Returns present frame tree structure.
   """
+  @spec get_frame_tree() :: {String.t(), map()}
   def get_frame_tree() do
     {"Page.getFrameTree", %{}}
   end
@@ -738,6 +769,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Returns metrics relating to the layouting of the page, such as viewport bounds/scale.
   """
+  @spec get_layout_metrics() :: {String.t(), map()}
   def get_layout_metrics() do
     {"Page.getLayoutMetrics", %{}}
   end
@@ -745,6 +777,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Returns navigation history for the current page.
   """
+  @spec get_navigation_history() :: {String.t(), map()}
   def get_navigation_history() do
     {"Page.getNavigationHistory", %{}}
   end
@@ -752,6 +785,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Resets navigation history for the current page.
   """
+  @spec reset_navigation_history() :: {String.t(), map()}
   def reset_navigation_history() do
     {"Page.resetNavigationHistory", %{}}
   end
@@ -759,9 +793,10 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Returns content of the given resource.
   ## Parameters:
-    - `frameId:FrameId`: Frame id to get resource for.
-    - `url:string`: URL of the resource to get content for.
+    - `frame_id`:Frame id to get resource for.
+  - `url`:URL of the resource to get content for.
   """
+  @spec get_resource_content(CDPotion.Domain.Page.FrameId, String.t()) :: {String.t(), map()}
   def get_resource_content(frame_id, url) do
     params = as_query([{"frameId", frame_id}, {"url", url}])
     {"Page.getResourceContent", params}
@@ -770,6 +805,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Returns present frame / resource tree structure.
   """
+  @spec get_resource_tree() :: {String.t(), map()}
   def get_resource_tree() do
     {"Page.getResourceTree", %{}}
   end
@@ -777,10 +813,11 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
   ## Parameters:
-    - `accept:boolean`: Whether to accept or dismiss the dialog.
-    - `promptText:string`: (Optional) The text to enter into the dialog prompt before accepting. Used only if this is a prompt
+    - `accept`:Whether to accept or dismiss the dialog.
+  - `prompt_text`:(Optional) The text to enter into the dialog prompt before accepting. Used only if this is a prompt
   dialog.
   """
+  @spec handle_java_script_dialog(boolean(), String.t()) :: {String.t(), map()}
   def handle_java_script_dialog(accept, prompt_text \\ nil) do
     params = as_query([{"accept", accept}, {"promptText", prompt_text}])
     {"Page.handleJavaScriptDialog", params}
@@ -789,12 +826,19 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Navigates current page to the given URL.
   ## Parameters:
-    - `url:string`: URL to navigate the page to.
-    - `referrer:string`: (Optional) Referrer URL.
-    - `transitionType:TransitionType`: (Optional) Intended transition type.
-    - `frameId:FrameId`: (Optional) Frame id to navigate, if not specified navigates the top frame.
-    - `referrerPolicy:ReferrerPolicy`: (Optional) Referrer-policy used for the navigation.
+    - `url`:URL to navigate the page to.
+  - `referrer`:(Optional) Referrer URL.
+  - `transition_type`:(Optional) Intended transition type.
+  - `frame_id`:(Optional) Frame id to navigate, if not specified navigates the top frame.
+  - `referrer_policy`:(Optional) Referrer-policy used for the navigation.
   """
+  @spec navigate(
+          String.t(),
+          String.t(),
+          CDPotion.Domain.Page.TransitionType,
+          CDPotion.Domain.Page.FrameId,
+          CDPotion.Domain.Page.ReferrerPolicy
+        ) :: {String.t(), map()}
   def navigate(
         url,
         referrer \\ nil,
@@ -817,8 +861,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Navigates current page to the given history entry.
   ## Parameters:
-    - `entryId:integer`: Unique id of the entry to navigate to.
+    - `entry_id`:Unique id of the entry to navigate to.
   """
+  @spec navigate_to_history_entry(integer()) :: {String.t(), map()}
   def navigate_to_history_entry(entry_id) do
     params = as_query([{"entryId", entry_id}])
     {"Page.navigateToHistoryEntry", params}
@@ -827,17 +872,17 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Print page as PDF.
   ## Parameters:
-    - `landscape:boolean`: (Optional) Paper orientation. Defaults to false.
-    - `displayHeaderFooter:boolean`: (Optional) Display header and footer. Defaults to false.
-    - `printBackground:boolean`: (Optional) Print background graphics. Defaults to false.
-    - `scale:number`: (Optional) Scale of the webpage rendering. Defaults to 1.
-    - `paperWidth:number`: (Optional) Paper width in inches. Defaults to 8.5 inches.
-    - `paperHeight:number`: (Optional) Paper height in inches. Defaults to 11 inches.
-    - `marginTop:number`: (Optional) Top margin in inches. Defaults to 1cm (~0.4 inches).
-    - `marginBottom:number`: (Optional) Bottom margin in inches. Defaults to 1cm (~0.4 inches).
-    - `marginLeft:number`: (Optional) Left margin in inches. Defaults to 1cm (~0.4 inches).
-    - `marginRight:number`: (Optional) Right margin in inches. Defaults to 1cm (~0.4 inches).
-    - `pageRanges:string`: (Optional) Paper ranges to print, one based, e.g., '1-5, 8, 11-13'. Pages are
+    - `landscape`:(Optional) Paper orientation. Defaults to false.
+  - `display_header_footer`:(Optional) Display header and footer. Defaults to false.
+  - `print_background`:(Optional) Print background graphics. Defaults to false.
+  - `scale`:(Optional) Scale of the webpage rendering. Defaults to 1.
+  - `paper_width`:(Optional) Paper width in inches. Defaults to 8.5 inches.
+  - `paper_height`:(Optional) Paper height in inches. Defaults to 11 inches.
+  - `margin_top`:(Optional) Top margin in inches. Defaults to 1cm (~0.4 inches).
+  - `margin_bottom`:(Optional) Bottom margin in inches. Defaults to 1cm (~0.4 inches).
+  - `margin_left`:(Optional) Left margin in inches. Defaults to 1cm (~0.4 inches).
+  - `margin_right`:(Optional) Right margin in inches. Defaults to 1cm (~0.4 inches).
+  - `page_ranges`:(Optional) Paper ranges to print, one based, e.g., '1-5, 8, 11-13'. Pages are
   printed in the document order, not in the order specified, and no
   more than once.
   Defaults to empty string, which implies the entire document is printed.
@@ -845,7 +890,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   document, and ranges beyond the end of the document are ignored.
   If this results in no pages to print, an error is reported.
   It is an error to specify a range with start greater than end.
-    - `headerTemplate:string`: (Optional) HTML template for the print header. Should be valid HTML markup with following
+  - `header_template`:(Optional) HTML template for the print header. Should be valid HTML markup with following
   classes used to inject printing values into them:
   - `date`: formatted print date
   - `title`: document title
@@ -853,11 +898,28 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   - `pageNumber`: current page number
   - `totalPages`: total pages in the document
   For example, `<span class=title></span>` would generate span containing the title.
-    - `footerTemplate:string`: (Optional) HTML template for the print footer. Should use the same format as the `headerTemplate`.
-    - `preferCSSPageSize:boolean`: (Optional) Whether or not to prefer page size as defined by css. Defaults to false,
+  - `footer_template`:(Optional) HTML template for the print footer. Should use the same format as the `headerTemplate`.
+  - `prefer_css_page_size`:(Optional) Whether or not to prefer page size as defined by css. Defaults to false,
   in which case the content will be scaled to fit the paper size.
-    - `transferMode:string`: (Optional) return as stream
+  - `transfer_mode`:(Optional) return as stream
   """
+  @spec print_to_pdf(
+          boolean(),
+          boolean(),
+          boolean(),
+          number(),
+          number(),
+          number(),
+          number(),
+          number(),
+          number(),
+          number(),
+          String.t(),
+          String.t(),
+          String.t(),
+          boolean(),
+          String.t()
+        ) :: {String.t(), map()}
   def print_to_pdf(
         landscape \\ nil,
         display_header_footer \\ nil,
@@ -900,10 +962,11 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Reloads given page optionally ignoring the cache.
   ## Parameters:
-    - `ignoreCache:boolean`: (Optional) If true, browser cache is ignored (as if the user pressed Shift+refresh).
-    - `scriptToEvaluateOnLoad:string`: (Optional) If set, the script will be injected into all frames of the inspected page after reload.
+    - `ignore_cache`:(Optional) If true, browser cache is ignored (as if the user pressed Shift+refresh).
+  - `script_to_evaluate_on_load`:(Optional) If set, the script will be injected into all frames of the inspected page after reload.
   Argument will be ignored if reloading dataURL origin.
   """
+  @spec reload(boolean(), String.t()) :: {String.t(), map()}
   def reload(ignore_cache \\ nil, script_to_evaluate_on_load \\ nil) do
     params =
       as_query([
@@ -917,8 +980,10 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Deprecated, please use removeScriptToEvaluateOnNewDocument instead.
   ## Parameters:
-    - `identifier:ScriptIdentifier`: description not provided :(
+    - `identifier`:description not provided :(
   """
+  @spec remove_script_to_evaluate_on_load(CDPotion.Domain.Page.ScriptIdentifier) ::
+          {String.t(), map()}
   def remove_script_to_evaluate_on_load(identifier) do
     params = as_query([{"identifier", identifier}])
     {"Page.removeScriptToEvaluateOnLoad", params}
@@ -927,8 +992,10 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Removes given script from the list.
   ## Parameters:
-    - `identifier:ScriptIdentifier`: description not provided :(
+    - `identifier`:description not provided :(
   """
+  @spec remove_script_to_evaluate_on_new_document(CDPotion.Domain.Page.ScriptIdentifier) ::
+          {String.t(), map()}
   def remove_script_to_evaluate_on_new_document(identifier) do
     params = as_query([{"identifier", identifier}])
     {"Page.removeScriptToEvaluateOnNewDocument", params}
@@ -937,8 +1004,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Acknowledges that a screencast frame has been received by the frontend.
   ## Parameters:
-    - `sessionId:integer`: Frame number.
+    - `session_id`:Frame number.
   """
+  @spec screencast_frame_ack(integer()) :: {String.t(), map()}
   def screencast_frame_ack(session_id) do
     params = as_query([{"sessionId", session_id}])
     {"Page.screencastFrameAck", params}
@@ -947,12 +1015,19 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Searches for given string in resource content.
   ## Parameters:
-    - `frameId:FrameId`: Frame id for resource to search in.
-    - `url:string`: URL of the resource to search in.
-    - `query:string`: String to search for.
-    - `caseSensitive:boolean`: (Optional) If true, search is case sensitive.
-    - `isRegex:boolean`: (Optional) If true, treats string parameter as regex.
+    - `frame_id`:Frame id for resource to search in.
+  - `url`:URL of the resource to search in.
+  - `query`:String to search for.
+  - `case_sensitive`:(Optional) If true, search is case sensitive.
+  - `is_regex`:(Optional) If true, treats string parameter as regex.
   """
+  @spec search_in_resource(
+          CDPotion.Domain.Page.FrameId,
+          String.t(),
+          String.t(),
+          boolean(),
+          boolean()
+        ) :: {String.t(), map()}
   def search_in_resource(frame_id, url, query, case_sensitive \\ nil, is_regex \\ nil) do
     params =
       as_query([
@@ -969,8 +1044,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Enable Chrome's experimental ad filter on all sites.
   ## Parameters:
-    - `enabled:boolean`: Whether to block ads.
+    - `enabled`:Whether to block ads.
   """
+  @spec set_ad_blocking_enabled(boolean()) :: {String.t(), map()}
   def set_ad_blocking_enabled(enabled) do
     params = as_query([{"enabled", enabled}])
     {"Page.setAdBlockingEnabled", params}
@@ -979,8 +1055,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Enable page Content Security Policy by-passing.
   ## Parameters:
-    - `enabled:boolean`: Whether to bypass page CSP.
+    - `enabled`:Whether to bypass page CSP.
   """
+  @spec set_bypass_csp(boolean()) :: {String.t(), map()}
   def set_bypass_csp(enabled) do
     params = as_query([{"enabled", enabled}])
     {"Page.setBypassCSP", params}
@@ -989,8 +1066,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Get Permissions Policy state on given frame.
   ## Parameters:
-    - `frameId:FrameId`: description not provided :(
+    - `frame_id`:description not provided :(
   """
+  @spec get_permissions_policy_state(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
   def get_permissions_policy_state(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"Page.getPermissionsPolicyState", params}
@@ -999,8 +1077,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Get Origin Trials on given frame.
   ## Parameters:
-    - `frameId:FrameId`: description not provided :(
+    - `frame_id`:description not provided :(
   """
+  @spec get_origin_trials(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
   def get_origin_trials(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"Page.getOriginTrials", params}
@@ -1011,20 +1090,34 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media
   query results).
   ## Parameters:
-    - `width:integer`: Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
-    - `height:integer`: Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
-    - `deviceScaleFactor:number`: Overriding device scale factor value. 0 disables the override.
-    - `mobile:boolean`: Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text
+    - `width`:Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
+  - `height`:Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
+  - `device_scale_factor`:Overriding device scale factor value. 0 disables the override.
+  - `mobile`:Whether to emulate mobile device. This includes viewport meta tag, overlay scrollbars, text
   autosizing and more.
-    - `scale:number`: (Optional) Scale to apply to resulting view image.
-    - `screenWidth:integer`: (Optional) Overriding screen width value in pixels (minimum 0, maximum 10000000).
-    - `screenHeight:integer`: (Optional) Overriding screen height value in pixels (minimum 0, maximum 10000000).
-    - `positionX:integer`: (Optional) Overriding view X position on screen in pixels (minimum 0, maximum 10000000).
-    - `positionY:integer`: (Optional) Overriding view Y position on screen in pixels (minimum 0, maximum 10000000).
-    - `dontSetVisibleSize:boolean`: (Optional) Do not set visible view size, rely upon explicit setVisibleSize call.
-    - `screenOrientation:Emulation.ScreenOrientation`: (Optional) Screen orientation override.
-    - `viewport:Viewport`: (Optional) The viewport dimensions and scale. If not set, the override is cleared.
+  - `scale`:(Optional) Scale to apply to resulting view image.
+  - `screen_width`:(Optional) Overriding screen width value in pixels (minimum 0, maximum 10000000).
+  - `screen_height`:(Optional) Overriding screen height value in pixels (minimum 0, maximum 10000000).
+  - `position_x`:(Optional) Overriding view X position on screen in pixels (minimum 0, maximum 10000000).
+  - `position_y`:(Optional) Overriding view Y position on screen in pixels (minimum 0, maximum 10000000).
+  - `dont_set_visible_size`:(Optional) Do not set visible view size, rely upon explicit setVisibleSize call.
+  - `screen_orientation`:(Optional) Screen orientation override.
+  - `viewport`:(Optional) The viewport dimensions and scale. If not set, the override is cleared.
   """
+  @spec set_device_metrics_override(
+          integer(),
+          integer(),
+          number(),
+          boolean(),
+          number(),
+          integer(),
+          integer(),
+          integer(),
+          integer(),
+          boolean(),
+          CDPotion.Domain.Emulation.ScreenOrientation,
+          CDPotion.Domain.Page.Viewport
+        ) :: {String.t(), map()}
   def set_device_metrics_override(
         width,
         height,
@@ -1061,10 +1154,11 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Overrides the Device Orientation.
   ## Parameters:
-    - `alpha:number`: Mock alpha
-    - `beta:number`: Mock beta
-    - `gamma:number`: Mock gamma
+    - `alpha`:Mock alpha
+  - `beta`:Mock beta
+  - `gamma`:Mock gamma
   """
+  @spec set_device_orientation_override(number(), number(), number()) :: {String.t(), map()}
   def set_device_orientation_override(alpha, beta, gamma) do
     params = as_query([{"alpha", alpha}, {"beta", beta}, {"gamma", gamma}])
     {"Page.setDeviceOrientationOverride", params}
@@ -1073,9 +1167,13 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Set generic font families.
   ## Parameters:
-    - `fontFamilies:FontFamilies`: Specifies font families to set. If a font family is not specified, it won't be changed.
-    - `forScripts:array`: (Optional) Specifies font families to set for individual scripts.
+    - `font_families`:Specifies font families to set. If a font family is not specified, it won't be changed.
+  - `for_scripts`:(Optional) Specifies font families to set for individual scripts.
   """
+  @spec set_font_families(
+          CDPotion.Domain.Page.FontFamilies,
+          list(CDPotion.Domain.Page.ScriptFontFamilies)
+        ) :: {String.t(), map()}
   def set_font_families(font_families, for_scripts \\ nil) do
     params = as_query([{"fontFamilies", font_families}, {"forScripts", for_scripts}])
     {"Page.setFontFamilies", params}
@@ -1084,8 +1182,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Set default font sizes.
   ## Parameters:
-    - `fontSizes:FontSizes`: Specifies font sizes to set. If a font size is not specified, it won't be changed.
+    - `font_sizes`:Specifies font sizes to set. If a font size is not specified, it won't be changed.
   """
+  @spec set_font_sizes(CDPotion.Domain.Page.FontSizes) :: {String.t(), map()}
   def set_font_sizes(font_sizes) do
     params = as_query([{"fontSizes", font_sizes}])
     {"Page.setFontSizes", params}
@@ -1094,9 +1193,10 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Sets given markup as the document's HTML.
   ## Parameters:
-    - `frameId:FrameId`: Frame id to set HTML for.
-    - `html:string`: HTML content to set.
+    - `frame_id`:Frame id to set HTML for.
+  - `html`:HTML content to set.
   """
+  @spec set_document_content(CDPotion.Domain.Page.FrameId, String.t()) :: {String.t(), map()}
   def set_document_content(frame_id, html) do
     params = as_query([{"frameId", frame_id}, {"html", html}])
     {"Page.setDocumentContent", params}
@@ -1105,10 +1205,11 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Set the behavior when downloading a file.
   ## Parameters:
-    - `behavior:string`: Whether to allow all or deny all download requests, or use default Chrome behavior if
+    - `behavior`:Whether to allow all or deny all download requests, or use default Chrome behavior if
   available (otherwise deny).
-    - `downloadPath:string`: (Optional) The default path to save downloaded files to. This is required if behavior is set to 'allow'
+  - `download_path`:(Optional) The default path to save downloaded files to. This is required if behavior is set to 'allow'
   """
+  @spec set_download_behavior(String.t(), String.t()) :: {String.t(), map()}
   def set_download_behavior(behavior, download_path \\ nil) do
     params = as_query([{"behavior", behavior}, {"downloadPath", download_path}])
     {"Page.setDownloadBehavior", params}
@@ -1118,10 +1219,11 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   Overrides the Geolocation Position or Error. Omitting any of the parameters emulates position
   unavailable.
   ## Parameters:
-    - `latitude:number`: (Optional) Mock latitude
-    - `longitude:number`: (Optional) Mock longitude
-    - `accuracy:number`: (Optional) Mock accuracy
+    - `latitude`:(Optional) Mock latitude
+  - `longitude`:(Optional) Mock longitude
+  - `accuracy`:(Optional) Mock accuracy
   """
+  @spec set_geolocation_override(number(), number(), number()) :: {String.t(), map()}
   def set_geolocation_override(latitude \\ nil, longitude \\ nil, accuracy \\ nil) do
     params = as_query([{"latitude", latitude}, {"longitude", longitude}, {"accuracy", accuracy}])
     {"Page.setGeolocationOverride", params}
@@ -1130,8 +1232,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Controls whether page will emit lifecycle events.
   ## Parameters:
-    - `enabled:boolean`: If true, starts emitting lifecycle events.
+    - `enabled`:If true, starts emitting lifecycle events.
   """
+  @spec set_lifecycle_events_enabled(boolean()) :: {String.t(), map()}
   def set_lifecycle_events_enabled(enabled) do
     params = as_query([{"enabled", enabled}])
     {"Page.setLifecycleEventsEnabled", params}
@@ -1140,9 +1243,10 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Toggles mouse event-based touch event emulation.
   ## Parameters:
-    - `enabled:boolean`: Whether the touch event emulation should be enabled.
-    - `configuration:string`: (Optional) Touch/gesture events configuration. Default: current platform.
+    - `enabled`:Whether the touch event emulation should be enabled.
+  - `configuration`:(Optional) Touch/gesture events configuration. Default: current platform.
   """
+  @spec set_touch_emulation_enabled(boolean(), String.t()) :: {String.t(), map()}
   def set_touch_emulation_enabled(enabled, configuration \\ nil) do
     params = as_query([{"enabled", enabled}, {"configuration", configuration}])
     {"Page.setTouchEmulationEnabled", params}
@@ -1151,12 +1255,14 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Starts sending each frame using the `screencastFrame` event.
   ## Parameters:
-    - `format:string`: (Optional) Image compression format.
-    - `quality:integer`: (Optional) Compression quality from range [0..100].
-    - `maxWidth:integer`: (Optional) Maximum screenshot width.
-    - `maxHeight:integer`: (Optional) Maximum screenshot height.
-    - `everyNthFrame:integer`: (Optional) Send every n-th frame.
+    - `format`:(Optional) Image compression format.
+  - `quality`:(Optional) Compression quality from range [0..100].
+  - `max_width`:(Optional) Maximum screenshot width.
+  - `max_height`:(Optional) Maximum screenshot height.
+  - `every_nth_frame`:(Optional) Send every n-th frame.
   """
+  @spec start_screencast(String.t(), integer(), integer(), integer(), integer()) ::
+          {String.t(), map()}
   def start_screencast(
         format \\ nil,
         quality \\ nil,
@@ -1179,6 +1285,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Force the page stop all navigations and pending resource fetches.
   """
+  @spec stop_loading() :: {String.t(), map()}
   def stop_loading() do
     {"Page.stopLoading", %{}}
   end
@@ -1186,6 +1293,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Crashes renderer on the IO thread, generates minidumps.
   """
+  @spec crash() :: {String.t(), map()}
   def crash() do
     {"Page.crash", %{}}
   end
@@ -1193,6 +1301,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Tries to close page, running its beforeunload hooks, if any.
   """
+  @spec close() :: {String.t(), map()}
   def close() do
     {"Page.close", %{}}
   end
@@ -1202,8 +1311,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   It will transition the page to the given state according to:
   https://github.com/WICG/web-lifecycle/
   ## Parameters:
-    - `state:string`: Target lifecycle state
+    - `state`:Target lifecycle state
   """
+  @spec set_web_lifecycle_state(String.t()) :: {String.t(), map()}
   def set_web_lifecycle_state(state) do
     params = as_query([{"state", state}])
     {"Page.setWebLifecycleState", params}
@@ -1212,6 +1322,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Stops sending each frame in the `screencastFrame`.
   """
+  @spec stop_screencast() :: {String.t(), map()}
   def stop_screencast() do
     {"Page.stopScreencast", %{}}
   end
@@ -1224,8 +1335,10 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   produced upon backend discretion, based on internal heuristics.
   See also: `Page.compilationCacheProduced`.
   ## Parameters:
-    - `scripts:array`: description not provided :(
+    - `scripts`:description not provided :(
   """
+  @spec produce_compilation_cache(list(CDPotion.Domain.Page.CompilationCacheParams)) ::
+          {String.t(), map()}
   def produce_compilation_cache(scripts) do
     params = as_query([{"scripts", scripts}])
     {"Page.produceCompilationCache", params}
@@ -1235,9 +1348,10 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   Seeds compilation cache for given url. Compilation cache does not survive
   cross-process navigation.
   ## Parameters:
-    - `url:string`: description not provided :(
-    - `data:string`: Base64-encoded data (Encoded as a base64 string when passed over JSON)
+    - `url`:description not provided :(
+  - `data`:Base64-encoded data (Encoded as a base64 string when passed over JSON)
   """
+  @spec add_compilation_cache(String.t(), String.t()) :: {String.t(), map()}
   def add_compilation_cache(url, data) do
     params = as_query([{"url", url}, {"data", data}])
     {"Page.addCompilationCache", params}
@@ -1246,6 +1360,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Clears seeded compilation cache.
   """
+  @spec clear_compilation_cache() :: {String.t(), map()}
   def clear_compilation_cache() do
     {"Page.clearCompilationCache", %{}}
   end
@@ -1254,8 +1369,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   Sets the Secure Payment Confirmation transaction mode.
   https://w3c.github.io/secure-payment-confirmation/#sctn-automation-set-spc-transaction-mode
   ## Parameters:
-    - `mode:AutoResponseMode`: description not provided :(
+    - `mode`:description not provided :(
   """
+  @spec set_spc_transaction_mode(CDPotion.Domain.Page.AutoResponseMode) :: {String.t(), map()}
   def set_spc_transaction_mode(mode) do
     params = as_query([{"mode", mode}])
     {"Page.setSPCTransactionMode", params}
@@ -1265,8 +1381,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   Extensions for Custom Handlers API:
   https://html.spec.whatwg.org/multipage/system-state.html#rph-automation
   ## Parameters:
-    - `mode:AutoResponseMode`: description not provided :(
+    - `mode`:description not provided :(
   """
+  @spec set_rph_registration_mode(CDPotion.Domain.Page.AutoResponseMode) :: {String.t(), map()}
   def set_rph_registration_mode(mode) do
     params = as_query([{"mode", mode}])
     {"Page.setRPHRegistrationMode", params}
@@ -1275,9 +1392,10 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Generates a report for testing.
   ## Parameters:
-    - `message:string`: Message to be displayed in the report.
-    - `group:string`: (Optional) Specifies the endpoint group to deliver the report to.
+    - `message`:Message to be displayed in the report.
+  - `group`:(Optional) Specifies the endpoint group to deliver the report to.
   """
+  @spec generate_test_report(String.t(), String.t()) :: {String.t(), map()}
   def generate_test_report(message, group \\ nil) do
     params = as_query([{"message", message}, {"group", group}])
     {"Page.generateTestReport", params}
@@ -1286,6 +1404,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @doc """
   Pauses page execution. Can be resumed using generic Runtime.runIfWaitingForDebugger.
   """
+  @spec wait_for_debugger() :: {String.t(), map()}
   def wait_for_debugger() do
     {"Page.waitForDebugger", %{}}
   end
@@ -1295,8 +1414,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   When file chooser interception is enabled, native file chooser dialog is not shown.
   Instead, a protocol event `Page.fileChooserOpened` is emitted.
   ## Parameters:
-    - `enabled:boolean`: description not provided :(
+    - `enabled`:description not provided :(
   """
+  @spec set_intercept_file_chooser_dialog(boolean()) :: {String.t(), map()}
   def set_intercept_file_chooser_dialog(enabled) do
     params = as_query([{"enabled", enabled}])
     {"Page.setInterceptFileChooserDialog", params}
@@ -1309,8 +1429,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   for more details.
   TODO(https://crbug.com/1440085): Remove this once Puppeteer supports tab targets.
   ## Parameters:
-    - `isAllowed:boolean`: description not provided :(
+    - `is_allowed`:description not provided :(
   """
+  @spec set_prerendering_allowed(boolean()) :: {String.t(), map()}
   def set_prerendering_allowed(is_allowed) do
     params = as_query([{"isAllowed", is_allowed}])
     {"Page.setPrerenderingAllowed", params}

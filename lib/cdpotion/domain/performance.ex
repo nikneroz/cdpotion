@@ -9,6 +9,7 @@ defmodule CDPotion.Domain.Performance do
   @doc """
   Disable collecting and reporting metrics.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Performance.disable", %{}}
   end
@@ -16,8 +17,9 @@ defmodule CDPotion.Domain.Performance do
   @doc """
   Enable collecting and reporting metrics.
   ## Parameters:
-    - `timeDomain:string`: (Optional) Time domain to use for collecting and reporting duration metrics.
+    - `time_domain`:(Optional) Time domain to use for collecting and reporting duration metrics.
   """
+  @spec enable(String.t()) :: {String.t(), map()}
   def enable(time_domain \\ nil) do
     params = as_query([{"timeDomain", time_domain}])
     {"Performance.enable", params}
@@ -28,8 +30,9 @@ defmodule CDPotion.Domain.Performance do
   Note that this must be called before enabling metrics collection. Calling
   this method while metrics collection is enabled returns an error.
   ## Parameters:
-    - `timeDomain:string`: Time domain
+    - `time_domain`:Time domain
   """
+  @spec set_time_domain(String.t()) :: {String.t(), map()}
   def set_time_domain(time_domain) do
     params = as_query([{"timeDomain", time_domain}])
     {"Performance.setTimeDomain", params}
@@ -38,6 +41,7 @@ defmodule CDPotion.Domain.Performance do
   @doc """
   Retrieve current values of run-time metrics.
   """
+  @spec get_metrics() :: {String.t(), map()}
   def get_metrics() do
     {"Performance.getMetrics", %{}}
   end

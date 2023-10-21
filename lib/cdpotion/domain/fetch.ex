@@ -39,6 +39,7 @@ body is received)."
   @doc """
   Disables the fetch domain.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Fetch.disable", %{}}
   end
@@ -47,12 +48,13 @@ body is received)."
   Enables issuing of requestPaused events. A request will be paused until client
   calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
   ## Parameters:
-    - `patterns:array`: (Optional) If specified, only requests matching any of these patterns will produce
+    - `patterns`:(Optional) If specified, only requests matching any of these patterns will produce
   fetchRequested event and will be paused until clients response. If not set,
   all requests will be affected.
-    - `handleAuthRequests:boolean`: (Optional) If true, authRequired events will be issued and requests will be paused
+  - `handle_auth_requests`:(Optional) If true, authRequired events will be issued and requests will be paused
   expecting a call to continueWithAuth.
   """
+  @spec enable(list(CDPotion.Domain.Fetch.RequestPattern), boolean()) :: {String.t(), map()}
   def enable(patterns \\ nil, handle_auth_requests \\ nil) do
     params = as_query([{"patterns", patterns}, {"handleAuthRequests", handle_auth_requests}])
     {"Fetch.enable", params}
@@ -61,9 +63,11 @@ body is received)."
   @doc """
   Causes the request to fail with specified reason.
   ## Parameters:
-    - `requestId:RequestId`: An id the client received in requestPaused event.
-    - `errorReason:Network.ErrorReason`: Causes the request to fail with the given reason.
+    - `request_id`:An id the client received in requestPaused event.
+  - `error_reason`:Causes the request to fail with the given reason.
   """
+  @spec fail_request(CDPotion.Domain.Fetch.RequestId, CDPotion.Domain.Network.ErrorReason) ::
+          {String.t(), map()}
   def fail_request(request_id, error_reason) do
     params = as_query([{"requestId", request_id}, {"errorReason", error_reason}])
     {"Fetch.failRequest", params}
@@ -72,19 +76,27 @@ body is received)."
   @doc """
   Provides response to the request.
   ## Parameters:
-    - `requestId:RequestId`: An id the client received in requestPaused event.
-    - `responseCode:integer`: An HTTP response code.
-    - `responseHeaders:array`: (Optional) Response headers.
-    - `binaryResponseHeaders:string`: (Optional) Alternative way of specifying response headers as a \0-separated
+    - `request_id`:An id the client received in requestPaused event.
+  - `response_code`:An HTTP response code.
+  - `response_headers`:(Optional) Response headers.
+  - `binary_response_headers`:(Optional) Alternative way of specifying response headers as a \0-separated
   series of name: value pairs. Prefer the above method unless you
   need to represent some non-UTF8 values that can't be transmitted
   over the protocol as text. (Encoded as a base64 string when passed over JSON)
-    - `body:string`: (Optional) A response body. If absent, original response body will be used if
+  - `body`:(Optional) A response body. If absent, original response body will be used if
   the request is intercepted at the response stage and empty body
   will be used if the request is intercepted at the request stage. (Encoded as a base64 string when passed over JSON)
-    - `responsePhrase:string`: (Optional) A textual representation of responseCode.
+  - `response_phrase`:(Optional) A textual representation of responseCode.
   If absent, a standard phrase matching responseCode is used.
   """
+  @spec fulfill_request(
+          CDPotion.Domain.Fetch.RequestId,
+          integer(),
+          list(CDPotion.Domain.Fetch.HeaderEntry),
+          String.t(),
+          String.t(),
+          String.t()
+        ) :: {String.t(), map()}
   def fulfill_request(
         request_id,
         response_code,
@@ -109,15 +121,23 @@ body is received)."
   @doc """
   Continues the request, optionally modifying some of its parameters.
   ## Parameters:
-    - `requestId:RequestId`: An id the client received in requestPaused event.
-    - `url:string`: (Optional) If set, the request url will be modified in a way that's not observable by page.
-    - `method:string`: (Optional) If set, the request method is overridden.
-    - `postData:string`: (Optional) If set, overrides the post data in the request. (Encoded as a base64 string when passed over JSON)
-    - `headers:array`: (Optional) If set, overrides the request headers. Note that the overrides do not
+    - `request_id`:An id the client received in requestPaused event.
+  - `url`:(Optional) If set, the request url will be modified in a way that's not observable by page.
+  - `method`:(Optional) If set, the request method is overridden.
+  - `post_data`:(Optional) If set, overrides the post data in the request. (Encoded as a base64 string when passed over JSON)
+  - `headers`:(Optional) If set, overrides the request headers. Note that the overrides do not
   extend to subsequent redirect hops, if a redirect happens. Another override
   may be applied to a different request produced by a redirect.
-    - `interceptResponse:boolean`: (Optional) If set, overrides response interception behavior for this request.
+  - `intercept_response`:(Optional) If set, overrides response interception behavior for this request.
   """
+  @spec continue_request(
+          CDPotion.Domain.Fetch.RequestId,
+          String.t(),
+          String.t(),
+          String.t(),
+          list(CDPotion.Domain.Fetch.HeaderEntry),
+          boolean()
+        ) :: {String.t(), map()}
   def continue_request(
         request_id,
         url \\ nil,
@@ -142,9 +162,13 @@ body is received)."
   @doc """
   Continues a request supplying authChallengeResponse following authRequired event.
   ## Parameters:
-    - `requestId:RequestId`: An id the client received in authRequired event.
-    - `authChallengeResponse:AuthChallengeResponse`: Response to  with an authChallenge.
+    - `request_id`:An id the client received in authRequired event.
+  - `auth_challenge_response`:Response to  with an authChallenge.
   """
+  @spec continue_with_auth(
+          CDPotion.Domain.Fetch.RequestId,
+          CDPotion.Domain.Fetch.AuthChallengeResponse
+        ) :: {String.t(), map()}
   def continue_with_auth(request_id, auth_challenge_response) do
     params =
       as_query([{"requestId", request_id}, {"authChallengeResponse", auth_challenge_response}])
@@ -157,16 +181,23 @@ body is received)."
   response headers. If either responseCode or headers are modified, all of them
   must be present.
   ## Parameters:
-    - `requestId:RequestId`: An id the client received in requestPaused event.
-    - `responseCode:integer`: (Optional) An HTTP response code. If absent, original response code will be used.
-    - `responsePhrase:string`: (Optional) A textual representation of responseCode.
+    - `request_id`:An id the client received in requestPaused event.
+  - `response_code`:(Optional) An HTTP response code. If absent, original response code will be used.
+  - `response_phrase`:(Optional) A textual representation of responseCode.
   If absent, a standard phrase matching responseCode is used.
-    - `responseHeaders:array`: (Optional) Response headers. If absent, original response headers will be used.
-    - `binaryResponseHeaders:string`: (Optional) Alternative way of specifying response headers as a \0-separated
+  - `response_headers`:(Optional) Response headers. If absent, original response headers will be used.
+  - `binary_response_headers`:(Optional) Alternative way of specifying response headers as a \0-separated
   series of name: value pairs. Prefer the above method unless you
   need to represent some non-UTF8 values that can't be transmitted
   over the protocol as text. (Encoded as a base64 string when passed over JSON)
   """
+  @spec continue_response(
+          CDPotion.Domain.Fetch.RequestId,
+          integer(),
+          String.t(),
+          list(CDPotion.Domain.Fetch.HeaderEntry),
+          String.t()
+        ) :: {String.t(), map()}
   def continue_response(
         request_id,
         response_code \\ nil,
@@ -198,8 +229,9 @@ body is received)."
   `responseCode` and presence of `location` response header, see
   comments to `requestPaused` for details.
   ## Parameters:
-    - `requestId:RequestId`: Identifier for the intercepted request to get body for.
+    - `request_id`:Identifier for the intercepted request to get body for.
   """
+  @spec get_response_body(CDPotion.Domain.Fetch.RequestId) :: {String.t(), map()}
   def get_response_body(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Fetch.getResponseBody", params}
@@ -217,8 +249,9 @@ body is received)."
   Calling other methods that affect the request or disabling fetch
   domain before body is received results in an undefined behavior.
   ## Parameters:
-    - `requestId:RequestId`: description not provided :(
+    - `request_id`:description not provided :(
   """
+  @spec take_response_body_as_stream(CDPotion.Domain.Fetch.RequestId) :: {String.t(), map()}
   def take_response_body_as_stream(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Fetch.takeResponseBodyAsStream", params}

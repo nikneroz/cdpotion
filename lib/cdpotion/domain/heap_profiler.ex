@@ -28,68 +28,86 @@ defmodule CDPotion.Domain.HeapProfiler do
   Enables console to refer to the node with given id via $x (see Command Line API for more details
   $x functions).
   ## Parameters:
-    - `heapObjectId:HeapSnapshotObjectId`: Heap snapshot object id to be accessible by means of $x command line API.
+    - `heap_object_id`:Heap snapshot object id to be accessible by means of $x command line API.
   """
+  @spec add_inspected_heap_object(CDPotion.Domain.HeapProfiler.HeapSnapshotObjectId) ::
+          {String.t(), map()}
   def add_inspected_heap_object(heap_object_id) do
     params = as_query([{"heapObjectId", heap_object_id}])
     {"HeapProfiler.addInspectedHeapObject", params}
   end
 
   @doc """
+
   """
+  @spec collect_garbage() :: {String.t(), map()}
   def collect_garbage() do
     {"HeapProfiler.collectGarbage", %{}}
   end
 
   @doc """
+
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"HeapProfiler.disable", %{}}
   end
 
   @doc """
+
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"HeapProfiler.enable", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `objectId:Runtime.RemoteObjectId`: Identifier of the object to get heap object id for.
+    - `object_id`:Identifier of the object to get heap object id for.
   """
+  @spec get_heap_object_id(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
   def get_heap_object_id(object_id) do
     params = as_query([{"objectId", object_id}])
     {"HeapProfiler.getHeapObjectId", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `objectId:HeapSnapshotObjectId`: description not provided :(
-    - `objectGroup:string`: (Optional) Symbolic group name that can be used to release multiple objects.
+    - `object_id`:description not provided :(
+  - `object_group`:(Optional) Symbolic group name that can be used to release multiple objects.
   """
+  @spec get_object_by_heap_object_id(
+          CDPotion.Domain.HeapProfiler.HeapSnapshotObjectId,
+          String.t()
+        ) :: {String.t(), map()}
   def get_object_by_heap_object_id(object_id, object_group \\ nil) do
     params = as_query([{"objectId", object_id}, {"objectGroup", object_group}])
     {"HeapProfiler.getObjectByHeapObjectId", params}
   end
 
   @doc """
+
   """
+  @spec get_sampling_profile() :: {String.t(), map()}
   def get_sampling_profile() do
     {"HeapProfiler.getSamplingProfile", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `samplingInterval:number`: (Optional) Average sample interval in bytes. Poisson distribution is used for the intervals. The
+    - `sampling_interval`:(Optional) Average sample interval in bytes. Poisson distribution is used for the intervals. The
   default value is 32768 bytes.
-    - `includeObjectsCollectedByMajorGC:boolean`: (Optional) By default, the sampling heap profiler reports only objects which are
+  - `include_objects_collected_by_major_gc`:(Optional) By default, the sampling heap profiler reports only objects which are
   still alive when the profile is returned via getSamplingProfile or
   stopSampling, which is useful for determining what functions contribute
   the most to steady-state memory usage. This flag instructs the sampling
   heap profiler to also include information about objects discarded by
   major GC, which will show which functions cause large temporary memory
   usage or long GC pauses.
-    - `includeObjectsCollectedByMinorGC:boolean`: (Optional) By default, the sampling heap profiler reports only objects which are
+  - `include_objects_collected_by_minor_gc`:(Optional) By default, the sampling heap profiler reports only objects which are
   still alive when the profile is returned via getSamplingProfile or
   stopSampling, which is useful for determining what functions contribute
   the most to steady-state memory usage. This flag instructs the sampling
@@ -97,6 +115,7 @@ defmodule CDPotion.Domain.HeapProfiler do
   minor GC, which is useful when tuning a latency-sensitive application
   for minimal GC activity.
   """
+  @spec start_sampling(number(), boolean(), boolean()) :: {String.t(), map()}
   def start_sampling(
         sampling_interval \\ nil,
         include_objects_collected_by_major_gc \\ nil,
@@ -113,28 +132,35 @@ defmodule CDPotion.Domain.HeapProfiler do
   end
 
   @doc """
+
   ## Parameters:
-    - `trackAllocations:boolean`: (Optional) description not provided :(
+    - `track_allocations`:(Optional) description not provided :(
   """
+  @spec start_tracking_heap_objects(boolean()) :: {String.t(), map()}
   def start_tracking_heap_objects(track_allocations \\ nil) do
     params = as_query([{"trackAllocations", track_allocations}])
     {"HeapProfiler.startTrackingHeapObjects", params}
   end
 
   @doc """
+
   """
+  @spec stop_sampling() :: {String.t(), map()}
   def stop_sampling() do
     {"HeapProfiler.stopSampling", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `reportProgress:boolean`: (Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
+    - `report_progress`:(Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
   when the tracking is stopped.
-    - `treatGlobalObjectsAsRoots:boolean`: (Optional) Deprecated in favor of `exposeInternals`.
-    - `captureNumericValue:boolean`: (Optional) If true, numerical values are included in the snapshot
-    - `exposeInternals:boolean`: (Optional) If true, exposes internals of the snapshot.
+  - `treat_global_objects_as_roots`:(Optional) Deprecated in favor of `exposeInternals`.
+  - `capture_numeric_value`:(Optional) If true, numerical values are included in the snapshot
+  - `expose_internals`:(Optional) If true, exposes internals of the snapshot.
   """
+  @spec stop_tracking_heap_objects(boolean(), boolean(), boolean(), boolean()) ::
+          {String.t(), map()}
   def stop_tracking_heap_objects(
         report_progress \\ nil,
         treat_global_objects_as_roots \\ nil,
@@ -153,13 +179,15 @@ defmodule CDPotion.Domain.HeapProfiler do
   end
 
   @doc """
+
   ## Parameters:
-    - `reportProgress:boolean`: (Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.
-    - `treatGlobalObjectsAsRoots:boolean`: (Optional) If true, a raw snapshot without artificial roots will be generated.
+    - `report_progress`:(Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.
+  - `treat_global_objects_as_roots`:(Optional) If true, a raw snapshot without artificial roots will be generated.
   Deprecated in favor of `exposeInternals`.
-    - `captureNumericValue:boolean`: (Optional) If true, numerical values are included in the snapshot
-    - `exposeInternals:boolean`: (Optional) If true, exposes internals of the snapshot.
+  - `capture_numeric_value`:(Optional) If true, numerical values are included in the snapshot
+  - `expose_internals`:(Optional) If true, exposes internals of the snapshot.
   """
+  @spec take_heap_snapshot(boolean(), boolean(), boolean(), boolean()) :: {String.t(), map()}
   def take_heap_snapshot(
         report_progress \\ nil,
         treat_global_objects_as_roots \\ nil,

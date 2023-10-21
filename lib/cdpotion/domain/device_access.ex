@@ -15,6 +15,7 @@ defmodule CDPotion.Domain.DeviceAccess do
   @doc """
   Enable events in this domain.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"DeviceAccess.enable", %{}}
   end
@@ -22,6 +23,7 @@ defmodule CDPotion.Domain.DeviceAccess do
   @doc """
   Disable events in this domain.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"DeviceAccess.disable", %{}}
   end
@@ -29,9 +31,13 @@ defmodule CDPotion.Domain.DeviceAccess do
   @doc """
   Select a device in response to a DeviceAccess.deviceRequestPrompted event.
   ## Parameters:
-    - `id:RequestId`: description not provided :(
-    - `deviceId:DeviceId`: description not provided :(
+    - `id`:description not provided :(
+  - `device_id`:description not provided :(
   """
+  @spec select_prompt(
+          CDPotion.Domain.DeviceAccess.RequestId,
+          CDPotion.Domain.DeviceAccess.DeviceId
+        ) :: {String.t(), map()}
   def select_prompt(id, device_id) do
     params = as_query([{"id", id}, {"deviceId", device_id}])
     {"DeviceAccess.selectPrompt", params}
@@ -40,8 +46,9 @@ defmodule CDPotion.Domain.DeviceAccess do
   @doc """
   Cancel a prompt in response to a DeviceAccess.deviceRequestPrompted event.
   ## Parameters:
-    - `id:RequestId`: description not provided :(
+    - `id`:description not provided :(
   """
+  @spec cancel_prompt(CDPotion.Domain.DeviceAccess.RequestId) :: {String.t(), map()}
   def cancel_prompt(id) do
     params = as_query([{"id", id}])
     {"DeviceAccess.cancelPrompt", params}

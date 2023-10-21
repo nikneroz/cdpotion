@@ -43,6 +43,7 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Disables animation domain notifications.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Animation.disable", %{}}
   end
@@ -50,6 +51,7 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Enables animation domain notifications.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Animation.enable", %{}}
   end
@@ -57,8 +59,9 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Returns the current time of the an animation.
   ## Parameters:
-    - `id:string`: Id of animation.
+    - `id`:Id of animation.
   """
+  @spec get_current_time(String.t()) :: {String.t(), map()}
   def get_current_time(id) do
     params = as_query([{"id", id}])
     {"Animation.getCurrentTime", params}
@@ -67,6 +70,7 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Gets the playback rate of the document timeline.
   """
+  @spec get_playback_rate() :: {String.t(), map()}
   def get_playback_rate() do
     {"Animation.getPlaybackRate", %{}}
   end
@@ -74,8 +78,9 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Releases a set of animations to no longer be manipulated.
   ## Parameters:
-    - `animations:array`: List of animation ids to seek.
+    - `animations`:List of animation ids to seek.
   """
+  @spec release_animations(list(String.t())) :: {String.t(), map()}
   def release_animations(animations) do
     params = as_query([{"animations", animations}])
     {"Animation.releaseAnimations", params}
@@ -84,8 +89,9 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Gets the remote object of the Animation.
   ## Parameters:
-    - `animationId:string`: Animation id.
+    - `animation_id`:Animation id.
   """
+  @spec resolve_animation(String.t()) :: {String.t(), map()}
   def resolve_animation(animation_id) do
     params = as_query([{"animationId", animation_id}])
     {"Animation.resolveAnimation", params}
@@ -94,9 +100,10 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Seek a set of animations to a particular time within each animation.
   ## Parameters:
-    - `animations:array`: List of animation ids to seek.
-    - `currentTime:number`: Set the current time of each animation.
+    - `animations`:List of animation ids to seek.
+  - `current_time`:Set the current time of each animation.
   """
+  @spec seek_animations(list(String.t()), number()) :: {String.t(), map()}
   def seek_animations(animations, current_time) do
     params = as_query([{"animations", animations}, {"currentTime", current_time}])
     {"Animation.seekAnimations", params}
@@ -105,9 +112,10 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Sets the paused state of a set of animations.
   ## Parameters:
-    - `animations:array`: Animations to set the pause state of.
-    - `paused:boolean`: Paused state to set to.
+    - `animations`:Animations to set the pause state of.
+  - `paused`:Paused state to set to.
   """
+  @spec set_paused(list(String.t()), boolean()) :: {String.t(), map()}
   def set_paused(animations, paused) do
     params = as_query([{"animations", animations}, {"paused", paused}])
     {"Animation.setPaused", params}
@@ -116,8 +124,9 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Sets the playback rate of the document timeline.
   ## Parameters:
-    - `playbackRate:number`: Playback rate for animations on page
+    - `playback_rate`:Playback rate for animations on page
   """
+  @spec set_playback_rate(number()) :: {String.t(), map()}
   def set_playback_rate(playback_rate) do
     params = as_query([{"playbackRate", playback_rate}])
     {"Animation.setPlaybackRate", params}
@@ -126,10 +135,11 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Sets the timing of an animation node.
   ## Parameters:
-    - `animationId:string`: Animation id.
-    - `duration:number`: Duration of the animation.
-    - `delay:number`: Delay of the animation.
+    - `animation_id`:Animation id.
+  - `duration`:Duration of the animation.
+  - `delay`:Delay of the animation.
   """
+  @spec set_timing(String.t(), number(), number()) :: {String.t(), map()}
   def set_timing(animation_id, duration, delay) do
     params = as_query([{"animationId", animation_id}, {"duration", duration}, {"delay", delay}])
     {"Animation.setTiming", params}

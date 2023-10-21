@@ -25,13 +25,17 @@ defmodule CDPotion.Domain.Memory do
         }
 
   @doc """
+
   """
+  @spec get_dom_counters() :: {String.t(), map()}
   def get_dom_counters() do
     {"Memory.getDOMCounters", %{}}
   end
 
   @doc """
+
   """
+  @spec prepare_for_leak_detection() :: {String.t(), map()}
   def prepare_for_leak_detection() do
     {"Memory.prepareForLeakDetection", %{}}
   end
@@ -39,6 +43,7 @@ defmodule CDPotion.Domain.Memory do
   @doc """
   Simulate OomIntervention by purging V8 memory.
   """
+  @spec forcibly_purge_java_script_memory() :: {String.t(), map()}
   def forcibly_purge_java_script_memory() do
     {"Memory.forciblyPurgeJavaScriptMemory", %{}}
   end
@@ -46,8 +51,9 @@ defmodule CDPotion.Domain.Memory do
   @doc """
   Enable/disable suppressing memory pressure notifications in all processes.
   ## Parameters:
-    - `suppressed:boolean`: If true, memory pressure notifications will be suppressed.
+    - `suppressed`:If true, memory pressure notifications will be suppressed.
   """
+  @spec set_pressure_notifications_suppressed(boolean()) :: {String.t(), map()}
   def set_pressure_notifications_suppressed(suppressed) do
     params = as_query([{"suppressed", suppressed}])
     {"Memory.setPressureNotificationsSuppressed", params}
@@ -56,8 +62,10 @@ defmodule CDPotion.Domain.Memory do
   @doc """
   Simulate a memory pressure notification in all processes.
   ## Parameters:
-    - `level:PressureLevel`: Memory pressure level of the notification.
+    - `level`:Memory pressure level of the notification.
   """
+  @spec simulate_pressure_notification(CDPotion.Domain.Memory.PressureLevel) ::
+          {String.t(), map()}
   def simulate_pressure_notification(level) do
     params = as_query([{"level", level}])
     {"Memory.simulatePressureNotification", params}
@@ -66,9 +74,10 @@ defmodule CDPotion.Domain.Memory do
   @doc """
   Start collecting native memory profile.
   ## Parameters:
-    - `samplingInterval:integer`: (Optional) Average number of bytes between samples.
-    - `suppressRandomness:boolean`: (Optional) Do not randomize intervals between samples.
+    - `sampling_interval`:(Optional) Average number of bytes between samples.
+  - `suppress_randomness`:(Optional) Do not randomize intervals between samples.
   """
+  @spec start_sampling(integer(), boolean()) :: {String.t(), map()}
   def start_sampling(sampling_interval \\ nil, suppress_randomness \\ nil) do
     params =
       as_query([
@@ -82,6 +91,7 @@ defmodule CDPotion.Domain.Memory do
   @doc """
   Stop collecting native memory profile.
   """
+  @spec stop_sampling() :: {String.t(), map()}
   def stop_sampling() do
     {"Memory.stopSampling", %{}}
   end
@@ -90,6 +100,7 @@ defmodule CDPotion.Domain.Memory do
   Retrieve native memory allocations profile
   collected since renderer process startup.
   """
+  @spec get_all_time_sampling_profile() :: {String.t(), map()}
   def get_all_time_sampling_profile() do
     {"Memory.getAllTimeSamplingProfile", %{}}
   end
@@ -98,6 +109,7 @@ defmodule CDPotion.Domain.Memory do
   Retrieve native memory allocations profile
   collected since browser process startup.
   """
+  @spec get_browser_sampling_profile() :: {String.t(), map()}
   def get_browser_sampling_profile() do
     {"Memory.getBrowserSamplingProfile", %{}}
   end
@@ -106,6 +118,7 @@ defmodule CDPotion.Domain.Memory do
   Retrieve native memory allocations profile collected since last
   `startSampling` call.
   """
+  @spec get_sampling_profile() :: {String.t(), map()}
   def get_sampling_profile() do
     {"Memory.getSamplingProfile", %{}}
   end

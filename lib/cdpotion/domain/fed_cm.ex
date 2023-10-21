@@ -22,37 +22,45 @@ whether this account has ever been used to sign in to this RP before."
   @type login_state :: :SignIn | :SignUp
 
   @doc """
+
   ## Parameters:
-    - `disableRejectionDelay:boolean`: (Optional) Allows callers to disable the promise rejection delay that would
+    - `disable_rejection_delay`:(Optional) Allows callers to disable the promise rejection delay that would
   normally happen, if this is unimportant to what's being tested.
   (step 4 of https://fedidcg.github.io/FedCM/#browser-api-rp-sign-in)
   """
+  @spec enable(boolean()) :: {String.t(), map()}
   def enable(disable_rejection_delay \\ nil) do
     params = as_query([{"disableRejectionDelay", disable_rejection_delay}])
     {"FedCm.enable", params}
   end
 
   @doc """
+
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"FedCm.disable", %{}}
   end
 
   @doc """
+
   ## Parameters:
-    - `dialogId:string`: description not provided :(
-    - `accountIndex:integer`: description not provided :(
+    - `dialog_id`:description not provided :(
+  - `account_index`:description not provided :(
   """
+  @spec select_account(String.t(), integer()) :: {String.t(), map()}
   def select_account(dialog_id, account_index) do
     params = as_query([{"dialogId", dialog_id}, {"accountIndex", account_index}])
     {"FedCm.selectAccount", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `dialogId:string`: description not provided :(
-    - `triggerCooldown:boolean`: (Optional) description not provided :(
+    - `dialog_id`:description not provided :(
+  - `trigger_cooldown`:(Optional) description not provided :(
   """
+  @spec dismiss_dialog(String.t(), boolean()) :: {String.t(), map()}
   def dismiss_dialog(dialog_id, trigger_cooldown \\ nil) do
     params = as_query([{"dialogId", dialog_id}, {"triggerCooldown", trigger_cooldown}])
     {"FedCm.dismissDialog", params}
@@ -62,6 +70,7 @@ whether this account has ever been used to sign in to this RP before."
   Resets the cooldown time, if any, to allow the next FedCM call to show
   a dialog even if one was recently dismissed by the user.
   """
+  @spec reset_cooldown() :: {String.t(), map()}
   def reset_cooldown() do
     {"FedCm.resetCooldown", %{}}
   end

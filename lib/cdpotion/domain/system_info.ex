@@ -71,6 +71,7 @@ resolution and maximum framerate."
   @doc """
   Returns information about the system.
   """
+  @spec get_info() :: {String.t(), map()}
   def get_info() do
     {"SystemInfo.getInfo", %{}}
   end
@@ -78,8 +79,9 @@ resolution and maximum framerate."
   @doc """
   Returns information about the feature state.
   ## Parameters:
-    - `featureState:string`: description not provided :(
+    - `feature_state`:description not provided :(
   """
+  @spec get_feature_state(String.t()) :: {String.t(), map()}
   def get_feature_state(feature_state) do
     params = as_query([{"featureState", feature_state}])
     {"SystemInfo.getFeatureState", params}
@@ -88,6 +90,7 @@ resolution and maximum framerate."
   @doc """
   Returns information about all running processes.
   """
+  @spec get_process_info() :: {String.t(), map()}
   def get_process_info() do
     {"SystemInfo.getProcessInfo", %{}}
   end

@@ -159,6 +159,7 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Disables domain notifications.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Overlay.disable", %{}}
   end
@@ -166,6 +167,7 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Enables domain notifications.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Overlay.enable", %{}}
   end
@@ -173,12 +175,19 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   For testing.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: Id of the node to get highlight object for.
-    - `includeDistance:boolean`: (Optional) Whether to include distance info.
-    - `includeStyle:boolean`: (Optional) Whether to include style info.
-    - `colorFormat:ColorFormat`: (Optional) The color format to get config with (default: hex).
-    - `showAccessibilityInfo:boolean`: (Optional) Whether to show accessibility info (default: true).
+    - `node_id`:Id of the node to get highlight object for.
+  - `include_distance`:(Optional) Whether to include distance info.
+  - `include_style`:(Optional) Whether to include style info.
+  - `color_format`:(Optional) The color format to get config with (default: hex).
+  - `show_accessibility_info`:(Optional) Whether to show accessibility info (default: true).
   """
+  @spec get_highlight_object_for_test(
+          CDPotion.Domain.DOM.NodeId,
+          boolean(),
+          boolean(),
+          CDPotion.Domain.Overlay.ColorFormat,
+          boolean()
+        ) :: {String.t(), map()}
   def get_highlight_object_for_test(
         node_id,
         include_distance \\ nil,
@@ -201,8 +210,10 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   For Persistent Grid testing.
   ## Parameters:
-    - `nodeIds:array`: Ids of the node to get highlight object for.
+    - `node_ids`:Ids of the node to get highlight object for.
   """
+  @spec get_grid_highlight_objects_for_test(list(CDPotion.Domain.DOM.NodeId)) ::
+          {String.t(), map()}
   def get_grid_highlight_objects_for_test(node_ids) do
     params = as_query([{"nodeIds", node_ids}])
     {"Overlay.getGridHighlightObjectsForTest", params}
@@ -211,8 +222,10 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   For Source Order Viewer testing.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: Id of the node to highlight.
+    - `node_id`:Id of the node to highlight.
   """
+  @spec get_source_order_highlight_object_for_test(CDPotion.Domain.DOM.NodeId) ::
+          {String.t(), map()}
   def get_source_order_highlight_object_for_test(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"Overlay.getSourceOrderHighlightObjectForTest", params}
@@ -221,6 +234,7 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Hides any highlight.
   """
+  @spec hide_highlight() :: {String.t(), map()}
   def hide_highlight() do
     {"Overlay.hideHighlight", %{}}
   end
@@ -231,10 +245,15 @@ defmodule CDPotion.Domain.Overlay do
   separatation (the owner node might be in a different process). Determine
   the owner node in the client and use highlightNode.
   ## Parameters:
-    - `frameId:Page.FrameId`: Identifier of the frame to highlight.
-    - `contentColor:DOM.RGBA`: (Optional) The content box highlight fill color (default: transparent).
-    - `contentOutlineColor:DOM.RGBA`: (Optional) The content box highlight outline color (default: transparent).
+    - `frame_id`:Identifier of the frame to highlight.
+  - `content_color`:(Optional) The content box highlight fill color (default: transparent).
+  - `content_outline_color`:(Optional) The content box highlight outline color (default: transparent).
   """
+  @spec highlight_frame(
+          CDPotion.Domain.Page.FrameId,
+          CDPotion.Domain.DOM.RGBA,
+          CDPotion.Domain.DOM.RGBA
+        ) :: {String.t(), map()}
   def highlight_frame(frame_id, content_color \\ nil, content_outline_color \\ nil) do
     params =
       as_query([
@@ -250,12 +269,19 @@ defmodule CDPotion.Domain.Overlay do
   Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or
   objectId must be specified.
   ## Parameters:
-    - `highlightConfig:HighlightConfig`: A descriptor for the highlight appearance.
-    - `nodeId:DOM.NodeId`: (Optional) Identifier of the node to highlight.
-    - `backendNodeId:DOM.BackendNodeId`: (Optional) Identifier of the backend node to highlight.
-    - `objectId:Runtime.RemoteObjectId`: (Optional) JavaScript object id of the node to be highlighted.
-    - `selector:string`: (Optional) Selectors to highlight relevant nodes.
+    - `highlight_config`:A descriptor for the highlight appearance.
+  - `node_id`:(Optional) Identifier of the node to highlight.
+  - `backend_node_id`:(Optional) Identifier of the backend node to highlight.
+  - `object_id`:(Optional) JavaScript object id of the node to be highlighted.
+  - `selector`:(Optional) Selectors to highlight relevant nodes.
   """
+  @spec highlight_node(
+          CDPotion.Domain.Overlay.HighlightConfig,
+          CDPotion.Domain.DOM.NodeId,
+          CDPotion.Domain.DOM.BackendNodeId,
+          CDPotion.Domain.Runtime.RemoteObjectId,
+          String.t()
+        ) :: {String.t(), map()}
   def highlight_node(
         highlight_config,
         node_id \\ nil,
@@ -278,10 +304,15 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Highlights given quad. Coordinates are absolute with respect to the main frame viewport.
   ## Parameters:
-    - `quad:DOM.Quad`: Quad to highlight
-    - `color:DOM.RGBA`: (Optional) The highlight fill color (default: transparent).
-    - `outlineColor:DOM.RGBA`: (Optional) The highlight outline color (default: transparent).
+    - `quad`:Quad to highlight
+  - `color`:(Optional) The highlight fill color (default: transparent).
+  - `outline_color`:(Optional) The highlight outline color (default: transparent).
   """
+  @spec highlight_quad(
+          CDPotion.Domain.DOM.Quad,
+          CDPotion.Domain.DOM.RGBA,
+          CDPotion.Domain.DOM.RGBA
+        ) :: {String.t(), map()}
   def highlight_quad(quad, color \\ nil, outline_color \\ nil) do
     params = as_query([{"quad", quad}, {"color", color}, {"outlineColor", outline_color}])
     {"Overlay.highlightQuad", params}
@@ -290,13 +321,21 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
   ## Parameters:
-    - `x:integer`: X coordinate
-    - `y:integer`: Y coordinate
-    - `width:integer`: Rectangle width
-    - `height:integer`: Rectangle height
-    - `color:DOM.RGBA`: (Optional) The highlight fill color (default: transparent).
-    - `outlineColor:DOM.RGBA`: (Optional) The highlight outline color (default: transparent).
+    - `x`:X coordinate
+  - `y`:Y coordinate
+  - `width`:Rectangle width
+  - `height`:Rectangle height
+  - `color`:(Optional) The highlight fill color (default: transparent).
+  - `outline_color`:(Optional) The highlight outline color (default: transparent).
   """
+  @spec highlight_rect(
+          integer(),
+          integer(),
+          integer(),
+          integer(),
+          CDPotion.Domain.DOM.RGBA,
+          CDPotion.Domain.DOM.RGBA
+        ) :: {String.t(), map()}
   def highlight_rect(x, y, width, height, color \\ nil, outline_color \\ nil) do
     params =
       as_query([
@@ -315,11 +354,17 @@ defmodule CDPotion.Domain.Overlay do
   Highlights the source order of the children of the DOM node with given id or with the given
   JavaScript object wrapper. Either nodeId or objectId must be specified.
   ## Parameters:
-    - `sourceOrderConfig:SourceOrderConfig`: A descriptor for the appearance of the overlay drawing.
-    - `nodeId:DOM.NodeId`: (Optional) Identifier of the node to highlight.
-    - `backendNodeId:DOM.BackendNodeId`: (Optional) Identifier of the backend node to highlight.
-    - `objectId:Runtime.RemoteObjectId`: (Optional) JavaScript object id of the node to be highlighted.
+    - `source_order_config`:A descriptor for the appearance of the overlay drawing.
+  - `node_id`:(Optional) Identifier of the node to highlight.
+  - `backend_node_id`:(Optional) Identifier of the backend node to highlight.
+  - `object_id`:(Optional) JavaScript object id of the node to be highlighted.
   """
+  @spec highlight_source_order(
+          CDPotion.Domain.Overlay.SourceOrderConfig,
+          CDPotion.Domain.DOM.NodeId,
+          CDPotion.Domain.DOM.BackendNodeId,
+          CDPotion.Domain.Runtime.RemoteObjectId
+        ) :: {String.t(), map()}
   def highlight_source_order(
         source_order_config,
         node_id \\ nil,
@@ -341,10 +386,14 @@ defmodule CDPotion.Domain.Overlay do
   Enters the 'inspect' mode. In this mode, elements that user is hovering over are highlighted.
   Backend then generates 'inspectNodeRequested' event upon element selection.
   ## Parameters:
-    - `mode:InspectMode`: Set an inspection mode.
-    - `highlightConfig:HighlightConfig`: (Optional) A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled
+    - `mode`:Set an inspection mode.
+  - `highlight_config`:(Optional) A descriptor for the highlight appearance of hovered-over nodes. May be omitted if `enabled
   == false`.
   """
+  @spec set_inspect_mode(
+          CDPotion.Domain.Overlay.InspectMode,
+          CDPotion.Domain.Overlay.HighlightConfig
+        ) :: {String.t(), map()}
   def set_inspect_mode(mode, highlight_config \\ nil) do
     params = as_query([{"mode", mode}, {"highlightConfig", highlight_config}])
     {"Overlay.setInspectMode", params}
@@ -353,17 +402,20 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Highlights owner element of all frames detected to be ads.
   ## Parameters:
-    - `show:boolean`: True for showing ad highlights
+    - `show`:True for showing ad highlights
   """
+  @spec set_show_ad_highlights(boolean()) :: {String.t(), map()}
   def set_show_ad_highlights(show) do
     params = as_query([{"show", show}])
     {"Overlay.setShowAdHighlights", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `message:string`: (Optional) The message to display, also triggers resume and step over controls.
+    - `message`:(Optional) The message to display, also triggers resume and step over controls.
   """
+  @spec set_paused_in_debugger_message(String.t()) :: {String.t(), map()}
   def set_paused_in_debugger_message(message \\ nil) do
     params = as_query([{"message", message}])
     {"Overlay.setPausedInDebuggerMessage", params}
@@ -372,8 +424,9 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Requests that backend shows debug borders on layers
   ## Parameters:
-    - `show:boolean`: True for showing debug borders
+    - `show`:True for showing debug borders
   """
+  @spec set_show_debug_borders(boolean()) :: {String.t(), map()}
   def set_show_debug_borders(show) do
     params = as_query([{"show", show}])
     {"Overlay.setShowDebugBorders", params}
@@ -382,8 +435,9 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Requests that backend shows the FPS counter
   ## Parameters:
-    - `show:boolean`: True for showing the FPS counter
+    - `show`:True for showing the FPS counter
   """
+  @spec set_show_fps_counter(boolean()) :: {String.t(), map()}
   def set_show_fps_counter(show) do
     params = as_query([{"show", show}])
     {"Overlay.setShowFPSCounter", params}
@@ -392,35 +446,47 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Highlight multiple elements with the CSS Grid overlay.
   ## Parameters:
-    - `gridNodeHighlightConfigs:array`: An array of node identifiers and descriptors for the highlight appearance.
+    - `grid_node_highlight_configs`:An array of node identifiers and descriptors for the highlight appearance.
   """
+  @spec set_show_grid_overlays(list(CDPotion.Domain.Overlay.GridNodeHighlightConfig)) ::
+          {String.t(), map()}
   def set_show_grid_overlays(grid_node_highlight_configs) do
     params = as_query([{"gridNodeHighlightConfigs", grid_node_highlight_configs}])
     {"Overlay.setShowGridOverlays", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `flexNodeHighlightConfigs:array`: An array of node identifiers and descriptors for the highlight appearance.
+    - `flex_node_highlight_configs`:An array of node identifiers and descriptors for the highlight appearance.
   """
+  @spec set_show_flex_overlays(list(CDPotion.Domain.Overlay.FlexNodeHighlightConfig)) ::
+          {String.t(), map()}
   def set_show_flex_overlays(flex_node_highlight_configs) do
     params = as_query([{"flexNodeHighlightConfigs", flex_node_highlight_configs}])
     {"Overlay.setShowFlexOverlays", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `scrollSnapHighlightConfigs:array`: An array of node identifiers and descriptors for the highlight appearance.
+    - `scroll_snap_highlight_configs`:An array of node identifiers and descriptors for the highlight appearance.
   """
+  @spec set_show_scroll_snap_overlays(list(CDPotion.Domain.Overlay.ScrollSnapHighlightConfig)) ::
+          {String.t(), map()}
   def set_show_scroll_snap_overlays(scroll_snap_highlight_configs) do
     params = as_query([{"scrollSnapHighlightConfigs", scroll_snap_highlight_configs}])
     {"Overlay.setShowScrollSnapOverlays", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `containerQueryHighlightConfigs:array`: An array of node identifiers and descriptors for the highlight appearance.
+    - `container_query_highlight_configs`:An array of node identifiers and descriptors for the highlight appearance.
   """
+  @spec set_show_container_query_overlays(
+          list(CDPotion.Domain.Overlay.ContainerQueryHighlightConfig)
+        ) :: {String.t(), map()}
   def set_show_container_query_overlays(container_query_highlight_configs) do
     params = as_query([{"containerQueryHighlightConfigs", container_query_highlight_configs}])
     {"Overlay.setShowContainerQueryOverlays", params}
@@ -429,8 +495,9 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Requests that backend shows paint rectangles
   ## Parameters:
-    - `result:boolean`: True for showing paint rectangles
+    - `result`:True for showing paint rectangles
   """
+  @spec set_show_paint_rects(boolean()) :: {String.t(), map()}
   def set_show_paint_rects(result) do
     params = as_query([{"result", result}])
     {"Overlay.setShowPaintRects", params}
@@ -439,8 +506,9 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Requests that backend shows layout shift regions
   ## Parameters:
-    - `result:boolean`: True for showing layout shift regions
+    - `result`:True for showing layout shift regions
   """
+  @spec set_show_layout_shift_regions(boolean()) :: {String.t(), map()}
   def set_show_layout_shift_regions(result) do
     params = as_query([{"result", result}])
     {"Overlay.setShowLayoutShiftRegions", params}
@@ -449,8 +517,9 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Requests that backend shows scroll bottleneck rects
   ## Parameters:
-    - `show:boolean`: True for showing scroll bottleneck rects
+    - `show`:True for showing scroll bottleneck rects
   """
+  @spec set_show_scroll_bottleneck_rects(boolean()) :: {String.t(), map()}
   def set_show_scroll_bottleneck_rects(show) do
     params = as_query([{"show", show}])
     {"Overlay.setShowScrollBottleneckRects", params}
@@ -459,8 +528,9 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Deprecated, no longer has any effect.
   ## Parameters:
-    - `show:boolean`: True for showing hit-test borders
+    - `show`:True for showing hit-test borders
   """
+  @spec set_show_hit_test_borders(boolean()) :: {String.t(), map()}
   def set_show_hit_test_borders(show) do
     params = as_query([{"show", show}])
     {"Overlay.setShowHitTestBorders", params}
@@ -469,8 +539,9 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Request that backend shows an overlay with web vital metrics.
   ## Parameters:
-    - `show:boolean`: description not provided :(
+    - `show`:description not provided :(
   """
+  @spec set_show_web_vitals(boolean()) :: {String.t(), map()}
   def set_show_web_vitals(show) do
     params = as_query([{"show", show}])
     {"Overlay.setShowWebVitals", params}
@@ -479,8 +550,9 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Paints viewport size upon main frame resize.
   ## Parameters:
-    - `show:boolean`: Whether to paint size or not.
+    - `show`:Whether to paint size or not.
   """
+  @spec set_show_viewport_size_on_resize(boolean()) :: {String.t(), map()}
   def set_show_viewport_size_on_resize(show) do
     params = as_query([{"show", show}])
     {"Overlay.setShowViewportSizeOnResize", params}
@@ -489,8 +561,9 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Add a dual screen device hinge
   ## Parameters:
-    - `hingeConfig:HingeConfig`: (Optional) hinge data, null means hideHinge
+    - `hinge_config`:(Optional) hinge data, null means hideHinge
   """
+  @spec set_show_hinge(CDPotion.Domain.Overlay.HingeConfig) :: {String.t(), map()}
   def set_show_hinge(hinge_config \\ nil) do
     params = as_query([{"hingeConfig", hinge_config}])
     {"Overlay.setShowHinge", params}
@@ -499,8 +572,10 @@ defmodule CDPotion.Domain.Overlay do
   @doc """
   Show elements in isolation mode with overlays.
   ## Parameters:
-    - `isolatedElementHighlightConfigs:array`: An array of node identifiers and descriptors for the highlight appearance.
+    - `isolated_element_highlight_configs`:An array of node identifiers and descriptors for the highlight appearance.
   """
+  @spec set_show_isolated_elements(list(CDPotion.Domain.Overlay.IsolatedElementHighlightConfig)) ::
+          {String.t(), map()}
   def set_show_isolated_elements(isolated_element_highlight_configs) do
     params = as_query([{"isolatedElementHighlightConfigs", isolated_element_highlight_configs}])
     {"Overlay.setShowIsolatedElements", params}

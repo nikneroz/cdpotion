@@ -47,13 +47,17 @@ defmodule CDPotion.Domain.Profiler do
         }
 
   @doc """
+
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Profiler.disable", %{}}
   end
 
   @doc """
+
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Profiler.enable", %{}}
   end
@@ -62,6 +66,7 @@ defmodule CDPotion.Domain.Profiler do
   Collect coverage data for the current isolate. The coverage data may be incomplete due to
   garbage collection.
   """
+  @spec get_best_effort_coverage() :: {String.t(), map()}
   def get_best_effort_coverage() do
     {"Profiler.getBestEffortCoverage", %{}}
   end
@@ -69,15 +74,18 @@ defmodule CDPotion.Domain.Profiler do
   @doc """
   Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
   ## Parameters:
-    - `interval:integer`: New sampling interval in microseconds.
+    - `interval`:New sampling interval in microseconds.
   """
+  @spec set_sampling_interval(integer()) :: {String.t(), map()}
   def set_sampling_interval(interval) do
     params = as_query([{"interval", interval}])
     {"Profiler.setSamplingInterval", params}
   end
 
   @doc """
+
   """
+  @spec start() :: {String.t(), map()}
   def start() do
     {"Profiler.start", %{}}
   end
@@ -87,10 +95,11 @@ defmodule CDPotion.Domain.Profiler do
   coverage may be incomplete. Enabling prevents running optimized code and resets execution
   counters.
   ## Parameters:
-    - `callCount:boolean`: (Optional) Collect accurate call counts beyond simple 'covered' or 'not covered'.
-    - `detailed:boolean`: (Optional) Collect block-based coverage.
-    - `allowTriggeredUpdates:boolean`: (Optional) Allow the backend to send updates on its own initiative
+    - `call_count`:(Optional) Collect accurate call counts beyond simple 'covered' or 'not covered'.
+  - `detailed`:(Optional) Collect block-based coverage.
+  - `allow_triggered_updates`:(Optional) Allow the backend to send updates on its own initiative
   """
+  @spec start_precise_coverage(boolean(), boolean(), boolean()) :: {String.t(), map()}
   def start_precise_coverage(call_count \\ nil, detailed \\ nil, allow_triggered_updates \\ nil) do
     params =
       as_query([
@@ -103,7 +112,9 @@ defmodule CDPotion.Domain.Profiler do
   end
 
   @doc """
+
   """
+  @spec stop() :: {String.t(), map()}
   def stop() do
     {"Profiler.stop", %{}}
   end
@@ -112,6 +123,7 @@ defmodule CDPotion.Domain.Profiler do
   Disable precise code coverage. Disabling releases unnecessary execution count records and allows
   executing optimized code.
   """
+  @spec stop_precise_coverage() :: {String.t(), map()}
   def stop_precise_coverage() do
     {"Profiler.stopPreciseCoverage", %{}}
   end
@@ -120,6 +132,7 @@ defmodule CDPotion.Domain.Profiler do
   Collect coverage data for the current isolate, and resets execution counters. Precise code
   coverage needs to have started.
   """
+  @spec take_precise_coverage() :: {String.t(), map()}
   def take_precise_coverage() do
     {"Profiler.takePreciseCoverage", %{}}
   end

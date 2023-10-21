@@ -4,6 +4,7 @@ defmodule CDPotion.Domain.DeviceOrientation do
   @doc """
   Clears the overridden Device Orientation.
   """
+  @spec clear_device_orientation_override() :: {String.t(), map()}
   def clear_device_orientation_override() do
     {"DeviceOrientation.clearDeviceOrientationOverride", %{}}
   end
@@ -11,10 +12,11 @@ defmodule CDPotion.Domain.DeviceOrientation do
   @doc """
   Overrides the Device Orientation.
   ## Parameters:
-    - `alpha:number`: Mock alpha
-    - `beta:number`: Mock beta
-    - `gamma:number`: Mock gamma
+    - `alpha`:Mock alpha
+  - `beta`:Mock beta
+  - `gamma`:Mock gamma
   """
+  @spec set_device_orientation_override(number(), number(), number()) :: {String.t(), map()}
   def set_device_orientation_override(alpha, beta, gamma) do
     params = as_query([{"alpha", alpha}, {"beta", beta}, {"gamma", gamma}])
     {"DeviceOrientation.setDeviceOrientationOverride", params}

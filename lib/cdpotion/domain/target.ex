@@ -43,8 +43,9 @@ If filter is not specified, the one assumed is
   @doc """
   Activates (focuses) the target.
   ## Parameters:
-    - `targetId:TargetID`: description not provided :(
+    - `target_id`:description not provided :(
   """
+  @spec activate_target(CDPotion.Domain.Target.TargetID) :: {String.t(), map()}
   def activate_target(target_id) do
     params = as_query([{"targetId", target_id}])
     {"Target.activateTarget", params}
@@ -53,11 +54,12 @@ If filter is not specified, the one assumed is
   @doc """
   Attaches to the target with given id.
   ## Parameters:
-    - `targetId:TargetID`: description not provided :(
-    - `flatten:boolean`: (Optional) Enables "flat" access to the session via specifying sessionId attribute in the commands.
+    - `target_id`:description not provided :(
+  - `flatten`:(Optional) Enables "flat" access to the session via specifying sessionId attribute in the commands.
   We plan to make this the default, deprecate non-flattened mode,
   and eventually retire it. See crbug.com/991325.
   """
+  @spec attach_to_target(CDPotion.Domain.Target.TargetID, boolean()) :: {String.t(), map()}
   def attach_to_target(target_id, flatten \\ nil) do
     params = as_query([{"targetId", target_id}, {"flatten", flatten}])
     {"Target.attachToTarget", params}
@@ -66,6 +68,7 @@ If filter is not specified, the one assumed is
   @doc """
   Attaches to the browser target, only uses flat sessionId mode.
   """
+  @spec attach_to_browser_target() :: {String.t(), map()}
   def attach_to_browser_target() do
     {"Target.attachToBrowserTarget", %{}}
   end
@@ -73,8 +76,9 @@ If filter is not specified, the one assumed is
   @doc """
   Closes the target. If the target is a page that gets closed too.
   ## Parameters:
-    - `targetId:TargetID`: description not provided :(
+    - `target_id`:description not provided :(
   """
+  @spec close_target(CDPotion.Domain.Target.TargetID) :: {String.t(), map()}
   def close_target(target_id) do
     params = as_query([{"targetId", target_id}])
     {"Target.closeTarget", params}
@@ -88,9 +92,11 @@ If filter is not specified, the one assumed is
   - `binding.send(json)` - a method to send messages over the remote debugging protocol
   - `binding.onmessage = json => handleMessage(json)` - a callback that will be called for the protocol notifications and command responses.
   ## Parameters:
-    - `targetId:TargetID`: description not provided :(
-    - `bindingName:string`: (Optional) Binding name, 'cdp' if not specified.
+    - `target_id`:description not provided :(
+  - `binding_name`:(Optional) Binding name, 'cdp' if not specified.
   """
+  @spec expose_dev_tools_protocol(CDPotion.Domain.Target.TargetID, String.t()) ::
+          {String.t(), map()}
   def expose_dev_tools_protocol(target_id, binding_name \\ nil) do
     params = as_query([{"targetId", target_id}, {"bindingName", binding_name}])
     {"Target.exposeDevToolsProtocol", params}
@@ -100,12 +106,14 @@ If filter is not specified, the one assumed is
   Creates a new empty BrowserContext. Similar to an incognito profile but you can have more than
   one.
   ## Parameters:
-    - `disposeOnDetach:boolean`: (Optional) If specified, disposes this context when debugging session disconnects.
-    - `proxyServer:string`: (Optional) Proxy server, similar to the one passed to --proxy-server
-    - `proxyBypassList:string`: (Optional) Proxy bypass list, similar to the one passed to --proxy-bypass-list
-    - `originsWithUniversalNetworkAccess:array`: (Optional) An optional list of origins to grant unlimited cross-origin access to.
+    - `dispose_on_detach`:(Optional) If specified, disposes this context when debugging session disconnects.
+  - `proxy_server`:(Optional) Proxy server, similar to the one passed to --proxy-server
+  - `proxy_bypass_list`:(Optional) Proxy bypass list, similar to the one passed to --proxy-bypass-list
+  - `origins_with_universal_network_access`:(Optional) An optional list of origins to grant unlimited cross-origin access to.
   Parts of the URL other than those constituting origin are ignored.
   """
+  @spec create_browser_context(boolean(), String.t(), String.t(), list(String.t())) ::
+          {String.t(), map()}
   def create_browser_context(
         dispose_on_detach \\ nil,
         proxy_server \\ nil,
@@ -126,6 +134,7 @@ If filter is not specified, the one assumed is
   @doc """
   Returns all browser contexts created with `Target.createBrowserContext` method.
   """
+  @spec get_browser_contexts() :: {String.t(), map()}
   def get_browser_contexts() do
     {"Target.getBrowserContexts", %{}}
   end
@@ -133,17 +142,27 @@ If filter is not specified, the one assumed is
   @doc """
   Creates a new page.
   ## Parameters:
-    - `url:string`: The initial URL the page will be navigated to. An empty string indicates about:blank.
-    - `width:integer`: (Optional) Frame width in DIP (headless chrome only).
-    - `height:integer`: (Optional) Frame height in DIP (headless chrome only).
-    - `browserContextId:Browser.BrowserContextID`: (Optional) The browser context to create the page in.
-    - `enableBeginFrameControl:boolean`: (Optional) Whether BeginFrames for this target will be controlled via DevTools (headless chrome only,
+    - `url`:The initial URL the page will be navigated to. An empty string indicates about:blank.
+  - `width`:(Optional) Frame width in DIP (headless chrome only).
+  - `height`:(Optional) Frame height in DIP (headless chrome only).
+  - `browser_context_id`:(Optional) The browser context to create the page in.
+  - `enable_begin_frame_control`:(Optional) Whether BeginFrames for this target will be controlled via DevTools (headless chrome only,
   not supported on MacOS yet, false by default).
-    - `newWindow:boolean`: (Optional) Whether to create a new Window or Tab (chrome-only, false by default).
-    - `background:boolean`: (Optional) Whether to create the target in background or foreground (chrome-only,
+  - `new_window`:(Optional) Whether to create a new Window or Tab (chrome-only, false by default).
+  - `background`:(Optional) Whether to create the target in background or foreground (chrome-only,
   false by default).
-    - `forTab:boolean`: (Optional) Whether to create the target of type "tab".
+  - `for_tab`:(Optional) Whether to create the target of type "tab".
   """
+  @spec create_target(
+          String.t(),
+          integer(),
+          integer(),
+          CDPotion.Domain.Browser.BrowserContextID,
+          boolean(),
+          boolean(),
+          boolean(),
+          boolean()
+        ) :: {String.t(), map()}
   def create_target(
         url,
         width \\ nil,
@@ -172,9 +191,11 @@ If filter is not specified, the one assumed is
   @doc """
   Detaches session with given id.
   ## Parameters:
-    - `sessionId:SessionID`: (Optional) Session to detach.
-    - `targetId:TargetID`: (Optional) Deprecated.
+    - `session_id`:(Optional) Session to detach.
+  - `target_id`:(Optional) Deprecated.
   """
+  @spec detach_from_target(CDPotion.Domain.Target.SessionID, CDPotion.Domain.Target.TargetID) ::
+          {String.t(), map()}
   def detach_from_target(session_id \\ nil, target_id \\ nil) do
     params = as_query([{"sessionId", session_id}, {"targetId", target_id}])
     {"Target.detachFromTarget", params}
@@ -184,8 +205,9 @@ If filter is not specified, the one assumed is
   Deletes a BrowserContext. All the belonging pages will be closed without calling their
   beforeunload hooks.
   ## Parameters:
-    - `browserContextId:Browser.BrowserContextID`: description not provided :(
+    - `browser_context_id`:description not provided :(
   """
+  @spec dispose_browser_context(CDPotion.Domain.Browser.BrowserContextID) :: {String.t(), map()}
   def dispose_browser_context(browser_context_id) do
     params = as_query([{"browserContextId", browser_context_id}])
     {"Target.disposeBrowserContext", params}
@@ -194,8 +216,9 @@ If filter is not specified, the one assumed is
   @doc """
   Returns information about a target.
   ## Parameters:
-    - `targetId:TargetID`: (Optional) description not provided :(
+    - `target_id`:(Optional) description not provided :(
   """
+  @spec get_target_info(CDPotion.Domain.Target.TargetID) :: {String.t(), map()}
   def get_target_info(target_id \\ nil) do
     params = as_query([{"targetId", target_id}])
     {"Target.getTargetInfo", params}
@@ -204,10 +227,11 @@ If filter is not specified, the one assumed is
   @doc """
   Retrieves a list of available targets.
   ## Parameters:
-    - `filter:TargetFilter`: (Optional) Only targets matching filter will be reported. If filter is not specified
+    - `filter`:(Optional) Only targets matching filter will be reported. If filter is not specified
   and target discovery is currently enabled, a filter used for target discovery
   is used for consistency.
   """
+  @spec get_targets(CDPotion.Domain.Target.TargetFilter) :: {String.t(), map()}
   def get_targets(filter \\ nil) do
     params = as_query([{"filter", filter}])
     {"Target.getTargets", params}
@@ -218,10 +242,15 @@ If filter is not specified, the one assumed is
   Consider using flat mode instead; see commands attachToTarget, setAutoAttach,
   and crbug.com/991325.
   ## Parameters:
-    - `message:string`: description not provided :(
-    - `sessionId:SessionID`: (Optional) Identifier of the session.
-    - `targetId:TargetID`: (Optional) Deprecated.
+    - `message`:description not provided :(
+  - `session_id`:(Optional) Identifier of the session.
+  - `target_id`:(Optional) Deprecated.
   """
+  @spec send_message_to_target(
+          String.t(),
+          CDPotion.Domain.Target.SessionID,
+          CDPotion.Domain.Target.TargetID
+        ) :: {String.t(), map()}
   def send_message_to_target(message, session_id \\ nil, target_id \\ nil) do
     params = as_query([{"message", message}, {"sessionId", session_id}, {"targetId", target_id}])
     {"Target.sendMessageToTarget", params}
@@ -234,14 +263,16 @@ If filter is not specified, the one assumed is
   This also clears all targets added by `autoAttachRelated` from the list of targets to watch
   for creation of related targets.
   ## Parameters:
-    - `autoAttach:boolean`: Whether to auto-attach to related targets.
-    - `waitForDebuggerOnStart:boolean`: Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`
+    - `auto_attach`:Whether to auto-attach to related targets.
+  - `wait_for_debugger_on_start`:Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`
   to run paused targets.
-    - `flatten:boolean`: (Optional) Enables "flat" access to the session via specifying sessionId attribute in the commands.
+  - `flatten`:(Optional) Enables "flat" access to the session via specifying sessionId attribute in the commands.
   We plan to make this the default, deprecate non-flattened mode,
   and eventually retire it. See crbug.com/991325.
-    - `filter:TargetFilter`: (Optional) Only targets matching filter will be attached.
+  - `filter`:(Optional) Only targets matching filter will be attached.
   """
+  @spec set_auto_attach(boolean(), boolean(), boolean(), CDPotion.Domain.Target.TargetFilter) ::
+          {String.t(), map()}
   def set_auto_attach(auto_attach, wait_for_debugger_on_start, flatten \\ nil, filter \\ nil) do
     params =
       as_query([
@@ -261,11 +292,16 @@ If filter is not specified, the one assumed is
   This cancels the effect of any previous `setAutoAttach` and is also cancelled by subsequent
   `setAutoAttach`. Only available at the Browser target.
   ## Parameters:
-    - `targetId:TargetID`: description not provided :(
-    - `waitForDebuggerOnStart:boolean`: Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`
+    - `target_id`:description not provided :(
+  - `wait_for_debugger_on_start`:Whether to pause new targets when attaching to them. Use `Runtime.runIfWaitingForDebugger`
   to run paused targets.
-    - `filter:TargetFilter`: (Optional) Only targets matching filter will be attached.
+  - `filter`:(Optional) Only targets matching filter will be attached.
   """
+  @spec auto_attach_related(
+          CDPotion.Domain.Target.TargetID,
+          boolean(),
+          CDPotion.Domain.Target.TargetFilter
+        ) :: {String.t(), map()}
   def auto_attach_related(target_id, wait_for_debugger_on_start, filter \\ nil) do
     params =
       as_query([
@@ -281,10 +317,12 @@ If filter is not specified, the one assumed is
   Controls whether to discover available targets and notify via
   `targetCreated/targetInfoChanged/targetDestroyed` events.
   ## Parameters:
-    - `discover:boolean`: Whether to discover available targets.
-    - `filter:TargetFilter`: (Optional) Only targets matching filter will be attached. If `discover` is false,
+    - `discover`:Whether to discover available targets.
+  - `filter`:(Optional) Only targets matching filter will be attached. If `discover` is false,
   `filter` must be omitted or empty.
   """
+  @spec set_discover_targets(boolean(), CDPotion.Domain.Target.TargetFilter) ::
+          {String.t(), map()}
   def set_discover_targets(discover, filter \\ nil) do
     params = as_query([{"discover", discover}, {"filter", filter}])
     {"Target.setDiscoverTargets", params}
@@ -294,8 +332,9 @@ If filter is not specified, the one assumed is
   Enables target discovery for the specified locations, when `setDiscoverTargets` was set to
   `true`.
   ## Parameters:
-    - `locations:array`: List of remote locations.
+    - `locations`:List of remote locations.
   """
+  @spec set_remote_locations(list(CDPotion.Domain.Target.RemoteLocation)) :: {String.t(), map()}
   def set_remote_locations(locations) do
     params = as_query([{"locations", locations}])
     {"Target.setRemoteLocations", params}

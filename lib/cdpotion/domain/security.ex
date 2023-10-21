@@ -79,6 +79,7 @@ https://www.w3.org/TR/mixed-content/#categories"
   @doc """
   Disables tracking security state changes.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"Security.disable", %{}}
   end
@@ -86,6 +87,7 @@ https://www.w3.org/TR/mixed-content/#categories"
   @doc """
   Enables tracking security state changes.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"Security.enable", %{}}
   end
@@ -93,8 +95,9 @@ https://www.w3.org/TR/mixed-content/#categories"
   @doc """
   Enable/disable whether all certificate errors should be ignored.
   ## Parameters:
-    - `ignore:boolean`: If true, all certificate errors will be ignored.
+    - `ignore`:If true, all certificate errors will be ignored.
   """
+  @spec set_ignore_certificate_errors(boolean()) :: {String.t(), map()}
   def set_ignore_certificate_errors(ignore) do
     params = as_query([{"ignore", ignore}])
     {"Security.setIgnoreCertificateErrors", params}
@@ -103,9 +106,11 @@ https://www.w3.org/TR/mixed-content/#categories"
   @doc """
   Handles a certificate error that fired a certificateError event.
   ## Parameters:
-    - `eventId:integer`: The ID of the event.
-    - `action:CertificateErrorAction`: The action to take on the certificate error.
+    - `event_id`:The ID of the event.
+  - `action`:The action to take on the certificate error.
   """
+  @spec handle_certificate_error(integer(), CDPotion.Domain.Security.CertificateErrorAction) ::
+          {String.t(), map()}
   def handle_certificate_error(event_id, action) do
     params = as_query([{"eventId", event_id}, {"action", action}])
     {"Security.handleCertificateError", params}
@@ -115,8 +120,9 @@ https://www.w3.org/TR/mixed-content/#categories"
   Enable/disable overriding certificate errors. If enabled, all certificate error events need to
   be handled by the DevTools client and should be answered with `handleCertificateError` commands.
   ## Parameters:
-    - `override:boolean`: If true, certificate errors will be overridden.
+    - `override`:If true, certificate errors will be overridden.
   """
+  @spec set_override_certificate_errors(boolean()) :: {String.t(), map()}
   def set_override_certificate_errors(override) do
     params = as_query([{"override", override}])
     {"Security.setOverrideCertificateErrors", params}

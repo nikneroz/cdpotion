@@ -76,6 +76,7 @@ defmodule CDPotion.Domain.WebAudio do
   @doc """
   Enables the WebAudio domain and starts sending context lifetime events.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"WebAudio.enable", %{}}
   end
@@ -83,6 +84,7 @@ defmodule CDPotion.Domain.WebAudio do
   @doc """
   Disables the WebAudio domain.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"WebAudio.disable", %{}}
   end
@@ -90,8 +92,9 @@ defmodule CDPotion.Domain.WebAudio do
   @doc """
   Fetch the realtime data from the registered contexts.
   ## Parameters:
-    - `contextId:GraphObjectId`: description not provided :(
+    - `context_id`:description not provided :(
   """
+  @spec get_realtime_data(CDPotion.Domain.WebAudio.GraphObjectId) :: {String.t(), map()}
   def get_realtime_data(context_id) do
     params = as_query([{"contextId", context_id}])
     {"WebAudio.getRealtimeData", params}

@@ -23,12 +23,14 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Returns event listeners of the given object.
   ## Parameters:
-    - `objectId:Runtime.RemoteObjectId`: Identifier of the object to return listeners for.
-    - `depth:integer`: (Optional) The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for the
+    - `object_id`:Identifier of the object to return listeners for.
+  - `depth`:(Optional) The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for the
   entire subtree or provide an integer larger than 0.
-    - `pierce:boolean`: (Optional) Whether or not iframes and shadow roots should be traversed when returning the subtree
+  - `pierce`:(Optional) Whether or not iframes and shadow roots should be traversed when returning the subtree
   (default is false). Reports listeners for all contexts if pierce is enabled.
   """
+  @spec get_event_listeners(CDPotion.Domain.Runtime.RemoteObjectId, integer(), boolean()) ::
+          {String.t(), map()}
   def get_event_listeners(object_id, depth \\ nil, pierce \\ nil) do
     params = as_query([{"objectId", object_id}, {"depth", depth}, {"pierce", pierce}])
     {"DOMDebugger.getEventListeners", params}
@@ -37,9 +39,13 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Removes DOM breakpoint that was set using `setDOMBreakpoint`.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: Identifier of the node to remove breakpoint from.
-    - `type:DOMBreakpointType`: Type of the breakpoint to remove.
+    - `node_id`:Identifier of the node to remove breakpoint from.
+  - `type`:Type of the breakpoint to remove.
   """
+  @spec remove_dom_breakpoint(
+          CDPotion.Domain.DOM.NodeId,
+          CDPotion.Domain.DOMDebugger.DOMBreakpointType
+        ) :: {String.t(), map()}
   def remove_dom_breakpoint(node_id, type) do
     params = as_query([{"nodeId", node_id}, {"type", type}])
     {"DOMDebugger.removeDOMBreakpoint", params}
@@ -48,9 +54,10 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Removes breakpoint on particular DOM event.
   ## Parameters:
-    - `eventName:string`: Event name.
-    - `targetName:string`: (Optional) EventTarget interface name.
+    - `event_name`:Event name.
+  - `target_name`:(Optional) EventTarget interface name.
   """
+  @spec remove_event_listener_breakpoint(String.t(), String.t()) :: {String.t(), map()}
   def remove_event_listener_breakpoint(event_name, target_name \\ nil) do
     params = as_query([{"eventName", event_name}, {"targetName", target_name}])
     {"DOMDebugger.removeEventListenerBreakpoint", params}
@@ -59,8 +66,9 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Removes breakpoint on particular native event.
   ## Parameters:
-    - `eventName:string`: Instrumentation name to stop on.
+    - `event_name`:Instrumentation name to stop on.
   """
+  @spec remove_instrumentation_breakpoint(String.t()) :: {String.t(), map()}
   def remove_instrumentation_breakpoint(event_name) do
     params = as_query([{"eventName", event_name}])
     {"DOMDebugger.removeInstrumentationBreakpoint", params}
@@ -69,8 +77,9 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Removes breakpoint from XMLHttpRequest.
   ## Parameters:
-    - `url:string`: Resource URL substring.
+    - `url`:Resource URL substring.
   """
+  @spec remove_xhr_breakpoint(String.t()) :: {String.t(), map()}
   def remove_xhr_breakpoint(url) do
     params = as_query([{"url", url}])
     {"DOMDebugger.removeXHRBreakpoint", params}
@@ -79,8 +88,10 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on particular CSP violations.
   ## Parameters:
-    - `violationTypes:array`: CSP Violations to stop upon.
+    - `violation_types`:CSP Violations to stop upon.
   """
+  @spec set_break_on_csp_violation(list(CDPotion.Domain.DOMDebugger.CSPViolationType)) ::
+          {String.t(), map()}
   def set_break_on_csp_violation(violation_types) do
     params = as_query([{"violationTypes", violation_types}])
     {"DOMDebugger.setBreakOnCSPViolation", params}
@@ -89,9 +100,13 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on particular operation with DOM.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: Identifier of the node to set breakpoint on.
-    - `type:DOMBreakpointType`: Type of the operation to stop upon.
+    - `node_id`:Identifier of the node to set breakpoint on.
+  - `type`:Type of the operation to stop upon.
   """
+  @spec set_dom_breakpoint(
+          CDPotion.Domain.DOM.NodeId,
+          CDPotion.Domain.DOMDebugger.DOMBreakpointType
+        ) :: {String.t(), map()}
   def set_dom_breakpoint(node_id, type) do
     params = as_query([{"nodeId", node_id}, {"type", type}])
     {"DOMDebugger.setDOMBreakpoint", params}
@@ -100,10 +115,11 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on particular DOM event.
   ## Parameters:
-    - `eventName:string`: DOM Event name to stop on (any DOM event will do).
-    - `targetName:string`: (Optional) EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on any
+    - `event_name`:DOM Event name to stop on (any DOM event will do).
+  - `target_name`:(Optional) EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on any
   EventTarget.
   """
+  @spec set_event_listener_breakpoint(String.t(), String.t()) :: {String.t(), map()}
   def set_event_listener_breakpoint(event_name, target_name \\ nil) do
     params = as_query([{"eventName", event_name}, {"targetName", target_name}])
     {"DOMDebugger.setEventListenerBreakpoint", params}
@@ -112,8 +128,9 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on particular native event.
   ## Parameters:
-    - `eventName:string`: Instrumentation name to stop on.
+    - `event_name`:Instrumentation name to stop on.
   """
+  @spec set_instrumentation_breakpoint(String.t()) :: {String.t(), map()}
   def set_instrumentation_breakpoint(event_name) do
     params = as_query([{"eventName", event_name}])
     {"DOMDebugger.setInstrumentationBreakpoint", params}
@@ -122,8 +139,9 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on XMLHttpRequest.
   ## Parameters:
-    - `url:string`: Resource URL substring. All XHRs having this substring in the URL will get stopped upon.
+    - `url`:Resource URL substring. All XHRs having this substring in the URL will get stopped upon.
   """
+  @spec set_xhr_breakpoint(String.t()) :: {String.t(), map()}
   def set_xhr_breakpoint(url) do
     params = as_query([{"url", url}])
     {"DOMDebugger.setXHRBreakpoint", params}

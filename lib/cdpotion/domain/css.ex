@@ -279,10 +279,12 @@ inspector' rules), 'regular' for regular stylesheets."
   Inserts a new rule with the given `ruleText` in a stylesheet with given `styleSheetId`, at the
   position specified by `location`.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: The css style sheet identifier where a new rule should be inserted.
-    - `ruleText:string`: The text of a new rule.
-    - `location:SourceRange`: Text position of a new rule in the target style sheet.
+    - `style_sheet_id`:The css style sheet identifier where a new rule should be inserted.
+  - `rule_text`:The text of a new rule.
+  - `location`:Text position of a new rule in the target style sheet.
   """
+  @spec add_rule(CDPotion.Domain.CSS.StyleSheetId, String.t(), CDPotion.Domain.CSS.SourceRange) ::
+          {String.t(), map()}
   def add_rule(style_sheet_id, rule_text, location) do
     params =
       as_query([{"styleSheetId", style_sheet_id}, {"ruleText", rule_text}, {"location", location}])
@@ -293,8 +295,9 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Returns all class names from specified stylesheet.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: description not provided :(
+    - `style_sheet_id`:description not provided :(
   """
+  @spec collect_class_names(CDPotion.Domain.CSS.StyleSheetId) :: {String.t(), map()}
   def collect_class_names(style_sheet_id) do
     params = as_query([{"styleSheetId", style_sheet_id}])
     {"CSS.collectClassNames", params}
@@ -303,8 +306,9 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Creates a new special "via-inspector" stylesheet in the frame with given `frameId`.
   ## Parameters:
-    - `frameId:Page.FrameId`: Identifier of the frame where "via-inspector" stylesheet should be created.
+    - `frame_id`:Identifier of the frame where "via-inspector" stylesheet should be created.
   """
+  @spec create_style_sheet(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
   def create_style_sheet(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"CSS.createStyleSheet", params}
@@ -313,6 +317,7 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Disables the CSS agent for the given page.
   """
+  @spec disable() :: {String.t(), map()}
   def disable() do
     {"CSS.disable", %{}}
   end
@@ -321,6 +326,7 @@ inspector' rules), 'regular' for regular stylesheets."
   Enables the CSS agent for the given page. Clients should not assume that the CSS agent has been
   enabled until the result of this command is received.
   """
+  @spec enable() :: {String.t(), map()}
   def enable() do
     {"CSS.enable", %{}}
   end
@@ -329,18 +335,21 @@ inspector' rules), 'regular' for regular stylesheets."
   Ensures that the given node will have specified pseudo-classes whenever its style is computed by
   the browser.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: The element id for which to force the pseudo state.
-    - `forcedPseudoClasses:array`: Element pseudo classes to force when computing the element's style.
+    - `node_id`:The element id for which to force the pseudo state.
+  - `forced_pseudo_classes`:Element pseudo classes to force when computing the element's style.
   """
+  @spec force_pseudo_state(CDPotion.Domain.DOM.NodeId, list(String.t())) :: {String.t(), map()}
   def force_pseudo_state(node_id, forced_pseudo_classes) do
     params = as_query([{"nodeId", node_id}, {"forcedPseudoClasses", forced_pseudo_classes}])
     {"CSS.forcePseudoState", params}
   end
 
   @doc """
+
   ## Parameters:
-    - `nodeId:DOM.NodeId`: Id of the node to get background colors for.
+    - `node_id`:Id of the node to get background colors for.
   """
+  @spec get_background_colors(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
   def get_background_colors(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getBackgroundColors", params}
@@ -349,8 +358,9 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Returns the computed style for a DOM node identified by `nodeId`.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: description not provided :(
+    - `node_id`:description not provided :(
   """
+  @spec get_computed_style_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
   def get_computed_style_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getComputedStyleForNode", params}
@@ -360,8 +370,9 @@ inspector' rules), 'regular' for regular stylesheets."
   Returns the styles defined inline (explicitly in the "style" attribute and implicitly, using DOM
   attributes) for a DOM node identified by `nodeId`.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: description not provided :(
+    - `node_id`:description not provided :(
   """
+  @spec get_inline_styles_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
   def get_inline_styles_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getInlineStylesForNode", params}
@@ -370,8 +381,9 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Returns requested styles for a DOM node identified by `nodeId`.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: description not provided :(
+    - `node_id`:description not provided :(
   """
+  @spec get_matched_styles_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
   def get_matched_styles_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getMatchedStylesForNode", params}
@@ -380,6 +392,7 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Returns all media queries parsed by the rendering engine.
   """
+  @spec get_media_queries() :: {String.t(), map()}
   def get_media_queries() do
     {"CSS.getMediaQueries", %{}}
   end
@@ -388,8 +401,9 @@ inspector' rules), 'regular' for regular stylesheets."
   Requests information about platform fonts which we used to render child TextNodes in the given
   node.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: description not provided :(
+    - `node_id`:description not provided :(
   """
+  @spec get_platform_fonts_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
   def get_platform_fonts_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getPlatformFontsForNode", params}
@@ -398,8 +412,9 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Returns the current textual content for a stylesheet.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: description not provided :(
+    - `style_sheet_id`:description not provided :(
   """
+  @spec get_style_sheet_text(CDPotion.Domain.CSS.StyleSheetId) :: {String.t(), map()}
   def get_style_sheet_text(style_sheet_id) do
     params = as_query([{"styleSheetId", style_sheet_id}])
     {"CSS.getStyleSheetText", params}
@@ -411,8 +426,9 @@ inspector' rules), 'regular' for regular stylesheets."
   layer for the nearest ancestor document or shadow root. The layer root contains
   the full layer tree for the tree scope and their ordering.
   ## Parameters:
-    - `nodeId:DOM.NodeId`: description not provided :(
+    - `node_id`:description not provided :(
   """
+  @spec get_layers_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
   def get_layers_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getLayersForNode", params}
@@ -426,8 +442,10 @@ inspector' rules), 'regular' for regular stylesheets."
   by the DOM agent. If no changes to the tracked properties occur after the node has been pushed
   to the front-end, no updates will be issued for the node.
   ## Parameters:
-    - `propertiesToTrack:array`: description not provided :(
+    - `properties_to_track`:description not provided :(
   """
+  @spec track_computed_style_updates(list(CDPotion.Domain.CSS.CSSComputedStyleProperty)) ::
+          {String.t(), map()}
   def track_computed_style_updates(properties_to_track) do
     params = as_query([{"propertiesToTrack", properties_to_track}])
     {"CSS.trackComputedStyleUpdates", params}
@@ -436,6 +454,7 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Polls the next batch of computed style updates.
   """
+  @spec take_computed_style_updates() :: {String.t(), map()}
   def take_computed_style_updates() do
     {"CSS.takeComputedStyleUpdates", %{}}
   end
@@ -444,10 +463,12 @@ inspector' rules), 'regular' for regular stylesheets."
   Find a rule with the given active property for the given node and set the new value for this
   property
   ## Parameters:
-    - `nodeId:DOM.NodeId`: The element id for which to set property.
-    - `propertyName:string`: description not provided :(
-    - `value:string`: description not provided :(
+    - `node_id`:The element id for which to set property.
+  - `property_name`:description not provided :(
+  - `value`:description not provided :(
   """
+  @spec set_effective_property_value_for_node(CDPotion.Domain.DOM.NodeId, String.t(), String.t()) ::
+          {String.t(), map()}
   def set_effective_property_value_for_node(node_id, property_name, value) do
     params = as_query([{"nodeId", node_id}, {"propertyName", property_name}, {"value", value}])
     {"CSS.setEffectivePropertyValueForNode", params}
@@ -456,10 +477,15 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Modifies the keyframe rule key text.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: description not provided :(
-    - `range:SourceRange`: description not provided :(
-    - `keyText:string`: description not provided :(
+    - `style_sheet_id`:description not provided :(
+  - `range`:description not provided :(
+  - `key_text`:description not provided :(
   """
+  @spec set_keyframe_key(
+          CDPotion.Domain.CSS.StyleSheetId,
+          CDPotion.Domain.CSS.SourceRange,
+          String.t()
+        ) :: {String.t(), map()}
   def set_keyframe_key(style_sheet_id, range, key_text) do
     params = as_query([{"styleSheetId", style_sheet_id}, {"range", range}, {"keyText", key_text}])
     {"CSS.setKeyframeKey", params}
@@ -468,10 +494,15 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Modifies the rule selector.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: description not provided :(
-    - `range:SourceRange`: description not provided :(
-    - `text:string`: description not provided :(
+    - `style_sheet_id`:description not provided :(
+  - `range`:description not provided :(
+  - `text`:description not provided :(
   """
+  @spec set_media_text(
+          CDPotion.Domain.CSS.StyleSheetId,
+          CDPotion.Domain.CSS.SourceRange,
+          String.t()
+        ) :: {String.t(), map()}
   def set_media_text(style_sheet_id, range, text) do
     params = as_query([{"styleSheetId", style_sheet_id}, {"range", range}, {"text", text}])
     {"CSS.setMediaText", params}
@@ -480,10 +511,15 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Modifies the expression of a container query.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: description not provided :(
-    - `range:SourceRange`: description not provided :(
-    - `text:string`: description not provided :(
+    - `style_sheet_id`:description not provided :(
+  - `range`:description not provided :(
+  - `text`:description not provided :(
   """
+  @spec set_container_query_text(
+          CDPotion.Domain.CSS.StyleSheetId,
+          CDPotion.Domain.CSS.SourceRange,
+          String.t()
+        ) :: {String.t(), map()}
   def set_container_query_text(style_sheet_id, range, text) do
     params = as_query([{"styleSheetId", style_sheet_id}, {"range", range}, {"text", text}])
     {"CSS.setContainerQueryText", params}
@@ -492,10 +528,15 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Modifies the expression of a supports at-rule.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: description not provided :(
-    - `range:SourceRange`: description not provided :(
-    - `text:string`: description not provided :(
+    - `style_sheet_id`:description not provided :(
+  - `range`:description not provided :(
+  - `text`:description not provided :(
   """
+  @spec set_supports_text(
+          CDPotion.Domain.CSS.StyleSheetId,
+          CDPotion.Domain.CSS.SourceRange,
+          String.t()
+        ) :: {String.t(), map()}
   def set_supports_text(style_sheet_id, range, text) do
     params = as_query([{"styleSheetId", style_sheet_id}, {"range", range}, {"text", text}])
     {"CSS.setSupportsText", params}
@@ -504,10 +545,15 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Modifies the expression of a scope at-rule.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: description not provided :(
-    - `range:SourceRange`: description not provided :(
-    - `text:string`: description not provided :(
+    - `style_sheet_id`:description not provided :(
+  - `range`:description not provided :(
+  - `text`:description not provided :(
   """
+  @spec set_scope_text(
+          CDPotion.Domain.CSS.StyleSheetId,
+          CDPotion.Domain.CSS.SourceRange,
+          String.t()
+        ) :: {String.t(), map()}
   def set_scope_text(style_sheet_id, range, text) do
     params = as_query([{"styleSheetId", style_sheet_id}, {"range", range}, {"text", text}])
     {"CSS.setScopeText", params}
@@ -516,10 +562,15 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Modifies the rule selector.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: description not provided :(
-    - `range:SourceRange`: description not provided :(
-    - `selector:string`: description not provided :(
+    - `style_sheet_id`:description not provided :(
+  - `range`:description not provided :(
+  - `selector`:description not provided :(
   """
+  @spec set_rule_selector(
+          CDPotion.Domain.CSS.StyleSheetId,
+          CDPotion.Domain.CSS.SourceRange,
+          String.t()
+        ) :: {String.t(), map()}
   def set_rule_selector(style_sheet_id, range, selector) do
     params =
       as_query([{"styleSheetId", style_sheet_id}, {"range", range}, {"selector", selector}])
@@ -530,9 +581,10 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Sets the new stylesheet text.
   ## Parameters:
-    - `styleSheetId:StyleSheetId`: description not provided :(
-    - `text:string`: description not provided :(
+    - `style_sheet_id`:description not provided :(
+  - `text`:description not provided :(
   """
+  @spec set_style_sheet_text(CDPotion.Domain.CSS.StyleSheetId, String.t()) :: {String.t(), map()}
   def set_style_sheet_text(style_sheet_id, text) do
     params = as_query([{"styleSheetId", style_sheet_id}, {"text", text}])
     {"CSS.setStyleSheetText", params}
@@ -541,8 +593,9 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Applies specified style edits one after another in the given order.
   ## Parameters:
-    - `edits:array`: description not provided :(
+    - `edits`:description not provided :(
   """
+  @spec set_style_texts(list(CDPotion.Domain.CSS.StyleDeclarationEdit)) :: {String.t(), map()}
   def set_style_texts(edits) do
     params = as_query([{"edits", edits}])
     {"CSS.setStyleTexts", params}
@@ -551,6 +604,7 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Enables the selector recording.
   """
+  @spec start_rule_usage_tracking() :: {String.t(), map()}
   def start_rule_usage_tracking() do
     {"CSS.startRuleUsageTracking", %{}}
   end
@@ -559,6 +613,7 @@ inspector' rules), 'regular' for regular stylesheets."
   Stop tracking rule usage and return the list of rules that were used since last call to
   `takeCoverageDelta` (or since start of coverage instrumentation).
   """
+  @spec stop_rule_usage_tracking() :: {String.t(), map()}
   def stop_rule_usage_tracking() do
     {"CSS.stopRuleUsageTracking", %{}}
   end
@@ -567,6 +622,7 @@ inspector' rules), 'regular' for regular stylesheets."
   Obtain list of rules that became used since last call to this method (or since start of coverage
   instrumentation).
   """
+  @spec take_coverage_delta() :: {String.t(), map()}
   def take_coverage_delta() do
     {"CSS.takeCoverageDelta", %{}}
   end
@@ -574,8 +630,9 @@ inspector' rules), 'regular' for regular stylesheets."
   @doc """
   Enables/disables rendering of local CSS fonts (enabled by default).
   ## Parameters:
-    - `enabled:boolean`: Whether rendering of local fonts is enabled.
+    - `enabled`:Whether rendering of local fonts is enabled.
   """
+  @spec set_local_fonts_enabled(boolean()) :: {String.t(), map()}
   def set_local_fonts_enabled(enabled) do
     params = as_query([{"enabled", enabled}])
     {"CSS.setLocalFontsEnabled", params}

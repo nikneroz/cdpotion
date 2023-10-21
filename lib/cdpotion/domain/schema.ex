@@ -9,6 +9,7 @@ defmodule CDPotion.Domain.Schema do
   @doc """
   Returns supported domains.
   """
+  @spec get_domains() :: {String.t(), map()}
   def get_domains() do
     {"Schema.getDomains", %{}}
   end

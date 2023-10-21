@@ -48,10 +48,10 @@ body is received)."
   Enables issuing of requestPaused events. A request will be paused until client
   calls one of failRequest, fulfillRequest or continueRequest/continueWithAuth.
   ## Parameters:
-    - `patterns`:(Optional) If specified, only requests matching any of these patterns will produce
+    - (Optional) `patterns`: If specified, only requests matching any of these patterns will produce
   fetchRequested event and will be paused until clients response. If not set,
   all requests will be affected.
-  - `handle_auth_requests`:(Optional) If true, authRequired events will be issued and requests will be paused
+  - (Optional) `handle_auth_requests`: If true, authRequired events will be issued and requests will be paused
   expecting a call to continueWithAuth.
   """
   @spec enable(list(CDPotion.Domain.Fetch.RequestPattern), boolean()) :: {String.t(), map()}
@@ -63,8 +63,8 @@ body is received)."
   @doc """
   Causes the request to fail with specified reason.
   ## Parameters:
-    - `request_id`:An id the client received in requestPaused event.
-  - `error_reason`:Causes the request to fail with the given reason.
+    - (Required) `request_id`: An id the client received in requestPaused event.
+  - (Required) `error_reason`: Causes the request to fail with the given reason.
   """
   @spec fail_request(CDPotion.Domain.Fetch.RequestId, CDPotion.Domain.Network.ErrorReason) ::
           {String.t(), map()}
@@ -76,17 +76,17 @@ body is received)."
   @doc """
   Provides response to the request.
   ## Parameters:
-    - `request_id`:An id the client received in requestPaused event.
-  - `response_code`:An HTTP response code.
-  - `response_headers`:(Optional) Response headers.
-  - `binary_response_headers`:(Optional) Alternative way of specifying response headers as a \0-separated
+    - (Required) `request_id`: An id the client received in requestPaused event.
+  - (Required) `response_code`: An HTTP response code.
+  - (Optional) `response_headers`: Response headers.
+  - (Optional) `binary_response_headers`: Alternative way of specifying response headers as a \0-separated
   series of name: value pairs. Prefer the above method unless you
   need to represent some non-UTF8 values that can't be transmitted
   over the protocol as text. (Encoded as a base64 string when passed over JSON)
-  - `body`:(Optional) A response body. If absent, original response body will be used if
+  - (Optional) `body`: A response body. If absent, original response body will be used if
   the request is intercepted at the response stage and empty body
   will be used if the request is intercepted at the request stage. (Encoded as a base64 string when passed over JSON)
-  - `response_phrase`:(Optional) A textual representation of responseCode.
+  - (Optional) `response_phrase`: A textual representation of responseCode.
   If absent, a standard phrase matching responseCode is used.
   """
   @spec fulfill_request(
@@ -121,14 +121,14 @@ body is received)."
   @doc """
   Continues the request, optionally modifying some of its parameters.
   ## Parameters:
-    - `request_id`:An id the client received in requestPaused event.
-  - `url`:(Optional) If set, the request url will be modified in a way that's not observable by page.
-  - `method`:(Optional) If set, the request method is overridden.
-  - `post_data`:(Optional) If set, overrides the post data in the request. (Encoded as a base64 string when passed over JSON)
-  - `headers`:(Optional) If set, overrides the request headers. Note that the overrides do not
+    - (Required) `request_id`: An id the client received in requestPaused event.
+  - (Optional) `url`: If set, the request url will be modified in a way that's not observable by page.
+  - (Optional) `method`: If set, the request method is overridden.
+  - (Optional) `post_data`: If set, overrides the post data in the request. (Encoded as a base64 string when passed over JSON)
+  - (Optional) `headers`: If set, overrides the request headers. Note that the overrides do not
   extend to subsequent redirect hops, if a redirect happens. Another override
   may be applied to a different request produced by a redirect.
-  - `intercept_response`:(Optional) If set, overrides response interception behavior for this request.
+  - (Optional) `intercept_response`: If set, overrides response interception behavior for this request.
   """
   @spec continue_request(
           CDPotion.Domain.Fetch.RequestId,
@@ -162,8 +162,8 @@ body is received)."
   @doc """
   Continues a request supplying authChallengeResponse following authRequired event.
   ## Parameters:
-    - `request_id`:An id the client received in authRequired event.
-  - `auth_challenge_response`:Response to  with an authChallenge.
+    - (Required) `request_id`: An id the client received in authRequired event.
+  - (Required) `auth_challenge_response`: Response to  with an authChallenge.
   """
   @spec continue_with_auth(
           CDPotion.Domain.Fetch.RequestId,
@@ -181,12 +181,12 @@ body is received)."
   response headers. If either responseCode or headers are modified, all of them
   must be present.
   ## Parameters:
-    - `request_id`:An id the client received in requestPaused event.
-  - `response_code`:(Optional) An HTTP response code. If absent, original response code will be used.
-  - `response_phrase`:(Optional) A textual representation of responseCode.
+    - (Required) `request_id`: An id the client received in requestPaused event.
+  - (Optional) `response_code`: An HTTP response code. If absent, original response code will be used.
+  - (Optional) `response_phrase`: A textual representation of responseCode.
   If absent, a standard phrase matching responseCode is used.
-  - `response_headers`:(Optional) Response headers. If absent, original response headers will be used.
-  - `binary_response_headers`:(Optional) Alternative way of specifying response headers as a \0-separated
+  - (Optional) `response_headers`: Response headers. If absent, original response headers will be used.
+  - (Optional) `binary_response_headers`: Alternative way of specifying response headers as a \0-separated
   series of name: value pairs. Prefer the above method unless you
   need to represent some non-UTF8 values that can't be transmitted
   over the protocol as text. (Encoded as a base64 string when passed over JSON)
@@ -229,7 +229,7 @@ body is received)."
   `responseCode` and presence of `location` response header, see
   comments to `requestPaused` for details.
   ## Parameters:
-    - `request_id`:Identifier for the intercepted request to get body for.
+    - (Required) `request_id`: Identifier for the intercepted request to get body for.
   """
   @spec get_response_body(CDPotion.Domain.Fetch.RequestId) :: {String.t(), map()}
   def get_response_body(request_id) do
@@ -249,7 +249,7 @@ body is received)."
   Calling other methods that affect the request or disabling fetch
   domain before body is received results in an undefined behavior.
   ## Parameters:
-    - `request_id`:description not provided :(
+    - (Required) `request_id`: description not provided :(
   """
   @spec take_response_body_as_stream(CDPotion.Domain.Fetch.RequestId) :: {String.t(), map()}
   def take_response_body_as_stream(request_id) do

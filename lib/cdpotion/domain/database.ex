@@ -36,8 +36,8 @@ defmodule CDPotion.Domain.Database do
   @doc """
 
   ## Parameters:
-    - `database_id`:description not provided :(
-  - `query`:description not provided :(
+    - (Required) `database_id`: description not provided :(
+  - (Required) `query`: description not provided :(
   """
   @spec execute_sql(CDPotion.Domain.Database.DatabaseId, String.t()) :: {String.t(), map()}
   def execute_sql(database_id, query) do
@@ -48,7 +48,7 @@ defmodule CDPotion.Domain.Database do
   @doc """
 
   ## Parameters:
-    - `database_id`:description not provided :(
+    - (Required) `database_id`: description not provided :(
   """
   @spec get_database_table_names(CDPotion.Domain.Database.DatabaseId) :: {String.t(), map()}
   def get_database_table_names(database_id) do

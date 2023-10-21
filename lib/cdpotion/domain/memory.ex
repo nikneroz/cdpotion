@@ -51,7 +51,7 @@ defmodule CDPotion.Domain.Memory do
   @doc """
   Enable/disable suppressing memory pressure notifications in all processes.
   ## Parameters:
-    - `suppressed`:If true, memory pressure notifications will be suppressed.
+    - (Required) `suppressed`: If true, memory pressure notifications will be suppressed.
   """
   @spec set_pressure_notifications_suppressed(boolean()) :: {String.t(), map()}
   def set_pressure_notifications_suppressed(suppressed) do
@@ -62,7 +62,7 @@ defmodule CDPotion.Domain.Memory do
   @doc """
   Simulate a memory pressure notification in all processes.
   ## Parameters:
-    - `level`:Memory pressure level of the notification.
+    - (Required) `level`: Memory pressure level of the notification.
   """
   @spec simulate_pressure_notification(CDPotion.Domain.Memory.PressureLevel) ::
           {String.t(), map()}
@@ -74,8 +74,8 @@ defmodule CDPotion.Domain.Memory do
   @doc """
   Start collecting native memory profile.
   ## Parameters:
-    - `sampling_interval`:(Optional) Average number of bytes between samples.
-  - `suppress_randomness`:(Optional) Do not randomize intervals between samples.
+    - (Optional) `sampling_interval`: Average number of bytes between samples.
+  - (Optional) `suppress_randomness`: Do not randomize intervals between samples.
   """
   @spec start_sampling(integer(), boolean()) :: {String.t(), map()}
   def start_sampling(sampling_interval \\ nil, suppress_randomness \\ nil) do

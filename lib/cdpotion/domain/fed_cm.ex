@@ -24,7 +24,7 @@ whether this account has ever been used to sign in to this RP before."
   @doc """
 
   ## Parameters:
-    - `disable_rejection_delay`:(Optional) Allows callers to disable the promise rejection delay that would
+    - (Optional) `disable_rejection_delay`: Allows callers to disable the promise rejection delay that would
   normally happen, if this is unimportant to what's being tested.
   (step 4 of https://fedidcg.github.io/FedCM/#browser-api-rp-sign-in)
   """
@@ -45,8 +45,8 @@ whether this account has ever been used to sign in to this RP before."
   @doc """
 
   ## Parameters:
-    - `dialog_id`:description not provided :(
-  - `account_index`:description not provided :(
+    - (Required) `dialog_id`: description not provided :(
+  - (Required) `account_index`: description not provided :(
   """
   @spec select_account(String.t(), integer()) :: {String.t(), map()}
   def select_account(dialog_id, account_index) do
@@ -57,8 +57,8 @@ whether this account has ever been used to sign in to this RP before."
   @doc """
 
   ## Parameters:
-    - `dialog_id`:description not provided :(
-  - `trigger_cooldown`:(Optional) description not provided :(
+    - (Required) `dialog_id`: description not provided :(
+  - (Optional) `trigger_cooldown`: description not provided :(
   """
   @spec dismiss_dialog(String.t(), boolean()) :: {String.t(), map()}
   def dismiss_dialog(dialog_id, trigger_cooldown \\ nil) do

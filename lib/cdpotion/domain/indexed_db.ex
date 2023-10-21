@@ -57,12 +57,12 @@ defmodule CDPotion.Domain.IndexedDB do
   @doc """
   Clears all entries from an object store.
   ## Parameters:
-    - `security_origin`:(Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+    - (Optional) `security_origin`: At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
   Security origin.
-  - `storage_key`:(Optional) Storage key.
-  - `storage_bucket`:(Optional) Storage bucket. If not specified, it uses the default bucket.
-  - `database_name`:Database name.
-  - `object_store_name`:Object store name.
+  - (Optional) `storage_key`: Storage key.
+  - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
+  - (Required) `database_name`: Database name.
+  - (Required) `object_store_name`: Object store name.
   """
   @spec clear_object_store(
           String.t(),
@@ -93,11 +93,11 @@ defmodule CDPotion.Domain.IndexedDB do
   @doc """
   Deletes a database.
   ## Parameters:
-    - `security_origin`:(Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+    - (Optional) `security_origin`: At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
   Security origin.
-  - `storage_key`:(Optional) Storage key.
-  - `storage_bucket`:(Optional) Storage bucket. If not specified, it uses the default bucket.
-  - `database_name`:Database name.
+  - (Optional) `storage_key`: Storage key.
+  - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
+  - (Required) `database_name`: Database name.
   """
   @spec delete_database(String.t(), String.t(), CDPotion.Domain.Storage.StorageBucket, String.t()) ::
           {String.t(), map()}
@@ -121,13 +121,13 @@ defmodule CDPotion.Domain.IndexedDB do
   @doc """
   Delete a range of entries from an object store
   ## Parameters:
-    - `security_origin`:(Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+    - (Optional) `security_origin`: At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
   Security origin.
-  - `storage_key`:(Optional) Storage key.
-  - `storage_bucket`:(Optional) Storage bucket. If not specified, it uses the default bucket.
-  - `database_name`:description not provided :(
-  - `object_store_name`:description not provided :(
-  - `key_range`:Range of entry keys to delete
+  - (Optional) `storage_key`: Storage key.
+  - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
+  - (Required) `database_name`: description not provided :(
+  - (Required) `object_store_name`: description not provided :(
+  - (Required) `key_range`: Range of entry keys to delete
   """
   @spec delete_object_store_entries(
           String.t(),
@@ -177,16 +177,16 @@ defmodule CDPotion.Domain.IndexedDB do
   @doc """
   Requests data from object store or index.
   ## Parameters:
-    - `security_origin`:(Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+    - (Optional) `security_origin`: At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
   Security origin.
-  - `storage_key`:(Optional) Storage key.
-  - `storage_bucket`:(Optional) Storage bucket. If not specified, it uses the default bucket.
-  - `database_name`:Database name.
-  - `object_store_name`:Object store name.
-  - `index_name`:Index name, empty string for object store data requests.
-  - `skip_count`:Number of records to skip.
-  - `page_size`:Number of records to fetch.
-  - `key_range`:(Optional) Key range.
+  - (Optional) `storage_key`: Storage key.
+  - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
+  - (Required) `database_name`: Database name.
+  - (Required) `object_store_name`: Object store name.
+  - (Required) `index_name`: Index name, empty string for object store data requests.
+  - (Required) `skip_count`: Number of records to skip.
+  - (Required) `page_size`: Number of records to fetch.
+  - (Optional) `key_range`: Key range.
   """
   @spec request_data(
           String.t(),
@@ -229,12 +229,12 @@ defmodule CDPotion.Domain.IndexedDB do
   @doc """
   Gets metadata of an object store.
   ## Parameters:
-    - `security_origin`:(Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+    - (Optional) `security_origin`: At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
   Security origin.
-  - `storage_key`:(Optional) Storage key.
-  - `storage_bucket`:(Optional) Storage bucket. If not specified, it uses the default bucket.
-  - `database_name`:Database name.
-  - `object_store_name`:Object store name.
+  - (Optional) `storage_key`: Storage key.
+  - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
+  - (Required) `database_name`: Database name.
+  - (Required) `object_store_name`: Object store name.
   """
   @spec get_metadata(
           String.t(),
@@ -265,11 +265,11 @@ defmodule CDPotion.Domain.IndexedDB do
   @doc """
   Requests database with given name in given frame.
   ## Parameters:
-    - `security_origin`:(Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+    - (Optional) `security_origin`: At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
   Security origin.
-  - `storage_key`:(Optional) Storage key.
-  - `storage_bucket`:(Optional) Storage bucket. If not specified, it uses the default bucket.
-  - `database_name`:Database name.
+  - (Optional) `storage_key`: Storage key.
+  - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
+  - (Required) `database_name`: Database name.
   """
   @spec request_database(
           String.t(),
@@ -297,10 +297,10 @@ defmodule CDPotion.Domain.IndexedDB do
   @doc """
   Requests database names for given security origin.
   ## Parameters:
-    - `security_origin`:(Optional) At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
+    - (Optional) `security_origin`: At least and at most one of securityOrigin, storageKey, or storageBucket must be specified.
   Security origin.
-  - `storage_key`:(Optional) Storage key.
-  - `storage_bucket`:(Optional) Storage bucket. If not specified, it uses the default bucket.
+  - (Optional) `storage_key`: Storage key.
+  - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
   """
   @spec request_database_names(String.t(), String.t(), CDPotion.Domain.Storage.StorageBucket) ::
           {String.t(), map()}

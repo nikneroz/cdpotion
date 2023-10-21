@@ -28,7 +28,7 @@ defmodule CDPotion.Domain.HeapProfiler do
   Enables console to refer to the node with given id via $x (see Command Line API for more details
   $x functions).
   ## Parameters:
-    - `heap_object_id`:Heap snapshot object id to be accessible by means of $x command line API.
+    - (Required) `heap_object_id`: Heap snapshot object id to be accessible by means of $x command line API.
   """
   @spec add_inspected_heap_object(CDPotion.Domain.HeapProfiler.HeapSnapshotObjectId) ::
           {String.t(), map()}
@@ -64,7 +64,7 @@ defmodule CDPotion.Domain.HeapProfiler do
   @doc """
 
   ## Parameters:
-    - `object_id`:Identifier of the object to get heap object id for.
+    - (Required) `object_id`: Identifier of the object to get heap object id for.
   """
   @spec get_heap_object_id(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
   def get_heap_object_id(object_id) do
@@ -75,8 +75,8 @@ defmodule CDPotion.Domain.HeapProfiler do
   @doc """
 
   ## Parameters:
-    - `object_id`:description not provided :(
-  - `object_group`:(Optional) Symbolic group name that can be used to release multiple objects.
+    - (Required) `object_id`: description not provided :(
+  - (Optional) `object_group`: Symbolic group name that can be used to release multiple objects.
   """
   @spec get_object_by_heap_object_id(
           CDPotion.Domain.HeapProfiler.HeapSnapshotObjectId,
@@ -98,16 +98,16 @@ defmodule CDPotion.Domain.HeapProfiler do
   @doc """
 
   ## Parameters:
-    - `sampling_interval`:(Optional) Average sample interval in bytes. Poisson distribution is used for the intervals. The
+    - (Optional) `sampling_interval`: Average sample interval in bytes. Poisson distribution is used for the intervals. The
   default value is 32768 bytes.
-  - `include_objects_collected_by_major_gc`:(Optional) By default, the sampling heap profiler reports only objects which are
+  - (Optional) `include_objects_collected_by_major_gc`: By default, the sampling heap profiler reports only objects which are
   still alive when the profile is returned via getSamplingProfile or
   stopSampling, which is useful for determining what functions contribute
   the most to steady-state memory usage. This flag instructs the sampling
   heap profiler to also include information about objects discarded by
   major GC, which will show which functions cause large temporary memory
   usage or long GC pauses.
-  - `include_objects_collected_by_minor_gc`:(Optional) By default, the sampling heap profiler reports only objects which are
+  - (Optional) `include_objects_collected_by_minor_gc`: By default, the sampling heap profiler reports only objects which are
   still alive when the profile is returned via getSamplingProfile or
   stopSampling, which is useful for determining what functions contribute
   the most to steady-state memory usage. This flag instructs the sampling
@@ -134,7 +134,7 @@ defmodule CDPotion.Domain.HeapProfiler do
   @doc """
 
   ## Parameters:
-    - `track_allocations`:(Optional) description not provided :(
+    - (Optional) `track_allocations`: description not provided :(
   """
   @spec start_tracking_heap_objects(boolean()) :: {String.t(), map()}
   def start_tracking_heap_objects(track_allocations \\ nil) do
@@ -153,11 +153,11 @@ defmodule CDPotion.Domain.HeapProfiler do
   @doc """
 
   ## Parameters:
-    - `report_progress`:(Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
+    - (Optional) `report_progress`: If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken
   when the tracking is stopped.
-  - `treat_global_objects_as_roots`:(Optional) Deprecated in favor of `exposeInternals`.
-  - `capture_numeric_value`:(Optional) If true, numerical values are included in the snapshot
-  - `expose_internals`:(Optional) If true, exposes internals of the snapshot.
+  - (Optional) `treat_global_objects_as_roots`: Deprecated in favor of `exposeInternals`.
+  - (Optional) `capture_numeric_value`: If true, numerical values are included in the snapshot
+  - (Optional) `expose_internals`: If true, exposes internals of the snapshot.
   """
   @spec stop_tracking_heap_objects(boolean(), boolean(), boolean(), boolean()) ::
           {String.t(), map()}
@@ -181,11 +181,11 @@ defmodule CDPotion.Domain.HeapProfiler do
   @doc """
 
   ## Parameters:
-    - `report_progress`:(Optional) If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.
-  - `treat_global_objects_as_roots`:(Optional) If true, a raw snapshot without artificial roots will be generated.
+    - (Optional) `report_progress`: If true 'reportHeapSnapshotProgress' events will be generated while snapshot is being taken.
+  - (Optional) `treat_global_objects_as_roots`: If true, a raw snapshot without artificial roots will be generated.
   Deprecated in favor of `exposeInternals`.
-  - `capture_numeric_value`:(Optional) If true, numerical values are included in the snapshot
-  - `expose_internals`:(Optional) If true, exposes internals of the snapshot.
+  - (Optional) `capture_numeric_value`: If true, numerical values are included in the snapshot
+  - (Optional) `expose_internals`: If true, exposes internals of the snapshot.
   """
   @spec take_heap_snapshot(boolean(), boolean(), boolean(), boolean()) :: {String.t(), map()}
   def take_heap_snapshot(

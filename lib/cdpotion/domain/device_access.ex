@@ -31,8 +31,8 @@ defmodule CDPotion.Domain.DeviceAccess do
   @doc """
   Select a device in response to a DeviceAccess.deviceRequestPrompted event.
   ## Parameters:
-    - `id`:description not provided :(
-  - `device_id`:description not provided :(
+    - (Required) `id`: description not provided :(
+  - (Required) `device_id`: description not provided :(
   """
   @spec select_prompt(
           CDPotion.Domain.DeviceAccess.RequestId,
@@ -46,7 +46,7 @@ defmodule CDPotion.Domain.DeviceAccess do
   @doc """
   Cancel a prompt in response to a DeviceAccess.deviceRequestPrompted event.
   ## Parameters:
-    - `id`:description not provided :(
+    - (Required) `id`: description not provided :(
   """
   @spec cancel_prompt(CDPotion.Domain.DeviceAccess.RequestId) :: {String.t(), map()}
   def cancel_prompt(id) do

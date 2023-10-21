@@ -82,10 +82,10 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Set permission settings for given origin.
   ## Parameters:
-    - `permission`:Descriptor of permission to override.
-  - `setting`:Setting of the permission.
-  - `origin`:(Optional) Origin the permission applies to, all origins if not specified.
-  - `browser_context_id`:(Optional) Context to override. When omitted, default browser context is used.
+    - (Required) `permission`: Descriptor of permission to override.
+  - (Required) `setting`: Setting of the permission.
+  - (Optional) `origin`: Origin the permission applies to, all origins if not specified.
+  - (Optional) `browser_context_id`: Context to override. When omitted, default browser context is used.
   """
   @spec set_permission(
           CDPotion.Domain.Browser.PermissionDescriptor,
@@ -108,9 +108,9 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Grant specific permissions to the given origin and reject all others.
   ## Parameters:
-    - `permissions`:description not provided :(
-  - `origin`:(Optional) Origin the permission applies to, all origins if not specified.
-  - `browser_context_id`:(Optional) BrowserContext to override permissions. When omitted, default browser context is used.
+    - (Required) `permissions`: description not provided :(
+  - (Optional) `origin`: Origin the permission applies to, all origins if not specified.
+  - (Optional) `browser_context_id`: BrowserContext to override permissions. When omitted, default browser context is used.
   """
   @spec grant_permissions(
           list(CDPotion.Domain.Browser.PermissionType),
@@ -131,7 +131,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Reset all permission management for all origins.
   ## Parameters:
-    - `browser_context_id`:(Optional) BrowserContext to reset permissions. When omitted, default browser context is used.
+    - (Optional) `browser_context_id`: BrowserContext to reset permissions. When omitted, default browser context is used.
   """
   @spec reset_permissions(CDPotion.Domain.Browser.BrowserContextID) :: {String.t(), map()}
   def reset_permissions(browser_context_id \\ nil) do
@@ -142,13 +142,13 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Set the behavior when downloading a file.
   ## Parameters:
-    - `behavior`:Whether to allow all or deny all download requests, or use default Chrome behavior if
+    - (Required) `behavior`: Whether to allow all or deny all download requests, or use default Chrome behavior if
   available (otherwise deny). |allowAndName| allows download and names files according to
   their dowmload guids.
-  - `browser_context_id`:(Optional) BrowserContext to set download behavior. When omitted, default browser context is used.
-  - `download_path`:(Optional) The default path to save downloaded files to. This is required if behavior is set to 'allow'
+  - (Optional) `browser_context_id`: BrowserContext to set download behavior. When omitted, default browser context is used.
+  - (Optional) `download_path`: The default path to save downloaded files to. This is required if behavior is set to 'allow'
   or 'allowAndName'.
-  - `events_enabled`:(Optional) Whether to emit download events (defaults to false).
+  - (Optional) `events_enabled`: Whether to emit download events (defaults to false).
   """
   @spec set_download_behavior(
           String.t(),
@@ -176,8 +176,8 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Cancel a download if in progress
   ## Parameters:
-    - `guid`:Global unique identifier of the download.
-  - `browser_context_id`:(Optional) BrowserContext to perform the action in. When omitted, default browser context is used.
+    - (Required) `guid`: Global unique identifier of the download.
+  - (Optional) `browser_context_id`: BrowserContext to perform the action in. When omitted, default browser context is used.
   """
   @spec cancel_download(String.t(), CDPotion.Domain.Browser.BrowserContextID) ::
           {String.t(), map()}
@@ -230,10 +230,10 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Get Chrome histograms.
   ## Parameters:
-    - `query`:(Optional) Requested substring in name. Only histograms which have query as a
+    - (Optional) `query`: Requested substring in name. Only histograms which have query as a
   substring in their name are extracted. An empty or absent query returns
   all histograms.
-  - `delta`:(Optional) If true, retrieve delta since last delta call.
+  - (Optional) `delta`: If true, retrieve delta since last delta call.
   """
   @spec get_histograms(String.t(), boolean()) :: {String.t(), map()}
   def get_histograms(query \\ nil, delta \\ nil) do
@@ -244,8 +244,8 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Get a Chrome histogram by name.
   ## Parameters:
-    - `name`:Requested histogram name.
-  - `delta`:(Optional) If true, retrieve delta since last delta call.
+    - (Required) `name`: Requested histogram name.
+  - (Optional) `delta`: If true, retrieve delta since last delta call.
   """
   @spec get_histogram(String.t(), boolean()) :: {String.t(), map()}
   def get_histogram(name, delta \\ nil) do
@@ -256,7 +256,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Get position and size of the browser window.
   ## Parameters:
-    - `window_id`:Browser window id.
+    - (Required) `window_id`: Browser window id.
   """
   @spec get_window_bounds(CDPotion.Domain.Browser.WindowID) :: {String.t(), map()}
   def get_window_bounds(window_id) do
@@ -267,7 +267,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Get the browser window that contains the devtools target.
   ## Parameters:
-    - `target_id`:(Optional) Devtools agent host id. If called as a part of the session, associated targetId is used.
+    - (Optional) `target_id`: Devtools agent host id. If called as a part of the session, associated targetId is used.
   """
   @spec get_window_for_target(CDPotion.Domain.Target.TargetID) :: {String.t(), map()}
   def get_window_for_target(target_id \\ nil) do
@@ -278,8 +278,8 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Set position and/or size of the browser window.
   ## Parameters:
-    - `window_id`:Browser window id.
-  - `bounds`:New window bounds. The 'minimized', 'maximized' and 'fullscreen' states cannot be combined
+    - (Required) `window_id`: Browser window id.
+  - (Required) `bounds`: New window bounds. The 'minimized', 'maximized' and 'fullscreen' states cannot be combined
   with 'left', 'top', 'width' or 'height'. Leaves unspecified fields unchanged.
   """
   @spec set_window_bounds(CDPotion.Domain.Browser.WindowID, CDPotion.Domain.Browser.Bounds) ::
@@ -292,8 +292,8 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Set dock tile details, platform-specific.
   ## Parameters:
-    - `badge_label`:(Optional) description not provided :(
-  - `image`:(Optional) Png encoded image. (Encoded as a base64 string when passed over JSON)
+    - (Optional) `badge_label`: description not provided :(
+  - (Optional) `image`: Png encoded image. (Encoded as a base64 string when passed over JSON)
   """
   @spec set_dock_tile(String.t(), String.t()) :: {String.t(), map()}
   def set_dock_tile(badge_label \\ nil, image \\ nil) do
@@ -304,7 +304,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   @doc """
   Invoke custom browser commands used by telemetry.
   ## Parameters:
-    - `command_id`:description not provided :(
+    - (Required) `command_id`: description not provided :(
   """
   @spec execute_browser_command(CDPotion.Domain.Browser.BrowserCommandId) :: {String.t(), map()}
   def execute_browser_command(command_id) do
@@ -316,7 +316,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   Allows a site to use privacy sandbox features that require enrollment
   without the site actually being enrolled. Only supported on page targets.
   ## Parameters:
-    - `url`:description not provided :(
+    - (Required) `url`: description not provided :(
   """
   @spec add_privacy_sandbox_enrollment_override(String.t()) :: {String.t(), map()}
   def add_privacy_sandbox_enrollment_override(url) do

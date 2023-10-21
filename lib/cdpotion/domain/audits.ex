@@ -449,10 +449,10 @@ transferred to a context that is not cross-origin isolated."
   Returns the response body and size if it were re-encoded with the specified settings. Only
   applies to images.
   ## Parameters:
-    - `request_id`:Identifier of the network request to get content for.
-  - `encoding`:The encoding to use.
-  - `quality`:(Optional) The quality of the encoding (0-1). (defaults to 1)
-  - `size_only`:(Optional) Whether to only return the size information (defaults to false).
+    - (Required) `request_id`: Identifier of the network request to get content for.
+  - (Required) `encoding`: The encoding to use.
+  - (Optional) `quality`: The quality of the encoding (0-1). (defaults to 1)
+  - (Optional) `size_only`: Whether to only return the size information (defaults to false).
   """
   @spec get_encoded_response(CDPotion.Domain.Network.RequestId, String.t(), number(), boolean()) ::
           {String.t(), map()}
@@ -489,7 +489,7 @@ transferred to a context that is not cross-origin isolated."
   Runs the contrast check for the target page. Found issues are reported
   using Audits.issueAdded event.
   ## Parameters:
-    - `report_aaa`:(Optional) Whether to report WCAG AAA level issues. Default is false.
+    - (Optional) `report_aaa`: Whether to report WCAG AAA level issues. Default is false.
   """
   @spec check_contrast(boolean()) :: {String.t(), map()}
   def check_contrast(report_aaa \\ nil) do

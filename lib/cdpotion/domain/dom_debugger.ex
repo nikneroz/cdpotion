@@ -23,10 +23,10 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Returns event listeners of the given object.
   ## Parameters:
-    - `object_id`:Identifier of the object to return listeners for.
-  - `depth`:(Optional) The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for the
+    - (Required) `object_id`: Identifier of the object to return listeners for.
+  - (Optional) `depth`: The maximum depth at which Node children should be retrieved, defaults to 1. Use -1 for the
   entire subtree or provide an integer larger than 0.
-  - `pierce`:(Optional) Whether or not iframes and shadow roots should be traversed when returning the subtree
+  - (Optional) `pierce`: Whether or not iframes and shadow roots should be traversed when returning the subtree
   (default is false). Reports listeners for all contexts if pierce is enabled.
   """
   @spec get_event_listeners(CDPotion.Domain.Runtime.RemoteObjectId, integer(), boolean()) ::
@@ -39,8 +39,8 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Removes DOM breakpoint that was set using `setDOMBreakpoint`.
   ## Parameters:
-    - `node_id`:Identifier of the node to remove breakpoint from.
-  - `type`:Type of the breakpoint to remove.
+    - (Required) `node_id`: Identifier of the node to remove breakpoint from.
+  - (Required) `type`: Type of the breakpoint to remove.
   """
   @spec remove_dom_breakpoint(
           CDPotion.Domain.DOM.NodeId,
@@ -54,8 +54,8 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Removes breakpoint on particular DOM event.
   ## Parameters:
-    - `event_name`:Event name.
-  - `target_name`:(Optional) EventTarget interface name.
+    - (Required) `event_name`: Event name.
+  - (Optional) `target_name`: EventTarget interface name.
   """
   @spec remove_event_listener_breakpoint(String.t(), String.t()) :: {String.t(), map()}
   def remove_event_listener_breakpoint(event_name, target_name \\ nil) do
@@ -66,7 +66,7 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Removes breakpoint on particular native event.
   ## Parameters:
-    - `event_name`:Instrumentation name to stop on.
+    - (Required) `event_name`: Instrumentation name to stop on.
   """
   @spec remove_instrumentation_breakpoint(String.t()) :: {String.t(), map()}
   def remove_instrumentation_breakpoint(event_name) do
@@ -77,7 +77,7 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Removes breakpoint from XMLHttpRequest.
   ## Parameters:
-    - `url`:Resource URL substring.
+    - (Required) `url`: Resource URL substring.
   """
   @spec remove_xhr_breakpoint(String.t()) :: {String.t(), map()}
   def remove_xhr_breakpoint(url) do
@@ -88,7 +88,7 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on particular CSP violations.
   ## Parameters:
-    - `violation_types`:CSP Violations to stop upon.
+    - (Required) `violation_types`: CSP Violations to stop upon.
   """
   @spec set_break_on_csp_violation(list(CDPotion.Domain.DOMDebugger.CSPViolationType)) ::
           {String.t(), map()}
@@ -100,8 +100,8 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on particular operation with DOM.
   ## Parameters:
-    - `node_id`:Identifier of the node to set breakpoint on.
-  - `type`:Type of the operation to stop upon.
+    - (Required) `node_id`: Identifier of the node to set breakpoint on.
+  - (Required) `type`: Type of the operation to stop upon.
   """
   @spec set_dom_breakpoint(
           CDPotion.Domain.DOM.NodeId,
@@ -115,8 +115,8 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on particular DOM event.
   ## Parameters:
-    - `event_name`:DOM Event name to stop on (any DOM event will do).
-  - `target_name`:(Optional) EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on any
+    - (Required) `event_name`: DOM Event name to stop on (any DOM event will do).
+  - (Optional) `target_name`: EventTarget interface name to stop on. If equal to `"*"` or not provided, will stop on any
   EventTarget.
   """
   @spec set_event_listener_breakpoint(String.t(), String.t()) :: {String.t(), map()}
@@ -128,7 +128,7 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on particular native event.
   ## Parameters:
-    - `event_name`:Instrumentation name to stop on.
+    - (Required) `event_name`: Instrumentation name to stop on.
   """
   @spec set_instrumentation_breakpoint(String.t()) :: {String.t(), map()}
   def set_instrumentation_breakpoint(event_name) do
@@ -139,7 +139,7 @@ defmodule CDPotion.Domain.DOMDebugger do
   @doc """
   Sets breakpoint on XMLHttpRequest.
   ## Parameters:
-    - `url`:Resource URL substring. All XHRs having this substring in the URL will get stopped upon.
+    - (Required) `url`: Resource URL substring. All XHRs having this substring in the URL will get stopped upon.
   """
   @spec set_xhr_breakpoint(String.t()) :: {String.t(), map()}
   def set_xhr_breakpoint(url) do

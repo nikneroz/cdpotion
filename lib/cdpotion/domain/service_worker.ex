@@ -43,9 +43,9 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `origin`:description not provided :(
-  - `registration_id`:description not provided :(
-  - `data`:description not provided :(
+    - (Required) `origin`: description not provided :(
+  - (Required) `registration_id`: description not provided :(
+  - (Required) `data`: description not provided :(
   """
   @spec deliver_push_message(String.t(), CDPotion.Domain.ServiceWorker.RegistrationID, String.t()) ::
           {String.t(), map()}
@@ -65,10 +65,10 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `origin`:description not provided :(
-  - `registration_id`:description not provided :(
-  - `tag`:description not provided :(
-  - `last_chance`:description not provided :(
+    - (Required) `origin`: description not provided :(
+  - (Required) `registration_id`: description not provided :(
+  - (Required) `tag`: description not provided :(
+  - (Required) `last_chance`: description not provided :(
   """
   @spec dispatch_sync_event(
           String.t(),
@@ -91,9 +91,9 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `origin`:description not provided :(
-  - `registration_id`:description not provided :(
-  - `tag`:description not provided :(
+    - (Required) `origin`: description not provided :(
+  - (Required) `registration_id`: description not provided :(
+  - (Required) `tag`: description not provided :(
   """
   @spec dispatch_periodic_sync_event(
           String.t(),
@@ -116,7 +116,7 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `version_id`:description not provided :(
+    - (Required) `version_id`: description not provided :(
   """
   @spec inspect_worker(String.t()) :: {String.t(), map()}
   def inspect_worker(version_id) do
@@ -127,7 +127,7 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `force_update_on_page_load`:description not provided :(
+    - (Required) `force_update_on_page_load`: description not provided :(
   """
   @spec set_force_update_on_page_load(boolean()) :: {String.t(), map()}
   def set_force_update_on_page_load(force_update_on_page_load) do
@@ -138,7 +138,7 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `scope_url`:description not provided :(
+    - (Required) `scope_url`: description not provided :(
   """
   @spec skip_waiting(String.t()) :: {String.t(), map()}
   def skip_waiting(scope_url) do
@@ -149,7 +149,7 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `scope_url`:description not provided :(
+    - (Required) `scope_url`: description not provided :(
   """
   @spec start_worker(String.t()) :: {String.t(), map()}
   def start_worker(scope_url) do
@@ -168,7 +168,7 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `version_id`:description not provided :(
+    - (Required) `version_id`: description not provided :(
   """
   @spec stop_worker(String.t()) :: {String.t(), map()}
   def stop_worker(version_id) do
@@ -179,7 +179,7 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `scope_url`:description not provided :(
+    - (Required) `scope_url`: description not provided :(
   """
   @spec unregister(String.t()) :: {String.t(), map()}
   def unregister(scope_url) do
@@ -190,7 +190,7 @@ defmodule CDPotion.Domain.ServiceWorker do
   @doc """
 
   ## Parameters:
-    - `scope_url`:description not provided :(
+    - (Required) `scope_url`: description not provided :(
   """
   @spec update_registration(String.t()) :: {String.t(), map()}
   def update_registration(scope_url) do

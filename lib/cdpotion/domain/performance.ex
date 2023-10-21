@@ -17,7 +17,7 @@ defmodule CDPotion.Domain.Performance do
   @doc """
   Enable collecting and reporting metrics.
   ## Parameters:
-    - `time_domain`:(Optional) Time domain to use for collecting and reporting duration metrics.
+    - (Optional) `time_domain`: Time domain to use for collecting and reporting duration metrics.
   """
   @spec enable(String.t()) :: {String.t(), map()}
   def enable(time_domain \\ nil) do
@@ -30,7 +30,7 @@ defmodule CDPotion.Domain.Performance do
   Note that this must be called before enabling metrics collection. Calling
   this method while metrics collection is enabled returns an error.
   ## Parameters:
-    - `time_domain`:Time domain
+    - (Required) `time_domain`: Time domain
   """
   @spec set_time_domain(String.t()) :: {String.t(), map()}
   def set_time_domain(time_domain) do

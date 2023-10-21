@@ -24,9 +24,9 @@ defmodule CDPotion.Domain.Autofill do
   Trigger autofill on a form identified by the fieldId.
   If the field and related form cannot be autofilled, returns an error.
   ## Parameters:
-    - `field_id`:Identifies a field that serves as an anchor for autofill.
-  - `frame_id`:(Optional) Identifies the frame that field belongs to.
-  - `card`:Credit card information to fill out the form. Credit card data is not saved.
+    - (Required) `field_id`: Identifies a field that serves as an anchor for autofill.
+  - (Optional) `frame_id`: Identifies the frame that field belongs to.
+  - (Required) `card`: Credit card information to fill out the form. Credit card data is not saved.
   """
   @spec trigger(
           CDPotion.Domain.DOM.BackendNodeId,
@@ -41,7 +41,7 @@ defmodule CDPotion.Domain.Autofill do
   @doc """
   Set addresses so that developers can verify their forms implementation.
   ## Parameters:
-    - `addresses`:description not provided :(
+    - (Required) `addresses`: description not provided :(
   """
   @spec set_addresses(list(CDPotion.Domain.Autofill.Address)) :: {String.t(), map()}
   def set_addresses(addresses) do

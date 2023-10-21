@@ -59,7 +59,7 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
   @doc """
   Record a clock sync marker in the trace.
   ## Parameters:
-    - `sync_id`:The ID of this clock sync marker
+    - (Required) `sync_id`: The ID of this clock sync marker
   """
   @spec record_clock_sync_marker(String.t()) :: {String.t(), map()}
   def record_clock_sync_marker(sync_id) do
@@ -70,8 +70,8 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
   @doc """
   Request a global memory dump.
   ## Parameters:
-    - `deterministic`:(Optional) Enables more deterministic results by forcing garbage collection
-  - `level_of_detail`:(Optional) Specifies level of details in memory dump. Defaults to "detailed".
+    - (Optional) `deterministic`: Enables more deterministic results by forcing garbage collection
+  - (Optional) `level_of_detail`: Specifies level of details in memory dump. Defaults to "detailed".
   """
   @spec request_memory_dump(boolean(), CDPotion.Domain.Tracing.MemoryDumpLevelOfDetail) ::
           {String.t(), map()}
@@ -83,20 +83,20 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
   @doc """
   Start trace events collection.
   ## Parameters:
-    - `categories`:(Optional) Category/tag filter
-  - `options`:(Optional) Tracing options
-  - `buffer_usage_reporting_interval`:(Optional) If set, the agent will issue bufferUsage events at this interval, specified in milliseconds
-  - `transfer_mode`:(Optional) Whether to report trace events as series of dataCollected events or to save trace to a
+    - (Optional) `categories`: Category/tag filter
+  - (Optional) `options`: Tracing options
+  - (Optional) `buffer_usage_reporting_interval`: If set, the agent will issue bufferUsage events at this interval, specified in milliseconds
+  - (Optional) `transfer_mode`: Whether to report trace events as series of dataCollected events or to save trace to a
   stream (defaults to `ReportEvents`).
-  - `stream_format`:(Optional) Trace data format to use. This only applies when using `ReturnAsStream`
+  - (Optional) `stream_format`: Trace data format to use. This only applies when using `ReturnAsStream`
   transfer mode (defaults to `json`).
-  - `stream_compression`:(Optional) Compression format to use. This only applies when using `ReturnAsStream`
+  - (Optional) `stream_compression`: Compression format to use. This only applies when using `ReturnAsStream`
   transfer mode (defaults to `none`)
-  - `trace_config`:(Optional) description not provided :(
-  - `perfetto_config`:(Optional) Base64-encoded serialized perfetto.protos.TraceConfig protobuf message
+  - (Optional) `trace_config`: description not provided :(
+  - (Optional) `perfetto_config`: Base64-encoded serialized perfetto.protos.TraceConfig protobuf message
   When specified, the parameters `categories`, `options`, `traceConfig`
   are ignored. (Encoded as a base64 string when passed over JSON)
-  - `tracing_backend`:(Optional) Backend type (defaults to `auto`)
+  - (Optional) `tracing_backend`: Backend type (defaults to `auto`)
   """
   @spec start(
           String.t(),

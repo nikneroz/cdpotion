@@ -74,7 +74,7 @@ defmodule CDPotion.Domain.Profiler do
   @doc """
   Changes CPU profiler sampling interval. Must be called before CPU profiles recording started.
   ## Parameters:
-    - `interval`:New sampling interval in microseconds.
+    - (Required) `interval`: New sampling interval in microseconds.
   """
   @spec set_sampling_interval(integer()) :: {String.t(), map()}
   def set_sampling_interval(interval) do
@@ -95,9 +95,9 @@ defmodule CDPotion.Domain.Profiler do
   coverage may be incomplete. Enabling prevents running optimized code and resets execution
   counters.
   ## Parameters:
-    - `call_count`:(Optional) Collect accurate call counts beyond simple 'covered' or 'not covered'.
-  - `detailed`:(Optional) Collect block-based coverage.
-  - `allow_triggered_updates`:(Optional) Allow the backend to send updates on its own initiative
+    - (Optional) `call_count`: Collect accurate call counts beyond simple 'covered' or 'not covered'.
+  - (Optional) `detailed`: Collect block-based coverage.
+  - (Optional) `allow_triggered_updates`: Allow the backend to send updates on its own initiative
   """
   @spec start_precise_coverage(boolean(), boolean(), boolean()) :: {String.t(), map()}
   def start_precise_coverage(call_count \\ nil, detailed \\ nil, allow_triggered_updates \\ nil) do

@@ -40,7 +40,7 @@ defmodule CDPotion.Domain.PerformanceTimeline do
   Previously buffered events would be reported before method returns.
   See also: timelineEventAdded
   ## Parameters:
-    - `event_types`:The types of event to report, as specified in
+    - (Required) `event_types`: The types of event to report, as specified in
   https://w3c.github.io/performance-timeline/#dom-performanceentry-entrytype
   The specified filter overrides any previous filters, passing empty
   filter disables recording.

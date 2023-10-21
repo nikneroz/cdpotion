@@ -193,7 +193,7 @@ Tokens from that issuer."
   @doc """
   Returns a storage key given a frame id.
   ## Parameters:
-    - `frame_id`:description not provided :(
+    - (Required) `frame_id`: description not provided :(
   """
   @spec get_storage_key_for_frame(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
   def get_storage_key_for_frame(frame_id) do
@@ -204,8 +204,8 @@ Tokens from that issuer."
   @doc """
   Clears storage for origin.
   ## Parameters:
-    - `origin`:Security origin.
-  - `storage_types`:Comma separated list of StorageType to clear.
+    - (Required) `origin`: Security origin.
+  - (Required) `storage_types`: Comma separated list of StorageType to clear.
   """
   @spec clear_data_for_origin(String.t(), String.t()) :: {String.t(), map()}
   def clear_data_for_origin(origin, storage_types) do
@@ -216,8 +216,8 @@ Tokens from that issuer."
   @doc """
   Clears storage for storage key.
   ## Parameters:
-    - `storage_key`:Storage key.
-  - `storage_types`:Comma separated list of StorageType to clear.
+    - (Required) `storage_key`: Storage key.
+  - (Required) `storage_types`: Comma separated list of StorageType to clear.
   """
   @spec clear_data_for_storage_key(String.t(), String.t()) :: {String.t(), map()}
   def clear_data_for_storage_key(storage_key, storage_types) do
@@ -228,7 +228,7 @@ Tokens from that issuer."
   @doc """
   Returns all browser cookies.
   ## Parameters:
-    - `browser_context_id`:(Optional) Browser context to use when called on the browser endpoint.
+    - (Optional) `browser_context_id`: Browser context to use when called on the browser endpoint.
   """
   @spec get_cookies(CDPotion.Domain.Browser.BrowserContextID) :: {String.t(), map()}
   def get_cookies(browser_context_id \\ nil) do
@@ -239,8 +239,8 @@ Tokens from that issuer."
   @doc """
   Sets given cookies.
   ## Parameters:
-    - `cookies`:Cookies to be set.
-  - `browser_context_id`:(Optional) Browser context to use when called on the browser endpoint.
+    - (Required) `cookies`: Cookies to be set.
+  - (Optional) `browser_context_id`: Browser context to use when called on the browser endpoint.
   """
   @spec set_cookies(
           list(CDPotion.Domain.Network.CookieParam),
@@ -254,7 +254,7 @@ Tokens from that issuer."
   @doc """
   Clears cookies.
   ## Parameters:
-    - `browser_context_id`:(Optional) Browser context to use when called on the browser endpoint.
+    - (Optional) `browser_context_id`: Browser context to use when called on the browser endpoint.
   """
   @spec clear_cookies(CDPotion.Domain.Browser.BrowserContextID) :: {String.t(), map()}
   def clear_cookies(browser_context_id \\ nil) do
@@ -265,7 +265,7 @@ Tokens from that issuer."
   @doc """
   Returns usage and quota in bytes.
   ## Parameters:
-    - `origin`:Security origin.
+    - (Required) `origin`: Security origin.
   """
   @spec get_usage_and_quota(String.t()) :: {String.t(), map()}
   def get_usage_and_quota(origin) do
@@ -276,8 +276,8 @@ Tokens from that issuer."
   @doc """
   Override quota for the specified origin
   ## Parameters:
-    - `origin`:Security origin.
-  - `quota_size`:(Optional) The quota size (in bytes) to override the original quota with.
+    - (Required) `origin`: Security origin.
+  - (Optional) `quota_size`: The quota size (in bytes) to override the original quota with.
   If this is called multiple times, the overridden quota will be equal to
   the quotaSize provided in the final call. If this is called without
   specifying a quotaSize, the quota will be reset to the default value for
@@ -294,7 +294,7 @@ Tokens from that issuer."
   @doc """
   Registers origin to be notified when an update occurs to its cache storage list.
   ## Parameters:
-    - `origin`:Security origin.
+    - (Required) `origin`: Security origin.
   """
   @spec track_cache_storage_for_origin(String.t()) :: {String.t(), map()}
   def track_cache_storage_for_origin(origin) do
@@ -305,7 +305,7 @@ Tokens from that issuer."
   @doc """
   Registers storage key to be notified when an update occurs to its cache storage list.
   ## Parameters:
-    - `storage_key`:Storage key.
+    - (Required) `storage_key`: Storage key.
   """
   @spec track_cache_storage_for_storage_key(String.t()) :: {String.t(), map()}
   def track_cache_storage_for_storage_key(storage_key) do
@@ -316,7 +316,7 @@ Tokens from that issuer."
   @doc """
   Registers origin to be notified when an update occurs to its IndexedDB.
   ## Parameters:
-    - `origin`:Security origin.
+    - (Required) `origin`: Security origin.
   """
   @spec track_indexed_db_for_origin(String.t()) :: {String.t(), map()}
   def track_indexed_db_for_origin(origin) do
@@ -327,7 +327,7 @@ Tokens from that issuer."
   @doc """
   Registers storage key to be notified when an update occurs to its IndexedDB.
   ## Parameters:
-    - `storage_key`:Storage key.
+    - (Required) `storage_key`: Storage key.
   """
   @spec track_indexed_db_for_storage_key(String.t()) :: {String.t(), map()}
   def track_indexed_db_for_storage_key(storage_key) do
@@ -338,7 +338,7 @@ Tokens from that issuer."
   @doc """
   Unregisters origin from receiving notifications for cache storage.
   ## Parameters:
-    - `origin`:Security origin.
+    - (Required) `origin`: Security origin.
   """
   @spec untrack_cache_storage_for_origin(String.t()) :: {String.t(), map()}
   def untrack_cache_storage_for_origin(origin) do
@@ -349,7 +349,7 @@ Tokens from that issuer."
   @doc """
   Unregisters storage key from receiving notifications for cache storage.
   ## Parameters:
-    - `storage_key`:Storage key.
+    - (Required) `storage_key`: Storage key.
   """
   @spec untrack_cache_storage_for_storage_key(String.t()) :: {String.t(), map()}
   def untrack_cache_storage_for_storage_key(storage_key) do
@@ -360,7 +360,7 @@ Tokens from that issuer."
   @doc """
   Unregisters origin from receiving notifications for IndexedDB.
   ## Parameters:
-    - `origin`:Security origin.
+    - (Required) `origin`: Security origin.
   """
   @spec untrack_indexed_db_for_origin(String.t()) :: {String.t(), map()}
   def untrack_indexed_db_for_origin(origin) do
@@ -371,7 +371,7 @@ Tokens from that issuer."
   @doc """
   Unregisters storage key from receiving notifications for IndexedDB.
   ## Parameters:
-    - `storage_key`:Storage key.
+    - (Required) `storage_key`: Storage key.
   """
   @spec untrack_indexed_db_for_storage_key(String.t()) :: {String.t(), map()}
   def untrack_indexed_db_for_storage_key(storage_key) do
@@ -392,7 +392,7 @@ Tokens from that issuer."
   Removes all Trust Tokens issued by the provided issuerOrigin.
   Leaves other stored data, including the issuer's Redemption Records, intact.
   ## Parameters:
-    - `issuer_origin`:description not provided :(
+    - (Required) `issuer_origin`: description not provided :(
   """
   @spec clear_trust_tokens(String.t()) :: {String.t(), map()}
   def clear_trust_tokens(issuer_origin) do
@@ -403,8 +403,8 @@ Tokens from that issuer."
   @doc """
   Gets details for a named interest group.
   ## Parameters:
-    - `owner_origin`:description not provided :(
-  - `name`:description not provided :(
+    - (Required) `owner_origin`: description not provided :(
+  - (Required) `name`: description not provided :(
   """
   @spec get_interest_group_details(String.t(), String.t()) :: {String.t(), map()}
   def get_interest_group_details(owner_origin, name) do
@@ -415,7 +415,7 @@ Tokens from that issuer."
   @doc """
   Enables/Disables issuing of interestGroupAccessed events.
   ## Parameters:
-    - `enable`:description not provided :(
+    - (Required) `enable`: description not provided :(
   """
   @spec set_interest_group_tracking(boolean()) :: {String.t(), map()}
   def set_interest_group_tracking(enable) do
@@ -426,7 +426,7 @@ Tokens from that issuer."
   @doc """
   Gets metadata for an origin's shared storage.
   ## Parameters:
-    - `owner_origin`:description not provided :(
+    - (Required) `owner_origin`: description not provided :(
   """
   @spec get_shared_storage_metadata(String.t()) :: {String.t(), map()}
   def get_shared_storage_metadata(owner_origin) do
@@ -437,7 +437,7 @@ Tokens from that issuer."
   @doc """
   Gets the entries in an given origin's shared storage.
   ## Parameters:
-    - `owner_origin`:description not provided :(
+    - (Required) `owner_origin`: description not provided :(
   """
   @spec get_shared_storage_entries(String.t()) :: {String.t(), map()}
   def get_shared_storage_entries(owner_origin) do
@@ -448,10 +448,10 @@ Tokens from that issuer."
   @doc """
   Sets entry with `key` and `value` for a given origin's shared storage.
   ## Parameters:
-    - `owner_origin`:description not provided :(
-  - `key`:description not provided :(
-  - `value`:description not provided :(
-  - `ignore_if_present`:(Optional) If `ignoreIfPresent` is included and true, then only sets the entry if
+    - (Required) `owner_origin`: description not provided :(
+  - (Required) `key`: description not provided :(
+  - (Required) `value`: description not provided :(
+  - (Optional) `ignore_if_present`: If `ignoreIfPresent` is included and true, then only sets the entry if
   `key` doesn't already exist.
   """
   @spec set_shared_storage_entry(String.t(), String.t(), String.t(), boolean()) ::
@@ -471,8 +471,8 @@ Tokens from that issuer."
   @doc """
   Deletes entry for `key` (if it exists) for a given origin's shared storage.
   ## Parameters:
-    - `owner_origin`:description not provided :(
-  - `key`:description not provided :(
+    - (Required) `owner_origin`: description not provided :(
+  - (Required) `key`: description not provided :(
   """
   @spec delete_shared_storage_entry(String.t(), String.t()) :: {String.t(), map()}
   def delete_shared_storage_entry(owner_origin, key) do
@@ -483,7 +483,7 @@ Tokens from that issuer."
   @doc """
   Clears all entries for a given origin's shared storage.
   ## Parameters:
-    - `owner_origin`:description not provided :(
+    - (Required) `owner_origin`: description not provided :(
   """
   @spec clear_shared_storage_entries(String.t()) :: {String.t(), map()}
   def clear_shared_storage_entries(owner_origin) do
@@ -494,7 +494,7 @@ Tokens from that issuer."
   @doc """
   Resets the budget for `ownerOrigin` by clearing all budget withdrawals.
   ## Parameters:
-    - `owner_origin`:description not provided :(
+    - (Required) `owner_origin`: description not provided :(
   """
   @spec reset_shared_storage_budget(String.t()) :: {String.t(), map()}
   def reset_shared_storage_budget(owner_origin) do
@@ -505,7 +505,7 @@ Tokens from that issuer."
   @doc """
   Enables/disables issuing of sharedStorageAccessed events.
   ## Parameters:
-    - `enable`:description not provided :(
+    - (Required) `enable`: description not provided :(
   """
   @spec set_shared_storage_tracking(boolean()) :: {String.t(), map()}
   def set_shared_storage_tracking(enable) do
@@ -516,8 +516,8 @@ Tokens from that issuer."
   @doc """
   Set tracking for a storage key's buckets.
   ## Parameters:
-    - `storage_key`:description not provided :(
-  - `enable`:description not provided :(
+    - (Required) `storage_key`: description not provided :(
+  - (Required) `enable`: description not provided :(
   """
   @spec set_storage_bucket_tracking(String.t(), boolean()) :: {String.t(), map()}
   def set_storage_bucket_tracking(storage_key, enable) do
@@ -528,7 +528,7 @@ Tokens from that issuer."
   @doc """
   Deletes the Storage Bucket with the given storage key and bucket name.
   ## Parameters:
-    - `bucket`:description not provided :(
+    - (Required) `bucket`: description not provided :(
   """
   @spec delete_storage_bucket(CDPotion.Domain.Storage.StorageBucket) :: {String.t(), map()}
   def delete_storage_bucket(bucket) do
@@ -547,7 +547,7 @@ Tokens from that issuer."
   @doc """
   https://wicg.github.io/attribution-reporting-api/
   ## Parameters:
-    - `enabled`:If enabled, noise is suppressed and reports are sent immediately.
+    - (Required) `enabled`: If enabled, noise is suppressed and reports are sent immediately.
   """
   @spec set_attribution_reporting_local_testing_mode(boolean()) :: {String.t(), map()}
   def set_attribution_reporting_local_testing_mode(enabled) do
@@ -558,7 +558,7 @@ Tokens from that issuer."
   @doc """
   Enables/disables issuing of Attribution Reporting events.
   ## Parameters:
-    - `enable`:description not provided :(
+    - (Required) `enable`: description not provided :(
   """
   @spec set_attribution_reporting_tracking(boolean()) :: {String.t(), map()}
   def set_attribution_reporting_tracking(enable) do

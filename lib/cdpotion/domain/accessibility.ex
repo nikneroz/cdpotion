@@ -158,10 +158,10 @@ defmodule CDPotion.Domain.Accessibility do
   @doc """
   Fetches the accessibility node and partial accessibility tree for this DOM node, if it exists.
   ## Parameters:
-    - `node_id`:(Optional) Identifier of the node to get the partial accessibility tree for.
-  - `backend_node_id`:(Optional) Identifier of the backend node to get the partial accessibility tree for.
-  - `object_id`:(Optional) JavaScript object id of the node wrapper to get the partial accessibility tree for.
-  - `fetch_relatives`:(Optional) Whether to fetch this node's ancestors, siblings and children. Defaults to true.
+    - (Optional) `node_id`: Identifier of the node to get the partial accessibility tree for.
+  - (Optional) `backend_node_id`: Identifier of the backend node to get the partial accessibility tree for.
+  - (Optional) `object_id`: JavaScript object id of the node wrapper to get the partial accessibility tree for.
+  - (Optional) `fetch_relatives`: Whether to fetch this node's ancestors, siblings and children. Defaults to true.
   """
   @spec get_partial_ax_tree(
           CDPotion.Domain.DOM.NodeId,
@@ -189,9 +189,9 @@ defmodule CDPotion.Domain.Accessibility do
   @doc """
   Fetches the entire accessibility tree for the root Document
   ## Parameters:
-    - `depth`:(Optional) The maximum depth at which descendants of the root node should be retrieved.
+    - (Optional) `depth`: The maximum depth at which descendants of the root node should be retrieved.
   If omitted, the full tree is returned.
-  - `frame_id`:(Optional) The frame for whose document the AX tree should be retrieved.
+  - (Optional) `frame_id`: The frame for whose document the AX tree should be retrieved.
   If omited, the root frame is used.
   """
   @spec get_full_ax_tree(integer(), CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
@@ -204,7 +204,7 @@ defmodule CDPotion.Domain.Accessibility do
   Fetches the root node.
   Requires `enable()` to have been called previously.
   ## Parameters:
-    - `frame_id`:(Optional) The frame in whose document the node resides.
+    - (Optional) `frame_id`: The frame in whose document the node resides.
   If omitted, the root frame is used.
   """
   @spec get_root_ax_node(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
@@ -217,9 +217,9 @@ defmodule CDPotion.Domain.Accessibility do
   Fetches a node and all ancestors up to and including the root.
   Requires `enable()` to have been called previously.
   ## Parameters:
-    - `node_id`:(Optional) Identifier of the node to get.
-  - `backend_node_id`:(Optional) Identifier of the backend node to get.
-  - `object_id`:(Optional) JavaScript object id of the node wrapper to get.
+    - (Optional) `node_id`: Identifier of the node to get.
+  - (Optional) `backend_node_id`: Identifier of the backend node to get.
+  - (Optional) `object_id`: JavaScript object id of the node wrapper to get.
   """
   @spec get_ax_node_and_ancestors(
           CDPotion.Domain.DOM.NodeId,
@@ -237,8 +237,8 @@ defmodule CDPotion.Domain.Accessibility do
   Fetches a particular accessibility node by AXNodeId.
   Requires `enable()` to have been called previously.
   ## Parameters:
-    - `id`:description not provided :(
-  - `frame_id`:(Optional) The frame in whose document the node resides.
+    - (Required) `id`: description not provided :(
+  - (Optional) `frame_id`: The frame in whose document the node resides.
   If omitted, the root frame is used.
   """
   @spec get_child_ax_nodes(CDPotion.Domain.Accessibility.AXNodeId, CDPotion.Domain.Page.FrameId) ::
@@ -255,11 +255,11 @@ defmodule CDPotion.Domain.Accessibility do
   node is specified, or the DOM node does not exist, the command returns an error. If neither
   `accessibleName` or `role` is specified, it returns all the accessibility nodes in the subtree.
   ## Parameters:
-    - `node_id`:(Optional) Identifier of the node for the root to query.
-  - `backend_node_id`:(Optional) Identifier of the backend node for the root to query.
-  - `object_id`:(Optional) JavaScript object id of the node wrapper for the root to query.
-  - `accessible_name`:(Optional) Find nodes with this computed name.
-  - `role`:(Optional) Find nodes with this computed role.
+    - (Optional) `node_id`: Identifier of the node for the root to query.
+  - (Optional) `backend_node_id`: Identifier of the backend node for the root to query.
+  - (Optional) `object_id`: JavaScript object id of the node wrapper for the root to query.
+  - (Optional) `accessible_name`: Find nodes with this computed name.
+  - (Optional) `role`: Find nodes with this computed role.
   """
   @spec query_ax_tree(
           CDPotion.Domain.DOM.NodeId,

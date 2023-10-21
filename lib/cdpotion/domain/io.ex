@@ -7,7 +7,7 @@ defmodule CDPotion.Domain.IO do
   @doc """
   Close the stream, discard any temporary backing storage.
   ## Parameters:
-    - `handle`:Handle of the stream to close.
+    - (Required) `handle`: Handle of the stream to close.
   """
   @spec close(CDPotion.Domain.IO.StreamHandle) :: {String.t(), map()}
   def close(handle) do
@@ -18,10 +18,10 @@ defmodule CDPotion.Domain.IO do
   @doc """
   Read a chunk of the stream
   ## Parameters:
-    - `handle`:Handle of the stream to read.
-  - `offset`:(Optional) Seek to the specified offset before reading (if not specificed, proceed with offset
+    - (Required) `handle`: Handle of the stream to read.
+  - (Optional) `offset`: Seek to the specified offset before reading (if not specificed, proceed with offset
   following the last read). Some types of streams may only support sequential reads.
-  - `size`:(Optional) Maximum number of bytes to read (left upon the agent discretion if not specified).
+  - (Optional) `size`: Maximum number of bytes to read (left upon the agent discretion if not specified).
   """
   @spec read(CDPotion.Domain.IO.StreamHandle, integer(), integer()) :: {String.t(), map()}
   def read(handle, offset \\ nil, size \\ nil) do
@@ -32,7 +32,7 @@ defmodule CDPotion.Domain.IO do
   @doc """
   Return UUID of Blob object specified by a remote object id.
   ## Parameters:
-    - `object_id`:Object id of a Blob object wrapper.
+    - (Required) `object_id`: Object id of a Blob object wrapper.
   """
   @spec resolve_blob(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
   def resolve_blob(object_id) do

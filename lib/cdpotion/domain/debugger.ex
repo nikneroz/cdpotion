@@ -90,8 +90,8 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Continues execution until specific location is reached.
   ## Parameters:
-    - `location`:Location to continue to.
-  - `target_call_frames`:(Optional) description not provided :(
+    - (Required) `location`: Location to continue to.
+  - (Optional) `target_call_frames`: description not provided :(
   """
   @spec continue_to_location(CDPotion.Domain.Debugger.Location, String.t()) :: {String.t(), map()}
   def continue_to_location(location, target_call_frames \\ nil) do
@@ -111,7 +111,7 @@ defmodule CDPotion.Domain.Debugger do
   Enables debugger for the given page. Clients should not assume that the debugging has been
   enabled until the result for this command is received.
   ## Parameters:
-    - `max_scripts_cache_size`:(Optional) The maximum size in bytes of collected scripts (not referenced by other heap objects)
+    - (Optional) `max_scripts_cache_size`: The maximum size in bytes of collected scripts (not referenced by other heap objects)
   the debugger can hold. Puts no limit if parameter is omitted.
   """
   @spec enable(number()) :: {String.t(), map()}
@@ -123,18 +123,18 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Evaluates expression on a given call frame.
   ## Parameters:
-    - `call_frame_id`:Call frame identifier to evaluate on.
-  - `expression`:Expression to evaluate.
-  - `object_group`:(Optional) String object group name to put result into (allows rapid releasing resulting object handles
+    - (Required) `call_frame_id`: Call frame identifier to evaluate on.
+  - (Required) `expression`: Expression to evaluate.
+  - (Optional) `object_group`: String object group name to put result into (allows rapid releasing resulting object handles
   using `releaseObjectGroup`).
-  - `include_command_line_api`:(Optional) Specifies whether command line API should be available to the evaluated expression, defaults
+  - (Optional) `include_command_line_api`: Specifies whether command line API should be available to the evaluated expression, defaults
   to false.
-  - `silent`:(Optional) In silent mode exceptions thrown during evaluation are not reported and do not pause
+  - (Optional) `silent`: In silent mode exceptions thrown during evaluation are not reported and do not pause
   execution. Overrides `setPauseOnException` state.
-  - `return_by_value`:(Optional) Whether the result is expected to be a JSON object that should be sent by value.
-  - `generate_preview`:(Optional) Whether preview should be generated for the result.
-  - `throw_on_side_effect`:(Optional) Whether to throw an exception if side effect cannot be ruled out during evaluation.
-  - `timeout`:(Optional) Terminate execution after timing out (number of milliseconds).
+  - (Optional) `return_by_value`: Whether the result is expected to be a JSON object that should be sent by value.
+  - (Optional) `generate_preview`: Whether preview should be generated for the result.
+  - (Optional) `throw_on_side_effect`: Whether to throw an exception if side effect cannot be ruled out during evaluation.
+  - (Optional) `timeout`: Terminate execution after timing out (number of milliseconds).
   """
   @spec evaluate_on_call_frame(
           CDPotion.Domain.Debugger.CallFrameId,
@@ -178,10 +178,10 @@ defmodule CDPotion.Domain.Debugger do
   Returns possible locations for breakpoint. scriptId in start and end range locations should be
   the same.
   ## Parameters:
-    - `start`:Start of range to search possible breakpoint locations in.
-  - `end`:(Optional) End of range to search possible breakpoint locations in (excluding). When not specified, end
+    - (Required) `start`: Start of range to search possible breakpoint locations in.
+  - (Optional) `end`: End of range to search possible breakpoint locations in (excluding). When not specified, end
   of scripts is used as end of range.
-  - `restrict_to_function`:(Optional) Only consider locations which are in the same (non-nested) function as start.
+  - (Optional) `restrict_to_function`: Only consider locations which are in the same (non-nested) function as start.
   """
   @spec get_possible_breakpoints(
           CDPotion.Domain.Debugger.Location,
@@ -198,7 +198,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Returns source for the script with given id.
   ## Parameters:
-    - `script_id`:Id of the script to get source for.
+    - (Required) `script_id`: Id of the script to get source for.
   """
   @spec get_script_source(CDPotion.Domain.Runtime.ScriptId) :: {String.t(), map()}
   def get_script_source(script_id) do
@@ -209,7 +209,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
 
   ## Parameters:
-    - `script_id`:Id of the script to disassemble
+    - (Required) `script_id`: Id of the script to disassemble
   """
   @spec disassemble_wasm_module(CDPotion.Domain.Runtime.ScriptId) :: {String.t(), map()}
   def disassemble_wasm_module(script_id) do
@@ -223,7 +223,7 @@ defmodule CDPotion.Domain.Debugger do
   and return an empty chunk. Any subsequent calls for the now invalid stream
   will return errors.
   ## Parameters:
-    - `stream_id`:description not provided :(
+    - (Required) `stream_id`: description not provided :(
   """
   @spec next_wasm_disassembly_chunk(String.t()) :: {String.t(), map()}
   def next_wasm_disassembly_chunk(stream_id) do
@@ -234,7 +234,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   This command is deprecated. Use getScriptSource instead.
   ## Parameters:
-    - `script_id`:Id of the Wasm script to get source for.
+    - (Required) `script_id`: Id of the Wasm script to get source for.
   """
   @spec get_wasm_bytecode(CDPotion.Domain.Runtime.ScriptId) :: {String.t(), map()}
   def get_wasm_bytecode(script_id) do
@@ -245,7 +245,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Returns stack trace with given `stackTraceId`.
   ## Parameters:
-    - `stack_trace_id`:description not provided :(
+    - (Required) `stack_trace_id`: description not provided :(
   """
   @spec get_stack_trace(CDPotion.Domain.Runtime.StackTraceId) :: {String.t(), map()}
   def get_stack_trace(stack_trace_id) do
@@ -264,7 +264,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
 
   ## Parameters:
-    - `parent_stack_trace_id`:Debugger will pause when async call with given stack trace is started.
+    - (Required) `parent_stack_trace_id`: Debugger will pause when async call with given stack trace is started.
   """
   @spec pause_on_async_call(CDPotion.Domain.Runtime.StackTraceId) :: {String.t(), map()}
   def pause_on_async_call(parent_stack_trace_id) do
@@ -275,7 +275,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Removes JavaScript breakpoint.
   ## Parameters:
-    - `breakpoint_id`:description not provided :(
+    - (Required) `breakpoint_id`: description not provided :(
   """
   @spec remove_breakpoint(CDPotion.Domain.Debugger.BreakpointId) :: {String.t(), map()}
   def remove_breakpoint(breakpoint_id) do
@@ -296,8 +296,8 @@ defmodule CDPotion.Domain.Debugger do
   Use the call frames from the `Debugger#paused` events instead, that fires
   once V8 pauses at the beginning of the restarted function.
   ## Parameters:
-    - `call_frame_id`:Call frame identifier to evaluate on.
-  - `mode`:(Optional) The `mode` parameter must be present and set to 'StepInto', otherwise
+    - (Required) `call_frame_id`: Call frame identifier to evaluate on.
+  - (Optional) `mode`: The `mode` parameter must be present and set to 'StepInto', otherwise
   `restartFrame` will error out.
   """
   @spec restart_frame(CDPotion.Domain.Debugger.CallFrameId, String.t()) :: {String.t(), map()}
@@ -309,7 +309,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Resumes JavaScript execution.
   ## Parameters:
-    - `terminate_on_resume`:(Optional) Set to true to terminate execution upon resuming execution. In contrast
+    - (Optional) `terminate_on_resume`: Set to true to terminate execution upon resuming execution. In contrast
   to Runtime.terminateExecution, this will allows to execute further
   JavaScript (i.e. via evaluation) until execution of the paused code
   is actually resumed, at which point termination is triggered.
@@ -324,10 +324,10 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Searches for given string in script content.
   ## Parameters:
-    - `script_id`:Id of the script to search in.
-  - `query`:String to search for.
-  - `case_sensitive`:(Optional) If true, search is case sensitive.
-  - `is_regex`:(Optional) If true, treats string parameter as regex.
+    - (Required) `script_id`: Id of the script to search in.
+  - (Required) `query`: String to search for.
+  - (Optional) `case_sensitive`: If true, search is case sensitive.
+  - (Optional) `is_regex`: If true, treats string parameter as regex.
   """
   @spec search_in_content(CDPotion.Domain.Runtime.ScriptId, String.t(), boolean(), boolean()) ::
           {String.t(), map()}
@@ -346,7 +346,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Enables or disables async call stacks tracking.
   ## Parameters:
-    - `max_depth`:Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
+    - (Required) `max_depth`: Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
   call stacks (default).
   """
   @spec set_async_call_stack_depth(integer()) :: {String.t(), map()}
@@ -360,7 +360,7 @@ defmodule CDPotion.Domain.Debugger do
   scripts with url matching one of the patterns. VM will try to leave blackboxed script by
   performing 'step in' several times, finally resorting to 'step out' if unsuccessful.
   ## Parameters:
-    - `patterns`:Array of regexps that will be used to check script url for blackbox state.
+    - (Required) `patterns`: Array of regexps that will be used to check script url for blackbox state.
   """
   @spec set_blackbox_patterns(list(String.t())) :: {String.t(), map()}
   def set_blackbox_patterns(patterns) do
@@ -374,8 +374,8 @@ defmodule CDPotion.Domain.Debugger do
   Positions array contains positions where blackbox state is changed. First interval isn't
   blackboxed. Array should be sorted.
   ## Parameters:
-    - `script_id`:Id of the script.
-  - `positions`:description not provided :(
+    - (Required) `script_id`: Id of the script.
+  - (Required) `positions`: description not provided :(
   """
   @spec set_blackboxed_ranges(
           CDPotion.Domain.Runtime.ScriptId,
@@ -389,8 +389,8 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Sets JavaScript breakpoint at a given location.
   ## Parameters:
-    - `location`:Location to set breakpoint in.
-  - `condition`:(Optional) Expression to use as a breakpoint condition. When specified, debugger will only stop on the
+    - (Required) `location`: Location to set breakpoint in.
+  - (Optional) `condition`: Expression to use as a breakpoint condition. When specified, debugger will only stop on the
   breakpoint if this expression evaluates to true.
   """
   @spec set_breakpoint(CDPotion.Domain.Debugger.Location, String.t()) :: {String.t(), map()}
@@ -402,7 +402,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Sets instrumentation breakpoint.
   ## Parameters:
-    - `instrumentation`:Instrumentation name.
+    - (Required) `instrumentation`: Instrumentation name.
   """
   @spec set_instrumentation_breakpoint(String.t()) :: {String.t(), map()}
   def set_instrumentation_breakpoint(instrumentation) do
@@ -416,13 +416,13 @@ defmodule CDPotion.Domain.Debugger do
   `locations` property. Further matching script parsing will result in subsequent
   `breakpointResolved` events issued. This logical breakpoint will survive page reloads.
   ## Parameters:
-    - `line_number`:Line number to set breakpoint at.
-  - `url`:(Optional) URL of the resources to set breakpoint on.
-  - `url_regex`:(Optional) Regex pattern for the URLs of the resources to set breakpoints on. Either `url` or
+    - (Required) `line_number`: Line number to set breakpoint at.
+  - (Optional) `url`: URL of the resources to set breakpoint on.
+  - (Optional) `url_regex`: Regex pattern for the URLs of the resources to set breakpoints on. Either `url` or
   `urlRegex` must be specified.
-  - `script_hash`:(Optional) Script hash of the resources to set breakpoint on.
-  - `column_number`:(Optional) Offset in the line to set breakpoint at.
-  - `condition`:(Optional) Expression to use as a breakpoint condition. When specified, debugger will only stop on the
+  - (Optional) `script_hash`: Script hash of the resources to set breakpoint on.
+  - (Optional) `column_number`: Offset in the line to set breakpoint at.
+  - (Optional) `condition`: Expression to use as a breakpoint condition. When specified, debugger will only stop on the
   breakpoint if this expression evaluates to true.
   """
   @spec set_breakpoint_by_url(
@@ -459,8 +459,8 @@ defmodule CDPotion.Domain.Debugger do
   If another function was created from the same source as a given one,
   calling it will also trigger the breakpoint.
   ## Parameters:
-    - `object_id`:Function object id.
-  - `condition`:(Optional) Expression to use as a breakpoint condition. When specified, debugger will
+    - (Required) `object_id`: Function object id.
+  - (Optional) `condition`: Expression to use as a breakpoint condition. When specified, debugger will
   stop on the breakpoint if this expression evaluates to true.
   """
   @spec set_breakpoint_on_function_call(CDPotion.Domain.Runtime.RemoteObjectId, String.t()) ::
@@ -473,7 +473,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Activates / deactivates all breakpoints on the page.
   ## Parameters:
-    - `active`:New value for breakpoints active state.
+    - (Required) `active`: New value for breakpoints active state.
   """
   @spec set_breakpoints_active(boolean()) :: {String.t(), map()}
   def set_breakpoints_active(active) do
@@ -485,7 +485,7 @@ defmodule CDPotion.Domain.Debugger do
   Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions,
   or caught exceptions, no exceptions. Initial pause on exceptions state is `none`.
   ## Parameters:
-    - `state`:Pause on exceptions mode.
+    - (Required) `state`: Pause on exceptions mode.
   """
   @spec set_pause_on_exceptions(String.t()) :: {String.t(), map()}
   def set_pause_on_exceptions(state) do
@@ -496,7 +496,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Changes return value in top frame. Available only at return break position.
   ## Parameters:
-    - `new_value`:New return value.
+    - (Required) `new_value`: New return value.
   """
   @spec set_return_value(CDPotion.Domain.Runtime.CallArgument) :: {String.t(), map()}
   def set_return_value(new_value) do
@@ -512,11 +512,11 @@ defmodule CDPotion.Domain.Debugger do
   the live edit will be successful and a `Debugger.restartFrame` for the
   top-most function is automatically triggered.
   ## Parameters:
-    - `script_id`:Id of the script to edit.
-  - `script_source`:New content of the script.
-  - `dry_run`:(Optional) If true the change will not actually be applied. Dry run may be used to get result
+    - (Required) `script_id`: Id of the script to edit.
+  - (Required) `script_source`: New content of the script.
+  - (Optional) `dry_run`: If true the change will not actually be applied. Dry run may be used to get result
   description without actually modifying the code.
-  - `allow_top_frame_editing`:(Optional) If true, then `scriptSource` is allowed to change the function on top of the stack
+  - (Optional) `allow_top_frame_editing`: If true, then `scriptSource` is allowed to change the function on top of the stack
   as long as the top-most stack frame is the only activation of that function.
   """
   @spec set_script_source(CDPotion.Domain.Runtime.ScriptId, String.t(), boolean(), boolean()) ::
@@ -536,7 +536,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Makes page not interrupt on any pauses (breakpoint, exception, dom exception etc).
   ## Parameters:
-    - `skip`:New value for skip pauses state.
+    - (Required) `skip`: New value for skip pauses state.
   """
   @spec set_skip_all_pauses(boolean()) :: {String.t(), map()}
   def set_skip_all_pauses(skip) do
@@ -548,11 +548,11 @@ defmodule CDPotion.Domain.Debugger do
   Changes value of variable in a callframe. Object-based scopes are not supported and must be
   mutated manually.
   ## Parameters:
-    - `scope_number`:0-based number of scope as was listed in scope chain. Only 'local', 'closure' and 'catch'
+    - (Required) `scope_number`: 0-based number of scope as was listed in scope chain. Only 'local', 'closure' and 'catch'
   scope types are allowed. Other scopes could be manipulated manually.
-  - `variable_name`:Variable name.
-  - `new_value`:New variable value.
-  - `call_frame_id`:Id of callframe that holds variable.
+  - (Required) `variable_name`: Variable name.
+  - (Required) `new_value`: New variable value.
+  - (Required) `call_frame_id`: Id of callframe that holds variable.
   """
   @spec set_variable_value(
           integer(),
@@ -575,9 +575,9 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Steps into the function call.
   ## Parameters:
-    - `break_on_async_call`:(Optional) Debugger will pause on the execution of the first async task which was scheduled
+    - (Optional) `break_on_async_call`: Debugger will pause on the execution of the first async task which was scheduled
   before next pause.
-  - `skip_list`:(Optional) The skipList specifies location ranges that should be skipped on step into.
+  - (Optional) `skip_list`: The skipList specifies location ranges that should be skipped on step into.
   """
   @spec step_into(boolean(), list(CDPotion.Domain.Debugger.LocationRange)) :: {String.t(), map()}
   def step_into(break_on_async_call \\ nil, skip_list \\ nil) do
@@ -596,7 +596,7 @@ defmodule CDPotion.Domain.Debugger do
   @doc """
   Steps over the statement.
   ## Parameters:
-    - `skip_list`:(Optional) The skipList specifies location ranges that should be skipped on step over.
+    - (Optional) `skip_list`: The skipList specifies location ranges that should be skipped on step over.
   """
   @spec step_over(list(CDPotion.Domain.Debugger.LocationRange)) :: {String.t(), map()}
   def step_over(skip_list \\ nil) do

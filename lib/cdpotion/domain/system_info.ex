@@ -79,7 +79,7 @@ resolution and maximum framerate."
   @doc """
   Returns information about the feature state.
   ## Parameters:
-    - `feature_state`:description not provided :(
+    - (Required) `feature_state`: description not provided :(
   """
   @spec get_feature_state(String.t()) :: {String.t(), map()}
   def get_feature_state(feature_state) do

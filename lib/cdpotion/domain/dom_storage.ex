@@ -16,7 +16,7 @@ defmodule CDPotion.Domain.DOMStorage do
   @doc """
 
   ## Parameters:
-    - `storage_id`:description not provided :(
+    - (Required) `storage_id`: description not provided :(
   """
   @spec clear(CDPotion.Domain.DOMStorage.StorageId) :: {String.t(), map()}
   def clear(storage_id) do
@@ -43,7 +43,7 @@ defmodule CDPotion.Domain.DOMStorage do
   @doc """
 
   ## Parameters:
-    - `storage_id`:description not provided :(
+    - (Required) `storage_id`: description not provided :(
   """
   @spec get_dom_storage_items(CDPotion.Domain.DOMStorage.StorageId) :: {String.t(), map()}
   def get_dom_storage_items(storage_id) do
@@ -54,8 +54,8 @@ defmodule CDPotion.Domain.DOMStorage do
   @doc """
 
   ## Parameters:
-    - `storage_id`:description not provided :(
-  - `key`:description not provided :(
+    - (Required) `storage_id`: description not provided :(
+  - (Required) `key`: description not provided :(
   """
   @spec remove_dom_storage_item(CDPotion.Domain.DOMStorage.StorageId, String.t()) ::
           {String.t(), map()}
@@ -67,9 +67,9 @@ defmodule CDPotion.Domain.DOMStorage do
   @doc """
 
   ## Parameters:
-    - `storage_id`:description not provided :(
-  - `key`:description not provided :(
-  - `value`:description not provided :(
+    - (Required) `storage_id`: description not provided :(
+  - (Required) `key`: description not provided :(
+  - (Required) `value`: description not provided :(
   """
   @spec set_dom_storage_item(CDPotion.Domain.DOMStorage.StorageId, String.t(), String.t()) ::
           {String.t(), map()}

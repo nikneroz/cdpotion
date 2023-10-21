@@ -92,7 +92,7 @@ defmodule CDPotion.Domain.WebAudio do
   @doc """
   Fetch the realtime data from the registered contexts.
   ## Parameters:
-    - `context_id`:description not provided :(
+    - (Required) `context_id`: description not provided :(
   """
   @spec get_realtime_data(CDPotion.Domain.WebAudio.GraphObjectId) :: {String.t(), map()}
   def get_realtime_data(context_id) do

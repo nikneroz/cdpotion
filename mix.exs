@@ -4,7 +4,7 @@ defmodule CDPotion.MixProject do
   def project do
     [
       app: :cdpotion,
-      version: "0.1.2",
+      version: "0.1.3",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -28,7 +28,8 @@ defmodule CDPotion.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:recode, "~> 0.6", only: :dev}
     ]
   end
 

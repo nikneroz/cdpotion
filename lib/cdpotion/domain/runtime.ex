@@ -266,9 +266,9 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
   Add handler to promise with given promise object id.
   ## Parameters:
-    - `promise_object_id`:Identifier of the promise.
-  - `return_by_value`:(Optional) Whether the result is expected to be a JSON object that should be sent by value.
-  - `generate_preview`:(Optional) Whether preview should be generated for the result.
+    - (Required) `promise_object_id`: Identifier of the promise.
+  - (Optional) `return_by_value`: Whether the result is expected to be a JSON object that should be sent by value.
+  - (Optional) `generate_preview`: Whether preview should be generated for the result.
   """
   @spec await_promise(CDPotion.Domain.Runtime.RemoteObjectId, boolean(), boolean()) ::
           {String.t(), map()}
@@ -287,35 +287,35 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   Calls function with given declaration on the given object. Object group of the result is
   inherited from the target object.
   ## Parameters:
-    - `function_declaration`:Declaration of the function to call.
-  - `object_id`:(Optional) Identifier of the object to call function on. Either objectId or executionContextId should
+    - (Required) `function_declaration`: Declaration of the function to call.
+  - (Optional) `object_id`: Identifier of the object to call function on. Either objectId or executionContextId should
   be specified.
-  - `arguments`:(Optional) Call arguments. All call arguments must belong to the same JavaScript world as the target
+  - (Optional) `arguments`: Call arguments. All call arguments must belong to the same JavaScript world as the target
   object.
-  - `silent`:(Optional) In silent mode exceptions thrown during evaluation are not reported and do not pause
+  - (Optional) `silent`: In silent mode exceptions thrown during evaluation are not reported and do not pause
   execution. Overrides `setPauseOnException` state.
-  - `return_by_value`:(Optional) Whether the result is expected to be a JSON object which should be sent by value.
+  - (Optional) `return_by_value`: Whether the result is expected to be a JSON object which should be sent by value.
   Can be overriden by `serializationOptions`.
-  - `generate_preview`:(Optional) Whether preview should be generated for the result.
-  - `user_gesture`:(Optional) Whether execution should be treated as initiated by user in the UI.
-  - `await_promise`:(Optional) Whether execution should `await` for resulting value and return once awaited promise is
+  - (Optional) `generate_preview`: Whether preview should be generated for the result.
+  - (Optional) `user_gesture`: Whether execution should be treated as initiated by user in the UI.
+  - (Optional) `await_promise`: Whether execution should `await` for resulting value and return once awaited promise is
   resolved.
-  - `execution_context_id`:(Optional) Specifies execution context which global object will be used to call function on. Either
+  - (Optional) `execution_context_id`: Specifies execution context which global object will be used to call function on. Either
   executionContextId or objectId should be specified.
-  - `object_group`:(Optional) Symbolic group name that can be used to release multiple objects. If objectGroup is not
+  - (Optional) `object_group`: Symbolic group name that can be used to release multiple objects. If objectGroup is not
   specified and objectId is, objectGroup will be inherited from object.
-  - `throw_on_side_effect`:(Optional) Whether to throw an exception if side effect cannot be ruled out during evaluation.
-  - `unique_context_id`:(Optional) An alternative way to specify the execution context to call function on.
+  - (Optional) `throw_on_side_effect`: Whether to throw an exception if side effect cannot be ruled out during evaluation.
+  - (Optional) `unique_context_id`: An alternative way to specify the execution context to call function on.
   Compared to contextId that may be reused across processes, this is guaranteed to be
   system-unique, so it can be used to prevent accidental function call
   in context different than intended (e.g. as a result of navigation across process
   boundaries).
   This is mutually exclusive with `executionContextId`.
-  - `generate_web_driver_value`:(Optional) Deprecated. Use `serializationOptions: {serialization:"deep"}` instead.
+  - (Optional) `generate_web_driver_value`: Deprecated. Use `serializationOptions: {serialization:"deep"}` instead.
   Whether the result should contain `webDriverValue`, serialized according to
   https://w3c.github.io/webdriver-bidi. This is mutually exclusive with `returnByValue`, but
   resulting `objectId` is still provided.
-  - `serialization_options`:(Optional) Specifies the result serialization. If provided, overrides
+  - (Optional) `serialization_options`: Specifies the result serialization. If provided, overrides
   `generatePreview`, `returnByValue` and `generateWebDriverValue`.
   """
   @spec call_function_on(
@@ -374,10 +374,10 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
   Compiles expression.
   ## Parameters:
-    - `expression`:Expression to compile.
-  - `source_url`:Source url to be set for the script.
-  - `persist_script`:Specifies whether the compiled script should be persisted.
-  - `execution_context_id`:(Optional) Specifies in which execution context to perform script run. If the parameter is omitted the
+    - (Required) `expression`: Expression to compile.
+  - (Required) `source_url`: Source url to be set for the script.
+  - (Required) `persist_script`: Specifies whether the compiled script should be persisted.
+  - (Optional) `execution_context_id`: Specifies in which execution context to perform script run. If the parameter is omitted the
   evaluation will be performed in the context of the inspected page.
   """
   @spec compile_script(
@@ -427,44 +427,44 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
   Evaluates expression on global object.
   ## Parameters:
-    - `expression`:Expression to evaluate.
-  - `object_group`:(Optional) Symbolic group name that can be used to release multiple objects.
-  - `include_command_line_api`:(Optional) Determines whether Command Line API should be available during the evaluation.
-  - `silent`:(Optional) In silent mode exceptions thrown during evaluation are not reported and do not pause
+    - (Required) `expression`: Expression to evaluate.
+  - (Optional) `object_group`: Symbolic group name that can be used to release multiple objects.
+  - (Optional) `include_command_line_api`: Determines whether Command Line API should be available during the evaluation.
+  - (Optional) `silent`: In silent mode exceptions thrown during evaluation are not reported and do not pause
   execution. Overrides `setPauseOnException` state.
-  - `context_id`:(Optional) Specifies in which execution context to perform evaluation. If the parameter is omitted the
+  - (Optional) `context_id`: Specifies in which execution context to perform evaluation. If the parameter is omitted the
   evaluation will be performed in the context of the inspected page.
   This is mutually exclusive with `uniqueContextId`, which offers an
   alternative way to identify the execution context that is more reliable
   in a multi-process environment.
-  - `return_by_value`:(Optional) Whether the result is expected to be a JSON object that should be sent by value.
-  - `generate_preview`:(Optional) Whether preview should be generated for the result.
-  - `user_gesture`:(Optional) Whether execution should be treated as initiated by user in the UI.
-  - `await_promise`:(Optional) Whether execution should `await` for resulting value and return once awaited promise is
+  - (Optional) `return_by_value`: Whether the result is expected to be a JSON object that should be sent by value.
+  - (Optional) `generate_preview`: Whether preview should be generated for the result.
+  - (Optional) `user_gesture`: Whether execution should be treated as initiated by user in the UI.
+  - (Optional) `await_promise`: Whether execution should `await` for resulting value and return once awaited promise is
   resolved.
-  - `throw_on_side_effect`:(Optional) Whether to throw an exception if side effect cannot be ruled out during evaluation.
+  - (Optional) `throw_on_side_effect`: Whether to throw an exception if side effect cannot be ruled out during evaluation.
   This implies `disableBreaks` below.
-  - `timeout`:(Optional) Terminate execution after timing out (number of milliseconds).
-  - `disable_breaks`:(Optional) Disable breakpoints during execution.
-  - `repl_mode`:(Optional) Setting this flag to true enables `let` re-declaration and top-level `await`.
+  - (Optional) `timeout`: Terminate execution after timing out (number of milliseconds).
+  - (Optional) `disable_breaks`: Disable breakpoints during execution.
+  - (Optional) `repl_mode`: Setting this flag to true enables `let` re-declaration and top-level `await`.
   Note that `let` variables can only be re-declared if they originate from
   `replMode` themselves.
-  - `allow_unsafe_eval_blocked_by_csp`:(Optional) The Content Security Policy (CSP) for the target might block 'unsafe-eval'
+  - (Optional) `allow_unsafe_eval_blocked_by_csp`: The Content Security Policy (CSP) for the target might block 'unsafe-eval'
   which includes eval(), Function(), setTimeout() and setInterval()
   when called with non-callable arguments. This flag bypasses CSP for this
   evaluation and allows unsafe-eval. Defaults to true.
-  - `unique_context_id`:(Optional) An alternative way to specify the execution context to evaluate in.
+  - (Optional) `unique_context_id`: An alternative way to specify the execution context to evaluate in.
   Compared to contextId that may be reused across processes, this is guaranteed to be
   system-unique, so it can be used to prevent accidental evaluation of the expression
   in context different than intended (e.g. as a result of navigation across process
   boundaries).
   This is mutually exclusive with `contextId`.
-  - `generate_web_driver_value`:(Optional) Deprecated. Use `serializationOptions: {serialization:"deep"}` instead.
+  - (Optional) `generate_web_driver_value`: Deprecated. Use `serializationOptions: {serialization:"deep"}` instead.
   Whether the result should contain `webDriverValue`, serialized
   according to
   https://w3c.github.io/webdriver-bidi. This is mutually exclusive with `returnByValue`, but
   resulting `objectId` is still provided.
-  - `serialization_options`:(Optional) Specifies the result serialization. If provided, overrides
+  - (Optional) `serialization_options`: Specifies the result serialization. If provided, overrides
   `generatePreview`, `returnByValue` and `generateWebDriverValue`.
   """
   @spec evaluate(
@@ -550,13 +550,13 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   Returns properties of a given object. Object group of the result is inherited from the target
   object.
   ## Parameters:
-    - `object_id`:Identifier of the object to return properties for.
-  - `own_properties`:(Optional) If true, returns properties belonging only to the element itself, not to its prototype
+    - (Required) `object_id`: Identifier of the object to return properties for.
+  - (Optional) `own_properties`: If true, returns properties belonging only to the element itself, not to its prototype
   chain.
-  - `accessor_properties_only`:(Optional) If true, returns accessor properties (with getter/setter) only; internal properties are not
+  - (Optional) `accessor_properties_only`: If true, returns accessor properties (with getter/setter) only; internal properties are not
   returned either.
-  - `generate_preview`:(Optional) Whether preview should be generated for the results.
-  - `non_indexed_properties_only`:(Optional) If true, returns non-indexed properties only.
+  - (Optional) `generate_preview`: Whether preview should be generated for the results.
+  - (Optional) `non_indexed_properties_only`: If true, returns non-indexed properties only.
   """
   @spec get_properties(
           CDPotion.Domain.Runtime.RemoteObjectId,
@@ -587,7 +587,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
   Returns all let, const and class variables from global scope.
   ## Parameters:
-    - `execution_context_id`:(Optional) Specifies in which execution context to lookup global scope variables.
+    - (Optional) `execution_context_id`: Specifies in which execution context to lookup global scope variables.
   """
   @spec global_lexical_scope_names(CDPotion.Domain.Runtime.ExecutionContextId) ::
           {String.t(), map()}
@@ -599,8 +599,8 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
 
   ## Parameters:
-    - `prototype_object_id`:Identifier of the prototype to return objects for.
-  - `object_group`:(Optional) Symbolic group name that can be used to release the results.
+    - (Required) `prototype_object_id`: Identifier of the prototype to return objects for.
+  - (Optional) `object_group`: Symbolic group name that can be used to release the results.
   """
   @spec query_objects(CDPotion.Domain.Runtime.RemoteObjectId, String.t()) :: {String.t(), map()}
   def query_objects(prototype_object_id, object_group \\ nil) do
@@ -611,7 +611,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
   Releases remote object with given id.
   ## Parameters:
-    - `object_id`:Identifier of the object to release.
+    - (Required) `object_id`: Identifier of the object to release.
   """
   @spec release_object(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
   def release_object(object_id) do
@@ -622,7 +622,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
   Releases all remote objects that belong to a given group.
   ## Parameters:
-    - `object_group`:Symbolic object group name.
+    - (Required) `object_group`: Symbolic object group name.
   """
   @spec release_object_group(String.t()) :: {String.t(), map()}
   def release_object_group(object_group) do
@@ -641,16 +641,16 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
   Runs script with given id in a given context.
   ## Parameters:
-    - `script_id`:Id of the script to run.
-  - `execution_context_id`:(Optional) Specifies in which execution context to perform script run. If the parameter is omitted the
+    - (Required) `script_id`: Id of the script to run.
+  - (Optional) `execution_context_id`: Specifies in which execution context to perform script run. If the parameter is omitted the
   evaluation will be performed in the context of the inspected page.
-  - `object_group`:(Optional) Symbolic group name that can be used to release multiple objects.
-  - `silent`:(Optional) In silent mode exceptions thrown during evaluation are not reported and do not pause
+  - (Optional) `object_group`: Symbolic group name that can be used to release multiple objects.
+  - (Optional) `silent`: In silent mode exceptions thrown during evaluation are not reported and do not pause
   execution. Overrides `setPauseOnException` state.
-  - `include_command_line_api`:(Optional) Determines whether Command Line API should be available during the evaluation.
-  - `return_by_value`:(Optional) Whether the result is expected to be a JSON object which should be sent by value.
-  - `generate_preview`:(Optional) Whether preview should be generated for the result.
-  - `await_promise`:(Optional) Whether execution should `await` for resulting value and return once awaited promise is
+  - (Optional) `include_command_line_api`: Determines whether Command Line API should be available during the evaluation.
+  - (Optional) `return_by_value`: Whether the result is expected to be a JSON object which should be sent by value.
+  - (Optional) `generate_preview`: Whether preview should be generated for the result.
+  - (Optional) `await_promise`: Whether execution should `await` for resulting value and return once awaited promise is
   resolved.
   """
   @spec run_script(
@@ -691,7 +691,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
   Enables or disables async call stacks tracking.
   ## Parameters:
-    - `max_depth`:Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
+    - (Required) `max_depth`: Maximum depth of async call stacks. Setting to `0` will effectively disable collecting async
   call stacks (default).
   """
   @spec set_async_call_stack_depth(integer()) :: {String.t(), map()}
@@ -703,7 +703,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
 
   ## Parameters:
-    - `enabled`:description not provided :(
+    - (Required) `enabled`: description not provided :(
   """
   @spec set_custom_object_formatter_enabled(boolean()) :: {String.t(), map()}
   def set_custom_object_formatter_enabled(enabled) do
@@ -714,7 +714,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   @doc """
 
   ## Parameters:
-    - `size`:description not provided :(
+    - (Required) `size`: description not provided :(
   """
   @spec set_max_call_stack_size_to_capture(integer()) :: {String.t(), map()}
   def set_max_call_stack_size_to_capture(size) do
@@ -739,15 +739,15 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   in case of any other input, function throws an exception.
   Each binding function call produces Runtime.bindingCalled notification.
   ## Parameters:
-    - `name`:description not provided :(
-  - `execution_context_id`:(Optional) If specified, the binding would only be exposed to the specified
+    - (Required) `name`: description not provided :(
+  - (Optional) `execution_context_id`: If specified, the binding would only be exposed to the specified
   execution context. If omitted and `executionContextName` is not set,
   the binding is exposed to all execution contexts of the target.
   This parameter is mutually exclusive with `executionContextName`.
   Deprecated in favor of `executionContextName` due to an unclear use case
   and bugs in implementation (crbug.com/1169639). `executionContextId` will be
   removed in the future.
-  - `execution_context_name`:(Optional) If specified, the binding is exposed to the executionContext with
+  - (Optional) `execution_context_name`: If specified, the binding is exposed to the executionContext with
   matching name, even for contexts created after the binding is added.
   See also `ExecutionContext.name` and `worldName` parameter to
   `Page.addScriptToEvaluateOnNewDocument`.
@@ -770,7 +770,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   This method does not remove binding function from global object but
   unsubscribes current runtime agent from Runtime.bindingCalled notifications.
   ## Parameters:
-    - `name`:description not provided :(
+    - (Required) `name`: description not provided :(
   """
   @spec remove_binding(String.t()) :: {String.t(), map()}
   def remove_binding(name) do
@@ -785,7 +785,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   only be populated if the Runtime domain was enabled at the time when the
   Error was thrown.
   ## Parameters:
-    - `error_object_id`:The error object for which to resolve the exception details.
+    - (Required) `error_object_id`: The error object for which to resolve the exception details.
   """
   @spec get_exception_details(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
   def get_exception_details(error_object_id) do

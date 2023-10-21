@@ -14,7 +14,7 @@ defmodule CDPotion.Domain.Cast do
   Also starts observing for issue messages. When an issue is added or removed,
   an |issueUpdated| event is fired.
   ## Parameters:
-    - `presentation_url`:(Optional) description not provided :(
+    - (Optional) `presentation_url`: description not provided :(
   """
   @spec enable(String.t()) :: {String.t(), map()}
   def enable(presentation_url \\ nil) do
@@ -34,7 +34,7 @@ defmodule CDPotion.Domain.Cast do
   Sets a sink to be used when the web page requests the browser to choose a
   sink via Presentation API, Remote Playback API, or Cast SDK.
   ## Parameters:
-    - `sink_name`:description not provided :(
+    - (Required) `sink_name`: description not provided :(
   """
   @spec set_sink_to_use(String.t()) :: {String.t(), map()}
   def set_sink_to_use(sink_name) do
@@ -45,7 +45,7 @@ defmodule CDPotion.Domain.Cast do
   @doc """
   Starts mirroring the desktop to the sink.
   ## Parameters:
-    - `sink_name`:description not provided :(
+    - (Required) `sink_name`: description not provided :(
   """
   @spec start_desktop_mirroring(String.t()) :: {String.t(), map()}
   def start_desktop_mirroring(sink_name) do
@@ -56,7 +56,7 @@ defmodule CDPotion.Domain.Cast do
   @doc """
   Starts mirroring the tab to the sink.
   ## Parameters:
-    - `sink_name`:description not provided :(
+    - (Required) `sink_name`: description not provided :(
   """
   @spec start_tab_mirroring(String.t()) :: {String.t(), map()}
   def start_tab_mirroring(sink_name) do
@@ -67,7 +67,7 @@ defmodule CDPotion.Domain.Cast do
   @doc """
   Stops the active Cast session on the sink.
   ## Parameters:
-    - `sink_name`:description not provided :(
+    - (Required) `sink_name`: description not provided :(
   """
   @spec stop_casting(String.t()) :: {String.t(), map()}
   def stop_casting(sink_name) do

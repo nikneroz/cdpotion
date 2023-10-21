@@ -69,7 +69,7 @@ defmodule CDPotion.Domain.Log do
   @doc """
   start violation reporting.
   ## Parameters:
-    - `config`:Configuration for violations.
+    - (Required) `config`: Configuration for violations.
   """
   @spec start_violations_report(list(CDPotion.Domain.Log.ViolationSetting)) :: {String.t(), map()}
   def start_violations_report(config) do

@@ -59,7 +59,7 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Returns the current time of the an animation.
   ## Parameters:
-    - `id`:Id of animation.
+    - (Required) `id`: Id of animation.
   """
   @spec get_current_time(String.t()) :: {String.t(), map()}
   def get_current_time(id) do
@@ -78,7 +78,7 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Releases a set of animations to no longer be manipulated.
   ## Parameters:
-    - `animations`:List of animation ids to seek.
+    - (Required) `animations`: List of animation ids to seek.
   """
   @spec release_animations(list(String.t())) :: {String.t(), map()}
   def release_animations(animations) do
@@ -89,7 +89,7 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Gets the remote object of the Animation.
   ## Parameters:
-    - `animation_id`:Animation id.
+    - (Required) `animation_id`: Animation id.
   """
   @spec resolve_animation(String.t()) :: {String.t(), map()}
   def resolve_animation(animation_id) do
@@ -100,8 +100,8 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Seek a set of animations to a particular time within each animation.
   ## Parameters:
-    - `animations`:List of animation ids to seek.
-  - `current_time`:Set the current time of each animation.
+    - (Required) `animations`: List of animation ids to seek.
+  - (Required) `current_time`: Set the current time of each animation.
   """
   @spec seek_animations(list(String.t()), number()) :: {String.t(), map()}
   def seek_animations(animations, current_time) do
@@ -112,8 +112,8 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Sets the paused state of a set of animations.
   ## Parameters:
-    - `animations`:Animations to set the pause state of.
-  - `paused`:Paused state to set to.
+    - (Required) `animations`: Animations to set the pause state of.
+  - (Required) `paused`: Paused state to set to.
   """
   @spec set_paused(list(String.t()), boolean()) :: {String.t(), map()}
   def set_paused(animations, paused) do
@@ -124,7 +124,7 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Sets the playback rate of the document timeline.
   ## Parameters:
-    - `playback_rate`:Playback rate for animations on page
+    - (Required) `playback_rate`: Playback rate for animations on page
   """
   @spec set_playback_rate(number()) :: {String.t(), map()}
   def set_playback_rate(playback_rate) do
@@ -135,9 +135,9 @@ defmodule CDPotion.Domain.Animation do
   @doc """
   Sets the timing of an animation node.
   ## Parameters:
-    - `animation_id`:Animation id.
-  - `duration`:Duration of the animation.
-  - `delay`:Delay of the animation.
+    - (Required) `animation_id`: Animation id.
+  - (Required) `duration`: Duration of the animation.
+  - (Required) `delay`: Delay of the animation.
   """
   @spec set_timing(String.t(), number(), number()) :: {String.t(), map()}
   def set_timing(animation_id, duration, delay) do

@@ -45,7 +45,7 @@ If filter is not specified, the one assumed is
   ## Parameters:
     - (Required) `target_id`: description not provided :(
   """
-  @spec activate_target(CDPotion.Domain.Target.TargetID) :: {String.t(), map()}
+  @spec activate_target(CDPotion.Domain.Target.target_id()) :: {String.t(), map()}
   def activate_target(target_id) do
     params = as_query([{"targetId", target_id}])
     {"Target.activateTarget", params}
@@ -59,7 +59,7 @@ If filter is not specified, the one assumed is
   We plan to make this the default, deprecate non-flattened mode,
   and eventually retire it. See crbug.com/991325.
   """
-  @spec attach_to_target(CDPotion.Domain.Target.TargetID, boolean()) :: {String.t(), map()}
+  @spec attach_to_target(CDPotion.Domain.Target.target_id(), boolean()) :: {String.t(), map()}
   def attach_to_target(target_id, flatten \\ nil) do
     params = as_query([{"targetId", target_id}, {"flatten", flatten}])
     {"Target.attachToTarget", params}
@@ -78,7 +78,7 @@ If filter is not specified, the one assumed is
   ## Parameters:
     - (Required) `target_id`: description not provided :(
   """
-  @spec close_target(CDPotion.Domain.Target.TargetID) :: {String.t(), map()}
+  @spec close_target(CDPotion.Domain.Target.target_id()) :: {String.t(), map()}
   def close_target(target_id) do
     params = as_query([{"targetId", target_id}])
     {"Target.closeTarget", params}
@@ -95,7 +95,7 @@ If filter is not specified, the one assumed is
     - (Required) `target_id`: description not provided :(
   - (Optional) `binding_name`: Binding name, 'cdp' if not specified.
   """
-  @spec expose_dev_tools_protocol(CDPotion.Domain.Target.TargetID, String.t()) ::
+  @spec expose_dev_tools_protocol(CDPotion.Domain.Target.target_id(), String.t()) ::
           {String.t(), map()}
   def expose_dev_tools_protocol(target_id, binding_name \\ nil) do
     params = as_query([{"targetId", target_id}, {"bindingName", binding_name}])
@@ -157,7 +157,7 @@ If filter is not specified, the one assumed is
           String.t(),
           integer(),
           integer(),
-          CDPotion.Domain.Browser.BrowserContextID,
+          CDPotion.Domain.Browser.browser_context_id(),
           boolean(),
           boolean(),
           boolean(),
@@ -194,8 +194,10 @@ If filter is not specified, the one assumed is
     - (Optional) `session_id`: Session to detach.
   - (Optional) `target_id`: Deprecated.
   """
-  @spec detach_from_target(CDPotion.Domain.Target.SessionID, CDPotion.Domain.Target.TargetID) ::
-          {String.t(), map()}
+  @spec detach_from_target(
+          CDPotion.Domain.Target.session_id(),
+          CDPotion.Domain.Target.target_id()
+        ) :: {String.t(), map()}
   def detach_from_target(session_id \\ nil, target_id \\ nil) do
     params = as_query([{"sessionId", session_id}, {"targetId", target_id}])
     {"Target.detachFromTarget", params}
@@ -207,7 +209,8 @@ If filter is not specified, the one assumed is
   ## Parameters:
     - (Required) `browser_context_id`: description not provided :(
   """
-  @spec dispose_browser_context(CDPotion.Domain.Browser.BrowserContextID) :: {String.t(), map()}
+  @spec dispose_browser_context(CDPotion.Domain.Browser.browser_context_id()) ::
+          {String.t(), map()}
   def dispose_browser_context(browser_context_id) do
     params = as_query([{"browserContextId", browser_context_id}])
     {"Target.disposeBrowserContext", params}
@@ -218,7 +221,7 @@ If filter is not specified, the one assumed is
   ## Parameters:
     - (Optional) `target_id`: description not provided :(
   """
-  @spec get_target_info(CDPotion.Domain.Target.TargetID) :: {String.t(), map()}
+  @spec get_target_info(CDPotion.Domain.Target.target_id()) :: {String.t(), map()}
   def get_target_info(target_id \\ nil) do
     params = as_query([{"targetId", target_id}])
     {"Target.getTargetInfo", params}
@@ -231,7 +234,7 @@ If filter is not specified, the one assumed is
   and target discovery is currently enabled, a filter used for target discovery
   is used for consistency.
   """
-  @spec get_targets(CDPotion.Domain.Target.TargetFilter) :: {String.t(), map()}
+  @spec get_targets(CDPotion.Domain.Target.target_filter()) :: {String.t(), map()}
   def get_targets(filter \\ nil) do
     params = as_query([{"filter", filter}])
     {"Target.getTargets", params}
@@ -248,8 +251,8 @@ If filter is not specified, the one assumed is
   """
   @spec send_message_to_target(
           String.t(),
-          CDPotion.Domain.Target.SessionID,
-          CDPotion.Domain.Target.TargetID
+          CDPotion.Domain.Target.session_id(),
+          CDPotion.Domain.Target.target_id()
         ) :: {String.t(), map()}
   def send_message_to_target(message, session_id \\ nil, target_id \\ nil) do
     params = as_query([{"message", message}, {"sessionId", session_id}, {"targetId", target_id}])
@@ -271,7 +274,7 @@ If filter is not specified, the one assumed is
   and eventually retire it. See crbug.com/991325.
   - (Optional) `filter`: Only targets matching filter will be attached.
   """
-  @spec set_auto_attach(boolean(), boolean(), boolean(), CDPotion.Domain.Target.TargetFilter) ::
+  @spec set_auto_attach(boolean(), boolean(), boolean(), CDPotion.Domain.Target.target_filter()) ::
           {String.t(), map()}
   def set_auto_attach(auto_attach, wait_for_debugger_on_start, flatten \\ nil, filter \\ nil) do
     params =
@@ -298,9 +301,9 @@ If filter is not specified, the one assumed is
   - (Optional) `filter`: Only targets matching filter will be attached.
   """
   @spec auto_attach_related(
-          CDPotion.Domain.Target.TargetID,
+          CDPotion.Domain.Target.target_id(),
           boolean(),
-          CDPotion.Domain.Target.TargetFilter
+          CDPotion.Domain.Target.target_filter()
         ) :: {String.t(), map()}
   def auto_attach_related(target_id, wait_for_debugger_on_start, filter \\ nil) do
     params =
@@ -321,7 +324,7 @@ If filter is not specified, the one assumed is
   - (Optional) `filter`: Only targets matching filter will be attached. If `discover` is false,
   `filter` must be omitted or empty.
   """
-  @spec set_discover_targets(boolean(), CDPotion.Domain.Target.TargetFilter) ::
+  @spec set_discover_targets(boolean(), CDPotion.Domain.Target.target_filter()) ::
           {String.t(), map()}
   def set_discover_targets(discover, filter \\ nil) do
     params = as_query([{"discover", discover}, {"filter", filter}])
@@ -334,7 +337,8 @@ If filter is not specified, the one assumed is
   ## Parameters:
     - (Required) `locations`: List of remote locations.
   """
-  @spec set_remote_locations(list(CDPotion.Domain.Target.RemoteLocation)) :: {String.t(), map()}
+  @spec set_remote_locations(list(CDPotion.Domain.Target.remote_location())) ::
+          {String.t(), map()}
   def set_remote_locations(locations) do
     params = as_query([{"locations", locations}])
     {"Target.setRemoteLocations", params}

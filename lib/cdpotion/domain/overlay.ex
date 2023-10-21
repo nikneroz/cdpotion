@@ -182,10 +182,10 @@ defmodule CDPotion.Domain.Overlay do
   - (Optional) `show_accessibility_info`: Whether to show accessibility info (default: true).
   """
   @spec get_highlight_object_for_test(
-          CDPotion.Domain.DOM.NodeId,
+          CDPotion.Domain.DOM.node_id(),
           boolean(),
           boolean(),
-          CDPotion.Domain.Overlay.ColorFormat,
+          CDPotion.Domain.Overlay.color_format(),
           boolean()
         ) :: {String.t(), map()}
   def get_highlight_object_for_test(
@@ -212,7 +212,7 @@ defmodule CDPotion.Domain.Overlay do
   ## Parameters:
     - (Required) `node_ids`: Ids of the node to get highlight object for.
   """
-  @spec get_grid_highlight_objects_for_test(list(CDPotion.Domain.DOM.NodeId)) ::
+  @spec get_grid_highlight_objects_for_test(list(CDPotion.Domain.DOM.node_id())) ::
           {String.t(), map()}
   def get_grid_highlight_objects_for_test(node_ids) do
     params = as_query([{"nodeIds", node_ids}])
@@ -224,7 +224,7 @@ defmodule CDPotion.Domain.Overlay do
   ## Parameters:
     - (Required) `node_id`: Id of the node to highlight.
   """
-  @spec get_source_order_highlight_object_for_test(CDPotion.Domain.DOM.NodeId) ::
+  @spec get_source_order_highlight_object_for_test(CDPotion.Domain.DOM.node_id()) ::
           {String.t(), map()}
   def get_source_order_highlight_object_for_test(node_id) do
     params = as_query([{"nodeId", node_id}])
@@ -250,9 +250,9 @@ defmodule CDPotion.Domain.Overlay do
   - (Optional) `content_outline_color`: The content box highlight outline color (default: transparent).
   """
   @spec highlight_frame(
-          CDPotion.Domain.Page.FrameId,
-          CDPotion.Domain.DOM.RGBA,
-          CDPotion.Domain.DOM.RGBA
+          CDPotion.Domain.Page.frame_id(),
+          CDPotion.Domain.DOM.rgba(),
+          CDPotion.Domain.DOM.rgba()
         ) :: {String.t(), map()}
   def highlight_frame(frame_id, content_color \\ nil, content_outline_color \\ nil) do
     params =
@@ -276,10 +276,10 @@ defmodule CDPotion.Domain.Overlay do
   - (Optional) `selector`: Selectors to highlight relevant nodes.
   """
   @spec highlight_node(
-          CDPotion.Domain.Overlay.HighlightConfig,
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId,
+          CDPotion.Domain.Overlay.highlight_config(),
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id(),
           String.t()
         ) :: {String.t(), map()}
   def highlight_node(
@@ -309,9 +309,9 @@ defmodule CDPotion.Domain.Overlay do
   - (Optional) `outline_color`: The highlight outline color (default: transparent).
   """
   @spec highlight_quad(
-          CDPotion.Domain.DOM.Quad,
-          CDPotion.Domain.DOM.RGBA,
-          CDPotion.Domain.DOM.RGBA
+          CDPotion.Domain.DOM.quad(),
+          CDPotion.Domain.DOM.rgba(),
+          CDPotion.Domain.DOM.rgba()
         ) :: {String.t(), map()}
   def highlight_quad(quad, color \\ nil, outline_color \\ nil) do
     params = as_query([{"quad", quad}, {"color", color}, {"outlineColor", outline_color}])
@@ -333,8 +333,8 @@ defmodule CDPotion.Domain.Overlay do
           integer(),
           integer(),
           integer(),
-          CDPotion.Domain.DOM.RGBA,
-          CDPotion.Domain.DOM.RGBA
+          CDPotion.Domain.DOM.rgba(),
+          CDPotion.Domain.DOM.rgba()
         ) :: {String.t(), map()}
   def highlight_rect(x, y, width, height, color \\ nil, outline_color \\ nil) do
     params =
@@ -360,10 +360,10 @@ defmodule CDPotion.Domain.Overlay do
   - (Optional) `object_id`: JavaScript object id of the node to be highlighted.
   """
   @spec highlight_source_order(
-          CDPotion.Domain.Overlay.SourceOrderConfig,
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId
+          CDPotion.Domain.Overlay.source_order_config(),
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id()
         ) :: {String.t(), map()}
   def highlight_source_order(
         source_order_config,
@@ -391,8 +391,8 @@ defmodule CDPotion.Domain.Overlay do
   == false`.
   """
   @spec set_inspect_mode(
-          CDPotion.Domain.Overlay.InspectMode,
-          CDPotion.Domain.Overlay.HighlightConfig
+          CDPotion.Domain.Overlay.inspect_mode(),
+          CDPotion.Domain.Overlay.highlight_config()
         ) :: {String.t(), map()}
   def set_inspect_mode(mode, highlight_config \\ nil) do
     params = as_query([{"mode", mode}, {"highlightConfig", highlight_config}])
@@ -448,7 +448,7 @@ defmodule CDPotion.Domain.Overlay do
   ## Parameters:
     - (Required) `grid_node_highlight_configs`: An array of node identifiers and descriptors for the highlight appearance.
   """
-  @spec set_show_grid_overlays(list(CDPotion.Domain.Overlay.GridNodeHighlightConfig)) ::
+  @spec set_show_grid_overlays(list(CDPotion.Domain.Overlay.grid_node_highlight_config())) ::
           {String.t(), map()}
   def set_show_grid_overlays(grid_node_highlight_configs) do
     params = as_query([{"gridNodeHighlightConfigs", grid_node_highlight_configs}])
@@ -460,7 +460,7 @@ defmodule CDPotion.Domain.Overlay do
   ## Parameters:
     - (Required) `flex_node_highlight_configs`: An array of node identifiers and descriptors for the highlight appearance.
   """
-  @spec set_show_flex_overlays(list(CDPotion.Domain.Overlay.FlexNodeHighlightConfig)) ::
+  @spec set_show_flex_overlays(list(CDPotion.Domain.Overlay.flex_node_highlight_config())) ::
           {String.t(), map()}
   def set_show_flex_overlays(flex_node_highlight_configs) do
     params = as_query([{"flexNodeHighlightConfigs", flex_node_highlight_configs}])
@@ -472,8 +472,9 @@ defmodule CDPotion.Domain.Overlay do
   ## Parameters:
     - (Required) `scroll_snap_highlight_configs`: An array of node identifiers and descriptors for the highlight appearance.
   """
-  @spec set_show_scroll_snap_overlays(list(CDPotion.Domain.Overlay.ScrollSnapHighlightConfig)) ::
-          {String.t(), map()}
+  @spec set_show_scroll_snap_overlays(
+          list(CDPotion.Domain.Overlay.scroll_snap_highlight_config())
+        ) :: {String.t(), map()}
   def set_show_scroll_snap_overlays(scroll_snap_highlight_configs) do
     params = as_query([{"scrollSnapHighlightConfigs", scroll_snap_highlight_configs}])
     {"Overlay.setShowScrollSnapOverlays", params}
@@ -485,7 +486,7 @@ defmodule CDPotion.Domain.Overlay do
     - (Required) `container_query_highlight_configs`: An array of node identifiers and descriptors for the highlight appearance.
   """
   @spec set_show_container_query_overlays(
-          list(CDPotion.Domain.Overlay.ContainerQueryHighlightConfig)
+          list(CDPotion.Domain.Overlay.container_query_highlight_config())
         ) :: {String.t(), map()}
   def set_show_container_query_overlays(container_query_highlight_configs) do
     params = as_query([{"containerQueryHighlightConfigs", container_query_highlight_configs}])
@@ -563,7 +564,7 @@ defmodule CDPotion.Domain.Overlay do
   ## Parameters:
     - (Optional) `hinge_config`: hinge data, null means hideHinge
   """
-  @spec set_show_hinge(CDPotion.Domain.Overlay.HingeConfig) :: {String.t(), map()}
+  @spec set_show_hinge(CDPotion.Domain.Overlay.hinge_config()) :: {String.t(), map()}
   def set_show_hinge(hinge_config \\ nil) do
     params = as_query([{"hingeConfig", hinge_config}])
     {"Overlay.setShowHinge", params}
@@ -574,8 +575,9 @@ defmodule CDPotion.Domain.Overlay do
   ## Parameters:
     - (Required) `isolated_element_highlight_configs`: An array of node identifiers and descriptors for the highlight appearance.
   """
-  @spec set_show_isolated_elements(list(CDPotion.Domain.Overlay.IsolatedElementHighlightConfig)) ::
-          {String.t(), map()}
+  @spec set_show_isolated_elements(
+          list(CDPotion.Domain.Overlay.isolated_element_highlight_config())
+        ) :: {String.t(), map()}
   def set_show_isolated_elements(isolated_element_highlight_configs) do
     params = as_query([{"isolatedElementHighlightConfigs", isolated_element_highlight_configs}])
     {"Overlay.setShowIsolatedElements", params}

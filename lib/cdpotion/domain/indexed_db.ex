@@ -67,7 +67,7 @@ defmodule CDPotion.Domain.IndexedDB do
   @spec clear_object_store(
           String.t(),
           String.t(),
-          CDPotion.Domain.Storage.StorageBucket,
+          CDPotion.Domain.Storage.storage_bucket(),
           String.t(),
           String.t()
         ) :: {String.t(), map()}
@@ -99,8 +99,12 @@ defmodule CDPotion.Domain.IndexedDB do
   - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
   - (Required) `database_name`: Database name.
   """
-  @spec delete_database(String.t(), String.t(), CDPotion.Domain.Storage.StorageBucket, String.t()) ::
-          {String.t(), map()}
+  @spec delete_database(
+          String.t(),
+          String.t(),
+          CDPotion.Domain.Storage.storage_bucket(),
+          String.t()
+        ) :: {String.t(), map()}
   def delete_database(
         security_origin \\ nil,
         storage_key \\ nil,
@@ -132,10 +136,10 @@ defmodule CDPotion.Domain.IndexedDB do
   @spec delete_object_store_entries(
           String.t(),
           String.t(),
-          CDPotion.Domain.Storage.StorageBucket,
+          CDPotion.Domain.Storage.storage_bucket(),
           String.t(),
           String.t(),
-          CDPotion.Domain.IndexedDB.KeyRange
+          CDPotion.Domain.IndexedDB.key_range()
         ) :: {String.t(), map()}
   def delete_object_store_entries(
         security_origin \\ nil,
@@ -191,13 +195,13 @@ defmodule CDPotion.Domain.IndexedDB do
   @spec request_data(
           String.t(),
           String.t(),
-          CDPotion.Domain.Storage.StorageBucket,
+          CDPotion.Domain.Storage.storage_bucket(),
           String.t(),
           String.t(),
           String.t(),
           integer(),
           integer(),
-          CDPotion.Domain.IndexedDB.KeyRange
+          CDPotion.Domain.IndexedDB.key_range()
         ) :: {String.t(), map()}
   def request_data(
         security_origin \\ nil,
@@ -239,7 +243,7 @@ defmodule CDPotion.Domain.IndexedDB do
   @spec get_metadata(
           String.t(),
           String.t(),
-          CDPotion.Domain.Storage.StorageBucket,
+          CDPotion.Domain.Storage.storage_bucket(),
           String.t(),
           String.t()
         ) :: {String.t(), map()}
@@ -274,7 +278,7 @@ defmodule CDPotion.Domain.IndexedDB do
   @spec request_database(
           String.t(),
           String.t(),
-          CDPotion.Domain.Storage.StorageBucket,
+          CDPotion.Domain.Storage.storage_bucket(),
           String.t()
         ) :: {String.t(), map()}
   def request_database(
@@ -302,7 +306,7 @@ defmodule CDPotion.Domain.IndexedDB do
   - (Optional) `storage_key`: Storage key.
   - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
   """
-  @spec request_database_names(String.t(), String.t(), CDPotion.Domain.Storage.StorageBucket) ::
+  @spec request_database_names(String.t(), String.t(), CDPotion.Domain.Storage.storage_bucket()) ::
           {String.t(), map()}
   def request_database_names(security_origin \\ nil, storage_key \\ nil, storage_bucket \\ nil) do
     params =

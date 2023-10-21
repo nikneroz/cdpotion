@@ -35,8 +35,8 @@ defmodule CDPotion.Domain.DeviceAccess do
   - (Required) `device_id`: description not provided :(
   """
   @spec select_prompt(
-          CDPotion.Domain.DeviceAccess.RequestId,
-          CDPotion.Domain.DeviceAccess.DeviceId
+          CDPotion.Domain.DeviceAccess.request_id(),
+          CDPotion.Domain.DeviceAccess.device_id()
         ) :: {String.t(), map()}
   def select_prompt(id, device_id) do
     params = as_query([{"id", id}, {"deviceId", device_id}])
@@ -48,7 +48,7 @@ defmodule CDPotion.Domain.DeviceAccess do
   ## Parameters:
     - (Required) `id`: description not provided :(
   """
-  @spec cancel_prompt(CDPotion.Domain.DeviceAccess.RequestId) :: {String.t(), map()}
+  @spec cancel_prompt(CDPotion.Domain.DeviceAccess.request_id()) :: {String.t(), map()}
   def cancel_prompt(id) do
     params = as_query([{"id", id}])
     {"DeviceAccess.cancelPrompt", params}

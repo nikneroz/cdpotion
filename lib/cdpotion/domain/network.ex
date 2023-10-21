@@ -610,7 +610,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   ## Parameters:
     - (Required) `encodings`: List of accepted content encodings.
   """
-  @spec set_accepted_encodings(list(CDPotion.Domain.Network.ContentEncoding)) ::
+  @spec set_accepted_encodings(list(CDPotion.Domain.Network.content_encoding())) ::
           {String.t(), map()}
   def set_accepted_encodings(encodings) do
     params = as_query([{"encodings", encodings}])
@@ -688,14 +688,14 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   - (Optional) `auth_challenge_response`: Response to a requestIntercepted with an authChallenge. Must not be set otherwise.
   """
   @spec continue_intercepted_request(
-          CDPotion.Domain.Network.InterceptionId,
-          CDPotion.Domain.Network.ErrorReason,
+          CDPotion.Domain.Network.interception_id(),
+          CDPotion.Domain.Network.error_reason(),
           String.t(),
           String.t(),
           String.t(),
           String.t(),
-          CDPotion.Domain.Network.Headers,
-          CDPotion.Domain.Network.AuthChallengeResponse
+          CDPotion.Domain.Network.headers(),
+          CDPotion.Domain.Network.auth_challenge_response()
         ) :: {String.t(), map()}
   def continue_intercepted_request(
         interception_id,
@@ -759,7 +759,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
           number(),
           number(),
           number(),
-          CDPotion.Domain.Network.ConnectionType
+          CDPotion.Domain.Network.connection_type()
         ) :: {String.t(), map()}
   def emulate_network_conditions(
         offline,
@@ -843,7 +843,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   ## Parameters:
     - (Required) `request_id`: Identifier of the network request to get content for.
   """
-  @spec get_response_body(CDPotion.Domain.Network.RequestId) :: {String.t(), map()}
+  @spec get_response_body(CDPotion.Domain.Network.request_id()) :: {String.t(), map()}
   def get_response_body(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Network.getResponseBody", params}
@@ -854,7 +854,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   ## Parameters:
     - (Required) `request_id`: Identifier of the network request to get content for.
   """
-  @spec get_request_post_data(CDPotion.Domain.Network.RequestId) :: {String.t(), map()}
+  @spec get_request_post_data(CDPotion.Domain.Network.request_id()) :: {String.t(), map()}
   def get_request_post_data(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Network.getRequestPostData", params}
@@ -865,7 +865,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   ## Parameters:
     - (Required) `interception_id`: Identifier for the intercepted request to get body for.
   """
-  @spec get_response_body_for_interception(CDPotion.Domain.Network.InterceptionId) ::
+  @spec get_response_body_for_interception(CDPotion.Domain.Network.interception_id()) ::
           {String.t(), map()}
   def get_response_body_for_interception(interception_id) do
     params = as_query([{"interceptionId", interception_id}])
@@ -880,7 +880,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   ## Parameters:
     - (Required) `interception_id`: description not provided :(
   """
-  @spec take_response_body_for_interception_as_stream(CDPotion.Domain.Network.InterceptionId) ::
+  @spec take_response_body_for_interception_as_stream(CDPotion.Domain.Network.interception_id()) ::
           {String.t(), map()}
   def take_response_body_for_interception_as_stream(interception_id) do
     params = as_query([{"interceptionId", interception_id}])
@@ -894,7 +894,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   ## Parameters:
     - (Required) `request_id`: Identifier of XHR to replay.
   """
-  @spec replay_xhr(CDPotion.Domain.Network.RequestId) :: {String.t(), map()}
+  @spec replay_xhr(CDPotion.Domain.Network.request_id()) :: {String.t(), map()}
   def replay_xhr(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Network.replayXHR", params}
@@ -909,7 +909,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   - (Optional) `is_regex`: If true, treats string parameter as regex.
   """
   @spec search_in_response_body(
-          CDPotion.Domain.Network.RequestId,
+          CDPotion.Domain.Network.request_id(),
           String.t(),
           boolean(),
           boolean()
@@ -990,11 +990,11 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
           String.t(),
           boolean(),
           boolean(),
-          CDPotion.Domain.Network.CookieSameSite,
-          CDPotion.Domain.Network.TimeSinceEpoch,
-          CDPotion.Domain.Network.CookiePriority,
+          CDPotion.Domain.Network.cookie_same_site(),
+          CDPotion.Domain.Network.time_since_epoch(),
+          CDPotion.Domain.Network.cookie_priority(),
           boolean(),
-          CDPotion.Domain.Network.CookieSourceScheme,
+          CDPotion.Domain.Network.cookie_source_scheme(),
           integer(),
           String.t()
         ) :: {String.t(), map()}
@@ -1040,7 +1040,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   ## Parameters:
     - (Required) `cookies`: Cookies to be set.
   """
-  @spec set_cookies(list(CDPotion.Domain.Network.CookieParam)) :: {String.t(), map()}
+  @spec set_cookies(list(CDPotion.Domain.Network.cookie_param())) :: {String.t(), map()}
   def set_cookies(cookies) do
     params = as_query([{"cookies", cookies}])
     {"Network.setCookies", params}
@@ -1051,7 +1051,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   ## Parameters:
     - (Required) `headers`: Map with extra HTTP headers.
   """
-  @spec set_extra_http_headers(CDPotion.Domain.Network.Headers) :: {String.t(), map()}
+  @spec set_extra_http_headers(CDPotion.Domain.Network.headers()) :: {String.t(), map()}
   def set_extra_http_headers(headers) do
     params = as_query([{"headers", headers}])
     {"Network.setExtraHTTPHeaders", params}
@@ -1075,7 +1075,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
     - (Required) `patterns`: Requests matching any of these patterns will be forwarded and wait for the corresponding
   continueInterceptedRequest call.
   """
-  @spec set_request_interception(list(CDPotion.Domain.Network.RequestPattern)) ::
+  @spec set_request_interception(list(CDPotion.Domain.Network.request_pattern())) ::
           {String.t(), map()}
   def set_request_interception(patterns) do
     params = as_query([{"patterns", patterns}])
@@ -1094,7 +1094,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
           String.t(),
           String.t(),
           String.t(),
-          CDPotion.Domain.Emulation.UserAgentMetadata
+          CDPotion.Domain.Emulation.user_agent_metadata()
         ) :: {String.t(), map()}
   def set_user_agent_override(
         user_agent,
@@ -1118,7 +1118,7 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   ## Parameters:
     - (Optional) `frame_id`: If no frameId is provided, the status of the target is provided.
   """
-  @spec get_security_isolation_status(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
+  @spec get_security_isolation_status(CDPotion.Domain.Page.frame_id()) :: {String.t(), map()}
   def get_security_isolation_status(frame_id \\ nil) do
     params = as_query([{"frameId", frame_id}])
     {"Network.getSecurityIsolationStatus", params}
@@ -1145,9 +1145,9 @@ are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
   - (Required) `options`: Options for the request.
   """
   @spec load_network_resource(
-          CDPotion.Domain.Page.FrameId,
+          CDPotion.Domain.Page.frame_id(),
           String.t(),
-          CDPotion.Domain.Network.LoadNetworkResourceOptions
+          CDPotion.Domain.Network.load_network_resource_options()
         ) :: {String.t(), map()}
   def load_network_resource(frame_id \\ nil, url, options) do
     params = as_query([{"frameId", frame_id}, {"url", url}, {"options", options}])

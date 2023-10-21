@@ -30,7 +30,7 @@ defmodule CDPotion.Domain.HeapProfiler do
   ## Parameters:
     - (Required) `heap_object_id`: Heap snapshot object id to be accessible by means of $x command line API.
   """
-  @spec add_inspected_heap_object(CDPotion.Domain.HeapProfiler.HeapSnapshotObjectId) ::
+  @spec add_inspected_heap_object(CDPotion.Domain.HeapProfiler.heap_snapshot_object_id()) ::
           {String.t(), map()}
   def add_inspected_heap_object(heap_object_id) do
     params = as_query([{"heapObjectId", heap_object_id}])
@@ -66,7 +66,7 @@ defmodule CDPotion.Domain.HeapProfiler do
   ## Parameters:
     - (Required) `object_id`: Identifier of the object to get heap object id for.
   """
-  @spec get_heap_object_id(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
+  @spec get_heap_object_id(CDPotion.Domain.Runtime.remote_object_id()) :: {String.t(), map()}
   def get_heap_object_id(object_id) do
     params = as_query([{"objectId", object_id}])
     {"HeapProfiler.getHeapObjectId", params}
@@ -79,7 +79,7 @@ defmodule CDPotion.Domain.HeapProfiler do
   - (Optional) `object_group`: Symbolic group name that can be used to release multiple objects.
   """
   @spec get_object_by_heap_object_id(
-          CDPotion.Domain.HeapProfiler.HeapSnapshotObjectId,
+          CDPotion.Domain.HeapProfiler.heap_snapshot_object_id(),
           String.t()
         ) :: {String.t(), map()}
   def get_object_by_heap_object_id(object_id, object_group \\ nil) do

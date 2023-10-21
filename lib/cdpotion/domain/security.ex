@@ -109,7 +109,7 @@ https://www.w3.org/TR/mixed-content/#categories"
     - (Required) `event_id`: The ID of the event.
   - (Required) `action`: The action to take on the certificate error.
   """
-  @spec handle_certificate_error(integer(), CDPotion.Domain.Security.CertificateErrorAction) ::
+  @spec handle_certificate_error(integer(), CDPotion.Domain.Security.certificate_error_action()) ::
           {String.t(), map()}
   def handle_certificate_error(event_id, action) do
     params = as_query([{"eventId", event_id}, {"action", action}])

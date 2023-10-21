@@ -195,7 +195,7 @@ Tokens from that issuer."
   ## Parameters:
     - (Required) `frame_id`: description not provided :(
   """
-  @spec get_storage_key_for_frame(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
+  @spec get_storage_key_for_frame(CDPotion.Domain.Page.frame_id()) :: {String.t(), map()}
   def get_storage_key_for_frame(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"Storage.getStorageKeyForFrame", params}
@@ -230,7 +230,7 @@ Tokens from that issuer."
   ## Parameters:
     - (Optional) `browser_context_id`: Browser context to use when called on the browser endpoint.
   """
-  @spec get_cookies(CDPotion.Domain.Browser.BrowserContextID) :: {String.t(), map()}
+  @spec get_cookies(CDPotion.Domain.Browser.browser_context_id()) :: {String.t(), map()}
   def get_cookies(browser_context_id \\ nil) do
     params = as_query([{"browserContextId", browser_context_id}])
     {"Storage.getCookies", params}
@@ -243,8 +243,8 @@ Tokens from that issuer."
   - (Optional) `browser_context_id`: Browser context to use when called on the browser endpoint.
   """
   @spec set_cookies(
-          list(CDPotion.Domain.Network.CookieParam),
-          CDPotion.Domain.Browser.BrowserContextID
+          list(CDPotion.Domain.Network.cookie_param()),
+          CDPotion.Domain.Browser.browser_context_id()
         ) :: {String.t(), map()}
   def set_cookies(cookies, browser_context_id \\ nil) do
     params = as_query([{"cookies", cookies}, {"browserContextId", browser_context_id}])
@@ -256,7 +256,7 @@ Tokens from that issuer."
   ## Parameters:
     - (Optional) `browser_context_id`: Browser context to use when called on the browser endpoint.
   """
-  @spec clear_cookies(CDPotion.Domain.Browser.BrowserContextID) :: {String.t(), map()}
+  @spec clear_cookies(CDPotion.Domain.Browser.browser_context_id()) :: {String.t(), map()}
   def clear_cookies(browser_context_id \\ nil) do
     params = as_query([{"browserContextId", browser_context_id}])
     {"Storage.clearCookies", params}
@@ -530,7 +530,7 @@ Tokens from that issuer."
   ## Parameters:
     - (Required) `bucket`: description not provided :(
   """
-  @spec delete_storage_bucket(CDPotion.Domain.Storage.StorageBucket) :: {String.t(), map()}
+  @spec delete_storage_bucket(CDPotion.Domain.Storage.storage_bucket()) :: {String.t(), map()}
   def delete_storage_bucket(bucket) do
     params = as_query([{"bucket", bucket}])
     {"Storage.deleteStorageBucket", params}

@@ -34,7 +34,7 @@ API."
   ## Parameters:
     - (Required) `service`: description not provided :(
   """
-  @spec start_observing(CDPotion.Domain.BackgroundService.ServiceName) :: {String.t(), map()}
+  @spec start_observing(CDPotion.Domain.BackgroundService.service_name()) :: {String.t(), map()}
   def start_observing(service) do
     params = as_query([{"service", service}])
     {"BackgroundService.startObserving", params}
@@ -45,7 +45,7 @@ API."
   ## Parameters:
     - (Required) `service`: description not provided :(
   """
-  @spec stop_observing(CDPotion.Domain.BackgroundService.ServiceName) :: {String.t(), map()}
+  @spec stop_observing(CDPotion.Domain.BackgroundService.service_name()) :: {String.t(), map()}
   def stop_observing(service) do
     params = as_query([{"service", service}])
     {"BackgroundService.stopObserving", params}
@@ -57,7 +57,7 @@ API."
     - (Required) `should_record`: description not provided :(
   - (Required) `service`: description not provided :(
   """
-  @spec set_recording(boolean(), CDPotion.Domain.BackgroundService.ServiceName) ::
+  @spec set_recording(boolean(), CDPotion.Domain.BackgroundService.service_name()) ::
           {String.t(), map()}
   def set_recording(should_record, service) do
     params = as_query([{"shouldRecord", should_record}, {"service", service}])
@@ -69,7 +69,7 @@ API."
   ## Parameters:
     - (Required) `service`: description not provided :(
   """
-  @spec clear_events(CDPotion.Domain.BackgroundService.ServiceName) :: {String.t(), map()}
+  @spec clear_events(CDPotion.Domain.BackgroundService.service_name()) :: {String.t(), map()}
   def clear_events(service) do
     params = as_query([{"service", service}])
     {"BackgroundService.clearEvents", params}

@@ -73,7 +73,7 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
     - (Optional) `deterministic`: Enables more deterministic results by forcing garbage collection
   - (Optional) `level_of_detail`: Specifies level of details in memory dump. Defaults to "detailed".
   """
-  @spec request_memory_dump(boolean(), CDPotion.Domain.Tracing.MemoryDumpLevelOfDetail) ::
+  @spec request_memory_dump(boolean(), CDPotion.Domain.Tracing.memory_dump_level_of_detail()) ::
           {String.t(), map()}
   def request_memory_dump(deterministic \\ nil, level_of_detail \\ nil) do
     params = as_query([{"deterministic", deterministic}, {"levelOfDetail", level_of_detail}])
@@ -103,11 +103,11 @@ specifies at least one non-Chrome data source; otherwise uses `chrome`."
           String.t(),
           number(),
           String.t(),
-          CDPotion.Domain.Tracing.StreamFormat,
-          CDPotion.Domain.Tracing.StreamCompression,
-          CDPotion.Domain.Tracing.TraceConfig,
+          CDPotion.Domain.Tracing.stream_format(),
+          CDPotion.Domain.Tracing.stream_compression(),
+          CDPotion.Domain.Tracing.trace_config(),
           String.t(),
-          CDPotion.Domain.Tracing.TracingBackend
+          CDPotion.Domain.Tracing.tracing_backend()
         ) :: {String.t(), map()}
   def start(
         categories \\ nil,

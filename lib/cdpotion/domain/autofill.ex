@@ -29,9 +29,9 @@ defmodule CDPotion.Domain.Autofill do
   - (Required) `card`: Credit card information to fill out the form. Credit card data is not saved.
   """
   @spec trigger(
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Page.FrameId,
-          CDPotion.Domain.Autofill.CreditCard
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Page.frame_id(),
+          CDPotion.Domain.Autofill.credit_card()
         ) :: {String.t(), map()}
   def trigger(field_id, frame_id \\ nil, card) do
     params = as_query([{"fieldId", field_id}, {"frameId", frame_id}, {"card", card}])
@@ -43,7 +43,7 @@ defmodule CDPotion.Domain.Autofill do
   ## Parameters:
     - (Required) `addresses`: description not provided :(
   """
-  @spec set_addresses(list(CDPotion.Domain.Autofill.Address)) :: {String.t(), map()}
+  @spec set_addresses(list(CDPotion.Domain.Autofill.address())) :: {String.t(), map()}
   def set_addresses(addresses) do
     params = as_query([{"addresses", addresses}])
     {"Autofill.setAddresses", params}

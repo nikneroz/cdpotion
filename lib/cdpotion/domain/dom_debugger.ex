@@ -29,7 +29,7 @@ defmodule CDPotion.Domain.DOMDebugger do
   - (Optional) `pierce`: Whether or not iframes and shadow roots should be traversed when returning the subtree
   (default is false). Reports listeners for all contexts if pierce is enabled.
   """
-  @spec get_event_listeners(CDPotion.Domain.Runtime.RemoteObjectId, integer(), boolean()) ::
+  @spec get_event_listeners(CDPotion.Domain.Runtime.remote_object_id(), integer(), boolean()) ::
           {String.t(), map()}
   def get_event_listeners(object_id, depth \\ nil, pierce \\ nil) do
     params = as_query([{"objectId", object_id}, {"depth", depth}, {"pierce", pierce}])
@@ -43,8 +43,8 @@ defmodule CDPotion.Domain.DOMDebugger do
   - (Required) `type`: Type of the breakpoint to remove.
   """
   @spec remove_dom_breakpoint(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOMDebugger.DOMBreakpointType
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOMDebugger.dom_breakpoint_type()
         ) :: {String.t(), map()}
   def remove_dom_breakpoint(node_id, type) do
     params = as_query([{"nodeId", node_id}, {"type", type}])
@@ -90,7 +90,7 @@ defmodule CDPotion.Domain.DOMDebugger do
   ## Parameters:
     - (Required) `violation_types`: CSP Violations to stop upon.
   """
-  @spec set_break_on_csp_violation(list(CDPotion.Domain.DOMDebugger.CSPViolationType)) ::
+  @spec set_break_on_csp_violation(list(CDPotion.Domain.DOMDebugger.csp_violation_type())) ::
           {String.t(), map()}
   def set_break_on_csp_violation(violation_types) do
     params = as_query([{"violationTypes", violation_types}])
@@ -104,8 +104,8 @@ defmodule CDPotion.Domain.DOMDebugger do
   - (Required) `type`: Type of the operation to stop upon.
   """
   @spec set_dom_breakpoint(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOMDebugger.DOMBreakpointType
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOMDebugger.dom_breakpoint_type()
         ) :: {String.t(), map()}
   def set_dom_breakpoint(node_id, type) do
     params = as_query([{"nodeId", node_id}, {"type", type}])

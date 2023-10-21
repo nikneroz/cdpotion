@@ -54,7 +54,7 @@ defmodule CDPotion.Domain.Input do
           String.t(),
           number(),
           number(),
-          CDPotion.Domain.Input.DragData,
+          CDPotion.Domain.Input.drag_data(),
           integer()
         ) :: {String.t(), map()}
   def dispatch_drag_event(type, x, y, data, modifiers \\ nil) do
@@ -93,7 +93,7 @@ defmodule CDPotion.Domain.Input do
   @spec dispatch_key_event(
           String.t(),
           integer(),
-          CDPotion.Domain.Input.TimeSinceEpoch,
+          CDPotion.Domain.Input.time_since_epoch(),
           String.t(),
           String.t(),
           String.t(),
@@ -218,8 +218,8 @@ defmodule CDPotion.Domain.Input do
           number(),
           number(),
           integer(),
-          CDPotion.Domain.Input.TimeSinceEpoch,
-          CDPotion.Domain.Input.MouseButton,
+          CDPotion.Domain.Input.time_since_epoch(),
+          CDPotion.Domain.Input.mouse_button(),
           integer(),
           integer(),
           number(),
@@ -286,9 +286,9 @@ defmodule CDPotion.Domain.Input do
   """
   @spec dispatch_touch_event(
           String.t(),
-          list(CDPotion.Domain.Input.TouchPoint),
+          list(CDPotion.Domain.Input.touch_point()),
           integer(),
-          CDPotion.Domain.Input.TimeSinceEpoch
+          CDPotion.Domain.Input.time_since_epoch()
         ) :: {String.t(), map()}
   def dispatch_touch_event(type, touch_points, modifiers \\ nil, timestamp \\ nil) do
     params =
@@ -328,8 +328,8 @@ defmodule CDPotion.Domain.Input do
           String.t(),
           integer(),
           integer(),
-          CDPotion.Domain.Input.MouseButton,
-          CDPotion.Domain.Input.TimeSinceEpoch,
+          CDPotion.Domain.Input.mouse_button(),
+          CDPotion.Domain.Input.time_since_epoch(),
           number(),
           number(),
           integer(),
@@ -400,7 +400,7 @@ defmodule CDPotion.Domain.Input do
           number(),
           number(),
           integer(),
-          CDPotion.Domain.Input.GestureSourceType
+          CDPotion.Domain.Input.gesture_source_type()
         ) :: {String.t(), map()}
   def synthesize_pinch_gesture(
         x,
@@ -449,7 +449,7 @@ defmodule CDPotion.Domain.Input do
           number(),
           boolean(),
           integer(),
-          CDPotion.Domain.Input.GestureSourceType,
+          CDPotion.Domain.Input.gesture_source_type(),
           integer(),
           integer(),
           String.t()
@@ -502,7 +502,7 @@ defmodule CDPotion.Domain.Input do
           number(),
           integer(),
           integer(),
-          CDPotion.Domain.Input.GestureSourceType
+          CDPotion.Domain.Input.gesture_source_type()
         ) :: {String.t(), map()}
   def synthesize_tap_gesture(x, y, duration \\ nil, tap_count \\ nil, gesture_source_type \\ nil) do
     params =

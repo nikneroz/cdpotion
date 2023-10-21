@@ -64,7 +64,7 @@ defmodule CDPotion.Domain.Memory do
   ## Parameters:
     - (Required) `level`: Memory pressure level of the notification.
   """
-  @spec simulate_pressure_notification(CDPotion.Domain.Memory.PressureLevel) ::
+  @spec simulate_pressure_notification(CDPotion.Domain.Memory.pressure_level()) ::
           {String.t(), map()}
   def simulate_pressure_notification(level) do
     params = as_query([{"level", level}])

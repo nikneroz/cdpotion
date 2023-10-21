@@ -593,7 +593,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @spec capture_screenshot(
           String.t(),
           integer(),
-          CDPotion.Domain.Page.Viewport,
+          CDPotion.Domain.Page.viewport(),
           boolean(),
           boolean(),
           boolean()
@@ -663,7 +663,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   - (Optional) `grant_univeral_access`: Whether or not universal access should be granted to the isolated world. This is a powerful
   option, use with caution.
   """
-  @spec create_isolated_world(CDPotion.Domain.Page.FrameId, String.t(), boolean()) ::
+  @spec create_isolated_world(CDPotion.Domain.Page.frame_id(), String.t(), boolean()) ::
           {String.t(), map()}
   def create_isolated_world(frame_id, world_name \\ nil, grant_univeral_access \\ nil) do
     params =
@@ -742,7 +742,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   ## Parameters:
     - (Required) `frame_id`: description not provided :(
   """
-  @spec get_ad_script_id(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
+  @spec get_ad_script_id(CDPotion.Domain.Page.frame_id()) :: {String.t(), map()}
   def get_ad_script_id(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"Page.getAdScriptId", params}
@@ -796,7 +796,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
     - (Required) `frame_id`: Frame id to get resource for.
   - (Required) `url`: URL of the resource to get content for.
   """
-  @spec get_resource_content(CDPotion.Domain.Page.FrameId, String.t()) :: {String.t(), map()}
+  @spec get_resource_content(CDPotion.Domain.Page.frame_id(), String.t()) :: {String.t(), map()}
   def get_resource_content(frame_id, url) do
     params = as_query([{"frameId", frame_id}, {"url", url}])
     {"Page.getResourceContent", params}
@@ -835,9 +835,9 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   @spec navigate(
           String.t(),
           String.t(),
-          CDPotion.Domain.Page.TransitionType,
-          CDPotion.Domain.Page.FrameId,
-          CDPotion.Domain.Page.ReferrerPolicy
+          CDPotion.Domain.Page.transition_type(),
+          CDPotion.Domain.Page.frame_id(),
+          CDPotion.Domain.Page.referrer_policy()
         ) :: {String.t(), map()}
   def navigate(
         url,
@@ -982,7 +982,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   ## Parameters:
     - (Required) `identifier`: description not provided :(
   """
-  @spec remove_script_to_evaluate_on_load(CDPotion.Domain.Page.ScriptIdentifier) ::
+  @spec remove_script_to_evaluate_on_load(CDPotion.Domain.Page.script_identifier()) ::
           {String.t(), map()}
   def remove_script_to_evaluate_on_load(identifier) do
     params = as_query([{"identifier", identifier}])
@@ -994,7 +994,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   ## Parameters:
     - (Required) `identifier`: description not provided :(
   """
-  @spec remove_script_to_evaluate_on_new_document(CDPotion.Domain.Page.ScriptIdentifier) ::
+  @spec remove_script_to_evaluate_on_new_document(CDPotion.Domain.Page.script_identifier()) ::
           {String.t(), map()}
   def remove_script_to_evaluate_on_new_document(identifier) do
     params = as_query([{"identifier", identifier}])
@@ -1022,7 +1022,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   - (Optional) `is_regex`: If true, treats string parameter as regex.
   """
   @spec search_in_resource(
-          CDPotion.Domain.Page.FrameId,
+          CDPotion.Domain.Page.frame_id(),
           String.t(),
           String.t(),
           boolean(),
@@ -1068,7 +1068,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   ## Parameters:
     - (Required) `frame_id`: description not provided :(
   """
-  @spec get_permissions_policy_state(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
+  @spec get_permissions_policy_state(CDPotion.Domain.Page.frame_id()) :: {String.t(), map()}
   def get_permissions_policy_state(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"Page.getPermissionsPolicyState", params}
@@ -1079,7 +1079,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   ## Parameters:
     - (Required) `frame_id`: description not provided :(
   """
-  @spec get_origin_trials(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
+  @spec get_origin_trials(CDPotion.Domain.Page.frame_id()) :: {String.t(), map()}
   def get_origin_trials(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"Page.getOriginTrials", params}
@@ -1115,8 +1115,8 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
           integer(),
           integer(),
           boolean(),
-          CDPotion.Domain.Emulation.ScreenOrientation,
-          CDPotion.Domain.Page.Viewport
+          CDPotion.Domain.Emulation.screen_orientation(),
+          CDPotion.Domain.Page.viewport()
         ) :: {String.t(), map()}
   def set_device_metrics_override(
         width,
@@ -1171,8 +1171,8 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   - (Optional) `for_scripts`: Specifies font families to set for individual scripts.
   """
   @spec set_font_families(
-          CDPotion.Domain.Page.FontFamilies,
-          list(CDPotion.Domain.Page.ScriptFontFamilies)
+          CDPotion.Domain.Page.font_families(),
+          list(CDPotion.Domain.Page.script_font_families())
         ) :: {String.t(), map()}
   def set_font_families(font_families, for_scripts \\ nil) do
     params = as_query([{"fontFamilies", font_families}, {"forScripts", for_scripts}])
@@ -1184,7 +1184,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   ## Parameters:
     - (Required) `font_sizes`: Specifies font sizes to set. If a font size is not specified, it won't be changed.
   """
-  @spec set_font_sizes(CDPotion.Domain.Page.FontSizes) :: {String.t(), map()}
+  @spec set_font_sizes(CDPotion.Domain.Page.font_sizes()) :: {String.t(), map()}
   def set_font_sizes(font_sizes) do
     params = as_query([{"fontSizes", font_sizes}])
     {"Page.setFontSizes", params}
@@ -1196,7 +1196,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
     - (Required) `frame_id`: Frame id to set HTML for.
   - (Required) `html`: HTML content to set.
   """
-  @spec set_document_content(CDPotion.Domain.Page.FrameId, String.t()) :: {String.t(), map()}
+  @spec set_document_content(CDPotion.Domain.Page.frame_id(), String.t()) :: {String.t(), map()}
   def set_document_content(frame_id, html) do
     params = as_query([{"frameId", frame_id}, {"html", html}])
     {"Page.setDocumentContent", params}
@@ -1337,7 +1337,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   ## Parameters:
     - (Required) `scripts`: description not provided :(
   """
-  @spec produce_compilation_cache(list(CDPotion.Domain.Page.CompilationCacheParams)) ::
+  @spec produce_compilation_cache(list(CDPotion.Domain.Page.compilation_cache_params())) ::
           {String.t(), map()}
   def produce_compilation_cache(scripts) do
     params = as_query([{"scripts", scripts}])
@@ -1371,7 +1371,7 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   ## Parameters:
     - (Required) `mode`: description not provided :(
   """
-  @spec set_spc_transaction_mode(CDPotion.Domain.Page.AutoResponseMode) :: {String.t(), map()}
+  @spec set_spc_transaction_mode(CDPotion.Domain.Page.auto_response_mode()) :: {String.t(), map()}
   def set_spc_transaction_mode(mode) do
     params = as_query([{"mode", mode}])
     {"Page.setSPCTransactionMode", params}
@@ -1383,7 +1383,8 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
   ## Parameters:
     - (Required) `mode`: description not provided :(
   """
-  @spec set_rph_registration_mode(CDPotion.Domain.Page.AutoResponseMode) :: {String.t(), map()}
+  @spec set_rph_registration_mode(CDPotion.Domain.Page.auto_response_mode()) ::
+          {String.t(), map()}
   def set_rph_registration_mode(mode) do
     params = as_query([{"mode", mode}])
     {"Page.setRPHRegistrationMode", params}

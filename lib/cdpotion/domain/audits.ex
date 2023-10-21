@@ -454,8 +454,12 @@ transferred to a context that is not cross-origin isolated."
   - (Optional) `quality`: The quality of the encoding (0-1). (defaults to 1)
   - (Optional) `size_only`: Whether to only return the size information (defaults to false).
   """
-  @spec get_encoded_response(CDPotion.Domain.Network.RequestId, String.t(), number(), boolean()) ::
-          {String.t(), map()}
+  @spec get_encoded_response(
+          CDPotion.Domain.Network.request_id(),
+          String.t(),
+          number(),
+          boolean()
+        ) :: {String.t(), map()}
   def get_encoded_response(request_id, encoding, quality \\ nil, size_only \\ nil) do
     params =
       as_query([

@@ -122,7 +122,7 @@ resource fetches."
     - (Optional) `color`: RGBA of the default background color. If not specified, any existing override will be
   cleared.
   """
-  @spec set_default_background_color_override(CDPotion.Domain.DOM.RGBA) :: {String.t(), map()}
+  @spec set_default_background_color_override(CDPotion.Domain.DOM.rgba()) :: {String.t(), map()}
   def set_default_background_color_override(color \\ nil) do
     params = as_query([{"color", color}])
     {"Emulation.setDefaultBackgroundColorOverride", params}
@@ -161,9 +161,9 @@ resource fetches."
           integer(),
           integer(),
           boolean(),
-          CDPotion.Domain.Emulation.ScreenOrientation,
-          CDPotion.Domain.Page.Viewport,
-          CDPotion.Domain.Emulation.DisplayFeature
+          CDPotion.Domain.Emulation.screen_orientation(),
+          CDPotion.Domain.Page.viewport(),
+          CDPotion.Domain.Emulation.display_feature()
         ) :: {String.t(), map()}
   def set_device_metrics_override(
         width,
@@ -240,7 +240,7 @@ resource fetches."
     - (Optional) `media`: Media type to emulate. Empty string disables the override.
   - (Optional) `features`: Media features to emulate.
   """
-  @spec set_emulated_media(String.t(), list(CDPotion.Domain.Emulation.MediaFeature)) ::
+  @spec set_emulated_media(String.t(), list(CDPotion.Domain.Emulation.media_feature())) ::
           {String.t(), map()}
   def set_emulated_media(media \\ nil, features \\ nil) do
     params = as_query([{"media", media}, {"features", features}])
@@ -352,10 +352,10 @@ resource fetches."
   - (Optional) `initial_virtual_time`: If set, base::Time::Now will be overridden to initially return this value.
   """
   @spec set_virtual_time_policy(
-          CDPotion.Domain.Emulation.VirtualTimePolicy,
+          CDPotion.Domain.Emulation.virtual_time_policy(),
           number(),
           integer(),
-          CDPotion.Domain.Network.TimeSinceEpoch
+          CDPotion.Domain.Network.time_since_epoch()
         ) :: {String.t(), map()}
   def set_virtual_time_policy(
         policy,
@@ -417,7 +417,7 @@ resource fetches."
   ## Parameters:
     - (Required) `image_types`: Image types to disable.
   """
-  @spec set_disabled_image_types(list(CDPotion.Domain.Emulation.DisabledImageType)) ::
+  @spec set_disabled_image_types(list(CDPotion.Domain.Emulation.disabled_image_type())) ::
           {String.t(), map()}
   def set_disabled_image_types(image_types) do
     params = as_query([{"imageTypes", image_types}])
@@ -447,7 +447,7 @@ resource fetches."
           String.t(),
           String.t(),
           String.t(),
-          CDPotion.Domain.Emulation.UserAgentMetadata
+          CDPotion.Domain.Emulation.user_agent_metadata()
         ) :: {String.t(), map()}
   def set_user_agent_override(
         user_agent,

@@ -94,7 +94,7 @@ defmodule CDPotion.Domain.WebAudio do
   ## Parameters:
     - (Required) `context_id`: description not provided :(
   """
-  @spec get_realtime_data(CDPotion.Domain.WebAudio.GraphObjectId) :: {String.t(), map()}
+  @spec get_realtime_data(CDPotion.Domain.WebAudio.graph_object_id()) :: {String.t(), map()}
   def get_realtime_data(context_id) do
     params = as_query([{"contextId", context_id}])
     {"WebAudio.getRealtimeData", params}

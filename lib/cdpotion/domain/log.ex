@@ -71,7 +71,8 @@ defmodule CDPotion.Domain.Log do
   ## Parameters:
     - (Required) `config`: Configuration for violations.
   """
-  @spec start_violations_report(list(CDPotion.Domain.Log.ViolationSetting)) :: {String.t(), map()}
+  @spec start_violations_report(list(CDPotion.Domain.Log.violation_setting())) ::
+          {String.t(), map()}
   def start_violations_report(config) do
     params = as_query([{"config", config}])
     {"Log.startViolationsReport", params}

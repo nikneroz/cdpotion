@@ -138,7 +138,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `node_id`: Id of the node to collect class names.
   """
-  @spec collect_class_names_from_subtree(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec collect_class_names_from_subtree(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def collect_class_names_from_subtree(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"DOM.collectClassNamesFromSubtree", params}
@@ -154,9 +154,9 @@ DOMNode is a base node mirror type."
   `targetNodeId`).
   """
   @spec copy_to(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.NodeId
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.node_id()
         ) :: {String.t(), map()}
   def copy_to(node_id, target_node_id, insert_before_node_id \\ nil) do
     params =
@@ -182,9 +182,9 @@ DOMNode is a base node mirror type."
   (default is false).
   """
   @spec describe_node(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId,
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id(),
           integer(),
           boolean()
         ) :: {String.t(), map()}
@@ -219,10 +219,10 @@ DOMNode is a base node mirror type."
   When omitted, center of the node will be used, similar to Element.scrollIntoView.
   """
   @spec scroll_into_view_if_needed(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId,
-          CDPotion.Domain.DOM.Rect
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id(),
+          CDPotion.Domain.DOM.rect()
         ) :: {String.t(), map()}
   def scroll_into_view_if_needed(
         node_id \\ nil,
@@ -280,9 +280,9 @@ DOMNode is a base node mirror type."
   - (Optional) `object_id`: JavaScript object id of the node wrapper.
   """
   @spec focus(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id()
         ) :: {String.t(), map()}
   def focus(node_id \\ nil, backend_node_id \\ nil, object_id \\ nil) do
     params =
@@ -296,7 +296,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `node_id`: Id of the node to retrieve attibutes for.
   """
-  @spec get_attributes(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_attributes(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def get_attributes(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"DOM.getAttributes", params}
@@ -310,9 +310,9 @@ DOMNode is a base node mirror type."
   - (Optional) `object_id`: JavaScript object id of the node wrapper.
   """
   @spec get_box_model(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id()
         ) :: {String.t(), map()}
   def get_box_model(node_id \\ nil, backend_node_id \\ nil, object_id \\ nil) do
     params =
@@ -330,9 +330,9 @@ DOMNode is a base node mirror type."
   - (Optional) `object_id`: JavaScript object id of the node wrapper.
   """
   @spec get_content_quads(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id()
         ) :: {String.t(), map()}
   def get_content_quads(node_id \\ nil, backend_node_id \\ nil, object_id \\ nil) do
     params =
@@ -381,8 +381,8 @@ DOMNode is a base node mirror type."
   results (default is false).
   """
   @spec get_nodes_for_subtree_by_style(
-          CDPotion.Domain.DOM.NodeId,
-          list(CDPotion.Domain.DOM.CSSComputedStyleProperty),
+          CDPotion.Domain.DOM.node_id(),
+          list(CDPotion.Domain.DOM.css_computed_style_property()),
           boolean()
         ) :: {String.t(), map()}
   def get_nodes_for_subtree_by_style(node_id, computed_styles, pierce \\ nil) do
@@ -427,9 +427,9 @@ DOMNode is a base node mirror type."
   - (Optional) `object_id`: JavaScript object id of the node wrapper.
   """
   @spec get_outer_html(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id()
         ) :: {String.t(), map()}
   def get_outer_html(node_id \\ nil, backend_node_id \\ nil, object_id \\ nil) do
     params =
@@ -443,7 +443,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `node_id`: Id of the node.
   """
-  @spec get_relayout_boundary(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_relayout_boundary(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def get_relayout_boundary(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"DOM.getRelayoutBoundary", params}
@@ -504,9 +504,9 @@ DOMNode is a base node mirror type."
   `targetNodeId`).
   """
   @spec move_to(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.NodeId
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.node_id()
         ) :: {String.t(), map()}
   def move_to(node_id, target_node_id, insert_before_node_id \\ nil) do
     params =
@@ -550,7 +550,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `backend_node_ids`: The array of backend node ids.
   """
-  @spec push_nodes_by_backend_ids_to_frontend(list(CDPotion.Domain.DOM.BackendNodeId)) ::
+  @spec push_nodes_by_backend_ids_to_frontend(list(CDPotion.Domain.DOM.backend_node_id())) ::
           {String.t(), map()}
   def push_nodes_by_backend_ids_to_frontend(backend_node_ids) do
     params = as_query([{"backendNodeIds", backend_node_ids}])
@@ -563,7 +563,7 @@ DOMNode is a base node mirror type."
     - (Required) `node_id`: Id of the node to query upon.
   - (Required) `selector`: Selector string.
   """
-  @spec query_selector(CDPotion.Domain.DOM.NodeId, String.t()) :: {String.t(), map()}
+  @spec query_selector(CDPotion.Domain.DOM.node_id(), String.t()) :: {String.t(), map()}
   def query_selector(node_id, selector) do
     params = as_query([{"nodeId", node_id}, {"selector", selector}])
     {"DOM.querySelector", params}
@@ -575,7 +575,7 @@ DOMNode is a base node mirror type."
     - (Required) `node_id`: Id of the node to query upon.
   - (Required) `selector`: Selector string.
   """
-  @spec query_selector_all(CDPotion.Domain.DOM.NodeId, String.t()) :: {String.t(), map()}
+  @spec query_selector_all(CDPotion.Domain.DOM.node_id(), String.t()) :: {String.t(), map()}
   def query_selector_all(node_id, selector) do
     params = as_query([{"nodeId", node_id}, {"selector", selector}])
     {"DOM.querySelectorAll", params}
@@ -605,7 +605,7 @@ DOMNode is a base node mirror type."
     - (Required) `node_id`: Id of the element to remove attribute from.
   - (Required) `name`: Name of the attribute to remove.
   """
-  @spec remove_attribute(CDPotion.Domain.DOM.NodeId, String.t()) :: {String.t(), map()}
+  @spec remove_attribute(CDPotion.Domain.DOM.node_id(), String.t()) :: {String.t(), map()}
   def remove_attribute(node_id, name) do
     params = as_query([{"nodeId", node_id}, {"name", name}])
     {"DOM.removeAttribute", params}
@@ -616,7 +616,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `node_id`: Id of the node to remove.
   """
-  @spec remove_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec remove_node(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def remove_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"DOM.removeNode", params}
@@ -633,7 +633,7 @@ DOMNode is a base node mirror type."
   - (Optional) `pierce`: Whether or not iframes and shadow roots should be traversed when returning the sub-tree
   (default is false).
   """
-  @spec request_child_nodes(CDPotion.Domain.DOM.NodeId, integer(), boolean()) ::
+  @spec request_child_nodes(CDPotion.Domain.DOM.node_id(), integer(), boolean()) ::
           {String.t(), map()}
   def request_child_nodes(node_id, depth \\ nil, pierce \\ nil) do
     params = as_query([{"nodeId", node_id}, {"depth", depth}, {"pierce", pierce}])
@@ -647,7 +647,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `object_id`: JavaScript object id to convert into node.
   """
-  @spec request_node(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
+  @spec request_node(CDPotion.Domain.Runtime.remote_object_id()) :: {String.t(), map()}
   def request_node(object_id) do
     params = as_query([{"objectId", object_id}])
     {"DOM.requestNode", params}
@@ -662,10 +662,10 @@ DOMNode is a base node mirror type."
   - (Optional) `execution_context_id`: Execution context in which to resolve the node.
   """
   @spec resolve_node(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
           String.t(),
-          CDPotion.Domain.Runtime.ExecutionContextId
+          CDPotion.Domain.Runtime.execution_context_id()
         ) :: {String.t(), map()}
   def resolve_node(
         node_id \\ nil,
@@ -691,7 +691,7 @@ DOMNode is a base node mirror type."
   - (Required) `name`: Attribute name.
   - (Required) `value`: Attribute value.
   """
-  @spec set_attribute_value(CDPotion.Domain.DOM.NodeId, String.t(), String.t()) ::
+  @spec set_attribute_value(CDPotion.Domain.DOM.node_id(), String.t(), String.t()) ::
           {String.t(), map()}
   def set_attribute_value(node_id, name, value) do
     params = as_query([{"nodeId", node_id}, {"name", name}, {"value", value}])
@@ -707,7 +707,7 @@ DOMNode is a base node mirror type."
   - (Optional) `name`: Attribute name to replace with new attributes derived from text in case text parsed
   successfully.
   """
-  @spec set_attributes_as_text(CDPotion.Domain.DOM.NodeId, String.t(), String.t()) ::
+  @spec set_attributes_as_text(CDPotion.Domain.DOM.node_id(), String.t(), String.t()) ::
           {String.t(), map()}
   def set_attributes_as_text(node_id, text, name \\ nil) do
     params = as_query([{"nodeId", node_id}, {"text", text}, {"name", name}])
@@ -724,9 +724,9 @@ DOMNode is a base node mirror type."
   """
   @spec set_file_input_files(
           list(String.t()),
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id()
         ) :: {String.t(), map()}
   def set_file_input_files(files, node_id \\ nil, backend_node_id \\ nil, object_id \\ nil) do
     params =
@@ -756,7 +756,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `node_id`: Id of the node to get stack traces for.
   """
-  @spec get_node_stack_traces(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_node_stack_traces(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def get_node_stack_traces(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"DOM.getNodeStackTraces", params}
@@ -768,7 +768,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `object_id`: JavaScript object id of the node wrapper.
   """
-  @spec get_file_info(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
+  @spec get_file_info(CDPotion.Domain.Runtime.remote_object_id()) :: {String.t(), map()}
   def get_file_info(object_id) do
     params = as_query([{"objectId", object_id}])
     {"DOM.getFileInfo", params}
@@ -780,7 +780,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `node_id`: DOM node id to be accessible by means of $x command line API.
   """
-  @spec set_inspected_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec set_inspected_node(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def set_inspected_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"DOM.setInspectedNode", params}
@@ -792,7 +792,7 @@ DOMNode is a base node mirror type."
     - (Required) `node_id`: Id of the node to set name for.
   - (Required) `name`: New node's name.
   """
-  @spec set_node_name(CDPotion.Domain.DOM.NodeId, String.t()) :: {String.t(), map()}
+  @spec set_node_name(CDPotion.Domain.DOM.node_id(), String.t()) :: {String.t(), map()}
   def set_node_name(node_id, name) do
     params = as_query([{"nodeId", node_id}, {"name", name}])
     {"DOM.setNodeName", params}
@@ -804,7 +804,7 @@ DOMNode is a base node mirror type."
     - (Required) `node_id`: Id of the node to set value for.
   - (Required) `value`: New node's value.
   """
-  @spec set_node_value(CDPotion.Domain.DOM.NodeId, String.t()) :: {String.t(), map()}
+  @spec set_node_value(CDPotion.Domain.DOM.node_id(), String.t()) :: {String.t(), map()}
   def set_node_value(node_id, value) do
     params = as_query([{"nodeId", node_id}, {"value", value}])
     {"DOM.setNodeValue", params}
@@ -816,7 +816,7 @@ DOMNode is a base node mirror type."
     - (Required) `node_id`: Id of the node to set markup for.
   - (Required) `outer_html`: Outer HTML markup to set.
   """
-  @spec set_outer_html(CDPotion.Domain.DOM.NodeId, String.t()) :: {String.t(), map()}
+  @spec set_outer_html(CDPotion.Domain.DOM.node_id(), String.t()) :: {String.t(), map()}
   def set_outer_html(node_id, outer_html) do
     params = as_query([{"nodeId", node_id}, {"outerHTML", outer_html}])
     {"DOM.setOuterHTML", params}
@@ -835,7 +835,7 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `frame_id`: description not provided :(
   """
-  @spec get_frame_owner(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
+  @spec get_frame_owner(CDPotion.Domain.Page.frame_id()) :: {String.t(), map()}
   def get_frame_owner(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"DOM.getFrameOwner", params}
@@ -853,10 +853,10 @@ DOMNode is a base node mirror type."
   - (Optional) `logical_axes`: description not provided :(
   """
   @spec get_container_for_node(
-          CDPotion.Domain.DOM.NodeId,
+          CDPotion.Domain.DOM.node_id(),
           String.t(),
-          CDPotion.Domain.DOM.PhysicalAxes,
-          CDPotion.Domain.DOM.LogicalAxes
+          CDPotion.Domain.DOM.physical_axes(),
+          CDPotion.Domain.DOM.logical_axes()
         ) :: {String.t(), map()}
   def get_container_for_node(
         node_id,
@@ -881,7 +881,8 @@ DOMNode is a base node mirror type."
   ## Parameters:
     - (Required) `node_id`: Id of the container node to find querying descendants from.
   """
-  @spec get_querying_descendants_for_container(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_querying_descendants_for_container(CDPotion.Domain.DOM.node_id()) ::
+          {String.t(), map()}
   def get_querying_descendants_for_container(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"DOM.getQueryingDescendantsForContainer", params}

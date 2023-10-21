@@ -164,9 +164,9 @@ defmodule CDPotion.Domain.Accessibility do
   - (Optional) `fetch_relatives`: Whether to fetch this node's ancestors, siblings and children. Defaults to true.
   """
   @spec get_partial_ax_tree(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId,
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id(),
           boolean()
         ) :: {String.t(), map()}
   def get_partial_ax_tree(
@@ -194,7 +194,7 @@ defmodule CDPotion.Domain.Accessibility do
   - (Optional) `frame_id`: The frame for whose document the AX tree should be retrieved.
   If omited, the root frame is used.
   """
-  @spec get_full_ax_tree(integer(), CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
+  @spec get_full_ax_tree(integer(), CDPotion.Domain.Page.frame_id()) :: {String.t(), map()}
   def get_full_ax_tree(depth \\ nil, frame_id \\ nil) do
     params = as_query([{"depth", depth}, {"frameId", frame_id}])
     {"Accessibility.getFullAXTree", params}
@@ -207,7 +207,7 @@ defmodule CDPotion.Domain.Accessibility do
     - (Optional) `frame_id`: The frame in whose document the node resides.
   If omitted, the root frame is used.
   """
-  @spec get_root_ax_node(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
+  @spec get_root_ax_node(CDPotion.Domain.Page.frame_id()) :: {String.t(), map()}
   def get_root_ax_node(frame_id \\ nil) do
     params = as_query([{"frameId", frame_id}])
     {"Accessibility.getRootAXNode", params}
@@ -222,9 +222,9 @@ defmodule CDPotion.Domain.Accessibility do
   - (Optional) `object_id`: JavaScript object id of the node wrapper to get.
   """
   @spec get_ax_node_and_ancestors(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id()
         ) :: {String.t(), map()}
   def get_ax_node_and_ancestors(node_id \\ nil, backend_node_id \\ nil, object_id \\ nil) do
     params =
@@ -241,8 +241,10 @@ defmodule CDPotion.Domain.Accessibility do
   - (Optional) `frame_id`: The frame in whose document the node resides.
   If omitted, the root frame is used.
   """
-  @spec get_child_ax_nodes(CDPotion.Domain.Accessibility.AXNodeId, CDPotion.Domain.Page.FrameId) ::
-          {String.t(), map()}
+  @spec get_child_ax_nodes(
+          CDPotion.Domain.Accessibility.ax_node_id(),
+          CDPotion.Domain.Page.frame_id()
+        ) :: {String.t(), map()}
   def get_child_ax_nodes(id, frame_id \\ nil) do
     params = as_query([{"id", id}, {"frameId", frame_id}])
     {"Accessibility.getChildAXNodes", params}
@@ -262,9 +264,9 @@ defmodule CDPotion.Domain.Accessibility do
   - (Optional) `role`: Find nodes with this computed role.
   """
   @spec query_ax_tree(
-          CDPotion.Domain.DOM.NodeId,
-          CDPotion.Domain.DOM.BackendNodeId,
-          CDPotion.Domain.Runtime.RemoteObjectId,
+          CDPotion.Domain.DOM.node_id(),
+          CDPotion.Domain.DOM.backend_node_id(),
+          CDPotion.Domain.Runtime.remote_object_id(),
           String.t(),
           String.t()
         ) :: {String.t(), map()}

@@ -47,8 +47,11 @@ defmodule CDPotion.Domain.ServiceWorker do
   - (Required) `registration_id`: description not provided :(
   - (Required) `data`: description not provided :(
   """
-  @spec deliver_push_message(String.t(), CDPotion.Domain.ServiceWorker.RegistrationID, String.t()) ::
-          {String.t(), map()}
+  @spec deliver_push_message(
+          String.t(),
+          CDPotion.Domain.ServiceWorker.registration_id(),
+          String.t()
+        ) :: {String.t(), map()}
   def deliver_push_message(origin, registration_id, data) do
     params = as_query([{"origin", origin}, {"registrationId", registration_id}, {"data", data}])
     {"ServiceWorker.deliverPushMessage", params}
@@ -72,7 +75,7 @@ defmodule CDPotion.Domain.ServiceWorker do
   """
   @spec dispatch_sync_event(
           String.t(),
-          CDPotion.Domain.ServiceWorker.RegistrationID,
+          CDPotion.Domain.ServiceWorker.registration_id(),
           String.t(),
           boolean()
         ) :: {String.t(), map()}
@@ -97,7 +100,7 @@ defmodule CDPotion.Domain.ServiceWorker do
   """
   @spec dispatch_periodic_sync_event(
           String.t(),
-          CDPotion.Domain.ServiceWorker.RegistrationID,
+          CDPotion.Domain.ServiceWorker.registration_id(),
           String.t()
         ) :: {String.t(), map()}
   def dispatch_periodic_sync_event(origin, registration_id, tag) do

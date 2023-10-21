@@ -270,7 +270,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   - (Optional) `return_by_value`: Whether the result is expected to be a JSON object that should be sent by value.
   - (Optional) `generate_preview`: Whether preview should be generated for the result.
   """
-  @spec await_promise(CDPotion.Domain.Runtime.RemoteObjectId, boolean(), boolean()) ::
+  @spec await_promise(CDPotion.Domain.Runtime.remote_object_id(), boolean(), boolean()) ::
           {String.t(), map()}
   def await_promise(promise_object_id, return_by_value \\ nil, generate_preview \\ nil) do
     params =
@@ -320,19 +320,19 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   """
   @spec call_function_on(
           String.t(),
-          CDPotion.Domain.Runtime.RemoteObjectId,
-          list(CDPotion.Domain.Runtime.CallArgument),
+          CDPotion.Domain.Runtime.remote_object_id(),
+          list(CDPotion.Domain.Runtime.call_argument()),
           boolean(),
           boolean(),
           boolean(),
           boolean(),
           boolean(),
-          CDPotion.Domain.Runtime.ExecutionContextId,
+          CDPotion.Domain.Runtime.execution_context_id(),
           String.t(),
           boolean(),
           String.t(),
           boolean(),
-          CDPotion.Domain.Runtime.SerializationOptions
+          CDPotion.Domain.Runtime.serialization_options()
         ) :: {String.t(), map()}
   def call_function_on(
         function_declaration,
@@ -384,7 +384,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
           String.t(),
           String.t(),
           boolean(),
-          CDPotion.Domain.Runtime.ExecutionContextId
+          CDPotion.Domain.Runtime.execution_context_id()
         ) :: {String.t(), map()}
   def compile_script(expression, source_url, persist_script, execution_context_id \\ nil) do
     params =
@@ -472,19 +472,19 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
           String.t(),
           boolean(),
           boolean(),
-          CDPotion.Domain.Runtime.ExecutionContextId,
+          CDPotion.Domain.Runtime.execution_context_id(),
           boolean(),
           boolean(),
           boolean(),
           boolean(),
           boolean(),
-          CDPotion.Domain.Runtime.TimeDelta,
+          CDPotion.Domain.Runtime.time_delta(),
           boolean(),
           boolean(),
           boolean(),
           String.t(),
           boolean(),
-          CDPotion.Domain.Runtime.SerializationOptions
+          CDPotion.Domain.Runtime.serialization_options()
         ) :: {String.t(), map()}
   def evaluate(
         expression,
@@ -559,7 +559,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   - (Optional) `non_indexed_properties_only`: If true, returns non-indexed properties only.
   """
   @spec get_properties(
-          CDPotion.Domain.Runtime.RemoteObjectId,
+          CDPotion.Domain.Runtime.remote_object_id(),
           boolean(),
           boolean(),
           boolean(),
@@ -589,7 +589,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   ## Parameters:
     - (Optional) `execution_context_id`: Specifies in which execution context to lookup global scope variables.
   """
-  @spec global_lexical_scope_names(CDPotion.Domain.Runtime.ExecutionContextId) ::
+  @spec global_lexical_scope_names(CDPotion.Domain.Runtime.execution_context_id()) ::
           {String.t(), map()}
   def global_lexical_scope_names(execution_context_id \\ nil) do
     params = as_query([{"executionContextId", execution_context_id}])
@@ -602,7 +602,8 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
     - (Required) `prototype_object_id`: Identifier of the prototype to return objects for.
   - (Optional) `object_group`: Symbolic group name that can be used to release the results.
   """
-  @spec query_objects(CDPotion.Domain.Runtime.RemoteObjectId, String.t()) :: {String.t(), map()}
+  @spec query_objects(CDPotion.Domain.Runtime.remote_object_id(), String.t()) ::
+          {String.t(), map()}
   def query_objects(prototype_object_id, object_group \\ nil) do
     params = as_query([{"prototypeObjectId", prototype_object_id}, {"objectGroup", object_group}])
     {"Runtime.queryObjects", params}
@@ -613,7 +614,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   ## Parameters:
     - (Required) `object_id`: Identifier of the object to release.
   """
-  @spec release_object(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
+  @spec release_object(CDPotion.Domain.Runtime.remote_object_id()) :: {String.t(), map()}
   def release_object(object_id) do
     params = as_query([{"objectId", object_id}])
     {"Runtime.releaseObject", params}
@@ -654,8 +655,8 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   resolved.
   """
   @spec run_script(
-          CDPotion.Domain.Runtime.ScriptId,
-          CDPotion.Domain.Runtime.ExecutionContextId,
+          CDPotion.Domain.Runtime.script_id(),
+          CDPotion.Domain.Runtime.execution_context_id(),
           String.t(),
           boolean(),
           boolean(),
@@ -753,7 +754,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   `Page.addScriptToEvaluateOnNewDocument`.
   This parameter is mutually exclusive with `executionContextId`.
   """
-  @spec add_binding(String.t(), CDPotion.Domain.Runtime.ExecutionContextId, String.t()) ::
+  @spec add_binding(String.t(), CDPotion.Domain.Runtime.execution_context_id(), String.t()) ::
           {String.t(), map()}
   def add_binding(name, execution_context_id \\ nil, execution_context_name \\ nil) do
     params =
@@ -787,7 +788,7 @@ allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.pau
   ## Parameters:
     - (Required) `error_object_id`: The error object for which to resolve the exception details.
   """
-  @spec get_exception_details(CDPotion.Domain.Runtime.RemoteObjectId) :: {String.t(), map()}
+  @spec get_exception_details(CDPotion.Domain.Runtime.remote_object_id()) :: {String.t(), map()}
   def get_exception_details(error_object_id) do
     params = as_query([{"errorObjectId", error_object_id}])
     {"Runtime.getExceptionDetails", params}

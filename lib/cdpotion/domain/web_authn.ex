@@ -67,7 +67,7 @@ defmodule CDPotion.Domain.WebAuthn do
   ## Parameters:
     - (Required) `options`: description not provided :(
   """
-  @spec add_virtual_authenticator(CDPotion.Domain.WebAuthn.VirtualAuthenticatorOptions) ::
+  @spec add_virtual_authenticator(CDPotion.Domain.WebAuthn.virtual_authenticator_options()) ::
           {String.t(), map()}
   def add_virtual_authenticator(options) do
     params = as_query([{"options", options}])
@@ -86,7 +86,7 @@ defmodule CDPotion.Domain.WebAuthn do
   be zero. Defaults to false.
   """
   @spec set_response_override_bits(
-          CDPotion.Domain.WebAuthn.AuthenticatorId,
+          CDPotion.Domain.WebAuthn.authenticator_id(),
           boolean(),
           boolean(),
           boolean()
@@ -113,7 +113,7 @@ defmodule CDPotion.Domain.WebAuthn do
   ## Parameters:
     - (Required) `authenticator_id`: description not provided :(
   """
-  @spec remove_virtual_authenticator(CDPotion.Domain.WebAuthn.AuthenticatorId) ::
+  @spec remove_virtual_authenticator(CDPotion.Domain.WebAuthn.authenticator_id()) ::
           {String.t(), map()}
   def remove_virtual_authenticator(authenticator_id) do
     params = as_query([{"authenticatorId", authenticator_id}])
@@ -127,8 +127,8 @@ defmodule CDPotion.Domain.WebAuthn do
   - (Required) `credential`: description not provided :(
   """
   @spec add_credential(
-          CDPotion.Domain.WebAuthn.AuthenticatorId,
-          CDPotion.Domain.WebAuthn.Credential
+          CDPotion.Domain.WebAuthn.authenticator_id(),
+          CDPotion.Domain.WebAuthn.credential()
         ) :: {String.t(), map()}
   def add_credential(authenticator_id, credential) do
     params = as_query([{"authenticatorId", authenticator_id}, {"credential", credential}])
@@ -142,7 +142,7 @@ defmodule CDPotion.Domain.WebAuthn do
     - (Required) `authenticator_id`: description not provided :(
   - (Required) `credential_id`: description not provided :(
   """
-  @spec get_credential(CDPotion.Domain.WebAuthn.AuthenticatorId, String.t()) ::
+  @spec get_credential(CDPotion.Domain.WebAuthn.authenticator_id(), String.t()) ::
           {String.t(), map()}
   def get_credential(authenticator_id, credential_id) do
     params = as_query([{"authenticatorId", authenticator_id}, {"credentialId", credential_id}])
@@ -154,7 +154,7 @@ defmodule CDPotion.Domain.WebAuthn do
   ## Parameters:
     - (Required) `authenticator_id`: description not provided :(
   """
-  @spec get_credentials(CDPotion.Domain.WebAuthn.AuthenticatorId) :: {String.t(), map()}
+  @spec get_credentials(CDPotion.Domain.WebAuthn.authenticator_id()) :: {String.t(), map()}
   def get_credentials(authenticator_id) do
     params = as_query([{"authenticatorId", authenticator_id}])
     {"WebAuthn.getCredentials", params}
@@ -166,7 +166,7 @@ defmodule CDPotion.Domain.WebAuthn do
     - (Required) `authenticator_id`: description not provided :(
   - (Required) `credential_id`: description not provided :(
   """
-  @spec remove_credential(CDPotion.Domain.WebAuthn.AuthenticatorId, String.t()) ::
+  @spec remove_credential(CDPotion.Domain.WebAuthn.authenticator_id(), String.t()) ::
           {String.t(), map()}
   def remove_credential(authenticator_id, credential_id) do
     params = as_query([{"authenticatorId", authenticator_id}, {"credentialId", credential_id}])
@@ -178,7 +178,7 @@ defmodule CDPotion.Domain.WebAuthn do
   ## Parameters:
     - (Required) `authenticator_id`: description not provided :(
   """
-  @spec clear_credentials(CDPotion.Domain.WebAuthn.AuthenticatorId) :: {String.t(), map()}
+  @spec clear_credentials(CDPotion.Domain.WebAuthn.authenticator_id()) :: {String.t(), map()}
   def clear_credentials(authenticator_id) do
     params = as_query([{"authenticatorId", authenticator_id}])
     {"WebAuthn.clearCredentials", params}
@@ -191,7 +191,7 @@ defmodule CDPotion.Domain.WebAuthn do
     - (Required) `authenticator_id`: description not provided :(
   - (Required) `is_user_verified`: description not provided :(
   """
-  @spec set_user_verified(CDPotion.Domain.WebAuthn.AuthenticatorId, boolean()) ::
+  @spec set_user_verified(CDPotion.Domain.WebAuthn.authenticator_id(), boolean()) ::
           {String.t(), map()}
   def set_user_verified(authenticator_id, is_user_verified) do
     params =
@@ -207,7 +207,7 @@ defmodule CDPotion.Domain.WebAuthn do
     - (Required) `authenticator_id`: description not provided :(
   - (Required) `enabled`: description not provided :(
   """
-  @spec set_automatic_presence_simulation(CDPotion.Domain.WebAuthn.AuthenticatorId, boolean()) ::
+  @spec set_automatic_presence_simulation(CDPotion.Domain.WebAuthn.authenticator_id(), boolean()) ::
           {String.t(), map()}
   def set_automatic_presence_simulation(authenticator_id, enabled) do
     params = as_query([{"authenticatorId", authenticator_id}, {"enabled", enabled}])

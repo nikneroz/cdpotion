@@ -54,7 +54,7 @@ body is received)."
   - (Optional) `handle_auth_requests`: If true, authRequired events will be issued and requests will be paused
   expecting a call to continueWithAuth.
   """
-  @spec enable(list(CDPotion.Domain.Fetch.RequestPattern), boolean()) :: {String.t(), map()}
+  @spec enable(list(CDPotion.Domain.Fetch.request_pattern()), boolean()) :: {String.t(), map()}
   def enable(patterns \\ nil, handle_auth_requests \\ nil) do
     params = as_query([{"patterns", patterns}, {"handleAuthRequests", handle_auth_requests}])
     {"Fetch.enable", params}
@@ -66,7 +66,7 @@ body is received)."
     - (Required) `request_id`: An id the client received in requestPaused event.
   - (Required) `error_reason`: Causes the request to fail with the given reason.
   """
-  @spec fail_request(CDPotion.Domain.Fetch.RequestId, CDPotion.Domain.Network.ErrorReason) ::
+  @spec fail_request(CDPotion.Domain.Fetch.request_id(), CDPotion.Domain.Network.error_reason()) ::
           {String.t(), map()}
   def fail_request(request_id, error_reason) do
     params = as_query([{"requestId", request_id}, {"errorReason", error_reason}])
@@ -90,9 +90,9 @@ body is received)."
   If absent, a standard phrase matching responseCode is used.
   """
   @spec fulfill_request(
-          CDPotion.Domain.Fetch.RequestId,
+          CDPotion.Domain.Fetch.request_id(),
           integer(),
-          list(CDPotion.Domain.Fetch.HeaderEntry),
+          list(CDPotion.Domain.Fetch.header_entry()),
           String.t(),
           String.t(),
           String.t()
@@ -131,11 +131,11 @@ body is received)."
   - (Optional) `intercept_response`: If set, overrides response interception behavior for this request.
   """
   @spec continue_request(
-          CDPotion.Domain.Fetch.RequestId,
+          CDPotion.Domain.Fetch.request_id(),
           String.t(),
           String.t(),
           String.t(),
-          list(CDPotion.Domain.Fetch.HeaderEntry),
+          list(CDPotion.Domain.Fetch.header_entry()),
           boolean()
         ) :: {String.t(), map()}
   def continue_request(
@@ -166,8 +166,8 @@ body is received)."
   - (Required) `auth_challenge_response`: Response to  with an authChallenge.
   """
   @spec continue_with_auth(
-          CDPotion.Domain.Fetch.RequestId,
-          CDPotion.Domain.Fetch.AuthChallengeResponse
+          CDPotion.Domain.Fetch.request_id(),
+          CDPotion.Domain.Fetch.auth_challenge_response()
         ) :: {String.t(), map()}
   def continue_with_auth(request_id, auth_challenge_response) do
     params =
@@ -192,10 +192,10 @@ body is received)."
   over the protocol as text. (Encoded as a base64 string when passed over JSON)
   """
   @spec continue_response(
-          CDPotion.Domain.Fetch.RequestId,
+          CDPotion.Domain.Fetch.request_id(),
           integer(),
           String.t(),
-          list(CDPotion.Domain.Fetch.HeaderEntry),
+          list(CDPotion.Domain.Fetch.header_entry()),
           String.t()
         ) :: {String.t(), map()}
   def continue_response(
@@ -231,7 +231,7 @@ body is received)."
   ## Parameters:
     - (Required) `request_id`: Identifier for the intercepted request to get body for.
   """
-  @spec get_response_body(CDPotion.Domain.Fetch.RequestId) :: {String.t(), map()}
+  @spec get_response_body(CDPotion.Domain.Fetch.request_id()) :: {String.t(), map()}
   def get_response_body(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Fetch.getResponseBody", params}
@@ -251,7 +251,7 @@ body is received)."
   ## Parameters:
     - (Required) `request_id`: description not provided :(
   """
-  @spec take_response_body_as_stream(CDPotion.Domain.Fetch.RequestId) :: {String.t(), map()}
+  @spec take_response_body_as_stream(CDPotion.Domain.Fetch.request_id()) :: {String.t(), map()}
   def take_response_body_as_stream(request_id) do
     params = as_query([{"requestId", request_id}])
     {"Fetch.takeResponseBodyAsStream", params}

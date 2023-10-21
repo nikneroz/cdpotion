@@ -283,8 +283,11 @@ inspector' rules), 'regular' for regular stylesheets."
   - (Required) `rule_text`: The text of a new rule.
   - (Required) `location`: Text position of a new rule in the target style sheet.
   """
-  @spec add_rule(CDPotion.Domain.CSS.StyleSheetId, String.t(), CDPotion.Domain.CSS.SourceRange) ::
-          {String.t(), map()}
+  @spec add_rule(
+          CDPotion.Domain.CSS.style_sheet_id(),
+          String.t(),
+          CDPotion.Domain.CSS.source_range()
+        ) :: {String.t(), map()}
   def add_rule(style_sheet_id, rule_text, location) do
     params =
       as_query([{"styleSheetId", style_sheet_id}, {"ruleText", rule_text}, {"location", location}])
@@ -297,7 +300,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `style_sheet_id`: description not provided :(
   """
-  @spec collect_class_names(CDPotion.Domain.CSS.StyleSheetId) :: {String.t(), map()}
+  @spec collect_class_names(CDPotion.Domain.CSS.style_sheet_id()) :: {String.t(), map()}
   def collect_class_names(style_sheet_id) do
     params = as_query([{"styleSheetId", style_sheet_id}])
     {"CSS.collectClassNames", params}
@@ -308,7 +311,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `frame_id`: Identifier of the frame where "via-inspector" stylesheet should be created.
   """
-  @spec create_style_sheet(CDPotion.Domain.Page.FrameId) :: {String.t(), map()}
+  @spec create_style_sheet(CDPotion.Domain.Page.frame_id()) :: {String.t(), map()}
   def create_style_sheet(frame_id) do
     params = as_query([{"frameId", frame_id}])
     {"CSS.createStyleSheet", params}
@@ -338,7 +341,7 @@ inspector' rules), 'regular' for regular stylesheets."
     - (Required) `node_id`: The element id for which to force the pseudo state.
   - (Required) `forced_pseudo_classes`: Element pseudo classes to force when computing the element's style.
   """
-  @spec force_pseudo_state(CDPotion.Domain.DOM.NodeId, list(String.t())) :: {String.t(), map()}
+  @spec force_pseudo_state(CDPotion.Domain.DOM.node_id(), list(String.t())) :: {String.t(), map()}
   def force_pseudo_state(node_id, forced_pseudo_classes) do
     params = as_query([{"nodeId", node_id}, {"forcedPseudoClasses", forced_pseudo_classes}])
     {"CSS.forcePseudoState", params}
@@ -349,7 +352,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `node_id`: Id of the node to get background colors for.
   """
-  @spec get_background_colors(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_background_colors(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def get_background_colors(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getBackgroundColors", params}
@@ -360,7 +363,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `node_id`: description not provided :(
   """
-  @spec get_computed_style_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_computed_style_for_node(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def get_computed_style_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getComputedStyleForNode", params}
@@ -372,7 +375,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `node_id`: description not provided :(
   """
-  @spec get_inline_styles_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_inline_styles_for_node(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def get_inline_styles_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getInlineStylesForNode", params}
@@ -383,7 +386,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `node_id`: description not provided :(
   """
-  @spec get_matched_styles_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_matched_styles_for_node(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def get_matched_styles_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getMatchedStylesForNode", params}
@@ -403,7 +406,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `node_id`: description not provided :(
   """
-  @spec get_platform_fonts_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_platform_fonts_for_node(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def get_platform_fonts_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getPlatformFontsForNode", params}
@@ -414,7 +417,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `style_sheet_id`: description not provided :(
   """
-  @spec get_style_sheet_text(CDPotion.Domain.CSS.StyleSheetId) :: {String.t(), map()}
+  @spec get_style_sheet_text(CDPotion.Domain.CSS.style_sheet_id()) :: {String.t(), map()}
   def get_style_sheet_text(style_sheet_id) do
     params = as_query([{"styleSheetId", style_sheet_id}])
     {"CSS.getStyleSheetText", params}
@@ -428,7 +431,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `node_id`: description not provided :(
   """
-  @spec get_layers_for_node(CDPotion.Domain.DOM.NodeId) :: {String.t(), map()}
+  @spec get_layers_for_node(CDPotion.Domain.DOM.node_id()) :: {String.t(), map()}
   def get_layers_for_node(node_id) do
     params = as_query([{"nodeId", node_id}])
     {"CSS.getLayersForNode", params}
@@ -444,7 +447,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `properties_to_track`: description not provided :(
   """
-  @spec track_computed_style_updates(list(CDPotion.Domain.CSS.CSSComputedStyleProperty)) ::
+  @spec track_computed_style_updates(list(CDPotion.Domain.CSS.css_computed_style_property())) ::
           {String.t(), map()}
   def track_computed_style_updates(properties_to_track) do
     params = as_query([{"propertiesToTrack", properties_to_track}])
@@ -467,8 +470,11 @@ inspector' rules), 'regular' for regular stylesheets."
   - (Required) `property_name`: description not provided :(
   - (Required) `value`: description not provided :(
   """
-  @spec set_effective_property_value_for_node(CDPotion.Domain.DOM.NodeId, String.t(), String.t()) ::
-          {String.t(), map()}
+  @spec set_effective_property_value_for_node(
+          CDPotion.Domain.DOM.node_id(),
+          String.t(),
+          String.t()
+        ) :: {String.t(), map()}
   def set_effective_property_value_for_node(node_id, property_name, value) do
     params = as_query([{"nodeId", node_id}, {"propertyName", property_name}, {"value", value}])
     {"CSS.setEffectivePropertyValueForNode", params}
@@ -482,8 +488,8 @@ inspector' rules), 'regular' for regular stylesheets."
   - (Required) `key_text`: description not provided :(
   """
   @spec set_keyframe_key(
-          CDPotion.Domain.CSS.StyleSheetId,
-          CDPotion.Domain.CSS.SourceRange,
+          CDPotion.Domain.CSS.style_sheet_id(),
+          CDPotion.Domain.CSS.source_range(),
           String.t()
         ) :: {String.t(), map()}
   def set_keyframe_key(style_sheet_id, range, key_text) do
@@ -499,8 +505,8 @@ inspector' rules), 'regular' for regular stylesheets."
   - (Required) `text`: description not provided :(
   """
   @spec set_media_text(
-          CDPotion.Domain.CSS.StyleSheetId,
-          CDPotion.Domain.CSS.SourceRange,
+          CDPotion.Domain.CSS.style_sheet_id(),
+          CDPotion.Domain.CSS.source_range(),
           String.t()
         ) :: {String.t(), map()}
   def set_media_text(style_sheet_id, range, text) do
@@ -516,8 +522,8 @@ inspector' rules), 'regular' for regular stylesheets."
   - (Required) `text`: description not provided :(
   """
   @spec set_container_query_text(
-          CDPotion.Domain.CSS.StyleSheetId,
-          CDPotion.Domain.CSS.SourceRange,
+          CDPotion.Domain.CSS.style_sheet_id(),
+          CDPotion.Domain.CSS.source_range(),
           String.t()
         ) :: {String.t(), map()}
   def set_container_query_text(style_sheet_id, range, text) do
@@ -533,8 +539,8 @@ inspector' rules), 'regular' for regular stylesheets."
   - (Required) `text`: description not provided :(
   """
   @spec set_supports_text(
-          CDPotion.Domain.CSS.StyleSheetId,
-          CDPotion.Domain.CSS.SourceRange,
+          CDPotion.Domain.CSS.style_sheet_id(),
+          CDPotion.Domain.CSS.source_range(),
           String.t()
         ) :: {String.t(), map()}
   def set_supports_text(style_sheet_id, range, text) do
@@ -550,8 +556,8 @@ inspector' rules), 'regular' for regular stylesheets."
   - (Required) `text`: description not provided :(
   """
   @spec set_scope_text(
-          CDPotion.Domain.CSS.StyleSheetId,
-          CDPotion.Domain.CSS.SourceRange,
+          CDPotion.Domain.CSS.style_sheet_id(),
+          CDPotion.Domain.CSS.source_range(),
           String.t()
         ) :: {String.t(), map()}
   def set_scope_text(style_sheet_id, range, text) do
@@ -567,8 +573,8 @@ inspector' rules), 'regular' for regular stylesheets."
   - (Required) `selector`: description not provided :(
   """
   @spec set_rule_selector(
-          CDPotion.Domain.CSS.StyleSheetId,
-          CDPotion.Domain.CSS.SourceRange,
+          CDPotion.Domain.CSS.style_sheet_id(),
+          CDPotion.Domain.CSS.source_range(),
           String.t()
         ) :: {String.t(), map()}
   def set_rule_selector(style_sheet_id, range, selector) do
@@ -584,7 +590,8 @@ inspector' rules), 'regular' for regular stylesheets."
     - (Required) `style_sheet_id`: description not provided :(
   - (Required) `text`: description not provided :(
   """
-  @spec set_style_sheet_text(CDPotion.Domain.CSS.StyleSheetId, String.t()) :: {String.t(), map()}
+  @spec set_style_sheet_text(CDPotion.Domain.CSS.style_sheet_id(), String.t()) ::
+          {String.t(), map()}
   def set_style_sheet_text(style_sheet_id, text) do
     params = as_query([{"styleSheetId", style_sheet_id}, {"text", text}])
     {"CSS.setStyleSheetText", params}
@@ -595,7 +602,7 @@ inspector' rules), 'regular' for regular stylesheets."
   ## Parameters:
     - (Required) `edits`: description not provided :(
   """
-  @spec set_style_texts(list(CDPotion.Domain.CSS.StyleDeclarationEdit)) :: {String.t(), map()}
+  @spec set_style_texts(list(CDPotion.Domain.CSS.style_declaration_edit())) :: {String.t(), map()}
   def set_style_texts(edits) do
     params = as_query([{"edits", edits}])
     {"CSS.setStyleTexts", params}

@@ -93,7 +93,8 @@ defmodule CDPotion.Domain.Debugger do
     - (Required) `location`: Location to continue to.
   - (Optional) `target_call_frames`: description not provided :(
   """
-  @spec continue_to_location(CDPotion.Domain.Debugger.Location, String.t()) :: {String.t(), map()}
+  @spec continue_to_location(CDPotion.Domain.Debugger.location(), String.t()) ::
+          {String.t(), map()}
   def continue_to_location(location, target_call_frames \\ nil) do
     params = as_query([{"location", location}, {"targetCallFrames", target_call_frames}])
     {"Debugger.continueToLocation", params}
@@ -137,7 +138,7 @@ defmodule CDPotion.Domain.Debugger do
   - (Optional) `timeout`: Terminate execution after timing out (number of milliseconds).
   """
   @spec evaluate_on_call_frame(
-          CDPotion.Domain.Debugger.CallFrameId,
+          CDPotion.Domain.Debugger.call_frame_id(),
           String.t(),
           String.t(),
           boolean(),
@@ -145,7 +146,7 @@ defmodule CDPotion.Domain.Debugger do
           boolean(),
           boolean(),
           boolean(),
-          CDPotion.Domain.Runtime.TimeDelta
+          CDPotion.Domain.Runtime.time_delta()
         ) :: {String.t(), map()}
   def evaluate_on_call_frame(
         call_frame_id,
@@ -184,8 +185,8 @@ defmodule CDPotion.Domain.Debugger do
   - (Optional) `restrict_to_function`: Only consider locations which are in the same (non-nested) function as start.
   """
   @spec get_possible_breakpoints(
-          CDPotion.Domain.Debugger.Location,
-          CDPotion.Domain.Debugger.Location,
+          CDPotion.Domain.Debugger.location(),
+          CDPotion.Domain.Debugger.location(),
           boolean()
         ) :: {String.t(), map()}
   def get_possible_breakpoints(start, end! \\ nil, restrict_to_function \\ nil) do
@@ -200,7 +201,7 @@ defmodule CDPotion.Domain.Debugger do
   ## Parameters:
     - (Required) `script_id`: Id of the script to get source for.
   """
-  @spec get_script_source(CDPotion.Domain.Runtime.ScriptId) :: {String.t(), map()}
+  @spec get_script_source(CDPotion.Domain.Runtime.script_id()) :: {String.t(), map()}
   def get_script_source(script_id) do
     params = as_query([{"scriptId", script_id}])
     {"Debugger.getScriptSource", params}
@@ -211,7 +212,7 @@ defmodule CDPotion.Domain.Debugger do
   ## Parameters:
     - (Required) `script_id`: Id of the script to disassemble
   """
-  @spec disassemble_wasm_module(CDPotion.Domain.Runtime.ScriptId) :: {String.t(), map()}
+  @spec disassemble_wasm_module(CDPotion.Domain.Runtime.script_id()) :: {String.t(), map()}
   def disassemble_wasm_module(script_id) do
     params = as_query([{"scriptId", script_id}])
     {"Debugger.disassembleWasmModule", params}
@@ -236,7 +237,7 @@ defmodule CDPotion.Domain.Debugger do
   ## Parameters:
     - (Required) `script_id`: Id of the Wasm script to get source for.
   """
-  @spec get_wasm_bytecode(CDPotion.Domain.Runtime.ScriptId) :: {String.t(), map()}
+  @spec get_wasm_bytecode(CDPotion.Domain.Runtime.script_id()) :: {String.t(), map()}
   def get_wasm_bytecode(script_id) do
     params = as_query([{"scriptId", script_id}])
     {"Debugger.getWasmBytecode", params}
@@ -247,7 +248,7 @@ defmodule CDPotion.Domain.Debugger do
   ## Parameters:
     - (Required) `stack_trace_id`: description not provided :(
   """
-  @spec get_stack_trace(CDPotion.Domain.Runtime.StackTraceId) :: {String.t(), map()}
+  @spec get_stack_trace(CDPotion.Domain.Runtime.stack_trace_id()) :: {String.t(), map()}
   def get_stack_trace(stack_trace_id) do
     params = as_query([{"stackTraceId", stack_trace_id}])
     {"Debugger.getStackTrace", params}
@@ -266,7 +267,7 @@ defmodule CDPotion.Domain.Debugger do
   ## Parameters:
     - (Required) `parent_stack_trace_id`: Debugger will pause when async call with given stack trace is started.
   """
-  @spec pause_on_async_call(CDPotion.Domain.Runtime.StackTraceId) :: {String.t(), map()}
+  @spec pause_on_async_call(CDPotion.Domain.Runtime.stack_trace_id()) :: {String.t(), map()}
   def pause_on_async_call(parent_stack_trace_id) do
     params = as_query([{"parentStackTraceId", parent_stack_trace_id}])
     {"Debugger.pauseOnAsyncCall", params}
@@ -277,7 +278,7 @@ defmodule CDPotion.Domain.Debugger do
   ## Parameters:
     - (Required) `breakpoint_id`: description not provided :(
   """
-  @spec remove_breakpoint(CDPotion.Domain.Debugger.BreakpointId) :: {String.t(), map()}
+  @spec remove_breakpoint(CDPotion.Domain.Debugger.breakpoint_id()) :: {String.t(), map()}
   def remove_breakpoint(breakpoint_id) do
     params = as_query([{"breakpointId", breakpoint_id}])
     {"Debugger.removeBreakpoint", params}
@@ -300,7 +301,7 @@ defmodule CDPotion.Domain.Debugger do
   - (Optional) `mode`: The `mode` parameter must be present and set to 'StepInto', otherwise
   `restartFrame` will error out.
   """
-  @spec restart_frame(CDPotion.Domain.Debugger.CallFrameId, String.t()) :: {String.t(), map()}
+  @spec restart_frame(CDPotion.Domain.Debugger.call_frame_id(), String.t()) :: {String.t(), map()}
   def restart_frame(call_frame_id, mode \\ nil) do
     params = as_query([{"callFrameId", call_frame_id}, {"mode", mode}])
     {"Debugger.restartFrame", params}
@@ -329,7 +330,7 @@ defmodule CDPotion.Domain.Debugger do
   - (Optional) `case_sensitive`: If true, search is case sensitive.
   - (Optional) `is_regex`: If true, treats string parameter as regex.
   """
-  @spec search_in_content(CDPotion.Domain.Runtime.ScriptId, String.t(), boolean(), boolean()) ::
+  @spec search_in_content(CDPotion.Domain.Runtime.script_id(), String.t(), boolean(), boolean()) ::
           {String.t(), map()}
   def search_in_content(script_id, query, case_sensitive \\ nil, is_regex \\ nil) do
     params =
@@ -378,8 +379,8 @@ defmodule CDPotion.Domain.Debugger do
   - (Required) `positions`: description not provided :(
   """
   @spec set_blackboxed_ranges(
-          CDPotion.Domain.Runtime.ScriptId,
-          list(CDPotion.Domain.Debugger.ScriptPosition)
+          CDPotion.Domain.Runtime.script_id(),
+          list(CDPotion.Domain.Debugger.script_position())
         ) :: {String.t(), map()}
   def set_blackboxed_ranges(script_id, positions) do
     params = as_query([{"scriptId", script_id}, {"positions", positions}])
@@ -393,7 +394,7 @@ defmodule CDPotion.Domain.Debugger do
   - (Optional) `condition`: Expression to use as a breakpoint condition. When specified, debugger will only stop on the
   breakpoint if this expression evaluates to true.
   """
-  @spec set_breakpoint(CDPotion.Domain.Debugger.Location, String.t()) :: {String.t(), map()}
+  @spec set_breakpoint(CDPotion.Domain.Debugger.location(), String.t()) :: {String.t(), map()}
   def set_breakpoint(location, condition \\ nil) do
     params = as_query([{"location", location}, {"condition", condition}])
     {"Debugger.setBreakpoint", params}
@@ -463,7 +464,7 @@ defmodule CDPotion.Domain.Debugger do
   - (Optional) `condition`: Expression to use as a breakpoint condition. When specified, debugger will
   stop on the breakpoint if this expression evaluates to true.
   """
-  @spec set_breakpoint_on_function_call(CDPotion.Domain.Runtime.RemoteObjectId, String.t()) ::
+  @spec set_breakpoint_on_function_call(CDPotion.Domain.Runtime.remote_object_id(), String.t()) ::
           {String.t(), map()}
   def set_breakpoint_on_function_call(object_id, condition \\ nil) do
     params = as_query([{"objectId", object_id}, {"condition", condition}])
@@ -498,7 +499,7 @@ defmodule CDPotion.Domain.Debugger do
   ## Parameters:
     - (Required) `new_value`: New return value.
   """
-  @spec set_return_value(CDPotion.Domain.Runtime.CallArgument) :: {String.t(), map()}
+  @spec set_return_value(CDPotion.Domain.Runtime.call_argument()) :: {String.t(), map()}
   def set_return_value(new_value) do
     params = as_query([{"newValue", new_value}])
     {"Debugger.setReturnValue", params}
@@ -519,7 +520,7 @@ defmodule CDPotion.Domain.Debugger do
   - (Optional) `allow_top_frame_editing`: If true, then `scriptSource` is allowed to change the function on top of the stack
   as long as the top-most stack frame is the only activation of that function.
   """
-  @spec set_script_source(CDPotion.Domain.Runtime.ScriptId, String.t(), boolean(), boolean()) ::
+  @spec set_script_source(CDPotion.Domain.Runtime.script_id(), String.t(), boolean(), boolean()) ::
           {String.t(), map()}
   def set_script_source(script_id, script_source, dry_run \\ nil, allow_top_frame_editing \\ nil) do
     params =
@@ -557,8 +558,8 @@ defmodule CDPotion.Domain.Debugger do
   @spec set_variable_value(
           integer(),
           String.t(),
-          CDPotion.Domain.Runtime.CallArgument,
-          CDPotion.Domain.Debugger.CallFrameId
+          CDPotion.Domain.Runtime.call_argument(),
+          CDPotion.Domain.Debugger.call_frame_id()
         ) :: {String.t(), map()}
   def set_variable_value(scope_number, variable_name, new_value, call_frame_id) do
     params =
@@ -579,7 +580,8 @@ defmodule CDPotion.Domain.Debugger do
   before next pause.
   - (Optional) `skip_list`: The skipList specifies location ranges that should be skipped on step into.
   """
-  @spec step_into(boolean(), list(CDPotion.Domain.Debugger.LocationRange)) :: {String.t(), map()}
+  @spec step_into(boolean(), list(CDPotion.Domain.Debugger.location_range())) ::
+          {String.t(), map()}
   def step_into(break_on_async_call \\ nil, skip_list \\ nil) do
     params = as_query([{"breakOnAsyncCall", break_on_async_call}, {"skipList", skip_list}])
     {"Debugger.stepInto", params}
@@ -598,7 +600,7 @@ defmodule CDPotion.Domain.Debugger do
   ## Parameters:
     - (Optional) `skip_list`: The skipList specifies location ranges that should be skipped on step over.
   """
-  @spec step_over(list(CDPotion.Domain.Debugger.LocationRange)) :: {String.t(), map()}
+  @spec step_over(list(CDPotion.Domain.Debugger.location_range())) :: {String.t(), map()}
   def step_over(skip_list \\ nil) do
     params = as_query([{"skipList", skip_list}])
     {"Debugger.stepOver", params}

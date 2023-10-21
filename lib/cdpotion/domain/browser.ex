@@ -88,10 +88,10 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   - (Optional) `browser_context_id`: Context to override. When omitted, default browser context is used.
   """
   @spec set_permission(
-          CDPotion.Domain.Browser.PermissionDescriptor,
-          CDPotion.Domain.Browser.PermissionSetting,
+          CDPotion.Domain.Browser.permission_descriptor(),
+          CDPotion.Domain.Browser.permission_setting(),
           String.t(),
-          CDPotion.Domain.Browser.BrowserContextID
+          CDPotion.Domain.Browser.browser_context_id()
         ) :: {String.t(), map()}
   def set_permission(permission, setting, origin \\ nil, browser_context_id \\ nil) do
     params =
@@ -113,9 +113,9 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   - (Optional) `browser_context_id`: BrowserContext to override permissions. When omitted, default browser context is used.
   """
   @spec grant_permissions(
-          list(CDPotion.Domain.Browser.PermissionType),
+          list(CDPotion.Domain.Browser.permission_type()),
           String.t(),
-          CDPotion.Domain.Browser.BrowserContextID
+          CDPotion.Domain.Browser.browser_context_id()
         ) :: {String.t(), map()}
   def grant_permissions(permissions, origin \\ nil, browser_context_id \\ nil) do
     params =
@@ -133,7 +133,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   ## Parameters:
     - (Optional) `browser_context_id`: BrowserContext to reset permissions. When omitted, default browser context is used.
   """
-  @spec reset_permissions(CDPotion.Domain.Browser.BrowserContextID) :: {String.t(), map()}
+  @spec reset_permissions(CDPotion.Domain.Browser.browser_context_id()) :: {String.t(), map()}
   def reset_permissions(browser_context_id \\ nil) do
     params = as_query([{"browserContextId", browser_context_id}])
     {"Browser.resetPermissions", params}
@@ -152,7 +152,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   """
   @spec set_download_behavior(
           String.t(),
-          CDPotion.Domain.Browser.BrowserContextID,
+          CDPotion.Domain.Browser.browser_context_id(),
           String.t(),
           boolean()
         ) :: {String.t(), map()}
@@ -179,7 +179,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
     - (Required) `guid`: Global unique identifier of the download.
   - (Optional) `browser_context_id`: BrowserContext to perform the action in. When omitted, default browser context is used.
   """
-  @spec cancel_download(String.t(), CDPotion.Domain.Browser.BrowserContextID) ::
+  @spec cancel_download(String.t(), CDPotion.Domain.Browser.browser_context_id()) ::
           {String.t(), map()}
   def cancel_download(guid, browser_context_id \\ nil) do
     params = as_query([{"guid", guid}, {"browserContextId", browser_context_id}])
@@ -258,7 +258,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   ## Parameters:
     - (Required) `window_id`: Browser window id.
   """
-  @spec get_window_bounds(CDPotion.Domain.Browser.WindowID) :: {String.t(), map()}
+  @spec get_window_bounds(CDPotion.Domain.Browser.window_id()) :: {String.t(), map()}
   def get_window_bounds(window_id) do
     params = as_query([{"windowId", window_id}])
     {"Browser.getWindowBounds", params}
@@ -269,7 +269,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   ## Parameters:
     - (Optional) `target_id`: Devtools agent host id. If called as a part of the session, associated targetId is used.
   """
-  @spec get_window_for_target(CDPotion.Domain.Target.TargetID) :: {String.t(), map()}
+  @spec get_window_for_target(CDPotion.Domain.Target.target_id()) :: {String.t(), map()}
   def get_window_for_target(target_id \\ nil) do
     params = as_query([{"targetId", target_id}])
     {"Browser.getWindowForTarget", params}
@@ -282,7 +282,7 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   - (Required) `bounds`: New window bounds. The 'minimized', 'maximized' and 'fullscreen' states cannot be combined
   with 'left', 'top', 'width' or 'height'. Leaves unspecified fields unchanged.
   """
-  @spec set_window_bounds(CDPotion.Domain.Browser.WindowID, CDPotion.Domain.Browser.Bounds) ::
+  @spec set_window_bounds(CDPotion.Domain.Browser.window_id(), CDPotion.Domain.Browser.bounds()) ::
           {String.t(), map()}
   def set_window_bounds(window_id, bounds) do
     params = as_query([{"windowId", window_id}, {"bounds", bounds}])
@@ -306,7 +306,8 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
   ## Parameters:
     - (Required) `command_id`: description not provided :(
   """
-  @spec execute_browser_command(CDPotion.Domain.Browser.BrowserCommandId) :: {String.t(), map()}
+  @spec execute_browser_command(CDPotion.Domain.Browser.browser_command_id()) ::
+          {String.t(), map()}
   def execute_browser_command(command_id) do
     params = as_query([{"commandId", command_id}])
     {"Browser.executeBrowserCommand", params}

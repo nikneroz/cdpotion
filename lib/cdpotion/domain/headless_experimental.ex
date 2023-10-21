@@ -28,7 +28,7 @@ defmodule CDPotion.Domain.HeadlessExperimental do
           number(),
           number(),
           boolean(),
-          CDPotion.Domain.HeadlessExperimental.ScreenshotParams
+          CDPotion.Domain.HeadlessExperimental.screenshot_params()
         ) :: {String.t(), map()}
   def begin_frame(
         frame_time_ticks \\ nil,

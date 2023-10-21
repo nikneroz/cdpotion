@@ -44,7 +44,7 @@ defmodule CDPotion.Domain.CacheStorage do
   ## Parameters:
     - (Required) `cache_id`: Id of cache for deletion.
   """
-  @spec delete_cache(CDPotion.Domain.CacheStorage.CacheId) :: {String.t(), map()}
+  @spec delete_cache(CDPotion.Domain.CacheStorage.cache_id()) :: {String.t(), map()}
   def delete_cache(cache_id) do
     params = as_query([{"cacheId", cache_id}])
     {"CacheStorage.deleteCache", params}
@@ -56,7 +56,7 @@ defmodule CDPotion.Domain.CacheStorage do
     - (Required) `cache_id`: Id of cache where the entry will be deleted.
   - (Required) `request`: URL spec of the request.
   """
-  @spec delete_entry(CDPotion.Domain.CacheStorage.CacheId, String.t()) :: {String.t(), map()}
+  @spec delete_entry(CDPotion.Domain.CacheStorage.cache_id(), String.t()) :: {String.t(), map()}
   def delete_entry(cache_id, request) do
     params = as_query([{"cacheId", cache_id}, {"request", request}])
     {"CacheStorage.deleteEntry", params}
@@ -70,7 +70,7 @@ defmodule CDPotion.Domain.CacheStorage do
   - (Optional) `storage_key`: Storage key.
   - (Optional) `storage_bucket`: Storage bucket. If not specified, it uses the default bucket.
   """
-  @spec request_cache_names(String.t(), String.t(), CDPotion.Domain.Storage.StorageBucket) ::
+  @spec request_cache_names(String.t(), String.t(), CDPotion.Domain.Storage.storage_bucket()) ::
           {String.t(), map()}
   def request_cache_names(security_origin \\ nil, storage_key \\ nil, storage_bucket \\ nil) do
     params =
@@ -91,9 +91,9 @@ defmodule CDPotion.Domain.CacheStorage do
   - (Required) `request_headers`: headers of the request.
   """
   @spec request_cached_response(
-          CDPotion.Domain.CacheStorage.CacheId,
+          CDPotion.Domain.CacheStorage.cache_id(),
           String.t(),
-          list(CDPotion.Domain.CacheStorage.Header)
+          list(CDPotion.Domain.CacheStorage.header())
         ) :: {String.t(), map()}
   def request_cached_response(cache_id, request_url, request_headers) do
     params =
@@ -114,7 +114,7 @@ defmodule CDPotion.Domain.CacheStorage do
   - (Optional) `page_size`: Number of records to fetch.
   - (Optional) `path_filter`: If present, only return the entries containing this substring in the path
   """
-  @spec request_entries(CDPotion.Domain.CacheStorage.CacheId, integer(), integer(), String.t()) ::
+  @spec request_entries(CDPotion.Domain.CacheStorage.cache_id(), integer(), integer(), String.t()) ::
           {String.t(), map()}
   def request_entries(cache_id, skip_count \\ nil, page_size \\ nil, path_filter \\ nil) do
     params =

@@ -1,5 +1,25 @@
 defmodule CDPotion.Domain.Console do
   use CDPotion.Utils
+  @doc "Console message."
+  @type ConsoleMessage :: %{
+          column: integer() | nil,
+          level: :log | :warning | :error | :debug | :info,
+          line: integer() | nil,
+          source:
+            :xml
+            | :javascript
+            | :network
+            | :"console-api"
+            | :storage
+            | :appcache
+            | :rendering
+            | :security
+            | :other
+            | :deprecation
+            | :worker,
+          text: String.t(),
+          url: String.t() | nil
+        }
 
   @doc """
   Does nothing.

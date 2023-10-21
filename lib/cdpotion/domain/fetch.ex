@@ -1,5 +1,40 @@
 defmodule CDPotion.Domain.Fetch do
   use CDPotion.Utils
+  @doc "Authorization challenge for HTTP status code 401 or 407."
+  @type AuthChallenge :: %{
+          origin: String.t(),
+          realm: String.t(),
+          scheme: String.t(),
+          source: :Server | :Proxy | nil
+        }
+
+  @doc "Response to an AuthChallenge."
+  @type AuthChallengeResponse :: %{
+          password: String.t() | nil,
+          response: :Default | :CancelAuth | :ProvideCredentials,
+          username: String.t() | nil
+        }
+
+  @doc "Response HTTP header entry"
+  @type HeaderEntry :: %{
+          name: String.t(),
+          value: String.t()
+        }
+
+  @doc "Unique request identifier."
+  @type RequestId :: String.t()
+
+  @doc "description not provided :("
+  @type RequestPattern :: %{
+          requestStage: Fetch.RequestStage | nil,
+          resourceType: Network.ResourceType | nil,
+          urlPattern: String.t() | nil
+        }
+
+  @doc "Stages of the request to handle. Request will intercept before the request is
+sent. Response will intercept after the response is received (but before response
+body is received)."
+  @type RequestStage :: :Request | :Response
 
   @doc """
   Disables the fetch domain.

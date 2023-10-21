@@ -1,5 +1,53 @@
 defmodule CDPotion.Domain.Emulation do
   use CDPotion.Utils
+  @doc "Enum of image types that can be disabled."
+  @type DisabledImageType :: :avif | :webp
+
+  @doc "description not provided :("
+  @type DisplayFeature :: %{
+          maskLength: integer(),
+          offset: integer(),
+          orientation: :vertical | :horizontal
+        }
+
+  @doc "description not provided :("
+  @type MediaFeature :: %{
+          name: String.t(),
+          value: String.t()
+        }
+
+  @doc "Screen orientation."
+  @type ScreenOrientation :: %{
+          angle: integer(),
+          type: :portraitPrimary | :portraitSecondary | :landscapePrimary | :landscapeSecondary
+        }
+
+  @doc "Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints"
+  @type UserAgentBrandVersion :: %{
+          brand: String.t(),
+          version: String.t()
+        }
+
+  @doc "Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints
+Missing optional values will be filled in by the target with what it would normally use."
+  @type UserAgentMetadata :: %{
+          architecture: String.t(),
+          bitness: String.t() | nil,
+          brands: list(Emulation.UserAgentBrandVersion) | nil,
+          fullVersion: String.t() | nil,
+          fullVersionList: list(Emulation.UserAgentBrandVersion) | nil,
+          mobile: boolean(),
+          model: String.t(),
+          platform: String.t(),
+          platformVersion: String.t(),
+          wow64: boolean() | nil
+        }
+
+  @doc "advance: If the scheduler runs out of immediate work, the virtual time base may fast forward to
+allow the next delayed task (if any) to run; pause: The virtual time base may not advance;
+pauseIfNetworkFetchesPending: The virtual time base may not advance if there are any pending
+resource fetches."
+  @type VirtualTimePolicy :: :advance | :pause | :pauseIfNetworkFetchesPending
 
   @doc """
   Tells whether emulation is supported.

@@ -1,5 +1,532 @@
 defmodule CDPotion.Domain.Page do
   use CDPotion.Utils
+  @doc "description not provided :("
+  @type AdFrameExplanation :: :ParentIsAd | :CreatedByAdScript | :MatchedBlockingRule
+
+  @doc "Indicates whether a frame has been identified as an ad and why."
+  @type AdFrameStatus :: %{
+          adFrameType: Page.AdFrameType,
+          explanations: list(Page.AdFrameExplanation) | nil
+        }
+
+  @doc "Indicates whether a frame has been identified as an ad."
+  @type AdFrameType :: :none | :child | :root
+
+  @doc "Identifies the bottom-most script which caused the frame to be labelled
+as an ad."
+  @type AdScriptId :: %{
+          debuggerId: Runtime.UniqueDebuggerId,
+          scriptId: Runtime.ScriptId
+        }
+
+  @doc "Error while paring app manifest."
+  @type AppManifestError :: %{
+          column: integer(),
+          critical: integer(),
+          line: integer(),
+          message: String.t()
+        }
+
+  @doc "Parsed app manifest properties."
+  @type AppManifestParsedProperties :: %{
+          scope: String.t()
+        }
+
+  @doc "Enum of possible auto-reponse for permisison / prompt dialogs."
+  @type AutoResponseMode :: :none | :autoAccept | :autoReject | :autoOptOut
+
+  @doc "description not provided :("
+  @type BackForwardCacheNotRestoredExplanation :: %{
+          context: String.t() | nil,
+          reason: Page.BackForwardCacheNotRestoredReason,
+          type: Page.BackForwardCacheNotRestoredReasonType
+        }
+
+  @doc "description not provided :("
+  @type BackForwardCacheNotRestoredExplanationTree :: %{
+          children: list(Page.BackForwardCacheNotRestoredExplanationTree),
+          explanations: list(Page.BackForwardCacheNotRestoredExplanation),
+          url: String.t()
+        }
+
+  @doc "List of not restored reasons for back-forward cache."
+  @type BackForwardCacheNotRestoredReason ::
+          :NotPrimaryMainFrame
+          | :BackForwardCacheDisabled
+          | :RelatedActiveContentsExist
+          | :HTTPStatusNotOK
+          | :SchemeNotHTTPOrHTTPS
+          | :Loading
+          | :WasGrantedMediaAccess
+          | :DisableForRenderFrameHostCalled
+          | :DomainNotAllowed
+          | :HTTPMethodNotGET
+          | :SubframeIsNavigating
+          | :Timeout
+          | :CacheLimit
+          | :JavaScriptExecution
+          | :RendererProcessKilled
+          | :RendererProcessCrashed
+          | :SchedulerTrackedFeatureUsed
+          | :ConflictingBrowsingInstance
+          | :CacheFlushed
+          | :ServiceWorkerVersionActivation
+          | :SessionRestored
+          | :ServiceWorkerPostMessage
+          | :EnteredBackForwardCacheBeforeServiceWorkerHostAdded
+          | :RenderFrameHostReused_SameSite
+          | :RenderFrameHostReused_CrossSite
+          | :ServiceWorkerClaim
+          | :IgnoreEventAndEvict
+          | :HaveInnerContents
+          | :TimeoutPuttingInCache
+          | :BackForwardCacheDisabledByLowMemory
+          | :BackForwardCacheDisabledByCommandLine
+          | :NetworkRequestDatapipeDrainedAsBytesConsumer
+          | :NetworkRequestRedirected
+          | :NetworkRequestTimeout
+          | :NetworkExceedsBufferLimit
+          | :NavigationCancelledWhileRestoring
+          | :NotMostRecentNavigationEntry
+          | :BackForwardCacheDisabledForPrerender
+          | :UserAgentOverrideDiffers
+          | :ForegroundCacheLimit
+          | :BrowsingInstanceNotSwapped
+          | :BackForwardCacheDisabledForDelegate
+          | :UnloadHandlerExistsInMainFrame
+          | :UnloadHandlerExistsInSubFrame
+          | :ServiceWorkerUnregistration
+          | :CacheControlNoStore
+          | :CacheControlNoStoreCookieModified
+          | :CacheControlNoStoreHTTPOnlyCookieModified
+          | :NoResponseHead
+          | :Unknown
+          | :ActivationNavigationsDisallowedForBug1234857
+          | :ErrorDocument
+          | :FencedFramesEmbedder
+          | :CookieDisabled
+          | :HTTPAuthRequired
+          | :CookieFlushed
+          | :WebSocket
+          | :WebTransport
+          | :WebRTC
+          | :MainResourceHasCacheControlNoStore
+          | :MainResourceHasCacheControlNoCache
+          | :SubresourceHasCacheControlNoStore
+          | :SubresourceHasCacheControlNoCache
+          | :ContainsPlugins
+          | :DocumentLoaded
+          | :DedicatedWorkerOrWorklet
+          | :OutstandingNetworkRequestOthers
+          | :RequestedMIDIPermission
+          | :RequestedAudioCapturePermission
+          | :RequestedVideoCapturePermission
+          | :RequestedBackForwardCacheBlockedSensors
+          | :RequestedBackgroundWorkPermission
+          | :BroadcastChannel
+          | :WebXR
+          | :SharedWorker
+          | :WebLocks
+          | :WebHID
+          | :WebShare
+          | :RequestedStorageAccessGrant
+          | :WebNfc
+          | :OutstandingNetworkRequestFetch
+          | :OutstandingNetworkRequestXHR
+          | :AppBanner
+          | :Printing
+          | :WebDatabase
+          | :PictureInPicture
+          | :Portal
+          | :SpeechRecognizer
+          | :IdleManager
+          | :PaymentManager
+          | :SpeechSynthesis
+          | :KeyboardLock
+          | :WebOTPService
+          | :OutstandingNetworkRequestDirectSocket
+          | :InjectedJavascript
+          | :InjectedStyleSheet
+          | :KeepaliveRequest
+          | :IndexedDBEvent
+          | :Dummy
+          | :JsNetworkRequestReceivedCacheControlNoStoreResource
+          | :WebRTCSticky
+          | :WebTransportSticky
+          | :WebSocketSticky
+          | :ContentSecurityHandler
+          | :ContentWebAuthenticationAPI
+          | :ContentFileChooser
+          | :ContentSerial
+          | :ContentFileSystemAccess
+          | :ContentMediaDevicesDispatcherHost
+          | :ContentWebBluetooth
+          | :ContentWebUSB
+          | :ContentMediaSessionService
+          | :ContentScreenReader
+          | :EmbedderPopupBlockerTabHelper
+          | :EmbedderSafeBrowsingTriggeredPopupBlocker
+          | :EmbedderSafeBrowsingThreatDetails
+          | :EmbedderAppBannerManager
+          | :EmbedderDomDistillerViewerSource
+          | :EmbedderDomDistillerSelfDeletingRequestDelegate
+          | :EmbedderOomInterventionTabHelper
+          | :EmbedderOfflinePage
+          | :EmbedderChromePasswordManagerClientBindCredentialManager
+          | :EmbedderPermissionRequestManager
+          | :EmbedderModalDialog
+          | :EmbedderExtensions
+          | :EmbedderExtensionMessaging
+          | :EmbedderExtensionMessagingForOpenPort
+          | :EmbedderExtensionSentMessageToCachedFrame
+
+  @doc "Types of not restored reasons for back-forward cache."
+  @type BackForwardCacheNotRestoredReasonType ::
+          :SupportPending | :PageSupportNeeded | :Circumstantial
+
+  @doc "description not provided :("
+  @type ClientNavigationDisposition :: :currentTab | :newTab | :newWindow | :download
+
+  @doc "description not provided :("
+  @type ClientNavigationReason ::
+          :formSubmissionGet
+          | :formSubmissionPost
+          | :httpHeaderRefresh
+          | :scriptInitiated
+          | :metaTagRefresh
+          | :pageBlockInterstitial
+          | :reload
+          | :anchorClick
+
+  @doc "Per-script compilation cache parameters for `Page.produceCompilationCache`"
+  @type CompilationCacheParams :: %{
+          eager: boolean() | nil,
+          url: String.t()
+        }
+
+  @doc "Indicates whether the frame is cross-origin isolated and why it is the case."
+  @type CrossOriginIsolatedContextType :: :Isolated | :NotIsolated | :NotIsolatedFeatureDisabled
+
+  @doc "Javascript dialog type."
+  @type DialogType :: :alert | :confirm | :prompt | :beforeunload
+
+  @doc "Generic font families collection."
+  @type FontFamilies :: %{
+          cursive: String.t() | nil,
+          fantasy: String.t() | nil,
+          fixed: String.t() | nil,
+          math: String.t() | nil,
+          sansSerif: String.t() | nil,
+          serif: String.t() | nil,
+          standard: String.t() | nil
+        }
+
+  @doc "Default font sizes."
+  @type FontSizes :: %{
+          fixed: integer() | nil,
+          standard: integer() | nil
+        }
+
+  @doc "Information about the Frame on the page."
+  @type Frame :: %{
+          adFrameStatus: Page.AdFrameStatus | nil,
+          crossOriginIsolatedContextType: Page.CrossOriginIsolatedContextType,
+          domainAndRegistry: String.t(),
+          gatedAPIFeatures: list(Page.GatedAPIFeatures),
+          id: Page.FrameId,
+          loaderId: Network.LoaderId,
+          mimeType: String.t(),
+          name: String.t() | nil,
+          parentId: Page.FrameId | nil,
+          secureContextType: Page.SecureContextType,
+          securityOrigin: String.t(),
+          unreachableUrl: String.t() | nil,
+          url: String.t(),
+          urlFragment: String.t() | nil
+        }
+
+  @doc "Unique frame identifier."
+  @type FrameId :: String.t()
+
+  @doc "Information about the Resource on the page."
+  @type FrameResource :: %{
+          canceled: boolean() | nil,
+          contentSize: number() | nil,
+          failed: boolean() | nil,
+          lastModified: Network.TimeSinceEpoch | nil,
+          mimeType: String.t(),
+          type: Network.ResourceType,
+          url: String.t()
+        }
+
+  @doc "Information about the Frame hierarchy along with their cached resources."
+  @type FrameResourceTree :: %{
+          childFrames: list(Page.FrameResourceTree) | nil,
+          frame: Page.Frame,
+          resources: list(Page.FrameResource)
+        }
+
+  @doc "Information about the Frame hierarchy."
+  @type FrameTree :: %{
+          childFrames: list(Page.FrameTree) | nil,
+          frame: Page.Frame
+        }
+
+  @doc "description not provided :("
+  @type GatedAPIFeatures ::
+          :SharedArrayBuffers
+          | :SharedArrayBuffersTransferAllowed
+          | :PerformanceMeasureMemory
+          | :PerformanceProfile
+
+  @doc "The installability error"
+  @type InstallabilityError :: %{
+          errorArguments: list(Page.InstallabilityErrorArgument),
+          errorId: String.t()
+        }
+
+  @doc "description not provided :("
+  @type InstallabilityErrorArgument :: %{
+          name: String.t(),
+          value: String.t()
+        }
+
+  @doc "Layout viewport position and dimensions."
+  @type LayoutViewport :: %{
+          clientHeight: integer(),
+          clientWidth: integer(),
+          pageX: integer(),
+          pageY: integer()
+        }
+
+  @doc "Navigation history entry."
+  @type NavigationEntry :: %{
+          id: integer(),
+          title: String.t(),
+          transitionType: Page.TransitionType,
+          url: String.t(),
+          userTypedURL: String.t()
+        }
+
+  @doc "The type of a frameNavigated event."
+  @type NavigationType :: :Navigation | :BackForwardCacheRestore
+
+  @doc "description not provided :("
+  @type OriginTrial :: %{
+          status: Page.OriginTrialStatus,
+          tokensWithStatus: list(Page.OriginTrialTokenWithStatus),
+          trialName: String.t()
+        }
+
+  @doc "Status for an Origin Trial."
+  @type OriginTrialStatus ::
+          :Enabled | :ValidTokenNotProvided | :OSNotSupported | :TrialNotAllowed
+
+  @doc "description not provided :("
+  @type OriginTrialToken :: %{
+          expiryTime: Network.TimeSinceEpoch,
+          isThirdParty: boolean(),
+          matchSubDomains: boolean(),
+          origin: String.t(),
+          trialName: String.t(),
+          usageRestriction: Page.OriginTrialUsageRestriction
+        }
+
+  @doc "Origin Trial(https://www.chromium.org/blink/origin-trials) support.
+Status for an Origin Trial token."
+  @type OriginTrialTokenStatus ::
+          :Success
+          | :NotSupported
+          | :Insecure
+          | :Expired
+          | :WrongOrigin
+          | :InvalidSignature
+          | :Malformed
+          | :WrongVersion
+          | :FeatureDisabled
+          | :TokenDisabled
+          | :FeatureDisabledForUser
+          | :UnknownTrial
+
+  @doc "description not provided :("
+  @type OriginTrialTokenWithStatus :: %{
+          parsedToken: Page.OriginTrialToken | nil,
+          rawTokenText: String.t(),
+          status: Page.OriginTrialTokenStatus
+        }
+
+  @doc "description not provided :("
+  @type OriginTrialUsageRestriction :: :None | :Subset
+
+  @doc "description not provided :("
+  @type PermissionsPolicyBlockLocator :: %{
+          blockReason: Page.PermissionsPolicyBlockReason,
+          frameId: Page.FrameId
+        }
+
+  @doc "Reason for a permissions policy feature to be disabled."
+  @type PermissionsPolicyBlockReason ::
+          :Header | :IframeAttribute | :InFencedFrameTree | :InIsolatedApp
+
+  @doc "All Permissions Policy features. This enum should match the one defined
+in third_party/blink/renderer/core/permissions_policy/permissions_policy_features.json5."
+  @type PermissionsPolicyFeature ::
+          :accelerometer
+          | :"ambient-light-sensor"
+          | :"attribution-reporting"
+          | :autoplay
+          | :bluetooth
+          | :"browsing-topics"
+          | :camera
+          | :"ch-dpr"
+          | :"ch-device-memory"
+          | :"ch-downlink"
+          | :"ch-ect"
+          | :"ch-prefers-color-scheme"
+          | :"ch-prefers-reduced-motion"
+          | :"ch-rtt"
+          | :"ch-save-data"
+          | :"ch-ua"
+          | :"ch-ua-arch"
+          | :"ch-ua-bitness"
+          | :"ch-ua-platform"
+          | :"ch-ua-model"
+          | :"ch-ua-mobile"
+          | :"ch-ua-form-factor"
+          | :"ch-ua-full-version"
+          | :"ch-ua-full-version-list"
+          | :"ch-ua-platform-version"
+          | :"ch-ua-wow64"
+          | :"ch-viewport-height"
+          | :"ch-viewport-width"
+          | :"ch-width"
+          | :"clipboard-read"
+          | :"clipboard-write"
+          | :"compute-pressure"
+          | :"cross-origin-isolated"
+          | :"direct-sockets"
+          | :"display-capture"
+          | :"document-domain"
+          | :"encrypted-media"
+          | :"execution-while-out-of-viewport"
+          | :"execution-while-not-rendered"
+          | :"focus-without-user-activation"
+          | :fullscreen
+          | :frobulate
+          | :gamepad
+          | :geolocation
+          | :gyroscope
+          | :hid
+          | :"identity-credentials-get"
+          | :"idle-detection"
+          | :"interest-cohort"
+          | :"join-ad-interest-group"
+          | :"keyboard-map"
+          | :"local-fonts"
+          | :magnetometer
+          | :microphone
+          | :midi
+          | :"otp-credentials"
+          | :payment
+          | :"picture-in-picture"
+          | :"private-aggregation"
+          | :"private-state-token-issuance"
+          | :"private-state-token-redemption"
+          | :"publickey-credentials-get"
+          | :"run-ad-auction"
+          | :"screen-wake-lock"
+          | :serial
+          | :"shared-autofill"
+          | :"shared-storage"
+          | :"shared-storage-select-url"
+          | :"smart-card"
+          | :"storage-access"
+          | :"sync-xhr"
+          | :unload
+          | :usb
+          | :"vertical-scroll"
+          | :"web-share"
+          | :"window-management"
+          | :"window-placement"
+          | :"xr-spatial-tracking"
+
+  @doc "description not provided :("
+  @type PermissionsPolicyFeatureState :: %{
+          allowed: boolean(),
+          feature: Page.PermissionsPolicyFeature,
+          locator: Page.PermissionsPolicyBlockLocator | nil
+        }
+
+  @doc "The referring-policy used for the navigation."
+  @type ReferrerPolicy ::
+          :noReferrer
+          | :noReferrerWhenDowngrade
+          | :origin
+          | :originWhenCrossOrigin
+          | :sameOrigin
+          | :strictOrigin
+          | :strictOriginWhenCrossOrigin
+          | :unsafeUrl
+
+  @doc "Screencast frame metadata."
+  @type ScreencastFrameMetadata :: %{
+          deviceHeight: number(),
+          deviceWidth: number(),
+          offsetTop: number(),
+          pageScaleFactor: number(),
+          scrollOffsetX: number(),
+          scrollOffsetY: number(),
+          timestamp: Network.TimeSinceEpoch | nil
+        }
+
+  @doc "Font families collection for a script."
+  @type ScriptFontFamilies :: %{
+          fontFamilies: Page.FontFamilies,
+          script: String.t()
+        }
+
+  @doc "Unique script identifier."
+  @type ScriptIdentifier :: String.t()
+
+  @doc "Indicates whether the frame is a secure context and why it is the case."
+  @type SecureContextType :: :Secure | :SecureLocalhost | :InsecureScheme | :InsecureAncestor
+
+  @doc "Transition type."
+  @type TransitionType ::
+          :link
+          | :typed
+          | :address_bar
+          | :auto_bookmark
+          | :auto_subframe
+          | :manual_subframe
+          | :generated
+          | :auto_toplevel
+          | :form_submit
+          | :reload
+          | :keyword
+          | :keyword_generated
+          | :other
+
+  @doc "Viewport for capturing screenshot."
+  @type Viewport :: %{
+          height: number(),
+          scale: number(),
+          width: number(),
+          x: number(),
+          y: number()
+        }
+
+  @doc "Visual viewport position, dimensions, and scale."
+  @type VisualViewport :: %{
+          clientHeight: number(),
+          clientWidth: number(),
+          offsetX: number(),
+          offsetY: number(),
+          pageX: number(),
+          pageY: number(),
+          scale: number(),
+          zoom: number() | nil
+        }
 
   @doc """
   Deprecated, please use addScriptToEvaluateOnNewDocument instead.

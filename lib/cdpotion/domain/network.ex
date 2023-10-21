@@ -1,5 +1,606 @@
 defmodule CDPotion.Domain.Network do
   use CDPotion.Utils
+  @doc "The reason why Chrome uses a specific transport protocol for HTTP semantics."
+  @type AlternateProtocolUsage ::
+          :alternativeJobWonWithoutRace
+          | :alternativeJobWonRace
+          | :mainJobWonRace
+          | :mappingMissing
+          | :broken
+          | :dnsAlpnH3JobWonWithoutRace
+          | :dnsAlpnH3JobWonRace
+          | :unspecifiedReason
+
+  @doc "Authorization challenge for HTTP status code 401 or 407."
+  @type AuthChallenge :: %{
+          origin: String.t(),
+          realm: String.t(),
+          scheme: String.t(),
+          source: :Server | :Proxy | nil
+        }
+
+  @doc "Response to an AuthChallenge."
+  @type AuthChallengeResponse :: %{
+          password: String.t() | nil,
+          response: :Default | :CancelAuth | :ProvideCredentials,
+          username: String.t() | nil
+        }
+
+  @doc "A cookie with was not sent with a request with the corresponding reason."
+  @type BlockedCookieWithReason :: %{
+          blockedReasons: list(Network.CookieBlockedReason),
+          cookie: Network.Cookie
+        }
+
+  @doc "The reason why request was blocked."
+  @type BlockedReason ::
+          :other
+          | :csp
+          | :"mixed-content"
+          | :origin
+          | :inspector
+          | :"subresource-filter"
+          | :"content-type"
+          | :"coep-frame-resource-needs-coep-header"
+          | :"coop-sandboxed-iframe-cannot-navigate-to-coop-page"
+          | :"corp-not-same-origin"
+          | :"corp-not-same-origin-after-defaulted-to-same-origin-by-coep"
+          | :"corp-not-same-site"
+
+  @doc "A cookie which was not stored from a response with the corresponding reason."
+  @type BlockedSetCookieWithReason :: %{
+          blockedReasons: list(Network.SetCookieBlockedReason),
+          cookie: Network.Cookie | nil,
+          cookieLine: String.t()
+        }
+
+  @doc "Information about the cached resource."
+  @type CachedResource :: %{
+          bodySize: number(),
+          response: Network.Response | nil,
+          type: Network.ResourceType,
+          url: String.t()
+        }
+
+  @doc "Whether the request complied with Certificate Transparency policy."
+  @type CertificateTransparencyCompliance :: :unknown | :"not-compliant" | :compliant
+
+  @doc "description not provided :("
+  @type ClientSecurityState :: %{
+          initiatorIPAddressSpace: Network.IPAddressSpace,
+          initiatorIsSecureContext: boolean(),
+          privateNetworkRequestPolicy: Network.PrivateNetworkRequestPolicy
+        }
+
+  @doc "description not provided :("
+  @type ConnectTiming :: %{
+          requestTime: number()
+        }
+
+  @doc "The underlying connection technology that the browser is supposedly using."
+  @type ConnectionType ::
+          :none
+          | :cellular2g
+          | :cellular3g
+          | :cellular4g
+          | :bluetooth
+          | :ethernet
+          | :wifi
+          | :wimax
+          | :other
+
+  @doc "List of content encodings supported by the backend."
+  @type ContentEncoding :: :deflate | :gzip | :br | :zstd
+
+  @doc "description not provided :("
+  @type ContentSecurityPolicySource :: :HTTP | :Meta
+
+  @doc "description not provided :("
+  @type ContentSecurityPolicyStatus :: %{
+          effectiveDirectives: String.t(),
+          isEnforced: boolean(),
+          source: Network.ContentSecurityPolicySource
+        }
+
+  @doc "Cookie object"
+  @type Cookie :: %{
+          domain: String.t(),
+          expires: number(),
+          httpOnly: boolean(),
+          name: String.t(),
+          partitionKey: String.t() | nil,
+          partitionKeyOpaque: boolean() | nil,
+          path: String.t(),
+          priority: Network.CookiePriority,
+          sameParty: boolean(),
+          sameSite: Network.CookieSameSite | nil,
+          secure: boolean(),
+          session: boolean(),
+          size: integer(),
+          sourcePort: integer(),
+          sourceScheme: Network.CookieSourceScheme,
+          value: String.t()
+        }
+
+  @doc "Types of reasons why a cookie may not be sent with a request."
+  @type CookieBlockedReason ::
+          :SecureOnly
+          | :NotOnPath
+          | :DomainMismatch
+          | :SameSiteStrict
+          | :SameSiteLax
+          | :SameSiteUnspecifiedTreatedAsLax
+          | :SameSiteNoneInsecure
+          | :UserPreferences
+          | :ThirdPartyBlockedInFirstPartySet
+          | :UnknownError
+          | :SchemefulSameSiteStrict
+          | :SchemefulSameSiteLax
+          | :SchemefulSameSiteUnspecifiedTreatedAsLax
+          | :SamePartyFromCrossPartyContext
+          | :NameValuePairExceedsMaxSize
+
+  @doc "Cookie parameter object"
+  @type CookieParam :: %{
+          domain: String.t() | nil,
+          expires: Network.TimeSinceEpoch | nil,
+          httpOnly: boolean() | nil,
+          name: String.t(),
+          partitionKey: String.t() | nil,
+          path: String.t() | nil,
+          priority: Network.CookiePriority | nil,
+          sameParty: boolean() | nil,
+          sameSite: Network.CookieSameSite | nil,
+          secure: boolean() | nil,
+          sourcePort: integer() | nil,
+          sourceScheme: Network.CookieSourceScheme | nil,
+          url: String.t() | nil,
+          value: String.t()
+        }
+
+  @doc "Represents the cookie's 'Priority' status:
+https://tools.ietf.org/html/draft-west-cookie-priority-00"
+  @type CookiePriority :: :Low | :Medium | :High
+
+  @doc "Represents the cookie's 'SameSite' status:
+https://tools.ietf.org/html/draft-west-first-party-cookies"
+  @type CookieSameSite :: :Strict | :Lax | :None
+
+  @doc "Represents the source scheme of the origin that originally set the cookie.
+A value of 'Unset' allows protocol clients to emulate legacy cookie scope for the scheme.
+This is a temporary ability and it will be removed in the future."
+  @type CookieSourceScheme :: :Unset | :NonSecure | :Secure
+
+  @doc "The reason why request was blocked."
+  @type CorsError ::
+          :DisallowedByMode
+          | :InvalidResponse
+          | :WildcardOriginNotAllowed
+          | :MissingAllowOriginHeader
+          | :MultipleAllowOriginValues
+          | :InvalidAllowOriginValue
+          | :AllowOriginMismatch
+          | :InvalidAllowCredentials
+          | :CorsDisabledScheme
+          | :PreflightInvalidStatus
+          | :PreflightDisallowedRedirect
+          | :PreflightWildcardOriginNotAllowed
+          | :PreflightMissingAllowOriginHeader
+          | :PreflightMultipleAllowOriginValues
+          | :PreflightInvalidAllowOriginValue
+          | :PreflightAllowOriginMismatch
+          | :PreflightInvalidAllowCredentials
+          | :PreflightMissingAllowExternal
+          | :PreflightInvalidAllowExternal
+          | :PreflightMissingAllowPrivateNetwork
+          | :PreflightInvalidAllowPrivateNetwork
+          | :InvalidAllowMethodsPreflightResponse
+          | :InvalidAllowHeadersPreflightResponse
+          | :MethodDisallowedByPreflightResponse
+          | :HeaderDisallowedByPreflightResponse
+          | :RedirectContainsCredentials
+          | :InsecurePrivateNetwork
+          | :InvalidPrivateNetworkAccess
+          | :UnexpectedPrivateNetworkAccess
+          | :NoCorsRedirectModeNotFollow
+          | :PreflightMissingPrivateNetworkAccessId
+          | :PreflightMissingPrivateNetworkAccessName
+          | :PrivateNetworkAccessPermissionUnavailable
+          | :PrivateNetworkAccessPermissionDenied
+
+  @doc "description not provided :("
+  @type CorsErrorStatus :: %{
+          corsError: Network.CorsError,
+          failedParameter: String.t()
+        }
+
+  @doc "description not provided :("
+  @type CrossOriginEmbedderPolicyStatus :: %{
+          reportOnlyReportingEndpoint: String.t() | nil,
+          reportOnlyValue: Network.CrossOriginEmbedderPolicyValue,
+          reportingEndpoint: String.t() | nil,
+          value: Network.CrossOriginEmbedderPolicyValue
+        }
+
+  @doc "description not provided :("
+  @type CrossOriginEmbedderPolicyValue :: :None | :Credentialless | :RequireCorp
+
+  @doc "description not provided :("
+  @type CrossOriginOpenerPolicyStatus :: %{
+          reportOnlyReportingEndpoint: String.t() | nil,
+          reportOnlyValue: Network.CrossOriginOpenerPolicyValue,
+          reportingEndpoint: String.t() | nil,
+          value: Network.CrossOriginOpenerPolicyValue
+        }
+
+  @doc "description not provided :("
+  @type CrossOriginOpenerPolicyValue ::
+          :SameOrigin
+          | :SameOriginAllowPopups
+          | :RestrictProperties
+          | :UnsafeNone
+          | :SameOriginPlusCoep
+          | :RestrictPropertiesPlusCoep
+
+  @doc "Network level fetch failure reason."
+  @type ErrorReason ::
+          :Failed
+          | :Aborted
+          | :TimedOut
+          | :AccessDenied
+          | :ConnectionClosed
+          | :ConnectionReset
+          | :ConnectionRefused
+          | :ConnectionAborted
+          | :ConnectionFailed
+          | :NameNotResolved
+          | :InternetDisconnected
+          | :AddressUnreachable
+          | :BlockedByClient
+          | :BlockedByResponse
+
+  @doc "Request / response headers as keys / values of JSON object."
+  @type Headers :: map()
+
+  @doc "description not provided :("
+  @type IPAddressSpace :: :Local | :Private | :Public | :Unknown
+
+  @doc "Information about the request initiator."
+  @type Initiator :: %{
+          columnNumber: number() | nil,
+          lineNumber: number() | nil,
+          requestId: Network.RequestId | nil,
+          stack: Runtime.StackTrace | nil,
+          type: :parser | :script | :preload | :SignedExchange | :preflight | :other,
+          url: String.t() | nil
+        }
+
+  @doc "Unique intercepted request identifier."
+  @type InterceptionId :: String.t()
+
+  @doc "Stages of the interception to begin intercepting. Request will intercept before the request is
+sent. Response will intercept after the response is received."
+  @type InterceptionStage :: :Request | :HeadersReceived
+
+  @doc "An options object that may be extended later to better support CORS,
+CORB and streaming."
+  @type LoadNetworkResourceOptions :: %{
+          disableCache: boolean(),
+          includeCredentials: boolean()
+        }
+
+  @doc "An object providing the result of a network resource load."
+  @type LoadNetworkResourcePageResult :: %{
+          headers: Network.Headers | nil,
+          httpStatusCode: number() | nil,
+          netError: number() | nil,
+          netErrorName: String.t() | nil,
+          stream: IO.StreamHandle | nil,
+          success: boolean()
+        }
+
+  @doc "Unique loader identifier."
+  @type LoaderId :: String.t()
+
+  @doc "Monotonically increasing time in seconds since an arbitrary point in the past."
+  @type MonotonicTime :: number()
+
+  @doc "Post data entry for HTTP request"
+  @type PostDataEntry :: %{
+          bytes: String.t() | nil
+        }
+
+  @doc "description not provided :("
+  @type PrivateNetworkRequestPolicy ::
+          :Allow
+          | :BlockFromInsecureToMorePrivate
+          | :WarnFromInsecureToMorePrivate
+          | :PreflightBlock
+          | :PreflightWarn
+
+  @doc "description not provided :("
+  @type ReportId :: String.t()
+
+  @doc "The status of a Reporting API report."
+  @type ReportStatus :: :Queued | :Pending | :MarkedForRemoval | :Success
+
+  @doc "description not provided :("
+  @type ReportingApiEndpoint :: %{
+          groupName: String.t(),
+          url: String.t()
+        }
+
+  @doc "An object representing a report generated by the Reporting API."
+  @type ReportingApiReport :: %{
+          body: map(),
+          completedAttempts: integer(),
+          depth: integer(),
+          destination: String.t(),
+          id: Network.ReportId,
+          initiatorUrl: String.t(),
+          status: Network.ReportStatus,
+          timestamp: Network.TimeSinceEpoch,
+          type: String.t()
+        }
+
+  @doc "HTTP request data."
+  @type Request :: %{
+          hasPostData: boolean() | nil,
+          headers: Network.Headers,
+          initialPriority: Network.ResourcePriority,
+          isLinkPreload: boolean() | nil,
+          isSameSite: boolean() | nil,
+          method: String.t(),
+          mixedContentType: Security.MixedContentType | nil,
+          postData: String.t() | nil,
+          postDataEntries: list(Network.PostDataEntry) | nil,
+          referrerPolicy:
+            :"unsafe-url"
+            | :"no-referrer-when-downgrade"
+            | :"no-referrer"
+            | :origin
+            | :"origin-when-cross-origin"
+            | :"same-origin"
+            | :"strict-origin"
+            | :"strict-origin-when-cross-origin",
+          trustTokenParams: Network.TrustTokenParams | nil,
+          url: String.t(),
+          urlFragment: String.t() | nil
+        }
+
+  @doc "Unique request identifier."
+  @type RequestId :: String.t()
+
+  @doc "Request pattern for interception."
+  @type RequestPattern :: %{
+          interceptionStage: Network.InterceptionStage | nil,
+          resourceType: Network.ResourceType | nil,
+          urlPattern: String.t() | nil
+        }
+
+  @doc "Loading priority of a resource request."
+  @type ResourcePriority :: :VeryLow | :Low | :Medium | :High | :VeryHigh
+
+  @doc "Timing information for the request."
+  @type ResourceTiming :: %{
+          connectEnd: number(),
+          connectStart: number(),
+          dnsEnd: number(),
+          dnsStart: number(),
+          proxyEnd: number(),
+          proxyStart: number(),
+          pushEnd: number(),
+          pushStart: number(),
+          receiveHeadersEnd: number(),
+          receiveHeadersStart: number(),
+          requestTime: number(),
+          sendEnd: number(),
+          sendStart: number(),
+          sslEnd: number(),
+          sslStart: number(),
+          workerFetchStart: number(),
+          workerReady: number(),
+          workerRespondWithSettled: number(),
+          workerStart: number()
+        }
+
+  @doc "Resource type as it was perceived by the rendering engine."
+  @type ResourceType ::
+          :Document
+          | :Stylesheet
+          | :Image
+          | :Media
+          | :Font
+          | :Script
+          | :TextTrack
+          | :XHR
+          | :Fetch
+          | :Prefetch
+          | :EventSource
+          | :WebSocket
+          | :Manifest
+          | :SignedExchange
+          | :Ping
+          | :CSPViolationReport
+          | :Preflight
+          | :Other
+
+  @doc "HTTP response data."
+  @type Response :: %{
+          alternateProtocolUsage: Network.AlternateProtocolUsage | nil,
+          cacheStorageCacheName: String.t() | nil,
+          connectionId: number(),
+          connectionReused: boolean(),
+          encodedDataLength: number(),
+          fromDiskCache: boolean() | nil,
+          fromPrefetchCache: boolean() | nil,
+          fromServiceWorker: boolean() | nil,
+          headers: Network.Headers,
+          headersText: String.t() | nil,
+          mimeType: String.t(),
+          protocol: String.t() | nil,
+          remoteIPAddress: String.t() | nil,
+          remotePort: integer() | nil,
+          requestHeaders: Network.Headers | nil,
+          requestHeadersText: String.t() | nil,
+          responseTime: Network.TimeSinceEpoch | nil,
+          securityDetails: Network.SecurityDetails | nil,
+          securityState: Security.SecurityState,
+          serviceWorkerResponseSource: Network.ServiceWorkerResponseSource | nil,
+          status: integer(),
+          statusText: String.t(),
+          timing: Network.ResourceTiming | nil,
+          url: String.t()
+        }
+
+  @doc "Security details about a request."
+  @type SecurityDetails :: %{
+          certificateId: Security.CertificateId,
+          certificateTransparencyCompliance: Network.CertificateTransparencyCompliance,
+          cipher: String.t(),
+          encryptedClientHello: boolean(),
+          issuer: String.t(),
+          keyExchange: String.t(),
+          keyExchangeGroup: String.t() | nil,
+          mac: String.t() | nil,
+          protocol: String.t(),
+          sanList: list(String.t()),
+          serverSignatureAlgorithm: integer() | nil,
+          signedCertificateTimestampList: list(Network.SignedCertificateTimestamp),
+          subjectName: String.t(),
+          validFrom: Network.TimeSinceEpoch,
+          validTo: Network.TimeSinceEpoch
+        }
+
+  @doc "description not provided :("
+  @type SecurityIsolationStatus :: %{
+          coep: Network.CrossOriginEmbedderPolicyStatus | nil,
+          coop: Network.CrossOriginOpenerPolicyStatus | nil,
+          csp: list(Network.ContentSecurityPolicyStatus) | nil
+        }
+
+  @doc "Source of serviceworker response."
+  @type ServiceWorkerResponseSource ::
+          :"cache-storage" | :"http-cache" | :"fallback-code" | :network
+
+  @doc "Types of reasons why a cookie may not be stored from a response."
+  @type SetCookieBlockedReason ::
+          :SecureOnly
+          | :SameSiteStrict
+          | :SameSiteLax
+          | :SameSiteUnspecifiedTreatedAsLax
+          | :SameSiteNoneInsecure
+          | :UserPreferences
+          | :ThirdPartyBlockedInFirstPartySet
+          | :SyntaxError
+          | :SchemeNotSupported
+          | :OverwriteSecure
+          | :InvalidDomain
+          | :InvalidPrefix
+          | :UnknownError
+          | :SchemefulSameSiteStrict
+          | :SchemefulSameSiteLax
+          | :SchemefulSameSiteUnspecifiedTreatedAsLax
+          | :SamePartyFromCrossPartyContext
+          | :SamePartyConflictsWithOtherAttributes
+          | :NameValuePairExceedsMaxSize
+
+  @doc "Details of a signed certificate timestamp (SCT)."
+  @type SignedCertificateTimestamp :: %{
+          hashAlgorithm: String.t(),
+          logDescription: String.t(),
+          logId: String.t(),
+          origin: String.t(),
+          signatureAlgorithm: String.t(),
+          signatureData: String.t(),
+          status: String.t(),
+          timestamp: number()
+        }
+
+  @doc "Information about a signed exchange response."
+  @type SignedExchangeError :: %{
+          errorField: Network.SignedExchangeErrorField | nil,
+          message: String.t(),
+          signatureIndex: integer() | nil
+        }
+
+  @doc "Field type for a signed exchange related error."
+  @type SignedExchangeErrorField ::
+          :signatureSig
+          | :signatureIntegrity
+          | :signatureCertUrl
+          | :signatureCertSha256
+          | :signatureValidityUrl
+          | :signatureTimestamps
+
+  @doc "Information about a signed exchange header.
+https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#cbor-representation"
+  @type SignedExchangeHeader :: %{
+          headerIntegrity: String.t(),
+          requestUrl: String.t(),
+          responseCode: integer(),
+          responseHeaders: Network.Headers,
+          signatures: list(Network.SignedExchangeSignature)
+        }
+
+  @doc "Information about a signed exchange response."
+  @type SignedExchangeInfo :: %{
+          errors: list(Network.SignedExchangeError) | nil,
+          header: Network.SignedExchangeHeader | nil,
+          outerResponse: Network.Response,
+          securityDetails: Network.SecurityDetails | nil
+        }
+
+  @doc "Information about a signed exchange signature.
+https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#rfc.section.3.1"
+  @type SignedExchangeSignature :: %{
+          certSha256: String.t() | nil,
+          certUrl: String.t() | nil,
+          certificates: list(String.t()) | nil,
+          date: integer(),
+          expires: integer(),
+          integrity: String.t(),
+          label: String.t(),
+          signature: String.t(),
+          validityUrl: String.t()
+        }
+
+  @doc "UTC time in seconds, counted from January 1, 1970."
+  @type TimeSinceEpoch :: number()
+
+  @doc "description not provided :("
+  @type TrustTokenOperationType :: :Issuance | :Redemption | :Signing
+
+  @doc "Determines what type of Trust Token operation is executed and
+depending on the type, some additional parameters. The values
+are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
+  @type TrustTokenParams :: %{
+          issuers: list(String.t()) | nil,
+          operation: Network.TrustTokenOperationType,
+          refreshPolicy: :UseCached | :Refresh
+        }
+
+  @doc "WebSocket message data. This represents an entire WebSocket message, not just a fragmented frame as the name suggests."
+  @type WebSocketFrame :: %{
+          mask: boolean(),
+          opcode: number(),
+          payloadData: String.t()
+        }
+
+  @doc "WebSocket request data."
+  @type WebSocketRequest :: %{
+          headers: Network.Headers
+        }
+
+  @doc "WebSocket response data."
+  @type WebSocketResponse :: %{
+          headers: Network.Headers,
+          headersText: String.t() | nil,
+          requestHeaders: Network.Headers | nil,
+          requestHeadersText: String.t() | nil,
+          status: integer(),
+          statusText: String.t()
+        }
 
   @doc """
   Sets a list of content encodings that will be accepted. Empty list means no encoding is accepted.

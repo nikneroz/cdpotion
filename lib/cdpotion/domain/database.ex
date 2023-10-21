@@ -1,5 +1,21 @@
 defmodule CDPotion.Domain.Database do
   use CDPotion.Utils
+  @doc "Database object."
+  @type Database :: %{
+          domain: String.t(),
+          id: Database.DatabaseId,
+          name: String.t(),
+          version: String.t()
+        }
+
+  @doc "Unique identifier of Database object."
+  @type DatabaseId :: String.t()
+
+  @doc "Database error."
+  @type Error :: %{
+          code: integer(),
+          message: String.t()
+        }
 
   @doc """
   Disables database tracking, prevents database events from being sent to the client.

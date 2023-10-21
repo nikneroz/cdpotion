@@ -1,5 +1,44 @@
 defmodule CDPotion.Domain.ServiceWorker do
   use CDPotion.Utils
+  @doc "description not provided :("
+  @type RegistrationID :: String.t()
+
+  @doc "ServiceWorker error message."
+  @type ServiceWorkerErrorMessage :: %{
+          columnNumber: integer(),
+          errorMessage: String.t(),
+          lineNumber: integer(),
+          registrationId: ServiceWorker.RegistrationID,
+          sourceURL: String.t(),
+          versionId: String.t()
+        }
+
+  @doc "ServiceWorker registration."
+  @type ServiceWorkerRegistration :: %{
+          isDeleted: boolean(),
+          registrationId: ServiceWorker.RegistrationID,
+          scopeURL: String.t()
+        }
+
+  @doc "ServiceWorker version."
+  @type ServiceWorkerVersion :: %{
+          controlledClients: list(Target.TargetID) | nil,
+          registrationId: ServiceWorker.RegistrationID,
+          runningStatus: ServiceWorker.ServiceWorkerVersionRunningStatus,
+          scriptLastModified: number() | nil,
+          scriptResponseTime: number() | nil,
+          scriptURL: String.t(),
+          status: ServiceWorker.ServiceWorkerVersionStatus,
+          targetId: Target.TargetID | nil,
+          versionId: String.t()
+        }
+
+  @doc "description not provided :("
+  @type ServiceWorkerVersionRunningStatus :: :stopped | :starting | :running | :stopping
+
+  @doc "description not provided :("
+  @type ServiceWorkerVersionStatus ::
+          :new | :installing | :installed | :activating | :activated | :redundant
 
   @doc """
   ## Parameters:

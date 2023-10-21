@@ -1,5 +1,50 @@
 defmodule CDPotion.Domain.Profiler do
   use CDPotion.Utils
+  @doc "Coverage data for a source range."
+  @type CoverageRange :: %{
+          count: integer(),
+          endOffset: integer(),
+          startOffset: integer()
+        }
+
+  @doc "Coverage data for a JavaScript function."
+  @type FunctionCoverage :: %{
+          functionName: String.t(),
+          isBlockCoverage: boolean(),
+          ranges: list(Profiler.CoverageRange)
+        }
+
+  @doc "Specifies a number of samples attributed to a certain source position."
+  @type PositionTickInfo :: %{
+          line: integer(),
+          ticks: integer()
+        }
+
+  @doc "Profile."
+  @type Profile :: %{
+          endTime: number(),
+          nodes: list(Profiler.ProfileNode),
+          samples: list(integer()) | nil,
+          startTime: number(),
+          timeDeltas: list(integer()) | nil
+        }
+
+  @doc "Profile node. Holds callsite information, execution statistics and child nodes."
+  @type ProfileNode :: %{
+          callFrame: Runtime.CallFrame,
+          children: list(integer()) | nil,
+          deoptReason: String.t() | nil,
+          hitCount: integer() | nil,
+          id: integer(),
+          positionTicks: list(Profiler.PositionTickInfo) | nil
+        }
+
+  @doc "Coverage data for a JavaScript script."
+  @type ScriptCoverage :: %{
+          functions: list(Profiler.FunctionCoverage),
+          scriptId: Runtime.ScriptId,
+          url: String.t()
+        }
 
   @doc """
   """

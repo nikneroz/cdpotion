@@ -1,5 +1,266 @@
 defmodule CDPotion.Domain.Runtime do
   use CDPotion.Utils
+  @doc "Represents function call argument. Either remote object id `objectId`, primitive `value`,
+unserializable primitive value or neither of (for undefined) them should be specified."
+  @type CallArgument :: %{
+          objectId: Runtime.RemoteObjectId | nil,
+          unserializableValue: Runtime.UnserializableValue | nil,
+          value: any() | nil
+        }
+
+  @doc "Stack entry for runtime errors and assertions."
+  @type CallFrame :: %{
+          columnNumber: integer(),
+          functionName: String.t(),
+          lineNumber: integer(),
+          scriptId: Runtime.ScriptId,
+          url: String.t()
+        }
+
+  @doc "description not provided :("
+  @type CustomPreview :: %{
+          bodyGetterId: Runtime.RemoteObjectId | nil,
+          header: String.t()
+        }
+
+  @doc "Represents deep serialized value."
+  @type DeepSerializedValue :: %{
+          objectId: String.t() | nil,
+          type:
+            :undefined
+            | :null
+            | :string
+            | :number
+            | :boolean
+            | :bigint
+            | :regexp
+            | :date
+            | :symbol
+            | :array
+            | :object
+            | :function
+            | :map
+            | :set
+            | :weakmap
+            | :weakset
+            | :error
+            | :proxy
+            | :promise
+            | :typedarray
+            | :arraybuffer
+            | :node
+            | :window,
+          value: any() | nil,
+          weakLocalObjectReference: integer() | nil
+        }
+
+  @doc "description not provided :("
+  @type EntryPreview :: %{
+          key: Runtime.ObjectPreview | nil,
+          value: Runtime.ObjectPreview
+        }
+
+  @doc "Detailed information about exception (or error) that was thrown during script compilation or
+execution."
+  @type ExceptionDetails :: %{
+          columnNumber: integer(),
+          exception: Runtime.RemoteObject | nil,
+          exceptionId: integer(),
+          exceptionMetaData: map() | nil,
+          executionContextId: Runtime.ExecutionContextId | nil,
+          lineNumber: integer(),
+          scriptId: Runtime.ScriptId | nil,
+          stackTrace: Runtime.StackTrace | nil,
+          text: String.t(),
+          url: String.t() | nil
+        }
+
+  @doc "Description of an isolated world."
+  @type ExecutionContextDescription :: %{
+          auxData: map() | nil,
+          id: Runtime.ExecutionContextId,
+          name: String.t(),
+          origin: String.t(),
+          uniqueId: String.t()
+        }
+
+  @doc "Id of an execution context."
+  @type ExecutionContextId :: integer()
+
+  @doc "Object internal property descriptor. This property isn't normally visible in JavaScript code."
+  @type InternalPropertyDescriptor :: %{
+          name: String.t(),
+          value: Runtime.RemoteObject | nil
+        }
+
+  @doc "Object containing abbreviated remote object value."
+  @type ObjectPreview :: %{
+          description: String.t() | nil,
+          entries: list(Runtime.EntryPreview) | nil,
+          overflow: boolean(),
+          properties: list(Runtime.PropertyPreview),
+          subtype:
+            :array
+            | :null
+            | :node
+            | :regexp
+            | :date
+            | :map
+            | :set
+            | :weakmap
+            | :weakset
+            | :iterator
+            | :generator
+            | :error
+            | :proxy
+            | :promise
+            | :typedarray
+            | :arraybuffer
+            | :dataview
+            | :webassemblymemory
+            | :wasmvalue
+            | nil,
+          type:
+            :object | :function | :undefined | :string | :number | :boolean | :symbol | :bigint
+        }
+
+  @doc "Object private field descriptor."
+  @type PrivatePropertyDescriptor :: %{
+          get: Runtime.RemoteObject | nil,
+          name: String.t(),
+          set: Runtime.RemoteObject | nil,
+          value: Runtime.RemoteObject | nil
+        }
+
+  @doc "Object property descriptor."
+  @type PropertyDescriptor :: %{
+          configurable: boolean(),
+          enumerable: boolean(),
+          get: Runtime.RemoteObject | nil,
+          isOwn: boolean() | nil,
+          name: String.t(),
+          set: Runtime.RemoteObject | nil,
+          symbol: Runtime.RemoteObject | nil,
+          value: Runtime.RemoteObject | nil,
+          wasThrown: boolean() | nil,
+          writable: boolean() | nil
+        }
+
+  @doc "description not provided :("
+  @type PropertyPreview :: %{
+          name: String.t(),
+          subtype:
+            :array
+            | :null
+            | :node
+            | :regexp
+            | :date
+            | :map
+            | :set
+            | :weakmap
+            | :weakset
+            | :iterator
+            | :generator
+            | :error
+            | :proxy
+            | :promise
+            | :typedarray
+            | :arraybuffer
+            | :dataview
+            | :webassemblymemory
+            | :wasmvalue
+            | nil,
+          type:
+            :object
+            | :function
+            | :undefined
+            | :string
+            | :number
+            | :boolean
+            | :symbol
+            | :accessor
+            | :bigint,
+          value: String.t() | nil,
+          valuePreview: Runtime.ObjectPreview | nil
+        }
+
+  @doc "Mirror object referencing original JavaScript object."
+  @type RemoteObject :: %{
+          className: String.t() | nil,
+          customPreview: Runtime.CustomPreview | nil,
+          deepSerializedValue: Runtime.DeepSerializedValue | nil,
+          description: String.t() | nil,
+          objectId: Runtime.RemoteObjectId | nil,
+          preview: Runtime.ObjectPreview | nil,
+          subtype:
+            :array
+            | :null
+            | :node
+            | :regexp
+            | :date
+            | :map
+            | :set
+            | :weakmap
+            | :weakset
+            | :iterator
+            | :generator
+            | :error
+            | :proxy
+            | :promise
+            | :typedarray
+            | :arraybuffer
+            | :dataview
+            | :webassemblymemory
+            | :wasmvalue
+            | nil,
+          type:
+            :object | :function | :undefined | :string | :number | :boolean | :symbol | :bigint,
+          unserializableValue: Runtime.UnserializableValue | nil,
+          value: any() | nil,
+          webDriverValue: Runtime.DeepSerializedValue | nil
+        }
+
+  @doc "Unique object identifier."
+  @type RemoteObjectId :: String.t()
+
+  @doc "Unique script identifier."
+  @type ScriptId :: String.t()
+
+  @doc "Represents options for serialization. Overrides `generatePreview`, `returnByValue` and
+`generateWebDriverValue`."
+  @type SerializationOptions :: %{
+          additionalParameters: map() | nil,
+          maxDepth: integer() | nil,
+          serialization: :deep | :json | :idOnly
+        }
+
+  @doc "Call frames for assertions or error messages."
+  @type StackTrace :: %{
+          callFrames: list(Runtime.CallFrame),
+          description: String.t() | nil,
+          parent: Runtime.StackTrace | nil,
+          parentId: Runtime.StackTraceId | nil
+        }
+
+  @doc "If `debuggerId` is set stack trace comes from another debugger and can be resolved there. This
+allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.paused` for usages."
+  @type StackTraceId :: %{
+          debuggerId: Runtime.UniqueDebuggerId | nil,
+          id: String.t()
+        }
+
+  @doc "Number of milliseconds."
+  @type TimeDelta :: number()
+
+  @doc "Number of milliseconds since epoch."
+  @type Timestamp :: number()
+
+  @doc "Unique identifier of current debugger."
+  @type UniqueDebuggerId :: String.t()
+
+  @doc "Primitive value which cannot be JSON-stringified. Includes values `-0`, `NaN`, `Infinity`,
+`-Infinity`, and bigint literals."
+  @type UnserializableValue :: String.t()
 
   @doc """
   Add handler to promise with given promise object id.

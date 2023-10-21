@@ -1,5 +1,58 @@
 defmodule CDPotion.Domain.IndexedDB do
   use CDPotion.Utils
+  @doc "Data entry."
+  @type DataEntry :: %{
+          key: Runtime.RemoteObject,
+          primaryKey: Runtime.RemoteObject,
+          value: Runtime.RemoteObject
+        }
+
+  @doc "Database with an array of object stores."
+  @type DatabaseWithObjectStores :: %{
+          name: String.t(),
+          objectStores: list(IndexedDB.ObjectStore),
+          version: number()
+        }
+
+  @doc "Key."
+  @type Key :: %{
+          array: list(IndexedDB.Key) | nil,
+          date: number() | nil,
+          number: number() | nil,
+          string: String.t() | nil,
+          type: :number | :string | :date | :array
+        }
+
+  @doc "Key path."
+  @type KeyPath :: %{
+          array: list(String.t()) | nil,
+          string: String.t() | nil,
+          type: :null | :string | :array
+        }
+
+  @doc "Key range."
+  @type KeyRange :: %{
+          lower: IndexedDB.Key | nil,
+          lowerOpen: boolean(),
+          upper: IndexedDB.Key | nil,
+          upperOpen: boolean()
+        }
+
+  @doc "Object store."
+  @type ObjectStore :: %{
+          autoIncrement: boolean(),
+          indexes: list(IndexedDB.ObjectStoreIndex),
+          keyPath: IndexedDB.KeyPath,
+          name: String.t()
+        }
+
+  @doc "Object store index."
+  @type ObjectStoreIndex :: %{
+          keyPath: IndexedDB.KeyPath,
+          multiEntry: boolean(),
+          name: String.t(),
+          unique: boolean()
+        }
 
   @doc """
   Clears all entries from an object store.

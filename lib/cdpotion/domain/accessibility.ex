@@ -1,5 +1,142 @@
 defmodule CDPotion.Domain.Accessibility do
   use CDPotion.Utils
+  @doc "A node in the accessibility tree."
+  @type AXNode :: %{
+          backendDOMNodeId: DOM.BackendNodeId | nil,
+          childIds: list(Accessibility.AXNodeId) | nil,
+          chromeRole: Accessibility.AXValue | nil,
+          description: Accessibility.AXValue | nil,
+          frameId: Page.FrameId | nil,
+          ignored: boolean(),
+          ignoredReasons: list(Accessibility.AXProperty) | nil,
+          name: Accessibility.AXValue | nil,
+          nodeId: Accessibility.AXNodeId,
+          parentId: Accessibility.AXNodeId | nil,
+          properties: list(Accessibility.AXProperty) | nil,
+          role: Accessibility.AXValue | nil,
+          value: Accessibility.AXValue | nil
+        }
+
+  @doc "Unique accessibility node identifier."
+  @type AXNodeId :: String.t()
+
+  @doc "description not provided :("
+  @type AXProperty :: %{
+          name: Accessibility.AXPropertyName,
+          value: Accessibility.AXValue
+        }
+
+  @doc "Values of AXProperty name:
+- from 'busy' to 'roledescription': states which apply to every AX node
+- from 'live' to 'root': attributes which apply to nodes in live regions
+- from 'autocomplete' to 'valuetext': attributes which apply to widgets
+- from 'checked' to 'selected': states which apply to widgets
+- from 'activedescendant' to 'owns' - relationships between elements other than parent/child/sibling."
+  @type AXPropertyName ::
+          :busy
+          | :disabled
+          | :editable
+          | :focusable
+          | :focused
+          | :hidden
+          | :hiddenRoot
+          | :invalid
+          | :keyshortcuts
+          | :settable
+          | :roledescription
+          | :live
+          | :atomic
+          | :relevant
+          | :root
+          | :autocomplete
+          | :hasPopup
+          | :level
+          | :multiselectable
+          | :orientation
+          | :multiline
+          | :readonly
+          | :required
+          | :valuemin
+          | :valuemax
+          | :valuetext
+          | :checked
+          | :expanded
+          | :modal
+          | :pressed
+          | :selected
+          | :activedescendant
+          | :controls
+          | :describedby
+          | :details
+          | :errormessage
+          | :flowto
+          | :labelledby
+          | :owns
+
+  @doc "description not provided :("
+  @type AXRelatedNode :: %{
+          backendDOMNodeId: DOM.BackendNodeId,
+          idref: String.t() | nil,
+          text: String.t() | nil
+        }
+
+  @doc "A single computed AX property."
+  @type AXValue :: %{
+          relatedNodes: list(Accessibility.AXRelatedNode) | nil,
+          sources: list(Accessibility.AXValueSource) | nil,
+          type: Accessibility.AXValueType,
+          value: any() | nil
+        }
+
+  @doc "Enum of possible native property sources (as a subtype of a particular AXValueSourceType)."
+  @type AXValueNativeSourceType ::
+          :description
+          | :figcaption
+          | :label
+          | :labelfor
+          | :labelwrapped
+          | :legend
+          | :rubyannotation
+          | :tablecaption
+          | :title
+          | :other
+
+  @doc "A single source for a computed AX property."
+  @type AXValueSource :: %{
+          attribute: String.t() | nil,
+          attributeValue: Accessibility.AXValue | nil,
+          invalid: boolean() | nil,
+          invalidReason: String.t() | nil,
+          nativeSource: Accessibility.AXValueNativeSourceType | nil,
+          nativeSourceValue: Accessibility.AXValue | nil,
+          superseded: boolean() | nil,
+          type: Accessibility.AXValueSourceType,
+          value: Accessibility.AXValue | nil
+        }
+
+  @doc "Enum of possible property sources."
+  @type AXValueSourceType ::
+          :attribute | :implicit | :style | :contents | :placeholder | :relatedElement
+
+  @doc "Enum of possible property types."
+  @type AXValueType ::
+          :boolean
+          | :tristate
+          | :booleanOrUndefined
+          | :idref
+          | :idrefList
+          | :integer
+          | :node
+          | :nodeList
+          | :number
+          | :string
+          | :computedString
+          | :token
+          | :tokenList
+          | :domRelation
+          | :role
+          | :internalRole
+          | :valueUndefined
 
   @doc """
   Disables the accessibility domain.

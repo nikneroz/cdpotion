@@ -1,5 +1,45 @@
 defmodule CDPotion.Domain.Log do
   use CDPotion.Utils
+  @doc "Log entry."
+  @type LogEntry :: %{
+          args: list(Runtime.RemoteObject) | nil,
+          category: :cors | nil,
+          level: :verbose | :info | :warning | :error,
+          lineNumber: integer() | nil,
+          networkRequestId: Network.RequestId | nil,
+          source:
+            :xml
+            | :javascript
+            | :network
+            | :storage
+            | :appcache
+            | :rendering
+            | :security
+            | :deprecation
+            | :worker
+            | :violation
+            | :intervention
+            | :recommendation
+            | :other,
+          stackTrace: Runtime.StackTrace | nil,
+          text: String.t(),
+          timestamp: Runtime.Timestamp,
+          url: String.t() | nil,
+          workerId: String.t() | nil
+        }
+
+  @doc "Violation configuration setting."
+  @type ViolationSetting :: %{
+          name:
+            :longTask
+            | :longLayout
+            | :blockedEvent
+            | :blockedParser
+            | :discouragedAPIUse
+            | :handler
+            | :recurringHandler,
+          threshold: number()
+        }
 
   @doc """
   Clears the log.

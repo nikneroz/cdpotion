@@ -1,5 +1,44 @@
 defmodule CDPotion.Domain.Target do
   use CDPotion.Utils
+  @doc "A filter used by target query/discovery/auto-attach operations."
+  @type FilterEntry :: %{
+          exclude: boolean() | nil,
+          type: String.t() | nil
+        }
+
+  @doc "description not provided :("
+  @type RemoteLocation :: %{
+          host: String.t(),
+          port: integer()
+        }
+
+  @doc "Unique identifier of attached debugging session."
+  @type SessionID :: String.t()
+
+  @doc "The entries in TargetFilter are matched sequentially against targets and
+the first entry that matches determines if the target is included or not,
+depending on the value of `exclude` field in the entry.
+If filter is not specified, the one assumed is
+[{type: 'browser', exclude: true}, {type: 'tab', exclude: true}, {}]
+(i.e. include everything but `browser` and `tab`)."
+  @type TargetFilter :: list(FilterEntry)
+
+  @doc "description not provided :("
+  @type TargetID :: String.t()
+
+  @doc "description not provided :("
+  @type TargetInfo :: %{
+          attached: boolean(),
+          browserContextId: Browser.BrowserContextID | nil,
+          canAccessOpener: boolean(),
+          openerFrameId: Page.FrameId | nil,
+          openerId: Target.TargetID | nil,
+          subtype: String.t() | nil,
+          targetId: Target.TargetID,
+          title: String.t(),
+          type: String.t(),
+          url: String.t()
+        }
 
   @doc """
   Activates (focuses) the target.

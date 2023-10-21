@@ -1,5 +1,43 @@
 defmodule CDPotion.Domain.Input do
   use CDPotion.Utils
+  @doc "description not provided :("
+  @type DragData :: %{
+          dragOperationsMask: integer(),
+          files: list(String.t()) | nil,
+          items: list(Input.DragDataItem)
+        }
+
+  @doc "description not provided :("
+  @type DragDataItem :: %{
+          baseURL: String.t() | nil,
+          data: String.t(),
+          mimeType: String.t(),
+          title: String.t() | nil
+        }
+
+  @doc "description not provided :("
+  @type GestureSourceType :: :default | :touch | :mouse
+
+  @doc "description not provided :("
+  @type MouseButton :: :none | :left | :middle | :right | :back | :forward
+
+  @doc "UTC time in seconds, counted from January 1, 1970."
+  @type TimeSinceEpoch :: number()
+
+  @doc "description not provided :("
+  @type TouchPoint :: %{
+          force: number() | nil,
+          id: number() | nil,
+          radiusX: number() | nil,
+          radiusY: number() | nil,
+          rotationAngle: number() | nil,
+          tangentialPressure: number() | nil,
+          tiltX: integer() | nil,
+          tiltY: integer() | nil,
+          twist: integer() | nil,
+          x: number(),
+          y: number()
+        }
 
   @doc """
   Dispatches a drag event into the page.

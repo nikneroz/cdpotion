@@ -1,5 +1,24 @@
 defmodule CDPotion.Domain.Autofill do
   use CDPotion.Utils
+  @doc "description not provided :("
+  @type Address :: %{
+          fields: list(Autofill.AddressField)
+        }
+
+  @doc "description not provided :("
+  @type AddressField :: %{
+          name: String.t(),
+          value: String.t()
+        }
+
+  @doc "description not provided :("
+  @type CreditCard :: %{
+          cvc: String.t(),
+          expiryMonth: String.t(),
+          expiryYear: String.t(),
+          name: String.t(),
+          number: String.t()
+        }
 
   @doc """
   Trigger autofill on a form identified by the fieldId.

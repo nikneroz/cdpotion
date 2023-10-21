@@ -1,5 +1,11 @@
 defmodule CDPotion.Domain.HeadlessExperimental do
   use CDPotion.Utils
+  @doc "Encoding options for a screenshot."
+  @type ScreenshotParams :: %{
+          format: :jpeg | :png | :webp | nil,
+          optimizeForSpeed: boolean() | nil,
+          quality: integer() | nil
+        }
 
   @doc """
   Sends a BeginFrame to the target and returns when the frame was completed. Optionally captures a

@@ -1,5 +1,157 @@
 defmodule CDPotion.Domain.Overlay do
   use CDPotion.Utils
+  @doc "Style information for drawing a box."
+  @type BoxStyle :: %{
+          fillColor: DOM.RGBA | nil,
+          hatchColor: DOM.RGBA | nil
+        }
+
+  @doc "description not provided :("
+  @type ColorFormat :: :rgb | :hsl | :hwb | :hex
+
+  @doc "description not provided :("
+  @type ContainerQueryContainerHighlightConfig :: %{
+          containerBorder: Overlay.LineStyle | nil,
+          descendantBorder: Overlay.LineStyle | nil
+        }
+
+  @doc "description not provided :("
+  @type ContainerQueryHighlightConfig :: %{
+          containerQueryContainerHighlightConfig: Overlay.ContainerQueryContainerHighlightConfig,
+          nodeId: DOM.NodeId
+        }
+
+  @doc "description not provided :("
+  @type ContrastAlgorithm :: :aa | :aaa | :apca
+
+  @doc "Configuration data for the highlighting of Flex container elements."
+  @type FlexContainerHighlightConfig :: %{
+          columnGapSpace: Overlay.BoxStyle | nil,
+          containerBorder: Overlay.LineStyle | nil,
+          crossAlignment: Overlay.LineStyle | nil,
+          crossDistributedSpace: Overlay.BoxStyle | nil,
+          itemSeparator: Overlay.LineStyle | nil,
+          lineSeparator: Overlay.LineStyle | nil,
+          mainDistributedSpace: Overlay.BoxStyle | nil,
+          rowGapSpace: Overlay.BoxStyle | nil
+        }
+
+  @doc "Configuration data for the highlighting of Flex item elements."
+  @type FlexItemHighlightConfig :: %{
+          baseSizeBorder: Overlay.LineStyle | nil,
+          baseSizeBox: Overlay.BoxStyle | nil,
+          flexibilityArrow: Overlay.LineStyle | nil
+        }
+
+  @doc "description not provided :("
+  @type FlexNodeHighlightConfig :: %{
+          flexContainerHighlightConfig: Overlay.FlexContainerHighlightConfig,
+          nodeId: DOM.NodeId
+        }
+
+  @doc "Configuration data for the highlighting of Grid elements."
+  @type GridHighlightConfig :: %{
+          areaBorderColor: DOM.RGBA | nil,
+          cellBorderColor: DOM.RGBA | nil,
+          cellBorderDash: boolean() | nil,
+          columnGapColor: DOM.RGBA | nil,
+          columnHatchColor: DOM.RGBA | nil,
+          columnLineColor: DOM.RGBA | nil,
+          columnLineDash: boolean() | nil,
+          gridBackgroundColor: DOM.RGBA | nil,
+          gridBorderColor: DOM.RGBA | nil,
+          gridBorderDash: boolean() | nil,
+          rowGapColor: DOM.RGBA | nil,
+          rowHatchColor: DOM.RGBA | nil,
+          rowLineColor: DOM.RGBA | nil,
+          rowLineDash: boolean() | nil,
+          showAreaNames: boolean() | nil,
+          showGridExtensionLines: boolean() | nil,
+          showLineNames: boolean() | nil,
+          showNegativeLineNumbers: boolean() | nil,
+          showPositiveLineNumbers: boolean() | nil,
+          showTrackSizes: boolean() | nil
+        }
+
+  @doc "Configurations for Persistent Grid Highlight"
+  @type GridNodeHighlightConfig :: %{
+          gridHighlightConfig: Overlay.GridHighlightConfig,
+          nodeId: DOM.NodeId
+        }
+
+  @doc "Configuration data for the highlighting of page elements."
+  @type HighlightConfig :: %{
+          borderColor: DOM.RGBA | nil,
+          colorFormat: Overlay.ColorFormat | nil,
+          containerQueryContainerHighlightConfig:
+            Overlay.ContainerQueryContainerHighlightConfig | nil,
+          contentColor: DOM.RGBA | nil,
+          contrastAlgorithm: Overlay.ContrastAlgorithm | nil,
+          cssGridColor: DOM.RGBA | nil,
+          eventTargetColor: DOM.RGBA | nil,
+          flexContainerHighlightConfig: Overlay.FlexContainerHighlightConfig | nil,
+          flexItemHighlightConfig: Overlay.FlexItemHighlightConfig | nil,
+          gridHighlightConfig: Overlay.GridHighlightConfig | nil,
+          marginColor: DOM.RGBA | nil,
+          paddingColor: DOM.RGBA | nil,
+          shapeColor: DOM.RGBA | nil,
+          shapeMarginColor: DOM.RGBA | nil,
+          showAccessibilityInfo: boolean() | nil,
+          showExtensionLines: boolean() | nil,
+          showInfo: boolean() | nil,
+          showRulers: boolean() | nil,
+          showStyles: boolean() | nil
+        }
+
+  @doc "Configuration for dual screen hinge"
+  @type HingeConfig :: %{
+          contentColor: DOM.RGBA | nil,
+          outlineColor: DOM.RGBA | nil,
+          rect: DOM.Rect
+        }
+
+  @doc "description not provided :("
+  @type InspectMode ::
+          :searchForNode | :searchForUAShadowDOM | :captureAreaScreenshot | :showDistances | :none
+
+  @doc "description not provided :("
+  @type IsolatedElementHighlightConfig :: %{
+          isolationModeHighlightConfig: Overlay.IsolationModeHighlightConfig,
+          nodeId: DOM.NodeId
+        }
+
+  @doc "description not provided :("
+  @type IsolationModeHighlightConfig :: %{
+          maskColor: DOM.RGBA | nil,
+          resizerColor: DOM.RGBA | nil,
+          resizerHandleColor: DOM.RGBA | nil
+        }
+
+  @doc "Style information for drawing a line."
+  @type LineStyle :: %{
+          color: DOM.RGBA | nil,
+          pattern: :dashed | :dotted | nil
+        }
+
+  @doc "description not provided :("
+  @type ScrollSnapContainerHighlightConfig :: %{
+          scrollMarginColor: DOM.RGBA | nil,
+          scrollPaddingColor: DOM.RGBA | nil,
+          snapAreaBorder: Overlay.LineStyle | nil,
+          snapportBorder: Overlay.LineStyle | nil
+        }
+
+  @doc "description not provided :("
+  @type ScrollSnapHighlightConfig :: %{
+          nodeId: DOM.NodeId,
+          scrollSnapContainerHighlightConfig: Overlay.ScrollSnapContainerHighlightConfig
+        }
+
+  @doc "Configuration data for drawing the source order of an elements children."
+  @type SourceOrderConfig :: %{
+          childOutlineColor: DOM.RGBA,
+          parentOutlineColor: DOM.RGBA
+        }
 
   @doc """
   Disables domain notifications.

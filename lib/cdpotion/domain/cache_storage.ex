@@ -1,5 +1,43 @@
 defmodule CDPotion.Domain.CacheStorage do
   use CDPotion.Utils
+  @doc "Cache identifier."
+  @type Cache :: %{
+          cacheId: CacheStorage.CacheId,
+          cacheName: String.t(),
+          securityOrigin: String.t(),
+          storageBucket: Storage.StorageBucket | nil,
+          storageKey: String.t()
+        }
+
+  @doc "Unique identifier of the Cache object."
+  @type CacheId :: String.t()
+
+  @doc "Cached response"
+  @type CachedResponse :: %{
+          body: String.t()
+        }
+
+  @doc "type of HTTP response cached"
+  @type CachedResponseType ::
+          :basic | :cors | :default | :error | :opaqueResponse | :opaqueRedirect
+
+  @doc "Data entry."
+  @type DataEntry :: %{
+          requestHeaders: list(CacheStorage.Header),
+          requestMethod: String.t(),
+          requestURL: String.t(),
+          responseHeaders: list(CacheStorage.Header),
+          responseStatus: integer(),
+          responseStatusText: String.t(),
+          responseTime: number(),
+          responseType: CacheStorage.CachedResponseType
+        }
+
+  @doc "description not provided :("
+  @type Header :: %{
+          name: String.t(),
+          value: String.t()
+        }
 
   @doc """
   Deletes a cache.

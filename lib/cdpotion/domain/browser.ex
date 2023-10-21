@@ -1,5 +1,83 @@
 defmodule CDPotion.Domain.Browser do
   use CDPotion.Utils
+  @doc "Browser window bounds information"
+  @type Bounds :: %{
+          height: integer() | nil,
+          left: integer() | nil,
+          top: integer() | nil,
+          width: integer() | nil,
+          windowState: Browser.WindowState | nil
+        }
+
+  @doc "Browser command ids used by executeBrowserCommand."
+  @type BrowserCommandId :: :openTabSearch | :closeTabSearch
+
+  @doc "description not provided :("
+  @type BrowserContextID :: String.t()
+
+  @doc "Chrome histogram bucket."
+  @type Bucket :: %{
+          count: integer(),
+          high: integer(),
+          low: integer()
+        }
+
+  @doc "Chrome histogram."
+  @type Histogram :: %{
+          buckets: list(Browser.Bucket),
+          count: integer(),
+          name: String.t(),
+          sum: integer()
+        }
+
+  @doc "Definition of PermissionDescriptor defined in the Permissions API:
+https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
+  @type PermissionDescriptor :: %{
+          allowWithoutSanitization: boolean() | nil,
+          name: String.t(),
+          panTiltZoom: boolean() | nil,
+          sysex: boolean() | nil,
+          userVisibleOnly: boolean() | nil
+        }
+
+  @doc "description not provided :("
+  @type PermissionSetting :: :granted | :denied | :prompt
+
+  @doc "description not provided :("
+  @type PermissionType ::
+          :accessibilityEvents
+          | :audioCapture
+          | :backgroundSync
+          | :backgroundFetch
+          | :clipboardReadWrite
+          | :clipboardSanitizedWrite
+          | :displayCapture
+          | :durableStorage
+          | :flash
+          | :geolocation
+          | :idleDetection
+          | :localFonts
+          | :midi
+          | :midiSysex
+          | :nfc
+          | :notifications
+          | :paymentHandler
+          | :periodicBackgroundSync
+          | :protectedMediaIdentifier
+          | :sensors
+          | :storageAccess
+          | :topLevelStorageAccess
+          | :videoCapture
+          | :videoCapturePanTiltZoom
+          | :wakeLockScreen
+          | :wakeLockSystem
+          | :windowManagement
+
+  @doc "description not provided :("
+  @type WindowID :: integer()
+
+  @doc "The state of the browser window."
+  @type WindowState :: :normal | :minimized | :maximized | :fullscreen
 
   @doc """
   Set permission settings for given origin.

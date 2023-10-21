@@ -1,5 +1,54 @@
 defmodule CDPotion.Domain.LayerTree do
   use CDPotion.Utils
+  @doc "Information about a compositing layer."
+  @type Layer :: %{
+          anchorX: number() | nil,
+          anchorY: number() | nil,
+          anchorZ: number() | nil,
+          backendNodeId: DOM.BackendNodeId | nil,
+          drawsContent: boolean(),
+          height: number(),
+          invisible: boolean() | nil,
+          layerId: LayerTree.LayerId,
+          offsetX: number(),
+          offsetY: number(),
+          paintCount: integer(),
+          parentLayerId: LayerTree.LayerId | nil,
+          scrollRects: list(LayerTree.ScrollRect) | nil,
+          stickyPositionConstraint: LayerTree.StickyPositionConstraint | nil,
+          transform: list(number()) | nil,
+          width: number()
+        }
+
+  @doc "Unique Layer identifier."
+  @type LayerId :: String.t()
+
+  @doc "Array of timings, one per paint step."
+  @type PaintProfile :: list(number())
+
+  @doc "Serialized fragment of layer picture along with its offset within the layer."
+  @type PictureTile :: %{
+          picture: String.t(),
+          x: number(),
+          y: number()
+        }
+
+  @doc "Rectangle where scrolling happens on the main thread."
+  @type ScrollRect :: %{
+          rect: DOM.Rect,
+          type: :RepaintsOnScroll | :TouchEventHandler | :WheelEventHandler
+        }
+
+  @doc "Unique snapshot identifier."
+  @type SnapshotId :: String.t()
+
+  @doc "Sticky position constraints."
+  @type StickyPositionConstraint :: %{
+          containingBlockRect: DOM.Rect,
+          nearestLayerShiftingContainingBlock: LayerTree.LayerId | nil,
+          nearestLayerShiftingStickyBox: LayerTree.LayerId | nil,
+          stickyBoxRect: DOM.Rect
+        }
 
   @doc """
   Provides the reasons why the given layer was composited.

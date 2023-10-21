@@ -1,5 +1,91 @@
 defmodule CDPotion.Domain.Debugger do
   use CDPotion.Utils
+  @doc "description not provided :("
+  @type BreakLocation :: %{
+          columnNumber: integer() | nil,
+          lineNumber: integer(),
+          scriptId: Runtime.ScriptId,
+          type: :debuggerStatement | :call | :return | nil
+        }
+
+  @doc "Breakpoint identifier."
+  @type BreakpointId :: String.t()
+
+  @doc "JavaScript call frame. Array of call frames form the call stack."
+  @type CallFrame :: %{
+          callFrameId: Debugger.CallFrameId,
+          canBeRestarted: boolean() | nil,
+          functionLocation: Debugger.Location | nil,
+          functionName: String.t(),
+          location: Debugger.Location,
+          returnValue: Runtime.RemoteObject | nil,
+          scopeChain: list(Debugger.Scope),
+          this: Runtime.RemoteObject,
+          url: String.t()
+        }
+
+  @doc "Call frame identifier."
+  @type CallFrameId :: String.t()
+
+  @doc "Debug symbols available for a wasm script."
+  @type DebugSymbols :: %{
+          externalURL: String.t() | nil,
+          type: :None | :SourceMap | :EmbeddedDWARF | :ExternalDWARF
+        }
+
+  @doc "Location in the source code."
+  @type Location :: %{
+          columnNumber: integer() | nil,
+          lineNumber: integer(),
+          scriptId: Runtime.ScriptId
+        }
+
+  @doc "Location range within one script."
+  @type LocationRange :: %{
+          end: Debugger.ScriptPosition,
+          scriptId: Runtime.ScriptId,
+          start: Debugger.ScriptPosition
+        }
+
+  @doc "Scope description."
+  @type Scope :: %{
+          endLocation: Debugger.Location | nil,
+          name: String.t() | nil,
+          object: Runtime.RemoteObject,
+          startLocation: Debugger.Location | nil,
+          type:
+            :global
+            | :local
+            | :with
+            | :closure
+            | :catch
+            | :block
+            | :script
+            | :eval
+            | :module
+            | :"wasm-expression-stack"
+        }
+
+  @doc "Enum of possible script languages."
+  @type ScriptLanguage :: :JavaScript | :WebAssembly
+
+  @doc "Location in the source code."
+  @type ScriptPosition :: %{
+          columnNumber: integer(),
+          lineNumber: integer()
+        }
+
+  @doc "Search match for resource."
+  @type SearchMatch :: %{
+          lineContent: String.t(),
+          lineNumber: number()
+        }
+
+  @doc "description not provided :("
+  @type WasmDisassemblyChunk :: %{
+          bytecodeOffsets: list(integer()),
+          lines: list(String.t())
+        }
 
   @doc """
   Continues execution until specific location is reached.

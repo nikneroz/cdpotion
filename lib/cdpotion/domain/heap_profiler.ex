@@ -1,5 +1,28 @@
 defmodule CDPotion.Domain.HeapProfiler do
   use CDPotion.Utils
+  @doc "Heap snapshot object id."
+  @type HeapSnapshotObjectId :: String.t()
+
+  @doc "Sampling profile."
+  @type SamplingHeapProfile :: %{
+          head: HeapProfiler.SamplingHeapProfileNode,
+          samples: list(HeapProfiler.SamplingHeapProfileSample)
+        }
+
+  @doc "Sampling Heap Profile node. Holds callsite information, allocation statistics and child nodes."
+  @type SamplingHeapProfileNode :: %{
+          callFrame: Runtime.CallFrame,
+          children: list(HeapProfiler.SamplingHeapProfileNode),
+          id: integer(),
+          selfSize: number()
+        }
+
+  @doc "A single sample from a sampling profile."
+  @type SamplingHeapProfileSample :: %{
+          nodeId: integer(),
+          ordinal: number(),
+          size: number()
+        }
 
   @doc """
   Enables console to refer to the node with given id via $x (see Command Line API for more details

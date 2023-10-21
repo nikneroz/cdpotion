@@ -1,5 +1,10 @@
 defmodule CDPotion.Domain.Performance do
   use CDPotion.Utils
+  @doc "Run-time execution metric."
+  @type Metric :: %{
+          name: String.t(),
+          value: number()
+        }
 
   @doc """
   Disable collecting and reporting metrics.

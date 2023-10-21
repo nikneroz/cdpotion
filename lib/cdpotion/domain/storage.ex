@@ -1,5 +1,192 @@
 defmodule CDPotion.Domain.Storage do
   use CDPotion.Utils
+  @doc "description not provided :("
+  @type AttributionReportingAggregationKeysEntry :: %{
+          key: String.t(),
+          value: Storage.UnsignedInt128AsBase16
+        }
+
+  @doc "description not provided :("
+  @type AttributionReportingFilterDataEntry :: %{
+          key: String.t(),
+          values: list(String.t())
+        }
+
+  @doc "description not provided :("
+  @type AttributionReportingSourceRegistration :: %{
+          aggregatableReportWindow: integer() | nil,
+          aggregationKeys: list(Storage.AttributionReportingAggregationKeysEntry),
+          debugKey: Storage.UnsignedInt64AsBase10 | nil,
+          destinationSites: list(String.t()),
+          eventId: Storage.UnsignedInt64AsBase10,
+          eventReportWindow: integer() | nil,
+          expiry: integer() | nil,
+          filterData: list(Storage.AttributionReportingFilterDataEntry),
+          priority: Storage.SignedInt64AsBase10,
+          reportingOrigin: String.t(),
+          sourceOrigin: String.t(),
+          time: Network.TimeSinceEpoch,
+          type: Storage.AttributionReportingSourceType
+        }
+
+  @doc "description not provided :("
+  @type AttributionReportingSourceRegistrationResult ::
+          :success
+          | :internalError
+          | :insufficientSourceCapacity
+          | :insufficientUniqueDestinationCapacity
+          | :excessiveReportingOrigins
+          | :prohibitedByBrowserPolicy
+          | :successNoised
+          | :destinationReportingLimitReached
+          | :destinationGlobalLimitReached
+          | :destinationBothLimitsReached
+          | :reportingOriginsPerSiteLimitReached
+
+  @doc "description not provided :("
+  @type AttributionReportingSourceType :: :navigation | :event
+
+  @doc "Enum of interest group access types."
+  @type InterestGroupAccessType :: :join | :leave | :update | :loaded | :bid | :win
+
+  @doc "Ad advertising element inside an interest group."
+  @type InterestGroupAd :: %{
+          metadata: String.t() | nil,
+          renderUrl: String.t()
+        }
+
+  @doc "The full details of an interest group."
+  @type InterestGroupDetails :: %{
+          adComponents: list(Storage.InterestGroupAd),
+          ads: list(Storage.InterestGroupAd),
+          biddingUrl: String.t() | nil,
+          biddingWasmHelperUrl: String.t() | nil,
+          expirationTime: Network.TimeSinceEpoch,
+          joiningOrigin: String.t(),
+          name: String.t(),
+          ownerOrigin: String.t(),
+          trustedBiddingSignalsKeys: list(String.t()),
+          trustedBiddingSignalsUrl: String.t() | nil,
+          updateUrl: String.t() | nil,
+          userBiddingSignals: String.t() | nil
+        }
+
+  @doc "description not provided :("
+  @type SerializedStorageKey :: String.t()
+
+  @doc "Bundles the parameters for shared storage access events whose
+presence/absence can vary according to SharedStorageAccessType."
+  @type SharedStorageAccessParams :: %{
+          ignoreIfPresent: boolean() | nil,
+          key: String.t() | nil,
+          operationName: String.t() | nil,
+          scriptSourceUrl: String.t() | nil,
+          serializedData: String.t() | nil,
+          urlsWithMetadata: list(Storage.SharedStorageUrlWithMetadata) | nil,
+          value: String.t() | nil
+        }
+
+  @doc "Enum of shared storage access types."
+  @type SharedStorageAccessType ::
+          :documentAddModule
+          | :documentSelectURL
+          | :documentRun
+          | :documentSet
+          | :documentAppend
+          | :documentDelete
+          | :documentClear
+          | :workletSet
+          | :workletAppend
+          | :workletDelete
+          | :workletClear
+          | :workletGet
+          | :workletKeys
+          | :workletEntries
+          | :workletLength
+          | :workletRemainingBudget
+
+  @doc "Struct for a single key-value pair in an origin's shared storage."
+  @type SharedStorageEntry :: %{
+          key: String.t(),
+          value: String.t()
+        }
+
+  @doc "Details for an origin's shared storage."
+  @type SharedStorageMetadata :: %{
+          creationTime: Network.TimeSinceEpoch,
+          length: integer(),
+          remainingBudget: number()
+        }
+
+  @doc "Pair of reporting metadata details for a candidate URL for `selectURL()`."
+  @type SharedStorageReportingMetadata :: %{
+          eventType: String.t(),
+          reportingUrl: String.t()
+        }
+
+  @doc "Bundles a candidate URL with its reporting metadata."
+  @type SharedStorageUrlWithMetadata :: %{
+          reportingMetadata: list(Storage.SharedStorageReportingMetadata),
+          url: String.t()
+        }
+
+  @doc "description not provided :("
+  @type SignedInt64AsBase10 :: String.t()
+
+  @doc "description not provided :("
+  @type StorageBucket :: %{
+          name: String.t() | nil,
+          storageKey: Storage.SerializedStorageKey
+        }
+
+  @doc "description not provided :("
+  @type StorageBucketInfo :: %{
+          bucket: Storage.StorageBucket,
+          durability: Storage.StorageBucketsDurability,
+          expiration: Network.TimeSinceEpoch,
+          id: String.t(),
+          persistent: boolean(),
+          quota: number()
+        }
+
+  @doc "description not provided :("
+  @type StorageBucketsDurability :: :relaxed | :strict
+
+  @doc "Enum of possible storage types."
+  @type StorageType ::
+          :appcache
+          | :cookies
+          | :file_systems
+          | :indexeddb
+          | :local_storage
+          | :shader_cache
+          | :websql
+          | :service_workers
+          | :cache_storage
+          | :interest_groups
+          | :shared_storage
+          | :storage_buckets
+          | :all
+          | :other
+
+  @doc "Pair of issuer origin and number of available (signed, but not used) Trust
+Tokens from that issuer."
+  @type TrustTokens :: %{
+          count: number(),
+          issuerOrigin: String.t()
+        }
+
+  @doc "description not provided :("
+  @type UnsignedInt128AsBase16 :: String.t()
+
+  @doc "description not provided :("
+  @type UnsignedInt64AsBase10 :: String.t()
+
+  @doc "Usage for a storage type."
+  @type UsageForType :: %{
+          storageType: Storage.StorageType,
+          usage: number()
+        }
 
   @doc """
   Returns a storage key given a frame id.

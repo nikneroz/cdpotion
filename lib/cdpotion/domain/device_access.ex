@@ -1,5 +1,16 @@
 defmodule CDPotion.Domain.DeviceAccess do
   use CDPotion.Utils
+  @doc "A device id."
+  @type DeviceId :: String.t()
+
+  @doc "Device information displayed in a user prompt to select a device."
+  @type PromptDevice :: %{
+          id: DeviceAccess.DeviceId,
+          name: String.t()
+        }
+
+  @doc "Device request id."
+  @type RequestId :: String.t()
 
   @doc """
   Enable events in this domain.

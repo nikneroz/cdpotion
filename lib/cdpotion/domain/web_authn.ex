@@ -1,5 +1,42 @@
 defmodule CDPotion.Domain.WebAuthn do
   use CDPotion.Utils
+  @doc "description not provided :("
+  @type AuthenticatorId :: String.t()
+
+  @doc "description not provided :("
+  @type AuthenticatorProtocol :: :u2f | :ctap2
+
+  @doc "description not provided :("
+  @type AuthenticatorTransport :: :usb | :nfc | :ble | :cable | :internal
+
+  @doc "description not provided :("
+  @type Credential :: %{
+          credentialId: String.t(),
+          isResidentCredential: boolean(),
+          largeBlob: String.t() | nil,
+          privateKey: String.t(),
+          rpId: String.t() | nil,
+          signCount: integer(),
+          userHandle: String.t() | nil
+        }
+
+  @doc "description not provided :("
+  @type Ctap2Version :: :ctap2_0 | :ctap2_1
+
+  @doc "description not provided :("
+  @type VirtualAuthenticatorOptions :: %{
+          automaticPresenceSimulation: boolean() | nil,
+          ctap2Version: WebAuthn.Ctap2Version | nil,
+          hasCredBlob: boolean() | nil,
+          hasLargeBlob: boolean() | nil,
+          hasMinPinLength: boolean() | nil,
+          hasPrf: boolean() | nil,
+          hasResidentKey: boolean() | nil,
+          hasUserVerification: boolean() | nil,
+          isUserVerified: boolean() | nil,
+          protocol: WebAuthn.AuthenticatorProtocol,
+          transport: WebAuthn.AuthenticatorTransport
+        }
 
   @doc """
   Enable the WebAuthn domain and start intercepting credential storage and

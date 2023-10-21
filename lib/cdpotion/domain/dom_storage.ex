@@ -1,5 +1,17 @@
 defmodule CDPotion.Domain.DOMStorage do
   use CDPotion.Utils
+  @doc "DOM Storage item."
+  @type Item :: list(String.t())
+
+  @doc "description not provided :("
+  @type SerializedStorageKey :: String.t()
+
+  @doc "DOM Storage identifier."
+  @type StorageId :: %{
+          isLocalStorage: boolean(),
+          securityOrigin: String.t() | nil,
+          storageKey: DOMStorage.SerializedStorageKey | nil
+        }
 
   @doc """
   ## Parameters:

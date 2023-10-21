@@ -1,5 +1,137 @@
 defmodule CDPotion.Domain.DOM do
   use CDPotion.Utils
+  @doc "Backend node with a friendly name."
+  @type BackendNode :: %{
+          backendNodeId: DOM.BackendNodeId,
+          nodeName: String.t(),
+          nodeType: integer()
+        }
+
+  @doc "Unique DOM node identifier used to reference a node that may not have been pushed to the
+front-end."
+  @type BackendNodeId :: integer()
+
+  @doc "Box model."
+  @type BoxModel :: %{
+          border: DOM.Quad,
+          content: DOM.Quad,
+          height: integer(),
+          margin: DOM.Quad,
+          padding: DOM.Quad,
+          shapeOutside: DOM.ShapeOutsideInfo | nil,
+          width: integer()
+        }
+
+  @doc "description not provided :("
+  @type CSSComputedStyleProperty :: %{
+          name: String.t(),
+          value: String.t()
+        }
+
+  @doc "Document compatibility mode."
+  @type CompatibilityMode :: :QuirksMode | :LimitedQuirksMode | :NoQuirksMode
+
+  @doc "ContainerSelector logical axes"
+  @type LogicalAxes :: :Inline | :Block | :Both
+
+  @doc "DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes.
+DOMNode is a base node mirror type."
+  @type Node :: %{
+          assignedSlot: DOM.BackendNode | nil,
+          attributes: list(String.t()) | nil,
+          backendNodeId: DOM.BackendNodeId,
+          baseURL: String.t() | nil,
+          childNodeCount: integer() | nil,
+          children: list(DOM.Node) | nil,
+          compatibilityMode: DOM.CompatibilityMode | nil,
+          contentDocument: DOM.Node | nil,
+          distributedNodes: list(DOM.BackendNode) | nil,
+          documentURL: String.t() | nil,
+          frameId: Page.FrameId | nil,
+          importedDocument: DOM.Node | nil,
+          internalSubset: String.t() | nil,
+          isSVG: boolean() | nil,
+          localName: String.t(),
+          name: String.t() | nil,
+          nodeId: DOM.NodeId,
+          nodeName: String.t(),
+          nodeType: integer(),
+          nodeValue: String.t(),
+          parentId: DOM.NodeId | nil,
+          pseudoElements: list(DOM.Node) | nil,
+          pseudoIdentifier: String.t() | nil,
+          pseudoType: DOM.PseudoType | nil,
+          publicId: String.t() | nil,
+          shadowRootType: DOM.ShadowRootType | nil,
+          shadowRoots: list(DOM.Node) | nil,
+          systemId: String.t() | nil,
+          templateContent: DOM.Node | nil,
+          value: String.t() | nil,
+          xmlVersion: String.t() | nil
+        }
+
+  @doc "Unique DOM node identifier."
+  @type NodeId :: integer()
+
+  @doc "ContainerSelector physical axes"
+  @type PhysicalAxes :: :Horizontal | :Vertical | :Both
+
+  @doc "Pseudo element type."
+  @type PseudoType ::
+          :"first-line"
+          | :"first-letter"
+          | :before
+          | :after
+          | :marker
+          | :backdrop
+          | :selection
+          | :"target-text"
+          | :"spelling-error"
+          | :"grammar-error"
+          | :highlight
+          | :"first-line-inherited"
+          | :scrollbar
+          | :"scrollbar-thumb"
+          | :"scrollbar-button"
+          | :"scrollbar-track"
+          | :"scrollbar-track-piece"
+          | :"scrollbar-corner"
+          | :resizer
+          | :"input-list-button"
+          | :"view-transition"
+          | :"view-transition-group"
+          | :"view-transition-image-pair"
+          | :"view-transition-old"
+          | :"view-transition-new"
+
+  @doc "An array of quad vertices, x immediately followed by y for each point, points clock-wise."
+  @type Quad :: list(number())
+
+  @doc "A structure holding an RGBA color."
+  @type RGBA :: %{
+          a: number() | nil,
+          b: integer(),
+          g: integer(),
+          r: integer()
+        }
+
+  @doc "Rectangle."
+  @type Rect :: %{
+          height: number(),
+          width: number(),
+          x: number(),
+          y: number()
+        }
+
+  @doc "Shadow root type."
+  @type ShadowRootType :: :"user-agent" | :open | :closed
+
+  @doc "CSS Shape Outside details."
+  @type ShapeOutsideInfo :: %{
+          bounds: DOM.Quad,
+          marginShape: list(any()),
+          shape: list(any())
+        }
 
   @doc """
   Collects class names for the node with given id and all of it's child nodes.

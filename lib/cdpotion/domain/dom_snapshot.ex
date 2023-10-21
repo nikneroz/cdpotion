@@ -1,5 +1,156 @@
 defmodule CDPotion.Domain.DOMSnapshot do
   use CDPotion.Utils
+  @doc "Index of the string in the strings table."
+  @type ArrayOfStrings :: list(StringIndex)
+
+  @doc "A subset of the full ComputedStyle as defined by the request whitelist."
+  @type ComputedStyle :: %{
+          properties: list(DOMSnapshot.NameValue)
+        }
+
+  @doc "A Node in the DOM tree."
+  @type DOMNode :: %{
+          attributes: list(DOMSnapshot.NameValue) | nil,
+          backendNodeId: DOM.BackendNodeId,
+          baseURL: String.t() | nil,
+          childNodeIndexes: list(integer()) | nil,
+          contentDocumentIndex: integer() | nil,
+          contentLanguage: String.t() | nil,
+          currentSourceURL: String.t() | nil,
+          documentEncoding: String.t() | nil,
+          documentURL: String.t() | nil,
+          eventListeners: list(DOMDebugger.EventListener) | nil,
+          frameId: Page.FrameId | nil,
+          inputChecked: boolean() | nil,
+          inputValue: String.t() | nil,
+          isClickable: boolean() | nil,
+          layoutNodeIndex: integer() | nil,
+          nodeName: String.t(),
+          nodeType: integer(),
+          nodeValue: String.t(),
+          optionSelected: boolean() | nil,
+          originURL: String.t() | nil,
+          pseudoElementIndexes: list(integer()) | nil,
+          pseudoType: DOM.PseudoType | nil,
+          publicId: String.t() | nil,
+          scrollOffsetX: number() | nil,
+          scrollOffsetY: number() | nil,
+          shadowRootType: DOM.ShadowRootType | nil,
+          systemId: String.t() | nil,
+          textValue: String.t() | nil
+        }
+
+  @doc "Document snapshot."
+  @type DocumentSnapshot :: %{
+          baseURL: DOMSnapshot.StringIndex,
+          contentHeight: number() | nil,
+          contentLanguage: DOMSnapshot.StringIndex,
+          contentWidth: number() | nil,
+          documentURL: DOMSnapshot.StringIndex,
+          encodingName: DOMSnapshot.StringIndex,
+          frameId: DOMSnapshot.StringIndex,
+          layout: DOMSnapshot.LayoutTreeSnapshot,
+          nodes: DOMSnapshot.NodeTreeSnapshot,
+          publicId: DOMSnapshot.StringIndex,
+          scrollOffsetX: number() | nil,
+          scrollOffsetY: number() | nil,
+          systemId: DOMSnapshot.StringIndex,
+          textBoxes: DOMSnapshot.TextBoxSnapshot,
+          title: DOMSnapshot.StringIndex
+        }
+
+  @doc "Details of post layout rendered text positions. The exact layout should not be regarded as
+stable and may change between versions."
+  @type InlineTextBox :: %{
+          boundingBox: DOM.Rect,
+          numCharacters: integer(),
+          startCharacterIndex: integer()
+        }
+
+  @doc "Details of an element in the DOM tree with a LayoutObject."
+  @type LayoutTreeNode :: %{
+          boundingBox: DOM.Rect,
+          domNodeIndex: integer(),
+          inlineTextNodes: list(DOMSnapshot.InlineTextBox) | nil,
+          isStackingContext: boolean() | nil,
+          layoutText: String.t() | nil,
+          paintOrder: integer() | nil,
+          styleIndex: integer() | nil
+        }
+
+  @doc "Table of details of an element in the DOM tree with a LayoutObject."
+  @type LayoutTreeSnapshot :: %{
+          blendedBackgroundColors: list(DOMSnapshot.StringIndex) | nil,
+          bounds: list(DOMSnapshot.Rectangle),
+          clientRects: list(DOMSnapshot.Rectangle) | nil,
+          nodeIndex: list(integer()),
+          offsetRects: list(DOMSnapshot.Rectangle) | nil,
+          paintOrders: list(integer()) | nil,
+          scrollRects: list(DOMSnapshot.Rectangle) | nil,
+          stackingContexts: DOMSnapshot.RareBooleanData,
+          styles: list(DOMSnapshot.ArrayOfStrings),
+          text: list(DOMSnapshot.StringIndex),
+          textColorOpacities: list(number()) | nil
+        }
+
+  @doc "A name/value pair."
+  @type NameValue :: %{
+          name: String.t(),
+          value: String.t()
+        }
+
+  @doc "Table containing nodes."
+  @type NodeTreeSnapshot :: %{
+          attributes: list(DOMSnapshot.ArrayOfStrings) | nil,
+          backendNodeId: list(DOM.BackendNodeId) | nil,
+          contentDocumentIndex: DOMSnapshot.RareIntegerData | nil,
+          currentSourceURL: DOMSnapshot.RareStringData | nil,
+          inputChecked: DOMSnapshot.RareBooleanData | nil,
+          inputValue: DOMSnapshot.RareStringData | nil,
+          isClickable: DOMSnapshot.RareBooleanData | nil,
+          nodeName: list(DOMSnapshot.StringIndex) | nil,
+          nodeType: list(integer()) | nil,
+          nodeValue: list(DOMSnapshot.StringIndex) | nil,
+          optionSelected: DOMSnapshot.RareBooleanData | nil,
+          originURL: DOMSnapshot.RareStringData | nil,
+          parentIndex: list(integer()) | nil,
+          pseudoIdentifier: DOMSnapshot.RareStringData | nil,
+          pseudoType: DOMSnapshot.RareStringData | nil,
+          shadowRootType: DOMSnapshot.RareStringData | nil,
+          textValue: DOMSnapshot.RareStringData | nil
+        }
+
+  @doc "description not provided :("
+  @type RareBooleanData :: %{
+          index: list(integer())
+        }
+
+  @doc "description not provided :("
+  @type RareIntegerData :: %{
+          index: list(integer()),
+          value: list(integer())
+        }
+
+  @doc "Data that is only present on rare nodes."
+  @type RareStringData :: %{
+          index: list(integer()),
+          value: list(DOMSnapshot.StringIndex)
+        }
+
+  @doc "description not provided :("
+  @type Rectangle :: list(number())
+
+  @doc "Index of the string in the strings table."
+  @type StringIndex :: integer()
+
+  @doc "Table of details of the post layout rendered text positions. The exact layout should not be regarded as
+stable and may change between versions."
+  @type TextBoxSnapshot :: %{
+          bounds: list(DOMSnapshot.Rectangle),
+          layoutIndex: list(integer()),
+          length: list(integer()),
+          start: list(integer())
+        }
 
   @doc """
   Disables DOM snapshot agent for the given page.

@@ -1,5 +1,11 @@
 defmodule CDPotion.Domain.Cast do
   use CDPotion.Utils
+  @doc "description not provided :("
+  @type Sink :: %{
+          id: String.t(),
+          name: String.t(),
+          session: String.t() | nil
+        }
 
   @doc """
   Starts observing for sinks that can be used for tab mirroring, and if set,

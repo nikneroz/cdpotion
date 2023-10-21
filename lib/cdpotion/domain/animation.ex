@@ -1,5 +1,44 @@
 defmodule CDPotion.Domain.Animation do
   use CDPotion.Utils
+  @doc "Animation instance."
+  @type Animation :: %{
+          cssId: String.t() | nil,
+          currentTime: number(),
+          id: String.t(),
+          name: String.t(),
+          pausedState: boolean(),
+          playState: String.t(),
+          playbackRate: number(),
+          source: Animation.AnimationEffect | nil,
+          startTime: number(),
+          type: :CSSTransition | :CSSAnimation | :WebAnimation
+        }
+
+  @doc "AnimationEffect instance"
+  @type AnimationEffect :: %{
+          backendNodeId: DOM.BackendNodeId | nil,
+          delay: number(),
+          direction: String.t(),
+          duration: number(),
+          easing: String.t(),
+          endDelay: number(),
+          fill: String.t(),
+          iterationStart: number(),
+          iterations: number(),
+          keyframesRule: Animation.KeyframesRule | nil
+        }
+
+  @doc "Keyframe Style"
+  @type KeyframeStyle :: %{
+          easing: String.t(),
+          offset: String.t()
+        }
+
+  @doc "Keyframes Rule"
+  @type KeyframesRule :: %{
+          keyframes: list(Animation.KeyframeStyle),
+          name: String.t() | nil
+        }
 
   @doc """
   Disables animation domain notifications.

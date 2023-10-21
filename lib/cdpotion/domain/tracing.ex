@@ -1,5 +1,44 @@
 defmodule CDPotion.Domain.Tracing do
   use CDPotion.Utils
+  @doc "Configuration for memory dump. Used only when 'memory-infra' category is enabled."
+  @type MemoryDumpConfig :: map()
+
+  @doc "Details exposed when memory request explicitly declared.
+Keep consistent with memory_dump_request_args.h and
+memory_instrumentation.mojom"
+  @type MemoryDumpLevelOfDetail :: :background | :light | :detailed
+
+  @doc "Compression type to use for traces returned via streams."
+  @type StreamCompression :: :none | :gzip
+
+  @doc "Data format of a trace. Can be either the legacy JSON format or the
+protocol buffer format. Note that the JSON format will be deprecated soon."
+  @type StreamFormat :: :json | :proto
+
+  @doc "description not provided :("
+  @type TraceConfig :: %{
+          enableArgumentFilter: boolean() | nil,
+          enableSampling: boolean() | nil,
+          enableSystrace: boolean() | nil,
+          excludedCategories: list(String.t()) | nil,
+          includedCategories: list(String.t()) | nil,
+          memoryDumpConfig: Tracing.MemoryDumpConfig | nil,
+          recordMode:
+            :recordUntilFull
+            | :recordContinuously
+            | :recordAsMuchAsPossible
+            | :echoToConsole
+            | nil,
+          syntheticDelays: list(String.t()) | nil,
+          traceBufferSizeInKb: number() | nil
+        }
+
+  @doc "Backend type to use for tracing. `chrome` uses the Chrome-integrated
+tracing service and is supported on all platforms. `system` is only
+supported on Chrome OS and uses the Perfetto system tracing service.
+`auto` chooses `system` when the perfettoConfig provided to Tracing.start
+specifies at least one non-Chrome data source; otherwise uses `chrome`."
+  @type TracingBackend :: :auto | :chrome | :system
 
   @doc """
   Stop trace events collection.

@@ -1,21 +1,21 @@
 defmodule CDPotion.Domain.DOMDebugger do
   use CDPotion.Utils
-  @doc "CSP Violation type."
-  @type CSPViolationType :: :"trustedtype-sink-violation" | :"trustedtype-policy-violation"
+  @typedoc "CSP Violation type."
+  @type csp_violation_type :: :"trustedtype-sink-violation" | :"trustedtype-policy-violation"
 
-  @doc "DOM breakpoint type."
-  @type DOMBreakpointType :: :"subtree-modified" | :"attribute-modified" | :"node-removed"
+  @typedoc "DOM breakpoint type."
+  @type dom_breakpoint_type :: :"subtree-modified" | :"attribute-modified" | :"node-removed"
 
-  @doc "Object event listener."
-  @type EventListener :: %{
-          backendNodeId: DOM.BackendNodeId | nil,
+  @typedoc "Object event listener."
+  @type event_listener :: %{
+          backendNodeId: CDPotion.Domain.DOM.backend_node_id() | nil,
           columnNumber: integer(),
-          handler: Runtime.RemoteObject | nil,
+          handler: CDPotion.Domain.Runtime.remote_object() | nil,
           lineNumber: integer(),
           once: boolean(),
-          originalHandler: Runtime.RemoteObject | nil,
+          originalHandler: CDPotion.Domain.Runtime.remote_object() | nil,
           passive: boolean(),
-          scriptId: Runtime.ScriptId,
+          scriptId: CDPotion.Domain.Runtime.script_id(),
           type: String.t(),
           useCapture: boolean()
         }

@@ -1,17 +1,17 @@
 defmodule CDPotion.Domain.DOMSnapshot do
   use CDPotion.Utils
-  @doc "Index of the string in the strings table."
-  @type ArrayOfStrings :: list(StringIndex)
+  @typedoc "Index of the string in the strings table."
+  @type array_of_strings :: list(CDPotion.Domain.DOMSnapshot.string_index())
 
-  @doc "A subset of the full ComputedStyle as defined by the request whitelist."
-  @type ComputedStyle :: %{
-          properties: list(DOMSnapshot.NameValue)
+  @typedoc "A subset of the full ComputedStyle as defined by the request whitelist."
+  @type computed_style :: %{
+          properties: list(CDPotion.Domain.DOMSnapshot.name_value())
         }
 
-  @doc "A Node in the DOM tree."
-  @type DOMNode :: %{
-          attributes: list(DOMSnapshot.NameValue) | nil,
-          backendNodeId: DOM.BackendNodeId,
+  @typedoc "A Node in the DOM tree."
+  @type dom_node :: %{
+          attributes: list(CDPotion.Domain.DOMSnapshot.name_value()) | nil,
+          backendNodeId: CDPotion.Domain.DOM.backend_node_id(),
           baseURL: String.t() | nil,
           childNodeIndexes: list(integer()) | nil,
           contentDocumentIndex: integer() | nil,
@@ -19,8 +19,8 @@ defmodule CDPotion.Domain.DOMSnapshot do
           currentSourceURL: String.t() | nil,
           documentEncoding: String.t() | nil,
           documentURL: String.t() | nil,
-          eventListeners: list(DOMDebugger.EventListener) | nil,
-          frameId: Page.FrameId | nil,
+          eventListeners: list(CDPotion.Domain.DOMDebugger.event_listener()) | nil,
+          frameId: CDPotion.Domain.Page.frame_id() | nil,
           inputChecked: boolean() | nil,
           inputValue: String.t() | nil,
           isClickable: boolean() | nil,
@@ -31,122 +31,122 @@ defmodule CDPotion.Domain.DOMSnapshot do
           optionSelected: boolean() | nil,
           originURL: String.t() | nil,
           pseudoElementIndexes: list(integer()) | nil,
-          pseudoType: DOM.PseudoType | nil,
+          pseudoType: CDPotion.Domain.DOM.pseudo_type() | nil,
           publicId: String.t() | nil,
           scrollOffsetX: number() | nil,
           scrollOffsetY: number() | nil,
-          shadowRootType: DOM.ShadowRootType | nil,
+          shadowRootType: CDPotion.Domain.DOM.shadow_root_type() | nil,
           systemId: String.t() | nil,
           textValue: String.t() | nil
         }
 
-  @doc "Document snapshot."
-  @type DocumentSnapshot :: %{
-          baseURL: DOMSnapshot.StringIndex,
+  @typedoc "Document snapshot."
+  @type document_snapshot :: %{
+          baseURL: CDPotion.Domain.DOMSnapshot.string_index(),
           contentHeight: number() | nil,
-          contentLanguage: DOMSnapshot.StringIndex,
+          contentLanguage: CDPotion.Domain.DOMSnapshot.string_index(),
           contentWidth: number() | nil,
-          documentURL: DOMSnapshot.StringIndex,
-          encodingName: DOMSnapshot.StringIndex,
-          frameId: DOMSnapshot.StringIndex,
-          layout: DOMSnapshot.LayoutTreeSnapshot,
-          nodes: DOMSnapshot.NodeTreeSnapshot,
-          publicId: DOMSnapshot.StringIndex,
+          documentURL: CDPotion.Domain.DOMSnapshot.string_index(),
+          encodingName: CDPotion.Domain.DOMSnapshot.string_index(),
+          frameId: CDPotion.Domain.DOMSnapshot.string_index(),
+          layout: CDPotion.Domain.DOMSnapshot.layout_tree_snapshot(),
+          nodes: CDPotion.Domain.DOMSnapshot.node_tree_snapshot(),
+          publicId: CDPotion.Domain.DOMSnapshot.string_index(),
           scrollOffsetX: number() | nil,
           scrollOffsetY: number() | nil,
-          systemId: DOMSnapshot.StringIndex,
-          textBoxes: DOMSnapshot.TextBoxSnapshot,
-          title: DOMSnapshot.StringIndex
+          systemId: CDPotion.Domain.DOMSnapshot.string_index(),
+          textBoxes: CDPotion.Domain.DOMSnapshot.text_box_snapshot(),
+          title: CDPotion.Domain.DOMSnapshot.string_index()
         }
 
-  @doc "Details of post layout rendered text positions. The exact layout should not be regarded as
+  @typedoc "Details of post layout rendered text positions. The exact layout should not be regarded as
 stable and may change between versions."
-  @type InlineTextBox :: %{
-          boundingBox: DOM.Rect,
+  @type inline_text_box :: %{
+          boundingBox: CDPotion.Domain.DOM.rect(),
           numCharacters: integer(),
           startCharacterIndex: integer()
         }
 
-  @doc "Details of an element in the DOM tree with a LayoutObject."
-  @type LayoutTreeNode :: %{
-          boundingBox: DOM.Rect,
+  @typedoc "Details of an element in the DOM tree with a LayoutObject."
+  @type layout_tree_node :: %{
+          boundingBox: CDPotion.Domain.DOM.rect(),
           domNodeIndex: integer(),
-          inlineTextNodes: list(DOMSnapshot.InlineTextBox) | nil,
+          inlineTextNodes: list(CDPotion.Domain.DOMSnapshot.inline_text_box()) | nil,
           isStackingContext: boolean() | nil,
           layoutText: String.t() | nil,
           paintOrder: integer() | nil,
           styleIndex: integer() | nil
         }
 
-  @doc "Table of details of an element in the DOM tree with a LayoutObject."
-  @type LayoutTreeSnapshot :: %{
-          blendedBackgroundColors: list(DOMSnapshot.StringIndex) | nil,
-          bounds: list(DOMSnapshot.Rectangle),
-          clientRects: list(DOMSnapshot.Rectangle) | nil,
+  @typedoc "Table of details of an element in the DOM tree with a LayoutObject."
+  @type layout_tree_snapshot :: %{
+          blendedBackgroundColors: list(CDPotion.Domain.DOMSnapshot.string_index()) | nil,
+          bounds: list(CDPotion.Domain.DOMSnapshot.rectangle()),
+          clientRects: list(CDPotion.Domain.DOMSnapshot.rectangle()) | nil,
           nodeIndex: list(integer()),
-          offsetRects: list(DOMSnapshot.Rectangle) | nil,
+          offsetRects: list(CDPotion.Domain.DOMSnapshot.rectangle()) | nil,
           paintOrders: list(integer()) | nil,
-          scrollRects: list(DOMSnapshot.Rectangle) | nil,
-          stackingContexts: DOMSnapshot.RareBooleanData,
-          styles: list(DOMSnapshot.ArrayOfStrings),
-          text: list(DOMSnapshot.StringIndex),
+          scrollRects: list(CDPotion.Domain.DOMSnapshot.rectangle()) | nil,
+          stackingContexts: CDPotion.Domain.DOMSnapshot.rare_boolean_data(),
+          styles: list(CDPotion.Domain.DOMSnapshot.array_of_strings()),
+          text: list(CDPotion.Domain.DOMSnapshot.string_index()),
           textColorOpacities: list(number()) | nil
         }
 
-  @doc "A name/value pair."
-  @type NameValue :: %{
+  @typedoc "A name/value pair."
+  @type name_value :: %{
           name: String.t(),
           value: String.t()
         }
 
-  @doc "Table containing nodes."
-  @type NodeTreeSnapshot :: %{
-          attributes: list(DOMSnapshot.ArrayOfStrings) | nil,
-          backendNodeId: list(DOM.BackendNodeId) | nil,
-          contentDocumentIndex: DOMSnapshot.RareIntegerData | nil,
-          currentSourceURL: DOMSnapshot.RareStringData | nil,
-          inputChecked: DOMSnapshot.RareBooleanData | nil,
-          inputValue: DOMSnapshot.RareStringData | nil,
-          isClickable: DOMSnapshot.RareBooleanData | nil,
-          nodeName: list(DOMSnapshot.StringIndex) | nil,
+  @typedoc "Table containing nodes."
+  @type node_tree_snapshot :: %{
+          attributes: list(CDPotion.Domain.DOMSnapshot.array_of_strings()) | nil,
+          backendNodeId: list(CDPotion.Domain.DOM.backend_node_id()) | nil,
+          contentDocumentIndex: CDPotion.Domain.DOMSnapshot.rare_integer_data() | nil,
+          currentSourceURL: CDPotion.Domain.DOMSnapshot.rare_string_data() | nil,
+          inputChecked: CDPotion.Domain.DOMSnapshot.rare_boolean_data() | nil,
+          inputValue: CDPotion.Domain.DOMSnapshot.rare_string_data() | nil,
+          isClickable: CDPotion.Domain.DOMSnapshot.rare_boolean_data() | nil,
+          nodeName: list(CDPotion.Domain.DOMSnapshot.string_index()) | nil,
           nodeType: list(integer()) | nil,
-          nodeValue: list(DOMSnapshot.StringIndex) | nil,
-          optionSelected: DOMSnapshot.RareBooleanData | nil,
-          originURL: DOMSnapshot.RareStringData | nil,
+          nodeValue: list(CDPotion.Domain.DOMSnapshot.string_index()) | nil,
+          optionSelected: CDPotion.Domain.DOMSnapshot.rare_boolean_data() | nil,
+          originURL: CDPotion.Domain.DOMSnapshot.rare_string_data() | nil,
           parentIndex: list(integer()) | nil,
-          pseudoIdentifier: DOMSnapshot.RareStringData | nil,
-          pseudoType: DOMSnapshot.RareStringData | nil,
-          shadowRootType: DOMSnapshot.RareStringData | nil,
-          textValue: DOMSnapshot.RareStringData | nil
+          pseudoIdentifier: CDPotion.Domain.DOMSnapshot.rare_string_data() | nil,
+          pseudoType: CDPotion.Domain.DOMSnapshot.rare_string_data() | nil,
+          shadowRootType: CDPotion.Domain.DOMSnapshot.rare_string_data() | nil,
+          textValue: CDPotion.Domain.DOMSnapshot.rare_string_data() | nil
         }
 
-  @doc "description not provided :("
-  @type RareBooleanData :: %{
+  @typedoc "description not provided :("
+  @type rare_boolean_data :: %{
           index: list(integer())
         }
 
-  @doc "description not provided :("
-  @type RareIntegerData :: %{
+  @typedoc "description not provided :("
+  @type rare_integer_data :: %{
           index: list(integer()),
           value: list(integer())
         }
 
-  @doc "Data that is only present on rare nodes."
-  @type RareStringData :: %{
+  @typedoc "Data that is only present on rare nodes."
+  @type rare_string_data :: %{
           index: list(integer()),
-          value: list(DOMSnapshot.StringIndex)
+          value: list(CDPotion.Domain.DOMSnapshot.string_index())
         }
 
-  @doc "description not provided :("
-  @type Rectangle :: list(number())
+  @typedoc "description not provided :("
+  @type rectangle :: list(number())
 
-  @doc "Index of the string in the strings table."
-  @type StringIndex :: integer()
+  @typedoc "Index of the string in the strings table."
+  @type string_index :: integer()
 
-  @doc "Table of details of the post layout rendered text positions. The exact layout should not be regarded as
+  @typedoc "Table of details of the post layout rendered text positions. The exact layout should not be regarded as
 stable and may change between versions."
-  @type TextBoxSnapshot :: %{
-          bounds: list(DOMSnapshot.Rectangle),
+  @type text_box_snapshot :: %{
+          bounds: list(CDPotion.Domain.DOMSnapshot.rectangle()),
           layoutIndex: list(integer()),
           length: list(integer()),
           start: list(integer())

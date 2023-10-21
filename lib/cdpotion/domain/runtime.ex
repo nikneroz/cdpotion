@@ -1,30 +1,31 @@
 defmodule CDPotion.Domain.Runtime do
   use CDPotion.Utils
-  @doc "Represents function call argument. Either remote object id `objectId`, primitive `value`,
+
+  @typedoc "Represents function call argument. Either remote object id `objectId`, primitive `value`,
 unserializable primitive value or neither of (for undefined) them should be specified."
-  @type CallArgument :: %{
-          objectId: Runtime.RemoteObjectId | nil,
-          unserializableValue: Runtime.UnserializableValue | nil,
+  @type call_argument :: %{
+          objectId: CDPotion.Domain.Runtime.remote_object_id() | nil,
+          unserializableValue: CDPotion.Domain.Runtime.unserializable_value() | nil,
           value: any() | nil
         }
 
-  @doc "Stack entry for runtime errors and assertions."
-  @type CallFrame :: %{
+  @typedoc "Stack entry for runtime errors and assertions."
+  @type call_frame :: %{
           columnNumber: integer(),
           functionName: String.t(),
           lineNumber: integer(),
-          scriptId: Runtime.ScriptId,
+          scriptId: CDPotion.Domain.Runtime.script_id(),
           url: String.t()
         }
 
-  @doc "description not provided :("
-  @type CustomPreview :: %{
-          bodyGetterId: Runtime.RemoteObjectId | nil,
+  @typedoc "description not provided :("
+  @type custom_preview :: %{
+          bodyGetterId: CDPotion.Domain.Runtime.remote_object_id() | nil,
           header: String.t()
         }
 
-  @doc "Represents deep serialized value."
-  @type DeepSerializedValue :: %{
+  @typedoc "Represents deep serialized value."
+  @type deep_serialized_value :: %{
           objectId: String.t() | nil,
           type:
             :undefined
@@ -54,51 +55,51 @@ unserializable primitive value or neither of (for undefined) them should be spec
           weakLocalObjectReference: integer() | nil
         }
 
-  @doc "description not provided :("
-  @type EntryPreview :: %{
-          key: Runtime.ObjectPreview | nil,
-          value: Runtime.ObjectPreview
+  @typedoc "description not provided :("
+  @type entry_preview :: %{
+          key: CDPotion.Domain.Runtime.object_preview() | nil,
+          value: CDPotion.Domain.Runtime.object_preview()
         }
 
-  @doc "Detailed information about exception (or error) that was thrown during script compilation or
+  @typedoc "Detailed information about exception (or error) that was thrown during script compilation or
 execution."
-  @type ExceptionDetails :: %{
+  @type exception_details :: %{
           columnNumber: integer(),
-          exception: Runtime.RemoteObject | nil,
+          exception: CDPotion.Domain.Runtime.remote_object() | nil,
           exceptionId: integer(),
           exceptionMetaData: map() | nil,
-          executionContextId: Runtime.ExecutionContextId | nil,
+          executionContextId: CDPotion.Domain.Runtime.execution_context_id() | nil,
           lineNumber: integer(),
-          scriptId: Runtime.ScriptId | nil,
-          stackTrace: Runtime.StackTrace | nil,
+          scriptId: CDPotion.Domain.Runtime.script_id() | nil,
+          stackTrace: CDPotion.Domain.Runtime.stack_trace() | nil,
           text: String.t(),
           url: String.t() | nil
         }
 
-  @doc "Description of an isolated world."
-  @type ExecutionContextDescription :: %{
+  @typedoc "Description of an isolated world."
+  @type execution_context_description :: %{
           auxData: map() | nil,
-          id: Runtime.ExecutionContextId,
+          id: CDPotion.Domain.Runtime.execution_context_id(),
           name: String.t(),
           origin: String.t(),
           uniqueId: String.t()
         }
 
-  @doc "Id of an execution context."
-  @type ExecutionContextId :: integer()
+  @typedoc "Id of an execution context."
+  @type execution_context_id :: integer()
 
-  @doc "Object internal property descriptor. This property isn't normally visible in JavaScript code."
-  @type InternalPropertyDescriptor :: %{
+  @typedoc "Object internal property descriptor. This property isn't normally visible in JavaScript code."
+  @type internal_property_descriptor :: %{
           name: String.t(),
-          value: Runtime.RemoteObject | nil
+          value: CDPotion.Domain.Runtime.remote_object() | nil
         }
 
-  @doc "Object containing abbreviated remote object value."
-  @type ObjectPreview :: %{
+  @typedoc "Object containing abbreviated remote object value."
+  @type object_preview :: %{
           description: String.t() | nil,
-          entries: list(Runtime.EntryPreview) | nil,
+          entries: list(CDPotion.Domain.Runtime.entry_preview()) | nil,
           overflow: boolean(),
-          properties: list(Runtime.PropertyPreview),
+          properties: list(CDPotion.Domain.Runtime.property_preview()),
           subtype:
             :array
             | :null
@@ -124,30 +125,30 @@ execution."
             :object | :function | :undefined | :string | :number | :boolean | :symbol | :bigint
         }
 
-  @doc "Object private field descriptor."
-  @type PrivatePropertyDescriptor :: %{
-          get: Runtime.RemoteObject | nil,
+  @typedoc "Object private field descriptor."
+  @type private_property_descriptor :: %{
+          get: CDPotion.Domain.Runtime.remote_object() | nil,
           name: String.t(),
-          set: Runtime.RemoteObject | nil,
-          value: Runtime.RemoteObject | nil
+          set: CDPotion.Domain.Runtime.remote_object() | nil,
+          value: CDPotion.Domain.Runtime.remote_object() | nil
         }
 
-  @doc "Object property descriptor."
-  @type PropertyDescriptor :: %{
+  @typedoc "Object property descriptor."
+  @type property_descriptor :: %{
           configurable: boolean(),
           enumerable: boolean(),
-          get: Runtime.RemoteObject | nil,
+          get: CDPotion.Domain.Runtime.remote_object() | nil,
           isOwn: boolean() | nil,
           name: String.t(),
-          set: Runtime.RemoteObject | nil,
-          symbol: Runtime.RemoteObject | nil,
-          value: Runtime.RemoteObject | nil,
+          set: CDPotion.Domain.Runtime.remote_object() | nil,
+          symbol: CDPotion.Domain.Runtime.remote_object() | nil,
+          value: CDPotion.Domain.Runtime.remote_object() | nil,
           wasThrown: boolean() | nil,
           writable: boolean() | nil
         }
 
-  @doc "description not provided :("
-  @type PropertyPreview :: %{
+  @typedoc "description not provided :("
+  @type property_preview :: %{
           name: String.t(),
           subtype:
             :array
@@ -181,17 +182,17 @@ execution."
             | :accessor
             | :bigint,
           value: String.t() | nil,
-          valuePreview: Runtime.ObjectPreview | nil
+          valuePreview: CDPotion.Domain.Runtime.object_preview() | nil
         }
 
-  @doc "Mirror object referencing original JavaScript object."
-  @type RemoteObject :: %{
+  @typedoc "Mirror object referencing original JavaScript object."
+  @type remote_object :: %{
           className: String.t() | nil,
-          customPreview: Runtime.CustomPreview | nil,
-          deepSerializedValue: Runtime.DeepSerializedValue | nil,
+          customPreview: CDPotion.Domain.Runtime.custom_preview() | nil,
+          deepSerializedValue: CDPotion.Domain.Runtime.deep_serialized_value() | nil,
           description: String.t() | nil,
-          objectId: Runtime.RemoteObjectId | nil,
-          preview: Runtime.ObjectPreview | nil,
+          objectId: CDPotion.Domain.Runtime.remote_object_id() | nil,
+          preview: CDPotion.Domain.Runtime.object_preview() | nil,
           subtype:
             :array
             | :null
@@ -215,52 +216,52 @@ execution."
             | nil,
           type:
             :object | :function | :undefined | :string | :number | :boolean | :symbol | :bigint,
-          unserializableValue: Runtime.UnserializableValue | nil,
+          unserializableValue: CDPotion.Domain.Runtime.unserializable_value() | nil,
           value: any() | nil,
-          webDriverValue: Runtime.DeepSerializedValue | nil
+          webDriverValue: CDPotion.Domain.Runtime.deep_serialized_value() | nil
         }
 
-  @doc "Unique object identifier."
-  @type RemoteObjectId :: String.t()
+  @typedoc "Unique object identifier."
+  @type remote_object_id :: String.t()
 
-  @doc "Unique script identifier."
-  @type ScriptId :: String.t()
+  @typedoc "Unique script identifier."
+  @type script_id :: String.t()
 
-  @doc "Represents options for serialization. Overrides `generatePreview`, `returnByValue` and
+  @typedoc "Represents options for serialization. Overrides `generatePreview`, `returnByValue` and
 `generateWebDriverValue`."
-  @type SerializationOptions :: %{
+  @type serialization_options :: %{
           additionalParameters: map() | nil,
           maxDepth: integer() | nil,
           serialization: :deep | :json | :idOnly
         }
 
-  @doc "Call frames for assertions or error messages."
-  @type StackTrace :: %{
-          callFrames: list(Runtime.CallFrame),
+  @typedoc "Call frames for assertions or error messages."
+  @type stack_trace :: %{
+          callFrames: list(CDPotion.Domain.Runtime.call_frame()),
           description: String.t() | nil,
-          parent: Runtime.StackTrace | nil,
-          parentId: Runtime.StackTraceId | nil
+          parent: CDPotion.Domain.Runtime.stack_trace() | nil,
+          parentId: CDPotion.Domain.Runtime.stack_trace_id() | nil
         }
 
-  @doc "If `debuggerId` is set stack trace comes from another debugger and can be resolved there. This
+  @typedoc "If `debuggerId` is set stack trace comes from another debugger and can be resolved there. This
 allows to track cross-debugger calls. See `Runtime.StackTrace` and `Debugger.paused` for usages."
-  @type StackTraceId :: %{
-          debuggerId: Runtime.UniqueDebuggerId | nil,
+  @type stack_trace_id :: %{
+          debuggerId: CDPotion.Domain.Runtime.unique_debugger_id() | nil,
           id: String.t()
         }
 
-  @doc "Number of milliseconds."
-  @type TimeDelta :: number()
+  @typedoc "Number of milliseconds."
+  @type time_delta :: number()
 
-  @doc "Number of milliseconds since epoch."
-  @type Timestamp :: number()
+  @typedoc "Number of milliseconds since epoch."
+  @type timestamp :: number()
 
-  @doc "Unique identifier of current debugger."
-  @type UniqueDebuggerId :: String.t()
+  @typedoc "Unique identifier of current debugger."
+  @type unique_debugger_id :: String.t()
 
-  @doc "Primitive value which cannot be JSON-stringified. Includes values `-0`, `NaN`, `Infinity`,
+  @typedoc "Primitive value which cannot be JSON-stringified. Includes values `-0`, `NaN`, `Infinity`,
 `-Infinity`, and bigint literals."
-  @type UnserializableValue :: String.t()
+  @type unserializable_value :: String.t()
 
   @doc """
   Add handler to promise with given promise object id.

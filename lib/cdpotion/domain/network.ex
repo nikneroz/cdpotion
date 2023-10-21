@@ -1,7 +1,7 @@
 defmodule CDPotion.Domain.Network do
   use CDPotion.Utils
-  @doc "The reason why Chrome uses a specific transport protocol for HTTP semantics."
-  @type AlternateProtocolUsage ::
+  @typedoc "The reason why Chrome uses a specific transport protocol for HTTP semantics."
+  @type alternate_protocol_usage ::
           :alternativeJobWonWithoutRace
           | :alternativeJobWonRace
           | :mainJobWonRace
@@ -11,29 +11,29 @@ defmodule CDPotion.Domain.Network do
           | :dnsAlpnH3JobWonRace
           | :unspecifiedReason
 
-  @doc "Authorization challenge for HTTP status code 401 or 407."
-  @type AuthChallenge :: %{
+  @typedoc "Authorization challenge for HTTP status code 401 or 407."
+  @type auth_challenge :: %{
           origin: String.t(),
           realm: String.t(),
           scheme: String.t(),
           source: :Server | :Proxy | nil
         }
 
-  @doc "Response to an AuthChallenge."
-  @type AuthChallengeResponse :: %{
+  @typedoc "Response to an AuthChallenge."
+  @type auth_challenge_response :: %{
           password: String.t() | nil,
           response: :Default | :CancelAuth | :ProvideCredentials,
           username: String.t() | nil
         }
 
-  @doc "A cookie with was not sent with a request with the corresponding reason."
-  @type BlockedCookieWithReason :: %{
-          blockedReasons: list(Network.CookieBlockedReason),
-          cookie: Network.Cookie
+  @typedoc "A cookie with was not sent with a request with the corresponding reason."
+  @type blocked_cookie_with_reason :: %{
+          blockedReasons: list(CDPotion.Domain.Network.cookie_blocked_reason()),
+          cookie: CDPotion.Domain.Network.cookie()
         }
 
-  @doc "The reason why request was blocked."
-  @type BlockedReason ::
+  @typedoc "The reason why request was blocked."
+  @type blocked_reason ::
           :other
           | :csp
           | :"mixed-content"
@@ -47,38 +47,38 @@ defmodule CDPotion.Domain.Network do
           | :"corp-not-same-origin-after-defaulted-to-same-origin-by-coep"
           | :"corp-not-same-site"
 
-  @doc "A cookie which was not stored from a response with the corresponding reason."
-  @type BlockedSetCookieWithReason :: %{
-          blockedReasons: list(Network.SetCookieBlockedReason),
-          cookie: Network.Cookie | nil,
+  @typedoc "A cookie which was not stored from a response with the corresponding reason."
+  @type blocked_set_cookie_with_reason :: %{
+          blockedReasons: list(CDPotion.Domain.Network.set_cookie_blocked_reason()),
+          cookie: CDPotion.Domain.Network.cookie() | nil,
           cookieLine: String.t()
         }
 
-  @doc "Information about the cached resource."
-  @type CachedResource :: %{
+  @typedoc "Information about the cached resource."
+  @type cached_resource :: %{
           bodySize: number(),
-          response: Network.Response | nil,
-          type: Network.ResourceType,
+          response: CDPotion.Domain.Network.response() | nil,
+          type: CDPotion.Domain.Network.resource_type(),
           url: String.t()
         }
 
-  @doc "Whether the request complied with Certificate Transparency policy."
-  @type CertificateTransparencyCompliance :: :unknown | :"not-compliant" | :compliant
+  @typedoc "Whether the request complied with Certificate Transparency policy."
+  @type certificate_transparency_compliance :: :unknown | :"not-compliant" | :compliant
 
-  @doc "description not provided :("
-  @type ClientSecurityState :: %{
-          initiatorIPAddressSpace: Network.IPAddressSpace,
+  @typedoc "description not provided :("
+  @type client_security_state :: %{
+          initiatorIPAddressSpace: CDPotion.Domain.Network.ip_address_space(),
           initiatorIsSecureContext: boolean(),
-          privateNetworkRequestPolicy: Network.PrivateNetworkRequestPolicy
+          privateNetworkRequestPolicy: CDPotion.Domain.Network.private_network_request_policy()
         }
 
-  @doc "description not provided :("
-  @type ConnectTiming :: %{
+  @typedoc "description not provided :("
+  @type connect_timing :: %{
           requestTime: number()
         }
 
-  @doc "The underlying connection technology that the browser is supposedly using."
-  @type ConnectionType ::
+  @typedoc "The underlying connection technology that the browser is supposedly using."
+  @type connection_type ::
           :none
           | :cellular2g
           | :cellular3g
@@ -89,21 +89,21 @@ defmodule CDPotion.Domain.Network do
           | :wimax
           | :other
 
-  @doc "List of content encodings supported by the backend."
-  @type ContentEncoding :: :deflate | :gzip | :br | :zstd
+  @typedoc "List of content encodings supported by the backend."
+  @type content_encoding :: :deflate | :gzip | :br | :zstd
 
-  @doc "description not provided :("
-  @type ContentSecurityPolicySource :: :HTTP | :Meta
+  @typedoc "description not provided :("
+  @type content_security_policy_source :: :HTTP | :Meta
 
-  @doc "description not provided :("
-  @type ContentSecurityPolicyStatus :: %{
+  @typedoc "description not provided :("
+  @type content_security_policy_status :: %{
           effectiveDirectives: String.t(),
           isEnforced: boolean(),
-          source: Network.ContentSecurityPolicySource
+          source: CDPotion.Domain.Network.content_security_policy_source()
         }
 
-  @doc "Cookie object"
-  @type Cookie :: %{
+  @typedoc "Cookie object"
+  @type cookie :: %{
           domain: String.t(),
           expires: number(),
           httpOnly: boolean(),
@@ -111,19 +111,19 @@ defmodule CDPotion.Domain.Network do
           partitionKey: String.t() | nil,
           partitionKeyOpaque: boolean() | nil,
           path: String.t(),
-          priority: Network.CookiePriority,
+          priority: CDPotion.Domain.Network.cookie_priority(),
           sameParty: boolean(),
-          sameSite: Network.CookieSameSite | nil,
+          sameSite: CDPotion.Domain.Network.cookie_same_site() | nil,
           secure: boolean(),
           session: boolean(),
           size: integer(),
           sourcePort: integer(),
-          sourceScheme: Network.CookieSourceScheme,
+          sourceScheme: CDPotion.Domain.Network.cookie_source_scheme(),
           value: String.t()
         }
 
-  @doc "Types of reasons why a cookie may not be sent with a request."
-  @type CookieBlockedReason ::
+  @typedoc "Types of reasons why a cookie may not be sent with a request."
+  @type cookie_blocked_reason ::
           :SecureOnly
           | :NotOnPath
           | :DomainMismatch
@@ -140,39 +140,39 @@ defmodule CDPotion.Domain.Network do
           | :SamePartyFromCrossPartyContext
           | :NameValuePairExceedsMaxSize
 
-  @doc "Cookie parameter object"
-  @type CookieParam :: %{
+  @typedoc "Cookie parameter object"
+  @type cookie_param :: %{
           domain: String.t() | nil,
-          expires: Network.TimeSinceEpoch | nil,
+          expires: CDPotion.Domain.Network.time_since_epoch() | nil,
           httpOnly: boolean() | nil,
           name: String.t(),
           partitionKey: String.t() | nil,
           path: String.t() | nil,
-          priority: Network.CookiePriority | nil,
+          priority: CDPotion.Domain.Network.cookie_priority() | nil,
           sameParty: boolean() | nil,
-          sameSite: Network.CookieSameSite | nil,
+          sameSite: CDPotion.Domain.Network.cookie_same_site() | nil,
           secure: boolean() | nil,
           sourcePort: integer() | nil,
-          sourceScheme: Network.CookieSourceScheme | nil,
+          sourceScheme: CDPotion.Domain.Network.cookie_source_scheme() | nil,
           url: String.t() | nil,
           value: String.t()
         }
 
-  @doc "Represents the cookie's 'Priority' status:
+  @typedoc "Represents the cookie's 'Priority' status:
 https://tools.ietf.org/html/draft-west-cookie-priority-00"
-  @type CookiePriority :: :Low | :Medium | :High
+  @type cookie_priority :: :Low | :Medium | :High
 
-  @doc "Represents the cookie's 'SameSite' status:
+  @typedoc "Represents the cookie's 'SameSite' status:
 https://tools.ietf.org/html/draft-west-first-party-cookies"
-  @type CookieSameSite :: :Strict | :Lax | :None
+  @type cookie_same_site :: :Strict | :Lax | :None
 
-  @doc "Represents the source scheme of the origin that originally set the cookie.
+  @typedoc "Represents the source scheme of the origin that originally set the cookie.
 A value of 'Unset' allows protocol clients to emulate legacy cookie scope for the scheme.
 This is a temporary ability and it will be removed in the future."
-  @type CookieSourceScheme :: :Unset | :NonSecure | :Secure
+  @type cookie_source_scheme :: :Unset | :NonSecure | :Secure
 
-  @doc "The reason why request was blocked."
-  @type CorsError ::
+  @typedoc "The reason why request was blocked."
+  @type cors_error ::
           :DisallowedByMode
           | :InvalidResponse
           | :WildcardOriginNotAllowed
@@ -208,33 +208,33 @@ This is a temporary ability and it will be removed in the future."
           | :PrivateNetworkAccessPermissionUnavailable
           | :PrivateNetworkAccessPermissionDenied
 
-  @doc "description not provided :("
-  @type CorsErrorStatus :: %{
-          corsError: Network.CorsError,
+  @typedoc "description not provided :("
+  @type cors_error_status :: %{
+          corsError: CDPotion.Domain.Network.cors_error(),
           failedParameter: String.t()
         }
 
-  @doc "description not provided :("
-  @type CrossOriginEmbedderPolicyStatus :: %{
+  @typedoc "description not provided :("
+  @type cross_origin_embedder_policy_status :: %{
           reportOnlyReportingEndpoint: String.t() | nil,
-          reportOnlyValue: Network.CrossOriginEmbedderPolicyValue,
+          reportOnlyValue: CDPotion.Domain.Network.cross_origin_embedder_policy_value(),
           reportingEndpoint: String.t() | nil,
-          value: Network.CrossOriginEmbedderPolicyValue
+          value: CDPotion.Domain.Network.cross_origin_embedder_policy_value()
         }
 
-  @doc "description not provided :("
-  @type CrossOriginEmbedderPolicyValue :: :None | :Credentialless | :RequireCorp
+  @typedoc "description not provided :("
+  @type cross_origin_embedder_policy_value :: :None | :Credentialless | :RequireCorp
 
-  @doc "description not provided :("
-  @type CrossOriginOpenerPolicyStatus :: %{
+  @typedoc "description not provided :("
+  @type cross_origin_opener_policy_status :: %{
           reportOnlyReportingEndpoint: String.t() | nil,
-          reportOnlyValue: Network.CrossOriginOpenerPolicyValue,
+          reportOnlyValue: CDPotion.Domain.Network.cross_origin_opener_policy_value(),
           reportingEndpoint: String.t() | nil,
-          value: Network.CrossOriginOpenerPolicyValue
+          value: CDPotion.Domain.Network.cross_origin_opener_policy_value()
         }
 
-  @doc "description not provided :("
-  @type CrossOriginOpenerPolicyValue ::
+  @typedoc "description not provided :("
+  @type cross_origin_opener_policy_value ::
           :SameOrigin
           | :SameOriginAllowPopups
           | :RestrictProperties
@@ -242,8 +242,8 @@ This is a temporary ability and it will be removed in the future."
           | :SameOriginPlusCoep
           | :RestrictPropertiesPlusCoep
 
-  @doc "Network level fetch failure reason."
-  @type ErrorReason ::
+  @typedoc "Network level fetch failure reason."
+  @type error_reason ::
           :Failed
           | :Aborted
           | :TimedOut
@@ -259,101 +259,101 @@ This is a temporary ability and it will be removed in the future."
           | :BlockedByClient
           | :BlockedByResponse
 
-  @doc "Request / response headers as keys / values of JSON object."
-  @type Headers :: map()
+  @typedoc "Request / response headers as keys / values of JSON object."
+  @type headers :: map()
 
-  @doc "description not provided :("
-  @type IPAddressSpace :: :Local | :Private | :Public | :Unknown
+  @typedoc "description not provided :("
+  @type ip_address_space :: :Local | :Private | :Public | :Unknown
 
-  @doc "Information about the request initiator."
-  @type Initiator :: %{
+  @typedoc "Information about the request initiator."
+  @type initiator :: %{
           columnNumber: number() | nil,
           lineNumber: number() | nil,
-          requestId: Network.RequestId | nil,
-          stack: Runtime.StackTrace | nil,
+          requestId: CDPotion.Domain.Network.request_id() | nil,
+          stack: CDPotion.Domain.Runtime.stack_trace() | nil,
           type: :parser | :script | :preload | :SignedExchange | :preflight | :other,
           url: String.t() | nil
         }
 
-  @doc "Unique intercepted request identifier."
-  @type InterceptionId :: String.t()
+  @typedoc "Unique intercepted request identifier."
+  @type interception_id :: String.t()
 
-  @doc "Stages of the interception to begin intercepting. Request will intercept before the request is
+  @typedoc "Stages of the interception to begin intercepting. Request will intercept before the request is
 sent. Response will intercept after the response is received."
-  @type InterceptionStage :: :Request | :HeadersReceived
+  @type interception_stage :: :Request | :HeadersReceived
 
-  @doc "An options object that may be extended later to better support CORS,
+  @typedoc "An options object that may be extended later to better support CORS,
 CORB and streaming."
-  @type LoadNetworkResourceOptions :: %{
+  @type load_network_resource_options :: %{
           disableCache: boolean(),
           includeCredentials: boolean()
         }
 
-  @doc "An object providing the result of a network resource load."
-  @type LoadNetworkResourcePageResult :: %{
-          headers: Network.Headers | nil,
+  @typedoc "An object providing the result of a network resource load."
+  @type load_network_resource_page_result :: %{
+          headers: CDPotion.Domain.Network.headers() | nil,
           httpStatusCode: number() | nil,
           netError: number() | nil,
           netErrorName: String.t() | nil,
-          stream: IO.StreamHandle | nil,
+          stream: CDPotion.Domain.IO.stream_handle() | nil,
           success: boolean()
         }
 
-  @doc "Unique loader identifier."
-  @type LoaderId :: String.t()
+  @typedoc "Unique loader identifier."
+  @type loader_id :: String.t()
 
-  @doc "Monotonically increasing time in seconds since an arbitrary point in the past."
-  @type MonotonicTime :: number()
+  @typedoc "Monotonically increasing time in seconds since an arbitrary point in the past."
+  @type monotonic_time :: number()
 
-  @doc "Post data entry for HTTP request"
-  @type PostDataEntry :: %{
+  @typedoc "Post data entry for HTTP request"
+  @type post_data_entry :: %{
           bytes: String.t() | nil
         }
 
-  @doc "description not provided :("
-  @type PrivateNetworkRequestPolicy ::
+  @typedoc "description not provided :("
+  @type private_network_request_policy ::
           :Allow
           | :BlockFromInsecureToMorePrivate
           | :WarnFromInsecureToMorePrivate
           | :PreflightBlock
           | :PreflightWarn
 
-  @doc "description not provided :("
-  @type ReportId :: String.t()
+  @typedoc "description not provided :("
+  @type report_id :: String.t()
 
-  @doc "The status of a Reporting API report."
-  @type ReportStatus :: :Queued | :Pending | :MarkedForRemoval | :Success
+  @typedoc "The status of a Reporting API report."
+  @type report_status :: :Queued | :Pending | :MarkedForRemoval | :Success
 
-  @doc "description not provided :("
-  @type ReportingApiEndpoint :: %{
+  @typedoc "description not provided :("
+  @type reporting_api_endpoint :: %{
           groupName: String.t(),
           url: String.t()
         }
 
-  @doc "An object representing a report generated by the Reporting API."
-  @type ReportingApiReport :: %{
+  @typedoc "An object representing a report generated by the Reporting API."
+  @type reporting_api_report :: %{
           body: map(),
           completedAttempts: integer(),
           depth: integer(),
           destination: String.t(),
-          id: Network.ReportId,
+          id: CDPotion.Domain.Network.report_id(),
           initiatorUrl: String.t(),
-          status: Network.ReportStatus,
-          timestamp: Network.TimeSinceEpoch,
+          status: CDPotion.Domain.Network.report_status(),
+          timestamp: CDPotion.Domain.Network.time_since_epoch(),
           type: String.t()
         }
 
-  @doc "HTTP request data."
-  @type Request :: %{
+  @typedoc "HTTP request data."
+  @type request :: %{
           hasPostData: boolean() | nil,
-          headers: Network.Headers,
-          initialPriority: Network.ResourcePriority,
+          headers: CDPotion.Domain.Network.headers(),
+          initialPriority: CDPotion.Domain.Network.resource_priority(),
           isLinkPreload: boolean() | nil,
           isSameSite: boolean() | nil,
           method: String.t(),
-          mixedContentType: Security.MixedContentType | nil,
+          mixedContentType: CDPotion.Domain.Security.mixed_content_type() | nil,
           postData: String.t() | nil,
-          postDataEntries: list(Network.PostDataEntry) | nil,
+          postDataEntries: list(CDPotion.Domain.Network.post_data_entry()) | nil,
           referrerPolicy:
             :"unsafe-url"
             | :"no-referrer-when-downgrade"
@@ -363,26 +363,26 @@ CORB and streaming."
             | :"same-origin"
             | :"strict-origin"
             | :"strict-origin-when-cross-origin",
-          trustTokenParams: Network.TrustTokenParams | nil,
+          trustTokenParams: CDPotion.Domain.Network.trust_token_params() | nil,
           url: String.t(),
           urlFragment: String.t() | nil
         }
 
-  @doc "Unique request identifier."
-  @type RequestId :: String.t()
+  @typedoc "Unique request identifier."
+  @type request_id :: String.t()
 
-  @doc "Request pattern for interception."
-  @type RequestPattern :: %{
-          interceptionStage: Network.InterceptionStage | nil,
-          resourceType: Network.ResourceType | nil,
+  @typedoc "Request pattern for interception."
+  @type request_pattern :: %{
+          interceptionStage: CDPotion.Domain.Network.interception_stage() | nil,
+          resourceType: CDPotion.Domain.Network.resource_type() | nil,
           urlPattern: String.t() | nil
         }
 
-  @doc "Loading priority of a resource request."
-  @type ResourcePriority :: :VeryLow | :Low | :Medium | :High | :VeryHigh
+  @typedoc "Loading priority of a resource request."
+  @type resource_priority :: :VeryLow | :Low | :Medium | :High | :VeryHigh
 
-  @doc "Timing information for the request."
-  @type ResourceTiming :: %{
+  @typedoc "Timing information for the request."
+  @type resource_timing :: %{
           connectEnd: number(),
           connectStart: number(),
           dnsEnd: number(),
@@ -404,8 +404,8 @@ CORB and streaming."
           workerStart: number()
         }
 
-  @doc "Resource type as it was perceived by the rendering engine."
-  @type ResourceType ::
+  @typedoc "Resource type as it was perceived by the rendering engine."
+  @type resource_type ::
           :Document
           | :Stylesheet
           | :Image
@@ -425,9 +425,9 @@ CORB and streaming."
           | :Preflight
           | :Other
 
-  @doc "HTTP response data."
-  @type Response :: %{
-          alternateProtocolUsage: Network.AlternateProtocolUsage | nil,
+  @typedoc "HTTP response data."
+  @type response :: %{
+          alternateProtocolUsage: CDPotion.Domain.Network.alternate_protocol_usage() | nil,
           cacheStorageCacheName: String.t() | nil,
           connectionId: number(),
           connectionReused: boolean(),
@@ -435,28 +435,30 @@ CORB and streaming."
           fromDiskCache: boolean() | nil,
           fromPrefetchCache: boolean() | nil,
           fromServiceWorker: boolean() | nil,
-          headers: Network.Headers,
+          headers: CDPotion.Domain.Network.headers(),
           headersText: String.t() | nil,
           mimeType: String.t(),
           protocol: String.t() | nil,
           remoteIPAddress: String.t() | nil,
           remotePort: integer() | nil,
-          requestHeaders: Network.Headers | nil,
+          requestHeaders: CDPotion.Domain.Network.headers() | nil,
           requestHeadersText: String.t() | nil,
-          responseTime: Network.TimeSinceEpoch | nil,
-          securityDetails: Network.SecurityDetails | nil,
-          securityState: Security.SecurityState,
-          serviceWorkerResponseSource: Network.ServiceWorkerResponseSource | nil,
+          responseTime: CDPotion.Domain.Network.time_since_epoch() | nil,
+          securityDetails: CDPotion.Domain.Network.security_details() | nil,
+          securityState: CDPotion.Domain.Security.security_state(),
+          serviceWorkerResponseSource:
+            CDPotion.Domain.Network.service_worker_response_source() | nil,
           status: integer(),
           statusText: String.t(),
-          timing: Network.ResourceTiming | nil,
+          timing: CDPotion.Domain.Network.resource_timing() | nil,
           url: String.t()
         }
 
-  @doc "Security details about a request."
-  @type SecurityDetails :: %{
-          certificateId: Security.CertificateId,
-          certificateTransparencyCompliance: Network.CertificateTransparencyCompliance,
+  @typedoc "Security details about a request."
+  @type security_details :: %{
+          certificateId: CDPotion.Domain.Security.certificate_id(),
+          certificateTransparencyCompliance:
+            CDPotion.Domain.Network.certificate_transparency_compliance(),
           cipher: String.t(),
           encryptedClientHello: boolean(),
           issuer: String.t(),
@@ -466,25 +468,26 @@ CORB and streaming."
           protocol: String.t(),
           sanList: list(String.t()),
           serverSignatureAlgorithm: integer() | nil,
-          signedCertificateTimestampList: list(Network.SignedCertificateTimestamp),
+          signedCertificateTimestampList:
+            list(CDPotion.Domain.Network.signed_certificate_timestamp()),
           subjectName: String.t(),
-          validFrom: Network.TimeSinceEpoch,
-          validTo: Network.TimeSinceEpoch
+          validFrom: CDPotion.Domain.Network.time_since_epoch(),
+          validTo: CDPotion.Domain.Network.time_since_epoch()
         }
 
-  @doc "description not provided :("
-  @type SecurityIsolationStatus :: %{
-          coep: Network.CrossOriginEmbedderPolicyStatus | nil,
-          coop: Network.CrossOriginOpenerPolicyStatus | nil,
-          csp: list(Network.ContentSecurityPolicyStatus) | nil
+  @typedoc "description not provided :("
+  @type security_isolation_status :: %{
+          coep: CDPotion.Domain.Network.cross_origin_embedder_policy_status() | nil,
+          coop: CDPotion.Domain.Network.cross_origin_opener_policy_status() | nil,
+          csp: list(CDPotion.Domain.Network.content_security_policy_status()) | nil
         }
 
-  @doc "Source of serviceworker response."
-  @type ServiceWorkerResponseSource ::
+  @typedoc "Source of serviceworker response."
+  @type service_worker_response_source ::
           :"cache-storage" | :"http-cache" | :"fallback-code" | :network
 
-  @doc "Types of reasons why a cookie may not be stored from a response."
-  @type SetCookieBlockedReason ::
+  @typedoc "Types of reasons why a cookie may not be stored from a response."
+  @type set_cookie_blocked_reason ::
           :SecureOnly
           | :SameSiteStrict
           | :SameSiteLax
@@ -505,8 +508,8 @@ CORB and streaming."
           | :SamePartyConflictsWithOtherAttributes
           | :NameValuePairExceedsMaxSize
 
-  @doc "Details of a signed certificate timestamp (SCT)."
-  @type SignedCertificateTimestamp :: %{
+  @typedoc "Details of a signed certificate timestamp (SCT)."
+  @type signed_certificate_timestamp :: %{
           hashAlgorithm: String.t(),
           logDescription: String.t(),
           logId: String.t(),
@@ -517,15 +520,15 @@ CORB and streaming."
           timestamp: number()
         }
 
-  @doc "Information about a signed exchange response."
-  @type SignedExchangeError :: %{
-          errorField: Network.SignedExchangeErrorField | nil,
+  @typedoc "Information about a signed exchange response."
+  @type signed_exchange_error :: %{
+          errorField: CDPotion.Domain.Network.signed_exchange_error_field() | nil,
           message: String.t(),
           signatureIndex: integer() | nil
         }
 
-  @doc "Field type for a signed exchange related error."
-  @type SignedExchangeErrorField ::
+  @typedoc "Field type for a signed exchange related error."
+  @type signed_exchange_error_field ::
           :signatureSig
           | :signatureIntegrity
           | :signatureCertUrl
@@ -533,27 +536,27 @@ CORB and streaming."
           | :signatureValidityUrl
           | :signatureTimestamps
 
-  @doc "Information about a signed exchange header.
+  @typedoc "Information about a signed exchange header.
 https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#cbor-representation"
-  @type SignedExchangeHeader :: %{
+  @type signed_exchange_header :: %{
           headerIntegrity: String.t(),
           requestUrl: String.t(),
           responseCode: integer(),
-          responseHeaders: Network.Headers,
-          signatures: list(Network.SignedExchangeSignature)
+          responseHeaders: CDPotion.Domain.Network.headers(),
+          signatures: list(CDPotion.Domain.Network.signed_exchange_signature())
         }
 
-  @doc "Information about a signed exchange response."
-  @type SignedExchangeInfo :: %{
-          errors: list(Network.SignedExchangeError) | nil,
-          header: Network.SignedExchangeHeader | nil,
-          outerResponse: Network.Response,
-          securityDetails: Network.SecurityDetails | nil
+  @typedoc "Information about a signed exchange response."
+  @type signed_exchange_info :: %{
+          errors: list(CDPotion.Domain.Network.signed_exchange_error()) | nil,
+          header: CDPotion.Domain.Network.signed_exchange_header() | nil,
+          outerResponse: CDPotion.Domain.Network.response(),
+          securityDetails: CDPotion.Domain.Network.security_details() | nil
         }
 
-  @doc "Information about a signed exchange signature.
+  @typedoc "Information about a signed exchange signature.
 https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-impl.html#rfc.section.3.1"
-  @type SignedExchangeSignature :: %{
+  @type signed_exchange_signature :: %{
           certSha256: String.t() | nil,
           certUrl: String.t() | nil,
           certificates: list(String.t()) | nil,
@@ -565,38 +568,38 @@ https://wicg.github.io/webpackage/draft-yasskin-httpbis-origin-signed-exchanges-
           validityUrl: String.t()
         }
 
-  @doc "UTC time in seconds, counted from January 1, 1970."
-  @type TimeSinceEpoch :: number()
+  @typedoc "UTC time in seconds, counted from January 1, 1970."
+  @type time_since_epoch :: number()
 
-  @doc "description not provided :("
-  @type TrustTokenOperationType :: :Issuance | :Redemption | :Signing
+  @typedoc "description not provided :("
+  @type trust_token_operation_type :: :Issuance | :Redemption | :Signing
 
-  @doc "Determines what type of Trust Token operation is executed and
+  @typedoc "Determines what type of Trust Token operation is executed and
 depending on the type, some additional parameters. The values
 are specified in third_party/blink/renderer/core/fetch/trust_token.idl."
-  @type TrustTokenParams :: %{
+  @type trust_token_params :: %{
           issuers: list(String.t()) | nil,
-          operation: Network.TrustTokenOperationType,
+          operation: CDPotion.Domain.Network.trust_token_operation_type(),
           refreshPolicy: :UseCached | :Refresh
         }
 
-  @doc "WebSocket message data. This represents an entire WebSocket message, not just a fragmented frame as the name suggests."
-  @type WebSocketFrame :: %{
+  @typedoc "WebSocket message data. This represents an entire WebSocket message, not just a fragmented frame as the name suggests."
+  @type web_socket_frame :: %{
           mask: boolean(),
           opcode: number(),
           payloadData: String.t()
         }
 
-  @doc "WebSocket request data."
-  @type WebSocketRequest :: %{
-          headers: Network.Headers
+  @typedoc "WebSocket request data."
+  @type web_socket_request :: %{
+          headers: CDPotion.Domain.Network.headers()
         }
 
-  @doc "WebSocket response data."
-  @type WebSocketResponse :: %{
-          headers: Network.Headers,
+  @typedoc "WebSocket response data."
+  @type web_socket_response :: %{
+          headers: CDPotion.Domain.Network.headers(),
           headersText: String.t() | nil,
-          requestHeaders: Network.Headers | nil,
+          requestHeaders: CDPotion.Domain.Network.headers() | nil,
           requestHeadersText: String.t() | nil,
           status: integer(),
           statusText: String.t()

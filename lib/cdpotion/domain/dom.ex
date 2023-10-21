@@ -1,83 +1,83 @@
 defmodule CDPotion.Domain.DOM do
   use CDPotion.Utils
-  @doc "Backend node with a friendly name."
-  @type BackendNode :: %{
-          backendNodeId: DOM.BackendNodeId,
+  @typedoc "Backend node with a friendly name."
+  @type backend_node :: %{
+          backendNodeId: CDPotion.Domain.DOM.backend_node_id(),
           nodeName: String.t(),
           nodeType: integer()
         }
 
-  @doc "Unique DOM node identifier used to reference a node that may not have been pushed to the
+  @typedoc "Unique DOM node identifier used to reference a node that may not have been pushed to the
 front-end."
-  @type BackendNodeId :: integer()
+  @type backend_node_id :: integer()
 
-  @doc "Box model."
-  @type BoxModel :: %{
-          border: DOM.Quad,
-          content: DOM.Quad,
+  @typedoc "Box model."
+  @type box_model :: %{
+          border: CDPotion.Domain.DOM.quad(),
+          content: CDPotion.Domain.DOM.quad(),
           height: integer(),
-          margin: DOM.Quad,
-          padding: DOM.Quad,
-          shapeOutside: DOM.ShapeOutsideInfo | nil,
+          margin: CDPotion.Domain.DOM.quad(),
+          padding: CDPotion.Domain.DOM.quad(),
+          shapeOutside: CDPotion.Domain.DOM.shape_outside_info() | nil,
           width: integer()
         }
 
-  @doc "description not provided :("
-  @type CSSComputedStyleProperty :: %{
+  @typedoc "description not provided :("
+  @type css_computed_style_property :: %{
           name: String.t(),
           value: String.t()
         }
 
-  @doc "Document compatibility mode."
-  @type CompatibilityMode :: :QuirksMode | :LimitedQuirksMode | :NoQuirksMode
+  @typedoc "Document compatibility mode."
+  @type compatibility_mode :: :QuirksMode | :LimitedQuirksMode | :NoQuirksMode
 
-  @doc "ContainerSelector logical axes"
-  @type LogicalAxes :: :Inline | :Block | :Both
+  @typedoc "ContainerSelector logical axes"
+  @type logical_axes :: :Inline | :Block | :Both
 
-  @doc "DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes.
+  @typedoc "DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes.
 DOMNode is a base node mirror type."
-  @type Node :: %{
-          assignedSlot: DOM.BackendNode | nil,
+  @type node_element :: %{
+          assignedSlot: CDPotion.Domain.DOM.backend_node() | nil,
           attributes: list(String.t()) | nil,
-          backendNodeId: DOM.BackendNodeId,
+          backendNodeId: CDPotion.Domain.DOM.backend_node_id(),
           baseURL: String.t() | nil,
           childNodeCount: integer() | nil,
-          children: list(DOM.Node) | nil,
-          compatibilityMode: DOM.CompatibilityMode | nil,
-          contentDocument: DOM.Node | nil,
-          distributedNodes: list(DOM.BackendNode) | nil,
+          children: list(CDPotion.Domain.DOM.node_element()) | nil,
+          compatibilityMode: CDPotion.Domain.DOM.compatibility_mode() | nil,
+          contentDocument: CDPotion.Domain.DOM.node_element() | nil,
+          distributedNodes: list(CDPotion.Domain.DOM.backend_node()) | nil,
           documentURL: String.t() | nil,
-          frameId: Page.FrameId | nil,
-          importedDocument: DOM.Node | nil,
+          frameId: CDPotion.Domain.Page.frame_id() | nil,
+          importedDocument: CDPotion.Domain.DOM.node_element() | nil,
           internalSubset: String.t() | nil,
           isSVG: boolean() | nil,
           localName: String.t(),
           name: String.t() | nil,
-          nodeId: DOM.NodeId,
+          nodeId: CDPotion.Domain.DOM.node_id(),
           nodeName: String.t(),
           nodeType: integer(),
           nodeValue: String.t(),
-          parentId: DOM.NodeId | nil,
-          pseudoElements: list(DOM.Node) | nil,
+          parentId: CDPotion.Domain.DOM.node_id() | nil,
+          pseudoElements: list(CDPotion.Domain.DOM.node_element()) | nil,
           pseudoIdentifier: String.t() | nil,
-          pseudoType: DOM.PseudoType | nil,
+          pseudoType: CDPotion.Domain.DOM.pseudo_type() | nil,
           publicId: String.t() | nil,
-          shadowRootType: DOM.ShadowRootType | nil,
-          shadowRoots: list(DOM.Node) | nil,
+          shadowRootType: CDPotion.Domain.DOM.shadow_root_type() | nil,
+          shadowRoots: list(CDPotion.Domain.DOM.node_element()) | nil,
           systemId: String.t() | nil,
-          templateContent: DOM.Node | nil,
+          templateContent: CDPotion.Domain.DOM.node_element() | nil,
           value: String.t() | nil,
           xmlVersion: String.t() | nil
         }
 
-  @doc "Unique DOM node identifier."
-  @type NodeId :: integer()
+  @typedoc "Unique DOM node identifier."
+  @type node_id :: integer()
 
-  @doc "ContainerSelector physical axes"
-  @type PhysicalAxes :: :Horizontal | :Vertical | :Both
+  @typedoc "ContainerSelector physical axes"
+  @type physical_axes :: :Horizontal | :Vertical | :Both
 
-  @doc "Pseudo element type."
-  @type PseudoType ::
+  @typedoc "Pseudo element type."
+  @type pseudo_type ::
           :"first-line"
           | :"first-letter"
           | :before
@@ -104,31 +104,31 @@ DOMNode is a base node mirror type."
           | :"view-transition-old"
           | :"view-transition-new"
 
-  @doc "An array of quad vertices, x immediately followed by y for each point, points clock-wise."
-  @type Quad :: list(number())
+  @typedoc "An array of quad vertices, x immediately followed by y for each point, points clock-wise."
+  @type quad :: list(number())
 
-  @doc "A structure holding an RGBA color."
-  @type RGBA :: %{
+  @typedoc "A structure holding an RGBA color."
+  @type rgba :: %{
           a: number() | nil,
           b: integer(),
           g: integer(),
           r: integer()
         }
 
-  @doc "Rectangle."
-  @type Rect :: %{
+  @typedoc "Rectangle."
+  @type rect :: %{
           height: number(),
           width: number(),
           x: number(),
           y: number()
         }
 
-  @doc "Shadow root type."
-  @type ShadowRootType :: :"user-agent" | :open | :closed
+  @typedoc "Shadow root type."
+  @type shadow_root_type :: :"user-agent" | :open | :closed
 
-  @doc "CSS Shape Outside details."
-  @type ShapeOutsideInfo :: %{
-          bounds: DOM.Quad,
+  @typedoc "CSS Shape Outside details."
+  @type shape_outside_info :: %{
+          bounds: CDPotion.Domain.DOM.quad(),
           marginShape: list(any()),
           shape: list(any())
         }

@@ -1,40 +1,40 @@
 defmodule CDPotion.Domain.Target do
   use CDPotion.Utils
-  @doc "A filter used by target query/discovery/auto-attach operations."
-  @type FilterEntry :: %{
+  @typedoc "A filter used by target query/discovery/auto-attach operations."
+  @type filter_entry :: %{
           exclude: boolean() | nil,
           type: String.t() | nil
         }
 
-  @doc "description not provided :("
-  @type RemoteLocation :: %{
+  @typedoc "description not provided :("
+  @type remote_location :: %{
           host: String.t(),
           port: integer()
         }
 
-  @doc "Unique identifier of attached debugging session."
-  @type SessionID :: String.t()
+  @typedoc "Unique identifier of attached debugging session."
+  @type session_id :: String.t()
 
-  @doc "The entries in TargetFilter are matched sequentially against targets and
+  @typedoc "The entries in TargetFilter are matched sequentially against targets and
 the first entry that matches determines if the target is included or not,
 depending on the value of `exclude` field in the entry.
 If filter is not specified, the one assumed is
 [{type: 'browser', exclude: true}, {type: 'tab', exclude: true}, {}]
 (i.e. include everything but `browser` and `tab`)."
-  @type TargetFilter :: list(FilterEntry)
+  @type target_filter :: list(CDPotion.Domain.Target.filter_entry())
 
-  @doc "description not provided :("
-  @type TargetID :: String.t()
+  @typedoc "description not provided :("
+  @type target_id :: String.t()
 
-  @doc "description not provided :("
-  @type TargetInfo :: %{
+  @typedoc "description not provided :("
+  @type target_info :: %{
           attached: boolean(),
-          browserContextId: Browser.BrowserContextID | nil,
+          browserContextId: CDPotion.Domain.Browser.browser_context_id() | nil,
           canAccessOpener: boolean(),
-          openerFrameId: Page.FrameId | nil,
-          openerId: Target.TargetID | nil,
+          openerFrameId: CDPotion.Domain.Page.frame_id() | nil,
+          openerId: CDPotion.Domain.Target.target_id() | nil,
           subtype: String.t() | nil,
-          targetId: Target.TargetID,
+          targetId: CDPotion.Domain.Target.target_id(),
           title: String.t(),
           type: String.t(),
           url: String.t()

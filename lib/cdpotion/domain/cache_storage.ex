@@ -1,40 +1,40 @@
 defmodule CDPotion.Domain.CacheStorage do
   use CDPotion.Utils
-  @doc "Cache identifier."
-  @type Cache :: %{
-          cacheId: CacheStorage.CacheId,
+  @typedoc "Cache identifier."
+  @type cache :: %{
+          cacheId: CDPotion.Domain.CacheStorage.cache_id(),
           cacheName: String.t(),
           securityOrigin: String.t(),
-          storageBucket: Storage.StorageBucket | nil,
+          storageBucket: CDPotion.Domain.Storage.storage_bucket() | nil,
           storageKey: String.t()
         }
 
-  @doc "Unique identifier of the Cache object."
-  @type CacheId :: String.t()
+  @typedoc "Unique identifier of the Cache object."
+  @type cache_id :: String.t()
 
-  @doc "Cached response"
-  @type CachedResponse :: %{
+  @typedoc "Cached response"
+  @type cached_response :: %{
           body: String.t()
         }
 
-  @doc "type of HTTP response cached"
-  @type CachedResponseType ::
+  @typedoc "type of HTTP response cached"
+  @type cached_response_type ::
           :basic | :cors | :default | :error | :opaqueResponse | :opaqueRedirect
 
-  @doc "Data entry."
-  @type DataEntry :: %{
-          requestHeaders: list(CacheStorage.Header),
+  @typedoc "Data entry."
+  @type data_entry :: %{
+          requestHeaders: list(CDPotion.Domain.CacheStorage.header()),
           requestMethod: String.t(),
           requestURL: String.t(),
-          responseHeaders: list(CacheStorage.Header),
+          responseHeaders: list(CDPotion.Domain.CacheStorage.header()),
           responseStatus: integer(),
           responseStatusText: String.t(),
           responseTime: number(),
-          responseType: CacheStorage.CachedResponseType
+          responseType: CDPotion.Domain.CacheStorage.cached_response_type()
         }
 
-  @doc "description not provided :("
-  @type Header :: %{
+  @typedoc "description not provided :("
+  @type header :: %{
           name: String.t(),
           value: String.t()
         }

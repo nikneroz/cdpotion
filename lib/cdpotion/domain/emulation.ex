@@ -1,41 +1,41 @@
 defmodule CDPotion.Domain.Emulation do
   use CDPotion.Utils
-  @doc "Enum of image types that can be disabled."
-  @type DisabledImageType :: :avif | :webp
+  @typedoc "Enum of image types that can be disabled."
+  @type disabled_image_type :: :avif | :webp
 
-  @doc "description not provided :("
-  @type DisplayFeature :: %{
+  @typedoc "description not provided :("
+  @type display_feature :: %{
           maskLength: integer(),
           offset: integer(),
           orientation: :vertical | :horizontal
         }
 
-  @doc "description not provided :("
-  @type MediaFeature :: %{
+  @typedoc "description not provided :("
+  @type media_feature :: %{
           name: String.t(),
           value: String.t()
         }
 
-  @doc "Screen orientation."
-  @type ScreenOrientation :: %{
+  @typedoc "Screen orientation."
+  @type screen_orientation :: %{
           angle: integer(),
           type: :portraitPrimary | :portraitSecondary | :landscapePrimary | :landscapeSecondary
         }
 
-  @doc "Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints"
-  @type UserAgentBrandVersion :: %{
+  @typedoc "Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints"
+  @type user_agent_brand_version :: %{
           brand: String.t(),
           version: String.t()
         }
 
-  @doc "Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints
+  @typedoc "Used to specify User Agent Cient Hints to emulate. See https://wicg.github.io/ua-client-hints
 Missing optional values will be filled in by the target with what it would normally use."
-  @type UserAgentMetadata :: %{
+  @type user_agent_metadata :: %{
           architecture: String.t(),
           bitness: String.t() | nil,
-          brands: list(Emulation.UserAgentBrandVersion) | nil,
+          brands: list(CDPotion.Domain.Emulation.user_agent_brand_version()) | nil,
           fullVersion: String.t() | nil,
-          fullVersionList: list(Emulation.UserAgentBrandVersion) | nil,
+          fullVersionList: list(CDPotion.Domain.Emulation.user_agent_brand_version()) | nil,
           mobile: boolean(),
           model: String.t(),
           platform: String.t(),
@@ -43,11 +43,11 @@ Missing optional values will be filled in by the target with what it would norma
           wow64: boolean() | nil
         }
 
-  @doc "advance: If the scheduler runs out of immediate work, the virtual time base may fast forward to
+  @typedoc "advance: If the scheduler runs out of immediate work, the virtual time base may fast forward to
 allow the next delayed task (if any) to run; pause: The virtual time base may not advance;
 pauseIfNetworkFetchesPending: The virtual time base may not advance if there are any pending
 resource fetches."
-  @type VirtualTimePolicy :: :advance | :pause | :pauseIfNetworkFetchesPending
+  @type virtual_time_policy :: :advance | :pause | :pauseIfNetworkFetchesPending
 
   @doc """
   Tells whether emulation is supported.

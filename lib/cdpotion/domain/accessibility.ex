@@ -1,38 +1,38 @@
 defmodule CDPotion.Domain.Accessibility do
   use CDPotion.Utils
-  @doc "A node in the accessibility tree."
-  @type AXNode :: %{
-          backendDOMNodeId: DOM.BackendNodeId | nil,
-          childIds: list(Accessibility.AXNodeId) | nil,
-          chromeRole: Accessibility.AXValue | nil,
-          description: Accessibility.AXValue | nil,
-          frameId: Page.FrameId | nil,
+  @typedoc "A node in the accessibility tree."
+  @type ax_node :: %{
+          backendDOMNodeId: CDPotion.Domain.DOM.backend_node_id() | nil,
+          childIds: list(CDPotion.Domain.Accessibility.ax_node_id()) | nil,
+          chromeRole: CDPotion.Domain.Accessibility.ax_value() | nil,
+          description: CDPotion.Domain.Accessibility.ax_value() | nil,
+          frameId: CDPotion.Domain.Page.frame_id() | nil,
           ignored: boolean(),
-          ignoredReasons: list(Accessibility.AXProperty) | nil,
-          name: Accessibility.AXValue | nil,
-          nodeId: Accessibility.AXNodeId,
-          parentId: Accessibility.AXNodeId | nil,
-          properties: list(Accessibility.AXProperty) | nil,
-          role: Accessibility.AXValue | nil,
-          value: Accessibility.AXValue | nil
+          ignoredReasons: list(CDPotion.Domain.Accessibility.ax_property()) | nil,
+          name: CDPotion.Domain.Accessibility.ax_value() | nil,
+          nodeId: CDPotion.Domain.Accessibility.ax_node_id(),
+          parentId: CDPotion.Domain.Accessibility.ax_node_id() | nil,
+          properties: list(CDPotion.Domain.Accessibility.ax_property()) | nil,
+          role: CDPotion.Domain.Accessibility.ax_value() | nil,
+          value: CDPotion.Domain.Accessibility.ax_value() | nil
         }
 
-  @doc "Unique accessibility node identifier."
-  @type AXNodeId :: String.t()
+  @typedoc "Unique accessibility node identifier."
+  @type ax_node_id :: String.t()
 
-  @doc "description not provided :("
-  @type AXProperty :: %{
-          name: Accessibility.AXPropertyName,
-          value: Accessibility.AXValue
+  @typedoc "description not provided :("
+  @type ax_property :: %{
+          name: CDPotion.Domain.Accessibility.ax_property_name(),
+          value: CDPotion.Domain.Accessibility.ax_value()
         }
 
-  @doc "Values of AXProperty name:
+  @typedoc "Values of AXProperty name:
 - from 'busy' to 'roledescription': states which apply to every AX node
 - from 'live' to 'root': attributes which apply to nodes in live regions
 - from 'autocomplete' to 'valuetext': attributes which apply to widgets
 - from 'checked' to 'selected': states which apply to widgets
 - from 'activedescendant' to 'owns' - relationships between elements other than parent/child/sibling."
-  @type AXPropertyName ::
+  @type ax_property_name ::
           :busy
           | :disabled
           | :editable
@@ -73,23 +73,23 @@ defmodule CDPotion.Domain.Accessibility do
           | :labelledby
           | :owns
 
-  @doc "description not provided :("
-  @type AXRelatedNode :: %{
-          backendDOMNodeId: DOM.BackendNodeId,
+  @typedoc "description not provided :("
+  @type ax_related_node :: %{
+          backendDOMNodeId: CDPotion.Domain.DOM.backend_node_id(),
           idref: String.t() | nil,
           text: String.t() | nil
         }
 
-  @doc "A single computed AX property."
-  @type AXValue :: %{
-          relatedNodes: list(Accessibility.AXRelatedNode) | nil,
-          sources: list(Accessibility.AXValueSource) | nil,
-          type: Accessibility.AXValueType,
+  @typedoc "A single computed AX property."
+  @type ax_value :: %{
+          relatedNodes: list(CDPotion.Domain.Accessibility.ax_related_node()) | nil,
+          sources: list(CDPotion.Domain.Accessibility.ax_value_source()) | nil,
+          type: CDPotion.Domain.Accessibility.ax_value_type(),
           value: any() | nil
         }
 
-  @doc "Enum of possible native property sources (as a subtype of a particular AXValueSourceType)."
-  @type AXValueNativeSourceType ::
+  @typedoc "Enum of possible native property sources (as a subtype of a particular AXValueSourceType)."
+  @type ax_value_native_source_type ::
           :description
           | :figcaption
           | :label
@@ -101,25 +101,25 @@ defmodule CDPotion.Domain.Accessibility do
           | :title
           | :other
 
-  @doc "A single source for a computed AX property."
-  @type AXValueSource :: %{
+  @typedoc "A single source for a computed AX property."
+  @type ax_value_source :: %{
           attribute: String.t() | nil,
-          attributeValue: Accessibility.AXValue | nil,
+          attributeValue: CDPotion.Domain.Accessibility.ax_value() | nil,
           invalid: boolean() | nil,
           invalidReason: String.t() | nil,
-          nativeSource: Accessibility.AXValueNativeSourceType | nil,
-          nativeSourceValue: Accessibility.AXValue | nil,
+          nativeSource: CDPotion.Domain.Accessibility.ax_value_native_source_type() | nil,
+          nativeSourceValue: CDPotion.Domain.Accessibility.ax_value() | nil,
           superseded: boolean() | nil,
-          type: Accessibility.AXValueSourceType,
-          value: Accessibility.AXValue | nil
+          type: CDPotion.Domain.Accessibility.ax_value_source_type(),
+          value: CDPotion.Domain.Accessibility.ax_value() | nil
         }
 
-  @doc "Enum of possible property sources."
-  @type AXValueSourceType ::
+  @typedoc "Enum of possible property sources."
+  @type ax_value_source_type ::
           :attribute | :implicit | :style | :contents | :placeholder | :relatedElement
 
-  @doc "Enum of possible property types."
-  @type AXValueType ::
+  @typedoc "Enum of possible property types."
+  @type ax_value_type ::
           :boolean
           | :tristate
           | :booleanOrUndefined

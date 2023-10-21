@@ -1,7 +1,7 @@
 defmodule CDPotion.Domain.Console do
   use CDPotion.Utils
-  @doc "Console message."
-  @type ConsoleMessage :: %{
+  @typedoc "Console message."
+  @type console_message :: %{
           column: integer() | nil,
           level: :log | :warning | :error | :debug | :info,
           line: integer() | nil,

@@ -1,7 +1,7 @@
 defmodule CDPotion.Domain.Animation do
   use CDPotion.Utils
-  @doc "Animation instance."
-  @type Animation :: %{
+  @typedoc "Animation instance."
+  @type animation :: %{
           cssId: String.t() | nil,
           currentTime: number(),
           id: String.t(),
@@ -9,14 +9,14 @@ defmodule CDPotion.Domain.Animation do
           pausedState: boolean(),
           playState: String.t(),
           playbackRate: number(),
-          source: Animation.AnimationEffect | nil,
+          source: CDPotion.Domain.Animation.animation_effect() | nil,
           startTime: number(),
           type: :CSSTransition | :CSSAnimation | :WebAnimation
         }
 
-  @doc "AnimationEffect instance"
-  @type AnimationEffect :: %{
-          backendNodeId: DOM.BackendNodeId | nil,
+  @typedoc "AnimationEffect instance"
+  @type animation_effect :: %{
+          backendNodeId: CDPotion.Domain.DOM.backend_node_id() | nil,
           delay: number(),
           direction: String.t(),
           duration: number(),
@@ -25,18 +25,18 @@ defmodule CDPotion.Domain.Animation do
           fill: String.t(),
           iterationStart: number(),
           iterations: number(),
-          keyframesRule: Animation.KeyframesRule | nil
+          keyframesRule: CDPotion.Domain.Animation.keyframes_rule() | nil
         }
 
-  @doc "Keyframe Style"
-  @type KeyframeStyle :: %{
+  @typedoc "Keyframe Style"
+  @type keyframe_style :: %{
           easing: String.t(),
           offset: String.t()
         }
 
-  @doc "Keyframes Rule"
-  @type KeyframesRule :: %{
-          keyframes: list(Animation.KeyframeStyle),
+  @typedoc "Keyframes Rule"
+  @type keyframes_rule :: %{
+          keyframes: list(CDPotion.Domain.Animation.keyframe_style()),
           name: String.t() | nil
         }
 

@@ -1,8 +1,8 @@
 defmodule CDPotion.Domain.Preload do
   use CDPotion.Utils
-  @doc "TODO(https://crbug.com/1384419): revisit the list of PrefetchStatus and
+  @typedoc "TODO(https://crbug.com/1384419): revisit the list of PrefetchStatus and
 filter out the ones that aren't necessary to the developers."
-  @type PrefetchStatus ::
+  @type prefetch_status ::
           :PrefetchAllowed
           | :PrefetchFailedIneligibleRedirect
           | :PrefetchFailedInvalidRedirect
@@ -34,36 +34,36 @@ filter out the ones that aren't necessary to the developers."
           | :PrefetchSuccessfulButNotUsed
           | :PrefetchNotUsedProbeFailed
 
-  @doc "A key that identifies a preloading attempt.
+  @typedoc "A key that identifies a preloading attempt.
 
 The url used is the url specified by the trigger (i.e. the initial URL), and
 not the final url that is navigated to. For example, prerendering allows
 same-origin main frame navigations during the attempt, but the attempt is
 still keyed with the initial URL."
-  @type PreloadingAttemptKey :: %{
-          action: Preload.SpeculationAction,
-          loaderId: Network.LoaderId,
-          targetHint: Preload.SpeculationTargetHint | nil,
+  @type preloading_attempt_key :: %{
+          action: CDPotion.Domain.Preload.speculation_action(),
+          loaderId: CDPotion.Domain.Network.loader_id(),
+          targetHint: CDPotion.Domain.Preload.speculation_target_hint() | nil,
           url: String.t()
         }
 
-  @doc "Lists sources for a preloading attempt, specifically the ids of rule sets
+  @typedoc "Lists sources for a preloading attempt, specifically the ids of rule sets
 that had a speculation rule that triggered the attempt, and the
 BackendNodeIds of <a href> or <area href> elements that triggered the
 attempt (in the case of attempts triggered by a document rule). It is
 possible for mulitple rule sets and links to trigger a single attempt."
-  @type PreloadingAttemptSource :: %{
-          key: Preload.PreloadingAttemptKey,
-          nodeIds: list(DOM.BackendNodeId),
-          ruleSetIds: list(Preload.RuleSetId)
+  @type preloading_attempt_source :: %{
+          key: CDPotion.Domain.Preload.preloading_attempt_key(),
+          nodeIds: list(CDPotion.Domain.DOM.backend_node_id()),
+          ruleSetIds: list(CDPotion.Domain.Preload.rule_set_id())
         }
 
-  @doc "Preloading status values, see also PreloadingTriggeringOutcome. This
+  @typedoc "Preloading status values, see also PreloadingTriggeringOutcome. This
 status is shared by prefetchStatusUpdated and prerenderStatusUpdated."
-  @type PreloadingStatus :: :Pending | :Running | :Ready | :Success | :Failure | :NotSupported
+  @type preloading_status :: :Pending | :Running | :Ready | :Success | :Failure | :NotSupported
 
-  @doc "List of FinalStatus reasons for Prerender2."
-  @type PrerenderFinalStatus ::
+  @typedoc "List of FinalStatus reasons for Prerender2."
+  @type prerender_final_status ::
           :Activated
           | :Destroyed
           | :LowEndDevice
@@ -128,32 +128,32 @@ status is shared by prefetchStatusUpdated and prerenderStatusUpdated."
           | :SpeculationRuleRemoved
           | :ActivatedWithAuxiliaryBrowsingContexts
 
-  @doc "Corresponds to SpeculationRuleSet"
-  @type RuleSet :: %{
-          backendNodeId: DOM.BackendNodeId | nil,
+  @typedoc "Corresponds to SpeculationRuleSet"
+  @type rule_set :: %{
+          backendNodeId: CDPotion.Domain.DOM.backend_node_id() | nil,
           errorMessage: String.t() | nil,
-          errorType: Preload.RuleSetErrorType | nil,
-          id: Preload.RuleSetId,
-          loaderId: Network.LoaderId,
-          requestId: Network.RequestId | nil,
+          errorType: CDPotion.Domain.Preload.rule_set_error_type() | nil,
+          id: CDPotion.Domain.Preload.rule_set_id(),
+          loaderId: CDPotion.Domain.Network.loader_id(),
+          requestId: CDPotion.Domain.Network.request_id() | nil,
           sourceText: String.t(),
           url: String.t() | nil
         }
 
-  @doc "description not provided :("
-  @type RuleSetErrorType :: :SourceIsNotJsonObject | :InvalidRulesSkipped
+  @typedoc "description not provided :("
+  @type rule_set_error_type :: :SourceIsNotJsonObject | :InvalidRulesSkipped
 
-  @doc "Unique id"
-  @type RuleSetId :: String.t()
+  @typedoc "Unique id"
+  @type rule_set_id :: String.t()
 
-  @doc "The type of preloading attempted. It corresponds to
+  @typedoc "The type of preloading attempted. It corresponds to
 mojom::SpeculationAction (although PrefetchWithSubresources is omitted as it
 isn't being used by clients)."
-  @type SpeculationAction :: :Prefetch | :Prerender
+  @type speculation_action :: :Prefetch | :Prerender
 
-  @doc "Corresponds to mojom::SpeculationTargetHint.
+  @typedoc "Corresponds to mojom::SpeculationTargetHint.
 See https://github.com/WICG/nav-speculation/blob/main/triggers.md#window-name-targeting-hints"
-  @type SpeculationTargetHint :: :Blank | :Self
+  @type speculation_target_hint :: :Blank | :Self
 
   @doc """
   """

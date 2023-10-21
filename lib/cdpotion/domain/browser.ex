@@ -1,38 +1,38 @@
 defmodule CDPotion.Domain.Browser do
   use CDPotion.Utils
-  @doc "Browser window bounds information"
-  @type Bounds :: %{
+  @typedoc "Browser window bounds information"
+  @type bounds :: %{
           height: integer() | nil,
           left: integer() | nil,
           top: integer() | nil,
           width: integer() | nil,
-          windowState: Browser.WindowState | nil
+          windowState: CDPotion.Domain.Browser.window_state() | nil
         }
 
-  @doc "Browser command ids used by executeBrowserCommand."
-  @type BrowserCommandId :: :openTabSearch | :closeTabSearch
+  @typedoc "Browser command ids used by executeBrowserCommand."
+  @type browser_command_id :: :openTabSearch | :closeTabSearch
 
-  @doc "description not provided :("
-  @type BrowserContextID :: String.t()
+  @typedoc "description not provided :("
+  @type browser_context_id :: String.t()
 
-  @doc "Chrome histogram bucket."
-  @type Bucket :: %{
+  @typedoc "Chrome histogram bucket."
+  @type bucket :: %{
           count: integer(),
           high: integer(),
           low: integer()
         }
 
-  @doc "Chrome histogram."
-  @type Histogram :: %{
-          buckets: list(Browser.Bucket),
+  @typedoc "Chrome histogram."
+  @type histogram :: %{
+          buckets: list(CDPotion.Domain.Browser.bucket()),
           count: integer(),
           name: String.t(),
           sum: integer()
         }
 
-  @doc "Definition of PermissionDescriptor defined in the Permissions API:
+  @typedoc "Definition of PermissionDescriptor defined in the Permissions API:
 https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
-  @type PermissionDescriptor :: %{
+  @type permission_descriptor :: %{
           allowWithoutSanitization: boolean() | nil,
           name: String.t(),
           panTiltZoom: boolean() | nil,
@@ -40,11 +40,11 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
           userVisibleOnly: boolean() | nil
         }
 
-  @doc "description not provided :("
-  @type PermissionSetting :: :granted | :denied | :prompt
+  @typedoc "description not provided :("
+  @type permission_setting :: :granted | :denied | :prompt
 
-  @doc "description not provided :("
-  @type PermissionType ::
+  @typedoc "description not provided :("
+  @type permission_type ::
           :accessibilityEvents
           | :audioCapture
           | :backgroundSync
@@ -73,11 +73,11 @@ https://w3c.github.io/permissions/#dictdef-permissiondescriptor."
           | :wakeLockSystem
           | :windowManagement
 
-  @doc "description not provided :("
-  @type WindowID :: integer()
+  @typedoc "description not provided :("
+  @type window_id :: integer()
 
-  @doc "The state of the browser window."
-  @type WindowState :: :normal | :minimized | :maximized | :fullscreen
+  @typedoc "The state of the browser window."
+  @type window_state :: :normal | :minimized | :maximized | :fullscreen
 
   @doc """
   Set permission settings for given origin.

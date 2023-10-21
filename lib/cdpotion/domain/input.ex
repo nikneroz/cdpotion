@@ -1,31 +1,31 @@
 defmodule CDPotion.Domain.Input do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type DragData :: %{
+  @typedoc "description not provided :("
+  @type drag_data :: %{
           dragOperationsMask: integer(),
           files: list(String.t()) | nil,
-          items: list(Input.DragDataItem)
+          items: list(CDPotion.Domain.Input.drag_data_item())
         }
 
-  @doc "description not provided :("
-  @type DragDataItem :: %{
+  @typedoc "description not provided :("
+  @type drag_data_item :: %{
           baseURL: String.t() | nil,
           data: String.t(),
           mimeType: String.t(),
           title: String.t() | nil
         }
 
-  @doc "description not provided :("
-  @type GestureSourceType :: :default | :touch | :mouse
+  @typedoc "description not provided :("
+  @type gesture_source_type :: :default | :touch | :mouse
 
-  @doc "description not provided :("
-  @type MouseButton :: :none | :left | :middle | :right | :back | :forward
+  @typedoc "description not provided :("
+  @type mouse_button :: :none | :left | :middle | :right | :back | :forward
 
-  @doc "UTC time in seconds, counted from January 1, 1970."
-  @type TimeSinceEpoch :: number()
+  @typedoc "UTC time in seconds, counted from January 1, 1970."
+  @type time_since_epoch :: number()
 
-  @doc "description not provided :("
-  @type TouchPoint :: %{
+  @typedoc "description not provided :("
+  @type touch_point :: %{
           force: number() | nil,
           id: number() | nil,
           radiusX: number() | nil,

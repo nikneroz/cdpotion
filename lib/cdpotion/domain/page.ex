@@ -1,56 +1,56 @@
 defmodule CDPotion.Domain.Page do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type AdFrameExplanation :: :ParentIsAd | :CreatedByAdScript | :MatchedBlockingRule
+  @typedoc "description not provided :("
+  @type ad_frame_explanation :: :ParentIsAd | :CreatedByAdScript | :MatchedBlockingRule
 
-  @doc "Indicates whether a frame has been identified as an ad and why."
-  @type AdFrameStatus :: %{
-          adFrameType: Page.AdFrameType,
-          explanations: list(Page.AdFrameExplanation) | nil
+  @typedoc "Indicates whether a frame has been identified as an ad and why."
+  @type ad_frame_status :: %{
+          adFrameType: CDPotion.Domain.Page.ad_frame_type(),
+          explanations: list(CDPotion.Domain.Page.ad_frame_explanation()) | nil
         }
 
-  @doc "Indicates whether a frame has been identified as an ad."
-  @type AdFrameType :: :none | :child | :root
+  @typedoc "Indicates whether a frame has been identified as an ad."
+  @type ad_frame_type :: :none | :child | :root
 
-  @doc "Identifies the bottom-most script which caused the frame to be labelled
+  @typedoc "Identifies the bottom-most script which caused the frame to be labelled
 as an ad."
-  @type AdScriptId :: %{
-          debuggerId: Runtime.UniqueDebuggerId,
-          scriptId: Runtime.ScriptId
+  @type ad_script_id :: %{
+          debuggerId: CDPotion.Domain.Runtime.unique_debugger_id(),
+          scriptId: CDPotion.Domain.Runtime.script_id()
         }
 
-  @doc "Error while paring app manifest."
-  @type AppManifestError :: %{
+  @typedoc "Error while paring app manifest."
+  @type app_manifest_error :: %{
           column: integer(),
           critical: integer(),
           line: integer(),
           message: String.t()
         }
 
-  @doc "Parsed app manifest properties."
-  @type AppManifestParsedProperties :: %{
+  @typedoc "Parsed app manifest properties."
+  @type app_manifest_parsed_properties :: %{
           scope: String.t()
         }
 
-  @doc "Enum of possible auto-reponse for permisison / prompt dialogs."
-  @type AutoResponseMode :: :none | :autoAccept | :autoReject | :autoOptOut
+  @typedoc "Enum of possible auto-reponse for permisison / prompt dialogs."
+  @type auto_response_mode :: :none | :autoAccept | :autoReject | :autoOptOut
 
-  @doc "description not provided :("
-  @type BackForwardCacheNotRestoredExplanation :: %{
+  @typedoc "description not provided :("
+  @type back_forward_cache_not_restored_explanation :: %{
           context: String.t() | nil,
-          reason: Page.BackForwardCacheNotRestoredReason,
-          type: Page.BackForwardCacheNotRestoredReasonType
+          reason: CDPotion.Domain.Page.back_forward_cache_not_restored_reason(),
+          type: CDPotion.Domain.Page.back_forward_cache_not_restored_reason_type()
         }
 
-  @doc "description not provided :("
-  @type BackForwardCacheNotRestoredExplanationTree :: %{
-          children: list(Page.BackForwardCacheNotRestoredExplanationTree),
-          explanations: list(Page.BackForwardCacheNotRestoredExplanation),
+  @typedoc "description not provided :("
+  @type back_forward_cache_not_restored_explanation_tree :: %{
+          children: list(CDPotion.Domain.Page.back_forward_cache_not_restored_explanation_tree()),
+          explanations: list(CDPotion.Domain.Page.back_forward_cache_not_restored_explanation()),
           url: String.t()
         }
 
-  @doc "List of not restored reasons for back-forward cache."
-  @type BackForwardCacheNotRestoredReason ::
+  @typedoc "List of not restored reasons for back-forward cache."
+  @type back_forward_cache_not_restored_reason ::
           :NotPrimaryMainFrame
           | :BackForwardCacheDisabled
           | :RelatedActiveContentsExist
@@ -180,15 +180,15 @@ as an ad."
           | :EmbedderExtensionMessagingForOpenPort
           | :EmbedderExtensionSentMessageToCachedFrame
 
-  @doc "Types of not restored reasons for back-forward cache."
-  @type BackForwardCacheNotRestoredReasonType ::
+  @typedoc "Types of not restored reasons for back-forward cache."
+  @type back_forward_cache_not_restored_reason_type ::
           :SupportPending | :PageSupportNeeded | :Circumstantial
 
-  @doc "description not provided :("
-  @type ClientNavigationDisposition :: :currentTab | :newTab | :newWindow | :download
+  @typedoc "description not provided :("
+  @type client_navigation_disposition :: :currentTab | :newTab | :newWindow | :download
 
-  @doc "description not provided :("
-  @type ClientNavigationReason ::
+  @typedoc "description not provided :("
+  @type client_navigation_reason ::
           :formSubmissionGet
           | :formSubmissionPost
           | :httpHeaderRefresh
@@ -198,20 +198,21 @@ as an ad."
           | :reload
           | :anchorClick
 
-  @doc "Per-script compilation cache parameters for `Page.produceCompilationCache`"
-  @type CompilationCacheParams :: %{
+  @typedoc "Per-script compilation cache parameters for `Page.produceCompilationCache`"
+  @type compilation_cache_params :: %{
           eager: boolean() | nil,
           url: String.t()
         }
 
-  @doc "Indicates whether the frame is cross-origin isolated and why it is the case."
-  @type CrossOriginIsolatedContextType :: :Isolated | :NotIsolated | :NotIsolatedFeatureDisabled
+  @typedoc "Indicates whether the frame is cross-origin isolated and why it is the case."
+  @type cross_origin_isolated_context_type ::
+          :Isolated | :NotIsolated | :NotIsolatedFeatureDisabled
 
-  @doc "Javascript dialog type."
-  @type DialogType :: :alert | :confirm | :prompt | :beforeunload
+  @typedoc "Javascript dialog type."
+  @type dialog_type :: :alert | :confirm | :prompt | :beforeunload
 
-  @doc "Generic font families collection."
-  @type FontFamilies :: %{
+  @typedoc "Generic font families collection."
+  @type font_families :: %{
           cursive: String.t() | nil,
           fantasy: String.t() | nil,
           fixed: String.t() | nil,
@@ -221,120 +222,121 @@ as an ad."
           standard: String.t() | nil
         }
 
-  @doc "Default font sizes."
-  @type FontSizes :: %{
+  @typedoc "Default font sizes."
+  @type font_sizes :: %{
           fixed: integer() | nil,
           standard: integer() | nil
         }
 
-  @doc "Information about the Frame on the page."
-  @type Frame :: %{
-          adFrameStatus: Page.AdFrameStatus | nil,
-          crossOriginIsolatedContextType: Page.CrossOriginIsolatedContextType,
+  @typedoc "Information about the Frame on the page."
+  @type frame :: %{
+          adFrameStatus: CDPotion.Domain.Page.ad_frame_status() | nil,
+          crossOriginIsolatedContextType:
+            CDPotion.Domain.Page.cross_origin_isolated_context_type(),
           domainAndRegistry: String.t(),
-          gatedAPIFeatures: list(Page.GatedAPIFeatures),
-          id: Page.FrameId,
-          loaderId: Network.LoaderId,
+          gatedAPIFeatures: list(CDPotion.Domain.Page.gated_api_features()),
+          id: CDPotion.Domain.Page.frame_id(),
+          loaderId: CDPotion.Domain.Network.loader_id(),
           mimeType: String.t(),
           name: String.t() | nil,
-          parentId: Page.FrameId | nil,
-          secureContextType: Page.SecureContextType,
+          parentId: CDPotion.Domain.Page.frame_id() | nil,
+          secureContextType: CDPotion.Domain.Page.secure_context_type(),
           securityOrigin: String.t(),
           unreachableUrl: String.t() | nil,
           url: String.t(),
           urlFragment: String.t() | nil
         }
 
-  @doc "Unique frame identifier."
-  @type FrameId :: String.t()
+  @typedoc "Unique frame identifier."
+  @type frame_id :: String.t()
 
-  @doc "Information about the Resource on the page."
-  @type FrameResource :: %{
+  @typedoc "Information about the Resource on the page."
+  @type frame_resource :: %{
           canceled: boolean() | nil,
           contentSize: number() | nil,
           failed: boolean() | nil,
-          lastModified: Network.TimeSinceEpoch | nil,
+          lastModified: CDPotion.Domain.Network.time_since_epoch() | nil,
           mimeType: String.t(),
-          type: Network.ResourceType,
+          type: CDPotion.Domain.Network.resource_type(),
           url: String.t()
         }
 
-  @doc "Information about the Frame hierarchy along with their cached resources."
-  @type FrameResourceTree :: %{
-          childFrames: list(Page.FrameResourceTree) | nil,
-          frame: Page.Frame,
-          resources: list(Page.FrameResource)
+  @typedoc "Information about the Frame hierarchy along with their cached resources."
+  @type frame_resource_tree :: %{
+          childFrames: list(CDPotion.Domain.Page.frame_resource_tree()) | nil,
+          frame: CDPotion.Domain.Page.frame(),
+          resources: list(CDPotion.Domain.Page.frame_resource())
         }
 
-  @doc "Information about the Frame hierarchy."
-  @type FrameTree :: %{
-          childFrames: list(Page.FrameTree) | nil,
-          frame: Page.Frame
+  @typedoc "Information about the Frame hierarchy."
+  @type frame_tree :: %{
+          childFrames: list(CDPotion.Domain.Page.frame_tree()) | nil,
+          frame: CDPotion.Domain.Page.frame()
         }
 
-  @doc "description not provided :("
-  @type GatedAPIFeatures ::
+  @typedoc "description not provided :("
+  @type gated_api_features ::
           :SharedArrayBuffers
           | :SharedArrayBuffersTransferAllowed
           | :PerformanceMeasureMemory
           | :PerformanceProfile
 
-  @doc "The installability error"
-  @type InstallabilityError :: %{
-          errorArguments: list(Page.InstallabilityErrorArgument),
+  @typedoc "The installability error"
+  @type installability_error :: %{
+          errorArguments: list(CDPotion.Domain.Page.installability_error_argument()),
           errorId: String.t()
         }
 
-  @doc "description not provided :("
-  @type InstallabilityErrorArgument :: %{
+  @typedoc "description not provided :("
+  @type installability_error_argument :: %{
           name: String.t(),
           value: String.t()
         }
 
-  @doc "Layout viewport position and dimensions."
-  @type LayoutViewport :: %{
+  @typedoc "Layout viewport position and dimensions."
+  @type layout_viewport :: %{
           clientHeight: integer(),
           clientWidth: integer(),
           pageX: integer(),
           pageY: integer()
         }
 
-  @doc "Navigation history entry."
-  @type NavigationEntry :: %{
+  @typedoc "Navigation history entry."
+  @type navigation_entry :: %{
           id: integer(),
           title: String.t(),
-          transitionType: Page.TransitionType,
+          transitionType: CDPotion.Domain.Page.transition_type(),
           url: String.t(),
           userTypedURL: String.t()
         }
 
-  @doc "The type of a frameNavigated event."
-  @type NavigationType :: :Navigation | :BackForwardCacheRestore
+  @typedoc "The type of a frameNavigated event."
+  @type navigation_type :: :Navigation | :BackForwardCacheRestore
 
-  @doc "description not provided :("
-  @type OriginTrial :: %{
-          status: Page.OriginTrialStatus,
-          tokensWithStatus: list(Page.OriginTrialTokenWithStatus),
+  @typedoc "description not provided :("
+  @type origin_trial :: %{
+          status: CDPotion.Domain.Page.origin_trial_status(),
+          tokensWithStatus: list(CDPotion.Domain.Page.origin_trial_token_with_status()),
           trialName: String.t()
         }
 
-  @doc "Status for an Origin Trial."
-  @type OriginTrialStatus ::
+  @typedoc "Status for an Origin Trial."
+  @type origin_trial_status ::
           :Enabled | :ValidTokenNotProvided | :OSNotSupported | :TrialNotAllowed
 
-  @doc "description not provided :("
-  @type OriginTrialToken :: %{
-          expiryTime: Network.TimeSinceEpoch,
+  @typedoc "description not provided :("
+  @type origin_trial_token :: %{
+          expiryTime: CDPotion.Domain.Network.time_since_epoch(),
           isThirdParty: boolean(),
           matchSubDomains: boolean(),
           origin: String.t(),
           trialName: String.t(),
-          usageRestriction: Page.OriginTrialUsageRestriction
+          usageRestriction: CDPotion.Domain.Page.origin_trial_usage_restriction()
         }
 
-  @doc "Origin Trial(https://www.chromium.org/blink/origin-trials) support.
+  @typedoc "Origin Trial(https://www.chromium.org/blink/origin-trials) support.
 Status for an Origin Trial token."
-  @type OriginTrialTokenStatus ::
+  @type origin_trial_token_status ::
           :Success
           | :NotSupported
           | :Insecure
@@ -348,29 +350,29 @@ Status for an Origin Trial token."
           | :FeatureDisabledForUser
           | :UnknownTrial
 
-  @doc "description not provided :("
-  @type OriginTrialTokenWithStatus :: %{
-          parsedToken: Page.OriginTrialToken | nil,
+  @typedoc "description not provided :("
+  @type origin_trial_token_with_status :: %{
+          parsedToken: CDPotion.Domain.Page.origin_trial_token() | nil,
           rawTokenText: String.t(),
-          status: Page.OriginTrialTokenStatus
+          status: CDPotion.Domain.Page.origin_trial_token_status()
         }
 
-  @doc "description not provided :("
-  @type OriginTrialUsageRestriction :: :None | :Subset
+  @typedoc "description not provided :("
+  @type origin_trial_usage_restriction :: :None | :Subset
 
-  @doc "description not provided :("
-  @type PermissionsPolicyBlockLocator :: %{
-          blockReason: Page.PermissionsPolicyBlockReason,
-          frameId: Page.FrameId
+  @typedoc "description not provided :("
+  @type permissions_policy_block_locator :: %{
+          blockReason: CDPotion.Domain.Page.permissions_policy_block_reason(),
+          frameId: CDPotion.Domain.Page.frame_id()
         }
 
-  @doc "Reason for a permissions policy feature to be disabled."
-  @type PermissionsPolicyBlockReason ::
+  @typedoc "Reason for a permissions policy feature to be disabled."
+  @type permissions_policy_block_reason ::
           :Header | :IframeAttribute | :InFencedFrameTree | :InIsolatedApp
 
-  @doc "All Permissions Policy features. This enum should match the one defined
+  @typedoc "All Permissions Policy features. This enum should match the one defined
 in third_party/blink/renderer/core/permissions_policy/permissions_policy_features.json5."
-  @type PermissionsPolicyFeature ::
+  @type permissions_policy_feature ::
           :accelerometer
           | :"ambient-light-sensor"
           | :"attribution-reporting"
@@ -450,15 +452,15 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
           | :"window-placement"
           | :"xr-spatial-tracking"
 
-  @doc "description not provided :("
-  @type PermissionsPolicyFeatureState :: %{
+  @typedoc "description not provided :("
+  @type permissions_policy_feature_state :: %{
           allowed: boolean(),
-          feature: Page.PermissionsPolicyFeature,
-          locator: Page.PermissionsPolicyBlockLocator | nil
+          feature: CDPotion.Domain.Page.permissions_policy_feature(),
+          locator: CDPotion.Domain.Page.permissions_policy_block_locator() | nil
         }
 
-  @doc "The referring-policy used for the navigation."
-  @type ReferrerPolicy ::
+  @typedoc "The referring-policy used for the navigation."
+  @type referrer_policy ::
           :noReferrer
           | :noReferrerWhenDowngrade
           | :origin
@@ -468,31 +470,31 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
           | :strictOriginWhenCrossOrigin
           | :unsafeUrl
 
-  @doc "Screencast frame metadata."
-  @type ScreencastFrameMetadata :: %{
+  @typedoc "Screencast frame metadata."
+  @type screencast_frame_metadata :: %{
           deviceHeight: number(),
           deviceWidth: number(),
           offsetTop: number(),
           pageScaleFactor: number(),
           scrollOffsetX: number(),
           scrollOffsetY: number(),
-          timestamp: Network.TimeSinceEpoch | nil
+          timestamp: CDPotion.Domain.Network.time_since_epoch() | nil
         }
 
-  @doc "Font families collection for a script."
-  @type ScriptFontFamilies :: %{
-          fontFamilies: Page.FontFamilies,
+  @typedoc "Font families collection for a script."
+  @type script_font_families :: %{
+          fontFamilies: CDPotion.Domain.Page.font_families(),
           script: String.t()
         }
 
-  @doc "Unique script identifier."
-  @type ScriptIdentifier :: String.t()
+  @typedoc "Unique script identifier."
+  @type script_identifier :: String.t()
 
-  @doc "Indicates whether the frame is a secure context and why it is the case."
-  @type SecureContextType :: :Secure | :SecureLocalhost | :InsecureScheme | :InsecureAncestor
+  @typedoc "Indicates whether the frame is a secure context and why it is the case."
+  @type secure_context_type :: :Secure | :SecureLocalhost | :InsecureScheme | :InsecureAncestor
 
-  @doc "Transition type."
-  @type TransitionType ::
+  @typedoc "Transition type."
+  @type transition_type ::
           :link
           | :typed
           | :address_bar
@@ -507,8 +509,8 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
           | :keyword_generated
           | :other
 
-  @doc "Viewport for capturing screenshot."
-  @type Viewport :: %{
+  @typedoc "Viewport for capturing screenshot."
+  @type viewport :: %{
           height: number(),
           scale: number(),
           width: number(),
@@ -516,8 +518,8 @@ in third_party/blink/renderer/core/permissions_policy/permissions_policy_feature
           y: number()
         }
 
-  @doc "Visual viewport position, dimensions, and scale."
-  @type VisualViewport :: %{
+  @typedoc "Visual viewport position, dimensions, and scale."
+  @type visual_viewport :: %{
           clientHeight: number(),
           clientWidth: number(),
           offsetX: number(),

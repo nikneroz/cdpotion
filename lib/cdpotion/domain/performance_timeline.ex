@@ -1,38 +1,38 @@
 defmodule CDPotion.Domain.PerformanceTimeline do
   use CDPotion.Utils
-  @doc "See https://github.com/WICG/LargestContentfulPaint and largest_contentful_paint.idl"
-  @type LargestContentfulPaint :: %{
+  @typedoc "See https://github.com/WICG/LargestContentfulPaint and largest_contentful_paint.idl"
+  @type largest_contentful_paint :: %{
           elementId: String.t() | nil,
-          loadTime: Network.TimeSinceEpoch,
-          nodeId: DOM.BackendNodeId | nil,
-          renderTime: Network.TimeSinceEpoch,
+          loadTime: CDPotion.Domain.Network.time_since_epoch(),
+          nodeId: CDPotion.Domain.DOM.backend_node_id() | nil,
+          renderTime: CDPotion.Domain.Network.time_since_epoch(),
           size: number(),
           url: String.t() | nil
         }
 
-  @doc "See https://wicg.github.io/layout-instability/#sec-layout-shift and layout_shift.idl"
-  @type LayoutShift :: %{
+  @typedoc "See https://wicg.github.io/layout-instability/#sec-layout-shift and layout_shift.idl"
+  @type layout_shift :: %{
           hadRecentInput: boolean(),
-          lastInputTime: Network.TimeSinceEpoch,
-          sources: list(PerformanceTimeline.LayoutShiftAttribution),
+          lastInputTime: CDPotion.Domain.Network.time_since_epoch(),
+          sources: list(CDPotion.Domain.PerformanceTimeline.layout_shift_attribution()),
           value: number()
         }
 
-  @doc "description not provided :("
-  @type LayoutShiftAttribution :: %{
-          currentRect: DOM.Rect,
-          nodeId: DOM.BackendNodeId | nil,
-          previousRect: DOM.Rect
+  @typedoc "description not provided :("
+  @type layout_shift_attribution :: %{
+          currentRect: CDPotion.Domain.DOM.rect(),
+          nodeId: CDPotion.Domain.DOM.backend_node_id() | nil,
+          previousRect: CDPotion.Domain.DOM.rect()
         }
 
-  @doc "description not provided :("
-  @type TimelineEvent :: %{
+  @typedoc "description not provided :("
+  @type timeline_event :: %{
           duration: number() | nil,
-          frameId: Page.FrameId,
-          layoutShiftDetails: PerformanceTimeline.LayoutShift | nil,
-          lcpDetails: PerformanceTimeline.LargestContentfulPaint | nil,
+          frameId: CDPotion.Domain.Page.frame_id(),
+          layoutShiftDetails: CDPotion.Domain.PerformanceTimeline.layout_shift() | nil,
+          lcpDetails: CDPotion.Domain.PerformanceTimeline.largest_contentful_paint() | nil,
           name: String.t(),
-          time: Network.TimeSinceEpoch,
+          time: CDPotion.Domain.Network.time_since_epoch(),
           type: String.t()
         }
 

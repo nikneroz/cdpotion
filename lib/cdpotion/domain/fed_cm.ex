@@ -1,25 +1,25 @@
 defmodule CDPotion.Domain.FedCm do
   use CDPotion.Utils
-  @doc "Corresponds to IdentityRequestAccount"
-  @type Account :: %{
+  @typedoc "Corresponds to IdentityRequestAccount"
+  @type account :: %{
           accountId: String.t(),
           email: String.t(),
           givenName: String.t(),
           idpConfigUrl: String.t(),
           idpSigninUrl: String.t(),
-          loginState: FedCm.LoginState,
+          loginState: CDPotion.Domain.FedCm.login_state(),
           name: String.t(),
           pictureUrl: String.t(),
           privacyPolicyUrl: String.t() | nil,
           termsOfServiceUrl: String.t() | nil
         }
 
-  @doc "Whether the dialog shown is an account chooser or an auto re-authentication dialog."
-  @type DialogType :: :AccountChooser | :AutoReauthn
+  @typedoc "Whether the dialog shown is an account chooser or an auto re-authentication dialog."
+  @type dialog_type :: :AccountChooser | :AutoReauthn
 
-  @doc "Whether this is a sign-up or sign-in action for this account, i.e.
+  @typedoc "Whether this is a sign-up or sign-in action for this account, i.e.
 whether this account has ever been used to sign in to this RP before."
-  @type LoginState :: :SignIn | :SignUp
+  @type login_state :: :SignIn | :SignUp
 
   @doc """
   ## Parameters:

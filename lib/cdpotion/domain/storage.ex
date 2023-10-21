@@ -1,36 +1,37 @@
 defmodule CDPotion.Domain.Storage do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type AttributionReportingAggregationKeysEntry :: %{
+  @typedoc "description not provided :("
+  @type attribution_reporting_aggregation_keys_entry :: %{
           key: String.t(),
-          value: Storage.UnsignedInt128AsBase16
+          value: CDPotion.Domain.Storage.unsigned_int128_as_base16()
         }
 
-  @doc "description not provided :("
-  @type AttributionReportingFilterDataEntry :: %{
+  @typedoc "description not provided :("
+  @type attribution_reporting_filter_data_entry :: %{
           key: String.t(),
           values: list(String.t())
         }
 
-  @doc "description not provided :("
-  @type AttributionReportingSourceRegistration :: %{
+  @typedoc "description not provided :("
+  @type attribution_reporting_source_registration :: %{
           aggregatableReportWindow: integer() | nil,
-          aggregationKeys: list(Storage.AttributionReportingAggregationKeysEntry),
-          debugKey: Storage.UnsignedInt64AsBase10 | nil,
+          aggregationKeys:
+            list(CDPotion.Domain.Storage.attribution_reporting_aggregation_keys_entry()),
+          debugKey: CDPotion.Domain.Storage.unsigned_int64_as_base10() | nil,
           destinationSites: list(String.t()),
-          eventId: Storage.UnsignedInt64AsBase10,
+          eventId: CDPotion.Domain.Storage.unsigned_int64_as_base10(),
           eventReportWindow: integer() | nil,
           expiry: integer() | nil,
-          filterData: list(Storage.AttributionReportingFilterDataEntry),
-          priority: Storage.SignedInt64AsBase10,
+          filterData: list(CDPotion.Domain.Storage.attribution_reporting_filter_data_entry()),
+          priority: CDPotion.Domain.Storage.signed_int64_as_base10(),
           reportingOrigin: String.t(),
           sourceOrigin: String.t(),
-          time: Network.TimeSinceEpoch,
-          type: Storage.AttributionReportingSourceType
+          time: CDPotion.Domain.Network.time_since_epoch(),
+          type: CDPotion.Domain.Storage.attribution_reporting_source_type()
         }
 
-  @doc "description not provided :("
-  @type AttributionReportingSourceRegistrationResult ::
+  @typedoc "description not provided :("
+  @type attribution_reporting_source_registration_result ::
           :success
           | :internalError
           | :insufficientSourceCapacity
@@ -43,25 +44,25 @@ defmodule CDPotion.Domain.Storage do
           | :destinationBothLimitsReached
           | :reportingOriginsPerSiteLimitReached
 
-  @doc "description not provided :("
-  @type AttributionReportingSourceType :: :navigation | :event
+  @typedoc "description not provided :("
+  @type attribution_reporting_source_type :: :navigation | :event
 
-  @doc "Enum of interest group access types."
-  @type InterestGroupAccessType :: :join | :leave | :update | :loaded | :bid | :win
+  @typedoc "Enum of interest group access types."
+  @type interest_group_access_type :: :join | :leave | :update | :loaded | :bid | :win
 
-  @doc "Ad advertising element inside an interest group."
-  @type InterestGroupAd :: %{
+  @typedoc "Ad advertising element inside an interest group."
+  @type interest_group_ad :: %{
           metadata: String.t() | nil,
           renderUrl: String.t()
         }
 
-  @doc "The full details of an interest group."
-  @type InterestGroupDetails :: %{
-          adComponents: list(Storage.InterestGroupAd),
-          ads: list(Storage.InterestGroupAd),
+  @typedoc "The full details of an interest group."
+  @type interest_group_details :: %{
+          adComponents: list(CDPotion.Domain.Storage.interest_group_ad()),
+          ads: list(CDPotion.Domain.Storage.interest_group_ad()),
           biddingUrl: String.t() | nil,
           biddingWasmHelperUrl: String.t() | nil,
-          expirationTime: Network.TimeSinceEpoch,
+          expirationTime: CDPotion.Domain.Network.time_since_epoch(),
           joiningOrigin: String.t(),
           name: String.t(),
           ownerOrigin: String.t(),
@@ -71,23 +72,24 @@ defmodule CDPotion.Domain.Storage do
           userBiddingSignals: String.t() | nil
         }
 
-  @doc "description not provided :("
-  @type SerializedStorageKey :: String.t()
+  @typedoc "description not provided :("
+  @type serialized_storage_key :: String.t()
 
-  @doc "Bundles the parameters for shared storage access events whose
+  @typedoc "Bundles the parameters for shared storage access events whose
 presence/absence can vary according to SharedStorageAccessType."
-  @type SharedStorageAccessParams :: %{
+  @type shared_storage_access_params :: %{
           ignoreIfPresent: boolean() | nil,
           key: String.t() | nil,
           operationName: String.t() | nil,
           scriptSourceUrl: String.t() | nil,
           serializedData: String.t() | nil,
-          urlsWithMetadata: list(Storage.SharedStorageUrlWithMetadata) | nil,
+          urlsWithMetadata:
+            list(CDPotion.Domain.Storage.shared_storage_url_with_metadata()) | nil,
           value: String.t() | nil
         }
 
-  @doc "Enum of shared storage access types."
-  @type SharedStorageAccessType ::
+  @typedoc "Enum of shared storage access types."
+  @type shared_storage_access_type ::
           :documentAddModule
           | :documentSelectURL
           | :documentRun
@@ -105,55 +107,55 @@ presence/absence can vary according to SharedStorageAccessType."
           | :workletLength
           | :workletRemainingBudget
 
-  @doc "Struct for a single key-value pair in an origin's shared storage."
-  @type SharedStorageEntry :: %{
+  @typedoc "Struct for a single key-value pair in an origin's shared storage."
+  @type shared_storage_entry :: %{
           key: String.t(),
           value: String.t()
         }
 
-  @doc "Details for an origin's shared storage."
-  @type SharedStorageMetadata :: %{
-          creationTime: Network.TimeSinceEpoch,
+  @typedoc "Details for an origin's shared storage."
+  @type shared_storage_metadata :: %{
+          creationTime: CDPotion.Domain.Network.time_since_epoch(),
           length: integer(),
           remainingBudget: number()
         }
 
-  @doc "Pair of reporting metadata details for a candidate URL for `selectURL()`."
-  @type SharedStorageReportingMetadata :: %{
+  @typedoc "Pair of reporting metadata details for a candidate URL for `selectURL()`."
+  @type shared_storage_reporting_metadata :: %{
           eventType: String.t(),
           reportingUrl: String.t()
         }
 
-  @doc "Bundles a candidate URL with its reporting metadata."
-  @type SharedStorageUrlWithMetadata :: %{
-          reportingMetadata: list(Storage.SharedStorageReportingMetadata),
+  @typedoc "Bundles a candidate URL with its reporting metadata."
+  @type shared_storage_url_with_metadata :: %{
+          reportingMetadata: list(CDPotion.Domain.Storage.shared_storage_reporting_metadata()),
           url: String.t()
         }
 
-  @doc "description not provided :("
-  @type SignedInt64AsBase10 :: String.t()
+  @typedoc "description not provided :("
+  @type signed_int64_as_base10 :: String.t()
 
-  @doc "description not provided :("
-  @type StorageBucket :: %{
+  @typedoc "description not provided :("
+  @type storage_bucket :: %{
           name: String.t() | nil,
-          storageKey: Storage.SerializedStorageKey
+          storageKey: CDPotion.Domain.Storage.serialized_storage_key()
         }
 
-  @doc "description not provided :("
-  @type StorageBucketInfo :: %{
-          bucket: Storage.StorageBucket,
-          durability: Storage.StorageBucketsDurability,
-          expiration: Network.TimeSinceEpoch,
+  @typedoc "description not provided :("
+  @type storage_bucket_info :: %{
+          bucket: CDPotion.Domain.Storage.storage_bucket(),
+          durability: CDPotion.Domain.Storage.storage_buckets_durability(),
+          expiration: CDPotion.Domain.Network.time_since_epoch(),
           id: String.t(),
           persistent: boolean(),
           quota: number()
         }
 
-  @doc "description not provided :("
-  @type StorageBucketsDurability :: :relaxed | :strict
+  @typedoc "description not provided :("
+  @type storage_buckets_durability :: :relaxed | :strict
 
-  @doc "Enum of possible storage types."
-  @type StorageType ::
+  @typedoc "Enum of possible storage types."
+  @type storage_type ::
           :appcache
           | :cookies
           | :file_systems
@@ -169,22 +171,22 @@ presence/absence can vary according to SharedStorageAccessType."
           | :all
           | :other
 
-  @doc "Pair of issuer origin and number of available (signed, but not used) Trust
+  @typedoc "Pair of issuer origin and number of available (signed, but not used) Trust
 Tokens from that issuer."
-  @type TrustTokens :: %{
+  @type trust_tokens :: %{
           count: number(),
           issuerOrigin: String.t()
         }
 
-  @doc "description not provided :("
-  @type UnsignedInt128AsBase16 :: String.t()
+  @typedoc "description not provided :("
+  @type unsigned_int128_as_base16 :: String.t()
 
-  @doc "description not provided :("
-  @type UnsignedInt64AsBase10 :: String.t()
+  @typedoc "description not provided :("
+  @type unsigned_int64_as_base10 :: String.t()
 
-  @doc "Usage for a storage type."
-  @type UsageForType :: %{
-          storageType: Storage.StorageType,
+  @typedoc "Usage for a storage type."
+  @type usage_for_type :: %{
+          storageType: CDPotion.Domain.Storage.storage_type(),
           usage: number()
         }
 

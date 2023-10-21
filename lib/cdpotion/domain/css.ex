@@ -1,168 +1,168 @@
 defmodule CDPotion.Domain.CSS do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type CSSComputedStyleProperty :: %{
+  @typedoc "description not provided :("
+  @type css_computed_style_property :: %{
           name: String.t(),
           value: String.t()
         }
 
-  @doc "CSS container query rule descriptor."
-  @type CSSContainerQuery :: %{
-          logicalAxes: DOM.LogicalAxes | nil,
+  @typedoc "CSS container query rule descriptor."
+  @type css_container_query :: %{
+          logicalAxes: CDPotion.Domain.DOM.logical_axes() | nil,
           name: String.t() | nil,
-          physicalAxes: DOM.PhysicalAxes | nil,
-          range: CSS.SourceRange | nil,
-          styleSheetId: CSS.StyleSheetId | nil,
+          physicalAxes: CDPotion.Domain.DOM.physical_axes() | nil,
+          range: CDPotion.Domain.CSS.source_range() | nil,
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id() | nil,
           text: String.t()
         }
 
-  @doc "CSS keyframe rule representation."
-  @type CSSKeyframeRule :: %{
-          keyText: CSS.Value,
-          origin: CSS.StyleSheetOrigin,
-          style: CSS.CSSStyle,
-          styleSheetId: CSS.StyleSheetId | nil
+  @typedoc "CSS keyframe rule representation."
+  @type css_keyframe_rule :: %{
+          keyText: CDPotion.Domain.CSS.value(),
+          origin: CDPotion.Domain.CSS.style_sheet_origin(),
+          style: CDPotion.Domain.CSS.css_style(),
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id() | nil
         }
 
-  @doc "CSS keyframes rule representation."
-  @type CSSKeyframesRule :: %{
-          animationName: CSS.Value,
-          keyframes: list(CSS.CSSKeyframeRule)
+  @typedoc "CSS keyframes rule representation."
+  @type css_keyframes_rule :: %{
+          animationName: CDPotion.Domain.CSS.value(),
+          keyframes: list(CDPotion.Domain.CSS.css_keyframe_rule())
         }
 
-  @doc "CSS Layer at-rule descriptor."
-  @type CSSLayer :: %{
-          range: CSS.SourceRange | nil,
-          styleSheetId: CSS.StyleSheetId | nil,
+  @typedoc "CSS Layer at-rule descriptor."
+  @type css_layer :: %{
+          range: CDPotion.Domain.CSS.source_range() | nil,
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id() | nil,
           text: String.t()
         }
 
-  @doc "CSS Layer data."
-  @type CSSLayerData :: %{
+  @typedoc "CSS Layer data."
+  @type css_layer_data :: %{
           name: String.t(),
           order: number(),
-          subLayers: list(CSS.CSSLayerData) | nil
+          subLayers: list(CDPotion.Domain.CSS.css_layer_data()) | nil
         }
 
-  @doc "CSS media rule descriptor."
-  @type CSSMedia :: %{
-          mediaList: list(CSS.MediaQuery) | nil,
-          range: CSS.SourceRange | nil,
+  @typedoc "CSS media rule descriptor."
+  @type css_media :: %{
+          mediaList: list(CDPotion.Domain.CSS.media_query()) | nil,
+          range: CDPotion.Domain.CSS.source_range() | nil,
           source: :mediaRule | :importRule | :linkedSheet | :inlineSheet,
           sourceURL: String.t() | nil,
-          styleSheetId: CSS.StyleSheetId | nil,
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id() | nil,
           text: String.t()
         }
 
-  @doc "CSS position-fallback rule representation."
-  @type CSSPositionFallbackRule :: %{
-          name: CSS.Value,
-          tryRules: list(CSS.CSSTryRule)
+  @typedoc "CSS position-fallback rule representation."
+  @type css_position_fallback_rule :: %{
+          name: CDPotion.Domain.CSS.value(),
+          tryRules: list(CDPotion.Domain.CSS.css_try_rule())
         }
 
-  @doc "CSS property declaration data."
-  @type CSSProperty :: %{
+  @typedoc "CSS property declaration data."
+  @type css_property :: %{
           disabled: boolean() | nil,
           implicit: boolean() | nil,
           important: boolean() | nil,
-          longhandProperties: list(CSS.CSSProperty) | nil,
+          longhandProperties: list(CDPotion.Domain.CSS.css_property()) | nil,
           name: String.t(),
           parsedOk: boolean() | nil,
-          range: CSS.SourceRange | nil,
+          range: CDPotion.Domain.CSS.source_range() | nil,
           text: String.t() | nil,
           value: String.t()
         }
 
-  @doc "CSS rule representation."
-  @type CSSRule :: %{
-          containerQueries: list(CSS.CSSContainerQuery) | nil,
-          layers: list(CSS.CSSLayer) | nil,
-          media: list(CSS.CSSMedia) | nil,
+  @typedoc "CSS rule representation."
+  @type css_rule :: %{
+          containerQueries: list(CDPotion.Domain.CSS.css_container_query()) | nil,
+          layers: list(CDPotion.Domain.CSS.css_layer()) | nil,
+          media: list(CDPotion.Domain.CSS.css_media()) | nil,
           nestingSelectors: list(String.t()) | nil,
-          origin: CSS.StyleSheetOrigin,
-          ruleTypes: list(CSS.CSSRuleType) | nil,
-          scopes: list(CSS.CSSScope) | nil,
-          selectorList: CSS.SelectorList,
-          style: CSS.CSSStyle,
-          styleSheetId: CSS.StyleSheetId | nil,
-          supports: list(CSS.CSSSupports) | nil
+          origin: CDPotion.Domain.CSS.style_sheet_origin(),
+          ruleTypes: list(CDPotion.Domain.CSS.css_rule_type()) | nil,
+          scopes: list(CDPotion.Domain.CSS.css_scope()) | nil,
+          selectorList: CDPotion.Domain.CSS.selector_list(),
+          style: CDPotion.Domain.CSS.css_style(),
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id() | nil,
+          supports: list(CDPotion.Domain.CSS.css_supports()) | nil
         }
 
-  @doc "Enum indicating the type of a CSS rule, used to represent the order of a style rule's ancestors.
+  @typedoc "Enum indicating the type of a CSS rule, used to represent the order of a style rule's ancestors.
 This list only contains rule types that are collected during the ancestor rule collection."
-  @type CSSRuleType ::
+  @type css_rule_type ::
           :MediaRule | :SupportsRule | :ContainerRule | :LayerRule | :ScopeRule | :StyleRule
 
-  @doc "CSS Scope at-rule descriptor."
-  @type CSSScope :: %{
-          range: CSS.SourceRange | nil,
-          styleSheetId: CSS.StyleSheetId | nil,
+  @typedoc "CSS Scope at-rule descriptor."
+  @type css_scope :: %{
+          range: CDPotion.Domain.CSS.source_range() | nil,
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id() | nil,
           text: String.t()
         }
 
-  @doc "CSS style representation."
-  @type CSSStyle :: %{
-          cssProperties: list(CSS.CSSProperty),
+  @typedoc "CSS style representation."
+  @type css_style :: %{
+          cssProperties: list(CDPotion.Domain.CSS.css_property()),
           cssText: String.t() | nil,
-          range: CSS.SourceRange | nil,
-          shorthandEntries: list(CSS.ShorthandEntry),
-          styleSheetId: CSS.StyleSheetId | nil
+          range: CDPotion.Domain.CSS.source_range() | nil,
+          shorthandEntries: list(CDPotion.Domain.CSS.shorthand_entry()),
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id() | nil
         }
 
-  @doc "CSS stylesheet metainformation."
-  @type CSSStyleSheetHeader :: %{
+  @typedoc "CSS stylesheet metainformation."
+  @type css_style_sheet_header :: %{
           disabled: boolean(),
           endColumn: number(),
           endLine: number(),
-          frameId: Page.FrameId,
+          frameId: CDPotion.Domain.Page.frame_id(),
           hasSourceURL: boolean() | nil,
           isConstructed: boolean(),
           isInline: boolean(),
           isMutable: boolean(),
           length: number(),
           loadingFailed: boolean() | nil,
-          origin: CSS.StyleSheetOrigin,
-          ownerNode: DOM.BackendNodeId | nil,
+          origin: CDPotion.Domain.CSS.style_sheet_origin(),
+          ownerNode: CDPotion.Domain.DOM.backend_node_id() | nil,
           sourceMapURL: String.t() | nil,
           sourceURL: String.t(),
           startColumn: number(),
           startLine: number(),
-          styleSheetId: CSS.StyleSheetId,
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id(),
           title: String.t()
         }
 
-  @doc "CSS Supports at-rule descriptor."
-  @type CSSSupports :: %{
+  @typedoc "CSS Supports at-rule descriptor."
+  @type css_supports :: %{
           active: boolean(),
-          range: CSS.SourceRange | nil,
-          styleSheetId: CSS.StyleSheetId | nil,
+          range: CDPotion.Domain.CSS.source_range() | nil,
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id() | nil,
           text: String.t()
         }
 
-  @doc "CSS try rule representation."
-  @type CSSTryRule :: %{
-          origin: CSS.StyleSheetOrigin,
-          style: CSS.CSSStyle,
-          styleSheetId: CSS.StyleSheetId | nil
+  @typedoc "CSS try rule representation."
+  @type css_try_rule :: %{
+          origin: CDPotion.Domain.CSS.style_sheet_origin(),
+          style: CDPotion.Domain.CSS.css_style(),
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id() | nil
         }
 
-  @doc "Properties of a web font: https://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions
+  @typedoc "Properties of a web font: https://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions
 and additional information such as platformFontFamily and fontVariationAxes."
-  @type FontFace :: %{
+  @type font_face :: %{
           fontDisplay: String.t(),
           fontFamily: String.t(),
           fontStretch: String.t(),
           fontStyle: String.t(),
           fontVariant: String.t(),
-          fontVariationAxes: list(CSS.FontVariationAxis) | nil,
+          fontVariationAxes: list(CDPotion.Domain.CSS.font_variation_axis()) | nil,
           fontWeight: String.t(),
           platformFontFamily: String.t(),
           src: String.t(),
           unicodeRange: String.t()
         }
 
-  @doc "Information about font variation axes for variable fonts"
-  @type FontVariationAxis :: %{
+  @typedoc "Information about font variation axes for variable fonts"
+  @type font_variation_axis :: %{
           defaultValue: number(),
           maxValue: number(),
           minValue: number(),
@@ -170,108 +170,108 @@ and additional information such as platformFontFamily and fontVariationAxes."
           tag: String.t()
         }
 
-  @doc "Inherited pseudo element matches from pseudos of an ancestor node."
-  @type InheritedPseudoElementMatches :: %{
-          pseudoElements: list(CSS.PseudoElementMatches)
+  @typedoc "Inherited pseudo element matches from pseudos of an ancestor node."
+  @type inherited_pseudo_element_matches :: %{
+          pseudoElements: list(CDPotion.Domain.CSS.pseudo_element_matches())
         }
 
-  @doc "Inherited CSS rule collection from ancestor node."
-  @type InheritedStyleEntry :: %{
-          inlineStyle: CSS.CSSStyle | nil,
-          matchedCSSRules: list(CSS.RuleMatch)
+  @typedoc "Inherited CSS rule collection from ancestor node."
+  @type inherited_style_entry :: %{
+          inlineStyle: CDPotion.Domain.CSS.css_style() | nil,
+          matchedCSSRules: list(CDPotion.Domain.CSS.rule_match())
         }
 
-  @doc "Media query descriptor."
-  @type MediaQuery :: %{
+  @typedoc "Media query descriptor."
+  @type media_query :: %{
           active: boolean(),
-          expressions: list(CSS.MediaQueryExpression)
+          expressions: list(CDPotion.Domain.CSS.media_query_expression())
         }
 
-  @doc "Media query expression descriptor."
-  @type MediaQueryExpression :: %{
+  @typedoc "Media query expression descriptor."
+  @type media_query_expression :: %{
           computedLength: number() | nil,
           feature: String.t(),
           unit: String.t(),
           value: number(),
-          valueRange: CSS.SourceRange | nil
+          valueRange: CDPotion.Domain.CSS.source_range() | nil
         }
 
-  @doc "Information about amount of glyphs that were rendered with given font."
-  @type PlatformFontUsage :: %{
+  @typedoc "Information about amount of glyphs that were rendered with given font."
+  @type platform_font_usage :: %{
           familyName: String.t(),
           glyphCount: number(),
           isCustomFont: boolean()
         }
 
-  @doc "CSS rule collection for a single pseudo style."
-  @type PseudoElementMatches :: %{
-          matches: list(CSS.RuleMatch),
+  @typedoc "CSS rule collection for a single pseudo style."
+  @type pseudo_element_matches :: %{
+          matches: list(CDPotion.Domain.CSS.rule_match()),
           pseudoIdentifier: String.t() | nil,
-          pseudoType: DOM.PseudoType
+          pseudoType: CDPotion.Domain.DOM.pseudo_type()
         }
 
-  @doc "Match data for a CSS rule."
-  @type RuleMatch :: %{
+  @typedoc "Match data for a CSS rule."
+  @type rule_match :: %{
           matchingSelectors: list(integer()),
-          rule: CSS.CSSRule
+          rule: CDPotion.Domain.CSS.css_rule()
         }
 
-  @doc "CSS coverage information."
-  @type RuleUsage :: %{
+  @typedoc "CSS coverage information."
+  @type rule_usage :: %{
           endOffset: number(),
           startOffset: number(),
-          styleSheetId: CSS.StyleSheetId,
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id(),
           used: boolean()
         }
 
-  @doc "Selector list data."
-  @type SelectorList :: %{
-          selectors: list(CSS.Value),
+  @typedoc "Selector list data."
+  @type selector_list :: %{
+          selectors: list(CDPotion.Domain.CSS.value()),
           text: String.t()
         }
 
-  @doc "description not provided :("
-  @type ShorthandEntry :: %{
+  @typedoc "description not provided :("
+  @type shorthand_entry :: %{
           important: boolean() | nil,
           name: String.t(),
           value: String.t()
         }
 
-  @doc "Text range within a resource. All numbers are zero-based."
-  @type SourceRange :: %{
+  @typedoc "Text range within a resource. All numbers are zero-based."
+  @type source_range :: %{
           endColumn: integer(),
           endLine: integer(),
           startColumn: integer(),
           startLine: integer()
         }
 
-  @doc "Specificity:
+  @typedoc "Specificity:
 https://drafts.csswg.org/selectors/#specificity-rules"
-  @type Specificity :: %{
+  @type specificity :: %{
           a: integer(),
           b: integer(),
           c: integer()
         }
 
-  @doc "A descriptor of operation to mutate style declaration text."
-  @type StyleDeclarationEdit :: %{
-          range: CSS.SourceRange,
-          styleSheetId: CSS.StyleSheetId,
+  @typedoc "A descriptor of operation to mutate style declaration text."
+  @type style_declaration_edit :: %{
+          range: CDPotion.Domain.CSS.source_range(),
+          styleSheetId: CDPotion.Domain.CSS.style_sheet_id(),
           text: String.t()
         }
 
-  @doc "description not provided :("
-  @type StyleSheetId :: String.t()
+  @typedoc "description not provided :("
+  @type style_sheet_id :: String.t()
 
-  @doc "Stylesheet type: 'injected' for stylesheets injected via extension, 'user-agent' for user-agent
+  @typedoc "Stylesheet type: 'injected' for stylesheets injected via extension, 'user-agent' for user-agent
 stylesheets, 'inspector' for stylesheets created by the inspector (i.e. those holding the 'via
 inspector' rules), 'regular' for regular stylesheets."
-  @type StyleSheetOrigin :: :injected | :"user-agent" | :inspector | :regular
+  @type style_sheet_origin :: :injected | :"user-agent" | :inspector | :regular
 
-  @doc "Data for a simple selector (these are delimited by commas in a selector list)."
-  @type Value :: %{
-          range: CSS.SourceRange | nil,
-          specificity: CSS.Specificity | nil,
+  @typedoc "Data for a simple selector (these are delimited by commas in a selector list)."
+  @type value :: %{
+          range: CDPotion.Domain.CSS.source_range() | nil,
+          specificity: CDPotion.Domain.CSS.specificity() | nil,
           text: String.t()
         }
 

@@ -1,77 +1,77 @@
 defmodule CDPotion.Domain.WebAudio do
   use CDPotion.Utils
-  @doc "Protocol object for AudioListener"
-  @type AudioListener :: %{
-          contextId: WebAudio.GraphObjectId,
-          listenerId: WebAudio.GraphObjectId
+  @typedoc "Protocol object for AudioListener"
+  @type audio_listener :: %{
+          contextId: CDPotion.Domain.WebAudio.graph_object_id(),
+          listenerId: CDPotion.Domain.WebAudio.graph_object_id()
         }
 
-  @doc "Protocol object for AudioNode"
-  @type AudioNode :: %{
+  @typedoc "Protocol object for AudioNode"
+  @type audio_node :: %{
           channelCount: number(),
-          channelCountMode: WebAudio.ChannelCountMode,
-          channelInterpretation: WebAudio.ChannelInterpretation,
-          contextId: WebAudio.GraphObjectId,
-          nodeId: WebAudio.GraphObjectId,
-          nodeType: WebAudio.NodeType,
+          channelCountMode: CDPotion.Domain.WebAudio.channel_count_mode(),
+          channelInterpretation: CDPotion.Domain.WebAudio.channel_interpretation(),
+          contextId: CDPotion.Domain.WebAudio.graph_object_id(),
+          nodeId: CDPotion.Domain.WebAudio.graph_object_id(),
+          nodeType: CDPotion.Domain.WebAudio.node_type(),
           numberOfInputs: number(),
           numberOfOutputs: number()
         }
 
-  @doc "Protocol object for AudioParam"
-  @type AudioParam :: %{
-          contextId: WebAudio.GraphObjectId,
+  @typedoc "Protocol object for AudioParam"
+  @type audio_param :: %{
+          contextId: CDPotion.Domain.WebAudio.graph_object_id(),
           defaultValue: number(),
           maxValue: number(),
           minValue: number(),
-          nodeId: WebAudio.GraphObjectId,
-          paramId: WebAudio.GraphObjectId,
-          paramType: WebAudio.ParamType,
-          rate: WebAudio.AutomationRate
+          nodeId: CDPotion.Domain.WebAudio.graph_object_id(),
+          paramId: CDPotion.Domain.WebAudio.graph_object_id(),
+          paramType: CDPotion.Domain.WebAudio.param_type(),
+          rate: CDPotion.Domain.WebAudio.automation_rate()
         }
 
-  @doc "Enum of AudioParam::AutomationRate from the spec"
-  @type AutomationRate :: :"a-rate" | :"k-rate"
+  @typedoc "Enum of AudioParam::AutomationRate from the spec"
+  @type automation_rate :: :"a-rate" | :"k-rate"
 
-  @doc "Protocol object for BaseAudioContext"
-  @type BaseAudioContext :: %{
+  @typedoc "Protocol object for BaseAudioContext"
+  @type base_audio_context :: %{
           callbackBufferSize: number(),
-          contextId: WebAudio.GraphObjectId,
-          contextState: WebAudio.ContextState,
-          contextType: WebAudio.ContextType,
+          contextId: CDPotion.Domain.WebAudio.graph_object_id(),
+          contextState: CDPotion.Domain.WebAudio.context_state(),
+          contextType: CDPotion.Domain.WebAudio.context_type(),
           maxOutputChannelCount: number(),
-          realtimeData: WebAudio.ContextRealtimeData | nil,
+          realtimeData: CDPotion.Domain.WebAudio.context_realtime_data() | nil,
           sampleRate: number()
         }
 
-  @doc "Enum of AudioNode::ChannelCountMode from the spec"
-  @type ChannelCountMode :: :"clamped-max" | :explicit | :max
+  @typedoc "Enum of AudioNode::ChannelCountMode from the spec"
+  @type channel_count_mode :: :"clamped-max" | :explicit | :max
 
-  @doc "Enum of AudioNode::ChannelInterpretation from the spec"
-  @type ChannelInterpretation :: :discrete | :speakers
+  @typedoc "Enum of AudioNode::ChannelInterpretation from the spec"
+  @type channel_interpretation :: :discrete | :speakers
 
-  @doc "Fields in AudioContext that change in real-time."
-  @type ContextRealtimeData :: %{
+  @typedoc "Fields in AudioContext that change in real-time."
+  @type context_realtime_data :: %{
           callbackIntervalMean: number(),
           callbackIntervalVariance: number(),
           currentTime: number(),
           renderCapacity: number()
         }
 
-  @doc "Enum of AudioContextState from the spec"
-  @type ContextState :: :suspended | :running | :closed
+  @typedoc "Enum of AudioContextState from the spec"
+  @type context_state :: :suspended | :running | :closed
 
-  @doc "Enum of BaseAudioContext types"
-  @type ContextType :: :realtime | :offline
+  @typedoc "Enum of BaseAudioContext types"
+  @type context_type :: :realtime | :offline
 
-  @doc "An unique ID for a graph object (AudioContext, AudioNode, AudioParam) in Web Audio API"
-  @type GraphObjectId :: String.t()
+  @typedoc "An unique ID for a graph object (AudioContext, AudioNode, AudioParam) in Web Audio API"
+  @type graph_object_id :: String.t()
 
-  @doc "Enum of AudioNode types"
-  @type NodeType :: String.t()
+  @typedoc "Enum of AudioNode types"
+  @type node_type :: String.t()
 
-  @doc "Enum of AudioParam types"
-  @type ParamType :: String.t()
+  @typedoc "Enum of AudioParam types"
+  @type param_type :: String.t()
 
   @doc """
   Enables the WebAudio domain and starts sending context lifetime events.

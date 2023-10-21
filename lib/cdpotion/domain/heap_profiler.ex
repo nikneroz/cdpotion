@@ -1,24 +1,24 @@
 defmodule CDPotion.Domain.HeapProfiler do
   use CDPotion.Utils
-  @doc "Heap snapshot object id."
-  @type HeapSnapshotObjectId :: String.t()
+  @typedoc "Heap snapshot object id."
+  @type heap_snapshot_object_id :: String.t()
 
-  @doc "Sampling profile."
-  @type SamplingHeapProfile :: %{
-          head: HeapProfiler.SamplingHeapProfileNode,
-          samples: list(HeapProfiler.SamplingHeapProfileSample)
+  @typedoc "Sampling profile."
+  @type sampling_heap_profile :: %{
+          head: CDPotion.Domain.HeapProfiler.sampling_heap_profile_node(),
+          samples: list(CDPotion.Domain.HeapProfiler.sampling_heap_profile_sample())
         }
 
-  @doc "Sampling Heap Profile node. Holds callsite information, allocation statistics and child nodes."
-  @type SamplingHeapProfileNode :: %{
-          callFrame: Runtime.CallFrame,
-          children: list(HeapProfiler.SamplingHeapProfileNode),
+  @typedoc "Sampling Heap Profile node. Holds callsite information, allocation statistics and child nodes."
+  @type sampling_heap_profile_node :: %{
+          callFrame: CDPotion.Domain.Runtime.call_frame(),
+          children: list(CDPotion.Domain.HeapProfiler.sampling_heap_profile_node()),
           id: integer(),
           selfSize: number()
         }
 
-  @doc "A single sample from a sampling profile."
-  @type SamplingHeapProfileSample :: %{
+  @typedoc "A single sample from a sampling profile."
+  @type sampling_heap_profile_sample :: %{
           nodeId: integer(),
           ordinal: number(),
           size: number()

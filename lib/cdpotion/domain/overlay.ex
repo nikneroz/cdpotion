@@ -1,69 +1,70 @@
 defmodule CDPotion.Domain.Overlay do
   use CDPotion.Utils
-  @doc "Style information for drawing a box."
-  @type BoxStyle :: %{
-          fillColor: DOM.RGBA | nil,
-          hatchColor: DOM.RGBA | nil
+  @typedoc "Style information for drawing a box."
+  @type box_style :: %{
+          fillColor: CDPotion.Domain.DOM.rgba() | nil,
+          hatchColor: CDPotion.Domain.DOM.rgba() | nil
         }
 
-  @doc "description not provided :("
-  @type ColorFormat :: :rgb | :hsl | :hwb | :hex
+  @typedoc "description not provided :("
+  @type color_format :: :rgb | :hsl | :hwb | :hex
 
-  @doc "description not provided :("
-  @type ContainerQueryContainerHighlightConfig :: %{
-          containerBorder: Overlay.LineStyle | nil,
-          descendantBorder: Overlay.LineStyle | nil
+  @typedoc "description not provided :("
+  @type container_query_container_highlight_config :: %{
+          containerBorder: CDPotion.Domain.Overlay.line_style() | nil,
+          descendantBorder: CDPotion.Domain.Overlay.line_style() | nil
         }
 
-  @doc "description not provided :("
-  @type ContainerQueryHighlightConfig :: %{
-          containerQueryContainerHighlightConfig: Overlay.ContainerQueryContainerHighlightConfig,
-          nodeId: DOM.NodeId
+  @typedoc "description not provided :("
+  @type container_query_highlight_config :: %{
+          containerQueryContainerHighlightConfig:
+            CDPotion.Domain.Overlay.container_query_container_highlight_config(),
+          nodeId: CDPotion.Domain.DOM.node_id()
         }
 
-  @doc "description not provided :("
-  @type ContrastAlgorithm :: :aa | :aaa | :apca
+  @typedoc "description not provided :("
+  @type contrast_algorithm :: :aa | :aaa | :apca
 
-  @doc "Configuration data for the highlighting of Flex container elements."
-  @type FlexContainerHighlightConfig :: %{
-          columnGapSpace: Overlay.BoxStyle | nil,
-          containerBorder: Overlay.LineStyle | nil,
-          crossAlignment: Overlay.LineStyle | nil,
-          crossDistributedSpace: Overlay.BoxStyle | nil,
-          itemSeparator: Overlay.LineStyle | nil,
-          lineSeparator: Overlay.LineStyle | nil,
-          mainDistributedSpace: Overlay.BoxStyle | nil,
-          rowGapSpace: Overlay.BoxStyle | nil
+  @typedoc "Configuration data for the highlighting of Flex container elements."
+  @type flex_container_highlight_config :: %{
+          columnGapSpace: CDPotion.Domain.Overlay.box_style() | nil,
+          containerBorder: CDPotion.Domain.Overlay.line_style() | nil,
+          crossAlignment: CDPotion.Domain.Overlay.line_style() | nil,
+          crossDistributedSpace: CDPotion.Domain.Overlay.box_style() | nil,
+          itemSeparator: CDPotion.Domain.Overlay.line_style() | nil,
+          lineSeparator: CDPotion.Domain.Overlay.line_style() | nil,
+          mainDistributedSpace: CDPotion.Domain.Overlay.box_style() | nil,
+          rowGapSpace: CDPotion.Domain.Overlay.box_style() | nil
         }
 
-  @doc "Configuration data for the highlighting of Flex item elements."
-  @type FlexItemHighlightConfig :: %{
-          baseSizeBorder: Overlay.LineStyle | nil,
-          baseSizeBox: Overlay.BoxStyle | nil,
-          flexibilityArrow: Overlay.LineStyle | nil
+  @typedoc "Configuration data for the highlighting of Flex item elements."
+  @type flex_item_highlight_config :: %{
+          baseSizeBorder: CDPotion.Domain.Overlay.line_style() | nil,
+          baseSizeBox: CDPotion.Domain.Overlay.box_style() | nil,
+          flexibilityArrow: CDPotion.Domain.Overlay.line_style() | nil
         }
 
-  @doc "description not provided :("
-  @type FlexNodeHighlightConfig :: %{
-          flexContainerHighlightConfig: Overlay.FlexContainerHighlightConfig,
-          nodeId: DOM.NodeId
+  @typedoc "description not provided :("
+  @type flex_node_highlight_config :: %{
+          flexContainerHighlightConfig: CDPotion.Domain.Overlay.flex_container_highlight_config(),
+          nodeId: CDPotion.Domain.DOM.node_id()
         }
 
-  @doc "Configuration data for the highlighting of Grid elements."
-  @type GridHighlightConfig :: %{
-          areaBorderColor: DOM.RGBA | nil,
-          cellBorderColor: DOM.RGBA | nil,
+  @typedoc "Configuration data for the highlighting of Grid elements."
+  @type grid_highlight_config :: %{
+          areaBorderColor: CDPotion.Domain.DOM.rgba() | nil,
+          cellBorderColor: CDPotion.Domain.DOM.rgba() | nil,
           cellBorderDash: boolean() | nil,
-          columnGapColor: DOM.RGBA | nil,
-          columnHatchColor: DOM.RGBA | nil,
-          columnLineColor: DOM.RGBA | nil,
+          columnGapColor: CDPotion.Domain.DOM.rgba() | nil,
+          columnHatchColor: CDPotion.Domain.DOM.rgba() | nil,
+          columnLineColor: CDPotion.Domain.DOM.rgba() | nil,
           columnLineDash: boolean() | nil,
-          gridBackgroundColor: DOM.RGBA | nil,
-          gridBorderColor: DOM.RGBA | nil,
+          gridBackgroundColor: CDPotion.Domain.DOM.rgba() | nil,
+          gridBorderColor: CDPotion.Domain.DOM.rgba() | nil,
           gridBorderDash: boolean() | nil,
-          rowGapColor: DOM.RGBA | nil,
-          rowHatchColor: DOM.RGBA | nil,
-          rowLineColor: DOM.RGBA | nil,
+          rowGapColor: CDPotion.Domain.DOM.rgba() | nil,
+          rowHatchColor: CDPotion.Domain.DOM.rgba() | nil,
+          rowLineColor: CDPotion.Domain.DOM.rgba() | nil,
           rowLineDash: boolean() | nil,
           showAreaNames: boolean() | nil,
           showGridExtensionLines: boolean() | nil,
@@ -73,29 +74,30 @@ defmodule CDPotion.Domain.Overlay do
           showTrackSizes: boolean() | nil
         }
 
-  @doc "Configurations for Persistent Grid Highlight"
-  @type GridNodeHighlightConfig :: %{
-          gridHighlightConfig: Overlay.GridHighlightConfig,
-          nodeId: DOM.NodeId
+  @typedoc "Configurations for Persistent Grid Highlight"
+  @type grid_node_highlight_config :: %{
+          gridHighlightConfig: CDPotion.Domain.Overlay.grid_highlight_config(),
+          nodeId: CDPotion.Domain.DOM.node_id()
         }
 
-  @doc "Configuration data for the highlighting of page elements."
-  @type HighlightConfig :: %{
-          borderColor: DOM.RGBA | nil,
-          colorFormat: Overlay.ColorFormat | nil,
+  @typedoc "Configuration data for the highlighting of page elements."
+  @type highlight_config :: %{
+          borderColor: CDPotion.Domain.DOM.rgba() | nil,
+          colorFormat: CDPotion.Domain.Overlay.color_format() | nil,
           containerQueryContainerHighlightConfig:
-            Overlay.ContainerQueryContainerHighlightConfig | nil,
-          contentColor: DOM.RGBA | nil,
-          contrastAlgorithm: Overlay.ContrastAlgorithm | nil,
-          cssGridColor: DOM.RGBA | nil,
-          eventTargetColor: DOM.RGBA | nil,
-          flexContainerHighlightConfig: Overlay.FlexContainerHighlightConfig | nil,
-          flexItemHighlightConfig: Overlay.FlexItemHighlightConfig | nil,
-          gridHighlightConfig: Overlay.GridHighlightConfig | nil,
-          marginColor: DOM.RGBA | nil,
-          paddingColor: DOM.RGBA | nil,
-          shapeColor: DOM.RGBA | nil,
-          shapeMarginColor: DOM.RGBA | nil,
+            CDPotion.Domain.Overlay.container_query_container_highlight_config() | nil,
+          contentColor: CDPotion.Domain.DOM.rgba() | nil,
+          contrastAlgorithm: CDPotion.Domain.Overlay.contrast_algorithm() | nil,
+          cssGridColor: CDPotion.Domain.DOM.rgba() | nil,
+          eventTargetColor: CDPotion.Domain.DOM.rgba() | nil,
+          flexContainerHighlightConfig:
+            CDPotion.Domain.Overlay.flex_container_highlight_config() | nil,
+          flexItemHighlightConfig: CDPotion.Domain.Overlay.flex_item_highlight_config() | nil,
+          gridHighlightConfig: CDPotion.Domain.Overlay.grid_highlight_config() | nil,
+          marginColor: CDPotion.Domain.DOM.rgba() | nil,
+          paddingColor: CDPotion.Domain.DOM.rgba() | nil,
+          shapeColor: CDPotion.Domain.DOM.rgba() | nil,
+          shapeMarginColor: CDPotion.Domain.DOM.rgba() | nil,
           showAccessibilityInfo: boolean() | nil,
           showExtensionLines: boolean() | nil,
           showInfo: boolean() | nil,
@@ -103,54 +105,55 @@ defmodule CDPotion.Domain.Overlay do
           showStyles: boolean() | nil
         }
 
-  @doc "Configuration for dual screen hinge"
-  @type HingeConfig :: %{
-          contentColor: DOM.RGBA | nil,
-          outlineColor: DOM.RGBA | nil,
-          rect: DOM.Rect
+  @typedoc "Configuration for dual screen hinge"
+  @type hinge_config :: %{
+          contentColor: CDPotion.Domain.DOM.rgba() | nil,
+          outlineColor: CDPotion.Domain.DOM.rgba() | nil,
+          rect: CDPotion.Domain.DOM.rect()
         }
 
-  @doc "description not provided :("
-  @type InspectMode ::
+  @typedoc "description not provided :("
+  @type inspect_mode ::
           :searchForNode | :searchForUAShadowDOM | :captureAreaScreenshot | :showDistances | :none
 
-  @doc "description not provided :("
-  @type IsolatedElementHighlightConfig :: %{
-          isolationModeHighlightConfig: Overlay.IsolationModeHighlightConfig,
-          nodeId: DOM.NodeId
+  @typedoc "description not provided :("
+  @type isolated_element_highlight_config :: %{
+          isolationModeHighlightConfig: CDPotion.Domain.Overlay.isolation_mode_highlight_config(),
+          nodeId: CDPotion.Domain.DOM.node_id()
         }
 
-  @doc "description not provided :("
-  @type IsolationModeHighlightConfig :: %{
-          maskColor: DOM.RGBA | nil,
-          resizerColor: DOM.RGBA | nil,
-          resizerHandleColor: DOM.RGBA | nil
+  @typedoc "description not provided :("
+  @type isolation_mode_highlight_config :: %{
+          maskColor: CDPotion.Domain.DOM.rgba() | nil,
+          resizerColor: CDPotion.Domain.DOM.rgba() | nil,
+          resizerHandleColor: CDPotion.Domain.DOM.rgba() | nil
         }
 
-  @doc "Style information for drawing a line."
-  @type LineStyle :: %{
-          color: DOM.RGBA | nil,
+  @typedoc "Style information for drawing a line."
+  @type line_style :: %{
+          color: CDPotion.Domain.DOM.rgba() | nil,
           pattern: :dashed | :dotted | nil
         }
 
-  @doc "description not provided :("
-  @type ScrollSnapContainerHighlightConfig :: %{
-          scrollMarginColor: DOM.RGBA | nil,
-          scrollPaddingColor: DOM.RGBA | nil,
-          snapAreaBorder: Overlay.LineStyle | nil,
-          snapportBorder: Overlay.LineStyle | nil
+  @typedoc "description not provided :("
+  @type scroll_snap_container_highlight_config :: %{
+          scrollMarginColor: CDPotion.Domain.DOM.rgba() | nil,
+          scrollPaddingColor: CDPotion.Domain.DOM.rgba() | nil,
+          snapAreaBorder: CDPotion.Domain.Overlay.line_style() | nil,
+          snapportBorder: CDPotion.Domain.Overlay.line_style() | nil
         }
 
-  @doc "description not provided :("
-  @type ScrollSnapHighlightConfig :: %{
-          nodeId: DOM.NodeId,
-          scrollSnapContainerHighlightConfig: Overlay.ScrollSnapContainerHighlightConfig
+  @typedoc "description not provided :("
+  @type scroll_snap_highlight_config :: %{
+          nodeId: CDPotion.Domain.DOM.node_id(),
+          scrollSnapContainerHighlightConfig:
+            CDPotion.Domain.Overlay.scroll_snap_container_highlight_config()
         }
 
-  @doc "Configuration data for drawing the source order of an elements children."
-  @type SourceOrderConfig :: %{
-          childOutlineColor: DOM.RGBA,
-          parentOutlineColor: DOM.RGBA
+  @typedoc "Configuration data for drawing the source order of an elements children."
+  @type source_order_config :: %{
+          childOutlineColor: CDPotion.Domain.DOM.rgba(),
+          parentOutlineColor: CDPotion.Domain.DOM.rgba()
         }
 
   @doc """

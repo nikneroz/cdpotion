@@ -1,27 +1,27 @@
 defmodule CDPotion.Domain.BackgroundService do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type BackgroundServiceEvent :: %{
-          eventMetadata: list(BackgroundService.EventMetadata),
+  @typedoc "description not provided :("
+  @type background_service_event :: %{
+          eventMetadata: list(CDPotion.Domain.BackgroundService.event_metadata()),
           eventName: String.t(),
           instanceId: String.t(),
           origin: String.t(),
-          service: BackgroundService.ServiceName,
-          serviceWorkerRegistrationId: ServiceWorker.RegistrationID,
+          service: CDPotion.Domain.BackgroundService.service_name(),
+          serviceWorkerRegistrationId: CDPotion.Domain.ServiceWorker.registration_id(),
           storageKey: String.t(),
-          timestamp: Network.TimeSinceEpoch
+          timestamp: CDPotion.Domain.Network.time_since_epoch()
         }
 
-  @doc "A key-value pair for additional event information to pass along."
-  @type EventMetadata :: %{
+  @typedoc "A key-value pair for additional event information to pass along."
+  @type event_metadata :: %{
           key: String.t(),
           value: String.t()
         }
 
-  @doc "The Background Service that will be associated with the commands/events.
+  @typedoc "The Background Service that will be associated with the commands/events.
 Every Background Service operates independently, but they share the same
 API."
-  @type ServiceName ::
+  @type service_name ::
           :backgroundFetch
           | :backgroundSync
           | :pushMessaging

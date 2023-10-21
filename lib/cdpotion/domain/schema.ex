@@ -1,7 +1,7 @@
 defmodule CDPotion.Domain.Schema do
   use CDPotion.Utils
-  @doc "Description of the protocol domain."
-  @type Domain :: %{
+  @typedoc "Description of the protocol domain."
+  @type domain :: %{
           name: String.t(),
           version: String.t()
         }

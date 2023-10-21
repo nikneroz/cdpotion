@@ -1,16 +1,16 @@
 defmodule CDPotion.Domain.WebAuthn do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type AuthenticatorId :: String.t()
+  @typedoc "description not provided :("
+  @type authenticator_id :: String.t()
 
-  @doc "description not provided :("
-  @type AuthenticatorProtocol :: :u2f | :ctap2
+  @typedoc "description not provided :("
+  @type authenticator_protocol :: :u2f | :ctap2
 
-  @doc "description not provided :("
-  @type AuthenticatorTransport :: :usb | :nfc | :ble | :cable | :internal
+  @typedoc "description not provided :("
+  @type authenticator_transport :: :usb | :nfc | :ble | :cable | :internal
 
-  @doc "description not provided :("
-  @type Credential :: %{
+  @typedoc "description not provided :("
+  @type credential :: %{
           credentialId: String.t(),
           isResidentCredential: boolean(),
           largeBlob: String.t() | nil,
@@ -20,13 +20,13 @@ defmodule CDPotion.Domain.WebAuthn do
           userHandle: String.t() | nil
         }
 
-  @doc "description not provided :("
-  @type Ctap2Version :: :ctap2_0 | :ctap2_1
+  @typedoc "description not provided :("
+  @type ctap2_version :: :ctap2_0 | :ctap2_1
 
-  @doc "description not provided :("
-  @type VirtualAuthenticatorOptions :: %{
+  @typedoc "description not provided :("
+  @type virtual_authenticator_options :: %{
           automaticPresenceSimulation: boolean() | nil,
-          ctap2Version: WebAuthn.Ctap2Version | nil,
+          ctap2Version: CDPotion.Domain.WebAuthn.ctap2_version() | nil,
           hasCredBlob: boolean() | nil,
           hasLargeBlob: boolean() | nil,
           hasMinPinLength: boolean() | nil,
@@ -34,8 +34,8 @@ defmodule CDPotion.Domain.WebAuthn do
           hasResidentKey: boolean() | nil,
           hasUserVerification: boolean() | nil,
           isUserVerified: boolean() | nil,
-          protocol: WebAuthn.AuthenticatorProtocol,
-          transport: WebAuthn.AuthenticatorTransport
+          protocol: CDPotion.Domain.WebAuthn.authenticator_protocol(),
+          transport: CDPotion.Domain.WebAuthn.authenticator_transport()
         }
 
   @doc """

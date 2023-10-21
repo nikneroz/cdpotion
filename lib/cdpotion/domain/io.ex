@@ -1,8 +1,8 @@
 defmodule CDPotion.Domain.IO do
   use CDPotion.Utils
-  @doc "This is either obtained from another method or specified as `blob:<uuid>` where
+  @typedoc "This is either obtained from another method or specified as `blob:<uuid>` where
 `<uuid>` is an UUID of a Blob."
-  @type StreamHandle :: String.t()
+  @type stream_handle :: String.t()
 
   @doc """
   Close the stream, discard any temporary backing storage.

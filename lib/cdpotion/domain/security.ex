@@ -1,14 +1,15 @@
 defmodule CDPotion.Domain.Security do
   use CDPotion.Utils
-  @doc "The action to take when a certificate error occurs. continue will continue processing the
+
+  @typedoc "The action to take when a certificate error occurs. continue will continue processing the
 request and cancel will cancel the request."
-  @type CertificateErrorAction :: :continue | :cancel
+  @type certificate_error_action :: :continue | :cancel
 
-  @doc "An internal certificate ID value."
-  @type CertificateId :: integer()
+  @typedoc "An internal certificate ID value."
+  @type certificate_id :: integer()
 
-  @doc "Details about the security state of the page certificate."
-  @type CertificateSecurityState :: %{
+  @typedoc "Details about the security state of the page certificate."
+  @type certificate_security_state :: %{
           certificate: list(String.t()),
           certificateHasSha1Signature: boolean(),
           certificateHasWeakSignature: boolean(),
@@ -25,53 +26,53 @@ request and cancel will cancel the request."
           obsoleteSslSignature: boolean(),
           protocol: String.t(),
           subjectName: String.t(),
-          validFrom: Network.TimeSinceEpoch,
-          validTo: Network.TimeSinceEpoch
+          validFrom: CDPotion.Domain.Network.time_since_epoch(),
+          validTo: CDPotion.Domain.Network.time_since_epoch()
         }
 
-  @doc "Information about insecure content on the page."
-  @type InsecureContentStatus :: %{
+  @typedoc "Information about insecure content on the page."
+  @type insecure_content_status :: %{
           containedMixedForm: boolean(),
           displayedContentWithCertErrors: boolean(),
-          displayedInsecureContentStyle: Security.SecurityState,
+          displayedInsecureContentStyle: CDPotion.Domain.Security.security_state(),
           displayedMixedContent: boolean(),
           ranContentWithCertErrors: boolean(),
-          ranInsecureContentStyle: Security.SecurityState,
+          ranInsecureContentStyle: CDPotion.Domain.Security.security_state(),
           ranMixedContent: boolean()
         }
 
-  @doc "A description of mixed content (HTTP resources on HTTPS pages), as defined by
+  @typedoc "A description of mixed content (HTTP resources on HTTPS pages), as defined by
 https://www.w3.org/TR/mixed-content/#categories"
-  @type MixedContentType :: :blockable | :"optionally-blockable" | :none
+  @type mixed_content_type :: :blockable | :"optionally-blockable" | :none
 
-  @doc "description not provided :("
-  @type SafetyTipInfo :: %{
+  @typedoc "description not provided :("
+  @type safety_tip_info :: %{
           safeUrl: String.t() | nil,
-          safetyTipStatus: Security.SafetyTipStatus
+          safetyTipStatus: CDPotion.Domain.Security.safety_tip_status()
         }
 
-  @doc "description not provided :("
-  @type SafetyTipStatus :: :badReputation | :lookalike
+  @typedoc "description not provided :("
+  @type safety_tip_status :: :badReputation | :lookalike
 
-  @doc "The security level of a page or resource."
-  @type SecurityState :: :unknown | :neutral | :insecure | :secure | :info | :"insecure-broken"
+  @typedoc "The security level of a page or resource."
+  @type security_state :: :unknown | :neutral | :insecure | :secure | :info | :"insecure-broken"
 
-  @doc "An explanation of an factor contributing to the security state."
-  @type SecurityStateExplanation :: %{
+  @typedoc "An explanation of an factor contributing to the security state."
+  @type security_state_explanation :: %{
           certificate: list(String.t()),
           description: String.t(),
-          mixedContentType: Security.MixedContentType,
+          mixedContentType: CDPotion.Domain.Security.mixed_content_type(),
           recommendations: list(String.t()) | nil,
-          securityState: Security.SecurityState,
+          securityState: CDPotion.Domain.Security.security_state(),
           summary: String.t(),
           title: String.t()
         }
 
-  @doc "Security state information about the page."
-  @type VisibleSecurityState :: %{
-          certificateSecurityState: Security.CertificateSecurityState | nil,
-          safetyTipInfo: Security.SafetyTipInfo | nil,
-          securityState: Security.SecurityState,
+  @typedoc "Security state information about the page."
+  @type visible_security_state :: %{
+          certificateSecurityState: CDPotion.Domain.Security.certificate_security_state() | nil,
+          safetyTipInfo: CDPotion.Domain.Security.safety_tip_info() | nil,
+          securityState: CDPotion.Domain.Security.security_state(),
           securityStateIssueIds: list(String.t())
         }
 

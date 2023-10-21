@@ -1,58 +1,58 @@
 defmodule CDPotion.Domain.Debugger do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type BreakLocation :: %{
+  @typedoc "description not provided :("
+  @type break_location :: %{
           columnNumber: integer() | nil,
           lineNumber: integer(),
-          scriptId: Runtime.ScriptId,
+          scriptId: CDPotion.Domain.Runtime.script_id(),
           type: :debuggerStatement | :call | :return | nil
         }
 
-  @doc "Breakpoint identifier."
-  @type BreakpointId :: String.t()
+  @typedoc "Breakpoint identifier."
+  @type breakpoint_id :: String.t()
 
-  @doc "JavaScript call frame. Array of call frames form the call stack."
-  @type CallFrame :: %{
-          callFrameId: Debugger.CallFrameId,
+  @typedoc "JavaScript call frame. Array of call frames form the call stack."
+  @type call_frame :: %{
+          callFrameId: CDPotion.Domain.Debugger.call_frame_id(),
           canBeRestarted: boolean() | nil,
-          functionLocation: Debugger.Location | nil,
+          functionLocation: CDPotion.Domain.Debugger.location() | nil,
           functionName: String.t(),
-          location: Debugger.Location,
-          returnValue: Runtime.RemoteObject | nil,
-          scopeChain: list(Debugger.Scope),
-          this: Runtime.RemoteObject,
+          location: CDPotion.Domain.Debugger.location(),
+          returnValue: CDPotion.Domain.Runtime.remote_object() | nil,
+          scopeChain: list(CDPotion.Domain.Debugger.scope()),
+          this: CDPotion.Domain.Runtime.remote_object(),
           url: String.t()
         }
 
-  @doc "Call frame identifier."
-  @type CallFrameId :: String.t()
+  @typedoc "Call frame identifier."
+  @type call_frame_id :: String.t()
 
-  @doc "Debug symbols available for a wasm script."
-  @type DebugSymbols :: %{
+  @typedoc "Debug symbols available for a wasm script."
+  @type debug_symbols :: %{
           externalURL: String.t() | nil,
           type: :None | :SourceMap | :EmbeddedDWARF | :ExternalDWARF
         }
 
-  @doc "Location in the source code."
-  @type Location :: %{
+  @typedoc "Location in the source code."
+  @type location :: %{
           columnNumber: integer() | nil,
           lineNumber: integer(),
-          scriptId: Runtime.ScriptId
+          scriptId: CDPotion.Domain.Runtime.script_id()
         }
 
-  @doc "Location range within one script."
-  @type LocationRange :: %{
-          end: Debugger.ScriptPosition,
-          scriptId: Runtime.ScriptId,
-          start: Debugger.ScriptPosition
+  @typedoc "Location range within one script."
+  @type location_range :: %{
+          end: CDPotion.Domain.Debugger.script_position(),
+          scriptId: CDPotion.Domain.Runtime.script_id(),
+          start: CDPotion.Domain.Debugger.script_position()
         }
 
-  @doc "Scope description."
-  @type Scope :: %{
-          endLocation: Debugger.Location | nil,
+  @typedoc "Scope description."
+  @type scope :: %{
+          endLocation: CDPotion.Domain.Debugger.location() | nil,
           name: String.t() | nil,
-          object: Runtime.RemoteObject,
-          startLocation: Debugger.Location | nil,
+          object: CDPotion.Domain.Runtime.remote_object(),
+          startLocation: CDPotion.Domain.Debugger.location() | nil,
           type:
             :global
             | :local
@@ -66,23 +66,23 @@ defmodule CDPotion.Domain.Debugger do
             | :"wasm-expression-stack"
         }
 
-  @doc "Enum of possible script languages."
-  @type ScriptLanguage :: :JavaScript | :WebAssembly
+  @typedoc "Enum of possible script languages."
+  @type script_language :: :JavaScript | :WebAssembly
 
-  @doc "Location in the source code."
-  @type ScriptPosition :: %{
+  @typedoc "Location in the source code."
+  @type script_position :: %{
           columnNumber: integer(),
           lineNumber: integer()
         }
 
-  @doc "Search match for resource."
-  @type SearchMatch :: %{
+  @typedoc "Search match for resource."
+  @type search_match :: %{
           lineContent: String.t(),
           lineNumber: number()
         }
 
-  @doc "description not provided :("
-  @type WasmDisassemblyChunk :: %{
+  @typedoc "description not provided :("
+  @type wasm_disassembly_chunk :: %{
           bytecodeOffsets: list(integer()),
           lines: list(String.t())
         }

@@ -1,34 +1,34 @@
 defmodule CDPotion.Domain.Audits do
   use CDPotion.Utils
-  @doc "Information about a cookie that is affected by an inspector issue."
-  @type AffectedCookie :: %{
+  @typedoc "Information about a cookie that is affected by an inspector issue."
+  @type affected_cookie :: %{
           domain: String.t(),
           name: String.t(),
           path: String.t()
         }
 
-  @doc "Information about the frame affected by an inspector issue."
-  @type AffectedFrame :: %{
-          frameId: Page.FrameId
+  @typedoc "Information about the frame affected by an inspector issue."
+  @type affected_frame :: %{
+          frameId: CDPotion.Domain.Page.frame_id()
         }
 
-  @doc "Information about a request that is affected by an inspector issue."
-  @type AffectedRequest :: %{
-          requestId: Network.RequestId,
+  @typedoc "Information about a request that is affected by an inspector issue."
+  @type affected_request :: %{
+          requestId: CDPotion.Domain.Network.request_id(),
           url: String.t() | nil
         }
 
-  @doc "Details for issues around 'Attribution Reporting API' usage.
+  @typedoc "Details for issues around 'Attribution Reporting API' usage.
 Explainer: https://github.com/WICG/attribution-reporting-api"
-  @type AttributionReportingIssueDetails :: %{
+  @type attribution_reporting_issue_details :: %{
           invalidParameter: String.t() | nil,
-          request: Audits.AffectedRequest | nil,
-          violatingNodeId: DOM.BackendNodeId | nil,
-          violationType: Audits.AttributionReportingIssueType
+          request: CDPotion.Domain.Audits.affected_request() | nil,
+          violatingNodeId: CDPotion.Domain.DOM.backend_node_id() | nil,
+          violationType: CDPotion.Domain.Audits.attribution_reporting_issue_type()
         }
 
-  @doc "description not provided :("
-  @type AttributionReportingIssueType ::
+  @typedoc "description not provided :("
+  @type attribution_reporting_issue_type ::
           :PermissionPolicyDisabled
           | :UntrustworthyReportingOrigin
           | :InsecureContext
@@ -45,57 +45,58 @@ Explainer: https://github.com/WICG/attribution-reporting-api"
           | :NoWebOrOsSupport
           | :NavigationRegistrationWithoutTransientUserActivation
 
-  @doc "Details for a request that has been blocked with the BLOCKED_BY_RESPONSE
+  @typedoc "Details for a request that has been blocked with the BLOCKED_BY_RESPONSE
 code. Currently only used for COEP/COOP, but may be extended to include
 some CSP errors in the future."
-  @type BlockedByResponseIssueDetails :: %{
-          blockedFrame: Audits.AffectedFrame | nil,
-          parentFrame: Audits.AffectedFrame | nil,
-          reason: Audits.BlockedByResponseReason,
-          request: Audits.AffectedRequest
+  @type blocked_by_response_issue_details :: %{
+          blockedFrame: CDPotion.Domain.Audits.affected_frame() | nil,
+          parentFrame: CDPotion.Domain.Audits.affected_frame() | nil,
+          reason: CDPotion.Domain.Audits.blocked_by_response_reason(),
+          request: CDPotion.Domain.Audits.affected_request()
         }
 
-  @doc "Enum indicating the reason a response has been blocked. These reasons are
+  @typedoc "Enum indicating the reason a response has been blocked. These reasons are
 refinements of the net error BLOCKED_BY_RESPONSE."
-  @type BlockedByResponseReason ::
+  @type blocked_by_response_reason ::
           :CoepFrameResourceNeedsCoepHeader
           | :CoopSandboxedIFrameCannotNavigateToCoopPage
           | :CorpNotSameOrigin
           | :CorpNotSameOriginAfterDefaultedToSameOriginByCoep
           | :CorpNotSameSite
 
-  @doc "This issue warns about sites in the redirect chain of a finished navigation
+  @typedoc "This issue warns about sites in the redirect chain of a finished navigation
 that may be flagged as trackers and have their state cleared if they don't
 receive a user interaction. Note that in this context 'site' means eTLD+1.
 For example, if the URL `https://example.test:80/bounce` was in the
 redirect chain, the site reported would be `example.test`."
-  @type BounceTrackingIssueDetails :: %{
+  @type bounce_tracking_issue_details :: %{
           trackingSites: list(String.t())
         }
 
-  @doc "This issue tracks client hints related issues. It's used to deprecate old
+  @typedoc "This issue tracks client hints related issues. It's used to deprecate old
 features, encourage the use of new ones, and provide general guidance."
-  @type ClientHintIssueDetails :: %{
-          clientHintIssueReason: Audits.ClientHintIssueReason,
-          sourceCodeLocation: Audits.SourceCodeLocation
+  @type client_hint_issue_details :: %{
+          clientHintIssueReason: CDPotion.Domain.Audits.client_hint_issue_reason(),
+          sourceCodeLocation: CDPotion.Domain.Audits.source_code_location()
         }
 
-  @doc "description not provided :("
-  @type ClientHintIssueReason :: :MetaTagAllowListInvalidOrigin | :MetaTagModifiedHTML
+  @typedoc "description not provided :("
+  @type client_hint_issue_reason :: :MetaTagAllowListInvalidOrigin | :MetaTagModifiedHTML
 
-  @doc "description not provided :("
-  @type ContentSecurityPolicyIssueDetails :: %{
+  @typedoc "description not provided :("
+  @type content_security_policy_issue_details :: %{
           blockedURL: String.t() | nil,
-          contentSecurityPolicyViolationType: Audits.ContentSecurityPolicyViolationType,
-          frameAncestor: Audits.AffectedFrame | nil,
+          contentSecurityPolicyViolationType:
+            CDPotion.Domain.Audits.content_security_policy_violation_type(),
+          frameAncestor: CDPotion.Domain.Audits.affected_frame() | nil,
           isReportOnly: boolean(),
-          sourceCodeLocation: Audits.SourceCodeLocation | nil,
+          sourceCodeLocation: CDPotion.Domain.Audits.source_code_location() | nil,
           violatedDirective: String.t(),
-          violatingNodeId: DOM.BackendNodeId | nil
+          violatingNodeId: CDPotion.Domain.DOM.backend_node_id() | nil
         }
 
-  @doc "description not provided :("
-  @type ContentSecurityPolicyViolationType ::
+  @typedoc "description not provided :("
+  @type content_security_policy_violation_type ::
           :kInlineViolation
           | :kEvalViolation
           | :kURLViolation
@@ -103,8 +104,8 @@ features, encourage the use of new ones, and provide general guidance."
           | :kTrustedTypesPolicyViolation
           | :kWasmEvalViolation
 
-  @doc "description not provided :("
-  @type CookieExclusionReason ::
+  @typedoc "description not provided :("
+  @type cookie_exclusion_reason ::
           :ExcludeSameSiteUnspecifiedTreatedAsLax
           | :ExcludeSameSiteNoneInsecure
           | :ExcludeSameSiteLax
@@ -114,25 +115,25 @@ features, encourage the use of new ones, and provide general guidance."
           | :ExcludeDomainNonASCII
           | :ExcludeThirdPartyCookieBlockedInFirstPartySet
 
-  @doc "This information is currently necessary, as the front-end has a difficult
+  @typedoc "This information is currently necessary, as the front-end has a difficult
 time finding a specific cookie. With this, we can convey specific error
 information without the cookie."
-  @type CookieIssueDetails :: %{
-          cookie: Audits.AffectedCookie | nil,
-          cookieExclusionReasons: list(Audits.CookieExclusionReason),
+  @type cookie_issue_details :: %{
+          cookie: CDPotion.Domain.Audits.affected_cookie() | nil,
+          cookieExclusionReasons: list(CDPotion.Domain.Audits.cookie_exclusion_reason()),
           cookieUrl: String.t() | nil,
-          cookieWarningReasons: list(Audits.CookieWarningReason),
-          operation: Audits.CookieOperation,
+          cookieWarningReasons: list(CDPotion.Domain.Audits.cookie_warning_reason()),
+          operation: CDPotion.Domain.Audits.cookie_operation(),
           rawCookieLine: String.t() | nil,
-          request: Audits.AffectedRequest | nil,
+          request: CDPotion.Domain.Audits.affected_request() | nil,
           siteForCookies: String.t() | nil
         }
 
-  @doc "description not provided :("
-  @type CookieOperation :: :SetCookie | :ReadCookie
+  @typedoc "description not provided :("
+  @type cookie_operation :: :SetCookie | :ReadCookie
 
-  @doc "description not provided :("
-  @type CookieWarningReason ::
+  @typedoc "description not provided :("
+  @type cookie_warning_reason ::
           :WarnSameSiteUnspecifiedCrossSiteContext
           | :WarnSameSiteNoneInsecure
           | :WarnSameSiteUnspecifiedLaxAllowUnsafe
@@ -145,43 +146,44 @@ information without the cookie."
           | :WarnDomainNonASCII
           | :WarnThirdPartyPhaseout
 
-  @doc "Details for a CORS related issue, e.g. a warning or error related to
+  @typedoc "Details for a CORS related issue, e.g. a warning or error related to
 CORS RFC1918 enforcement."
-  @type CorsIssueDetails :: %{
-          clientSecurityState: Network.ClientSecurityState | nil,
-          corsErrorStatus: Network.CorsErrorStatus,
+  @type cors_issue_details :: %{
+          clientSecurityState: CDPotion.Domain.Network.client_security_state() | nil,
+          corsErrorStatus: CDPotion.Domain.Network.cors_error_status(),
           initiatorOrigin: String.t() | nil,
           isWarning: boolean(),
-          location: Audits.SourceCodeLocation | nil,
-          request: Audits.AffectedRequest,
-          resourceIPAddressSpace: Network.IPAddressSpace | nil
+          location: CDPotion.Domain.Audits.source_code_location() | nil,
+          request: CDPotion.Domain.Audits.affected_request(),
+          resourceIPAddressSpace: CDPotion.Domain.Network.ip_address_space() | nil
         }
 
-  @doc "This issue tracks information needed to print a deprecation message.
+  @typedoc "This issue tracks information needed to print a deprecation message.
 https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/core/frame/third_party/blink/renderer/core/frame/deprecation/README.md"
-  @type DeprecationIssueDetails :: %{
-          affectedFrame: Audits.AffectedFrame | nil,
-          sourceCodeLocation: Audits.SourceCodeLocation,
+  @type deprecation_issue_details :: %{
+          affectedFrame: CDPotion.Domain.Audits.affected_frame() | nil,
+          sourceCodeLocation: CDPotion.Domain.Audits.source_code_location(),
           type: String.t()
         }
 
-  @doc "description not provided :("
-  @type FailedRequestInfo :: %{
+  @typedoc "description not provided :("
+  @type failed_request_info :: %{
           failureMessage: String.t(),
-          requestId: Network.RequestId | nil,
+          requestId: CDPotion.Domain.Network.request_id() | nil,
           url: String.t()
         }
 
-  @doc "description not provided :("
-  @type FederatedAuthRequestIssueDetails :: %{
-          federatedAuthRequestIssueReason: Audits.FederatedAuthRequestIssueReason
+  @typedoc "description not provided :("
+  @type federated_auth_request_issue_details :: %{
+          federatedAuthRequestIssueReason:
+            CDPotion.Domain.Audits.federated_auth_request_issue_reason()
         }
 
-  @doc "Represents the failure reason when a federated authentication reason fails.
+  @typedoc "Represents the failure reason when a federated authentication reason fails.
 Should be updated alongside RequestIdTokenStatus in
 third_party/blink/public/mojom/devtools/inspector_issue.mojom to include
 all cases except for success."
-  @type FederatedAuthRequestIssueReason ::
+  @type federated_auth_request_issue_reason ::
           :ShouldEmbargo
           | :TooManyRequests
           | :WellKnownHttpNotFound
@@ -218,15 +220,16 @@ all cases except for success."
           | :SilentMediationFailure
           | :ThirdPartyCookiesBlocked
 
-  @doc "description not provided :("
-  @type FederatedAuthUserInfoRequestIssueDetails :: %{
-          federatedAuthUserInfoRequestIssueReason: Audits.FederatedAuthUserInfoRequestIssueReason
+  @typedoc "description not provided :("
+  @type federated_auth_user_info_request_issue_details :: %{
+          federatedAuthUserInfoRequestIssueReason:
+            CDPotion.Domain.Audits.federated_auth_user_info_request_issue_reason()
         }
 
-  @doc "Represents the failure reason when a getUserInfo() call fails.
+  @typedoc "Represents the failure reason when a getUserInfo() call fails.
 Should be updated alongside FederatedAuthUserInfoRequestResult in
 third_party/blink/public/mojom/devtools/inspector_issue.mojom."
-  @type FederatedAuthUserInfoRequestIssueReason ::
+  @type federated_auth_user_info_request_issue_reason ::
           :NotSameOrigin
           | :NotIframe
           | :NotPotentiallyTrustworthy
@@ -237,17 +240,17 @@ third_party/blink/public/mojom/devtools/inspector_issue.mojom."
           | :InvalidAccountsResponse
           | :NoReturningUserFromFetchedAccounts
 
-  @doc "Depending on the concrete errorType, different properties are set."
-  @type GenericIssueDetails :: %{
-          errorType: Audits.GenericIssueErrorType,
-          frameId: Page.FrameId | nil,
-          request: Audits.AffectedRequest | nil,
+  @typedoc "Depending on the concrete errorType, different properties are set."
+  @type generic_issue_details :: %{
+          errorType: CDPotion.Domain.Audits.generic_issue_error_type(),
+          frameId: CDPotion.Domain.Page.frame_id() | nil,
+          request: CDPotion.Domain.Audits.affected_request() | nil,
           violatingNodeAttribute: String.t() | nil,
-          violatingNodeId: DOM.BackendNodeId | nil
+          violatingNodeId: CDPotion.Domain.DOM.backend_node_id() | nil
         }
 
-  @doc "description not provided :("
-  @type GenericIssueErrorType ::
+  @typedoc "description not provided :("
+  @type generic_issue_error_type ::
           :CrossOriginPortalPostMessageError
           | :FormLabelForNameError
           | :FormDuplicateIdForInputError
@@ -261,30 +264,30 @@ third_party/blink/public/mojom/devtools/inspector_issue.mojom."
           | :FormInputHasWrongButWellIntendedAutocompleteValueError
           | :ResponseWasBlockedByORB
 
-  @doc "description not provided :("
-  @type HeavyAdIssueDetails :: %{
-          frame: Audits.AffectedFrame,
-          reason: Audits.HeavyAdReason,
-          resolution: Audits.HeavyAdResolutionStatus
+  @typedoc "description not provided :("
+  @type heavy_ad_issue_details :: %{
+          frame: CDPotion.Domain.Audits.affected_frame(),
+          reason: CDPotion.Domain.Audits.heavy_ad_reason(),
+          resolution: CDPotion.Domain.Audits.heavy_ad_resolution_status()
         }
 
-  @doc "description not provided :("
-  @type HeavyAdReason :: :NetworkTotalLimit | :CpuTotalLimit | :CpuPeakLimit
+  @typedoc "description not provided :("
+  @type heavy_ad_reason :: :NetworkTotalLimit | :CpuTotalLimit | :CpuPeakLimit
 
-  @doc "description not provided :("
-  @type HeavyAdResolutionStatus :: :HeavyAdBlocked | :HeavyAdWarning
+  @typedoc "description not provided :("
+  @type heavy_ad_resolution_status :: :HeavyAdBlocked | :HeavyAdWarning
 
-  @doc "An inspector issue reported from the back-end."
-  @type InspectorIssue :: %{
-          code: Audits.InspectorIssueCode,
-          details: Audits.InspectorIssueDetails,
-          issueId: Audits.IssueId | nil
+  @typedoc "An inspector issue reported from the back-end."
+  @type inspector_issue :: %{
+          code: CDPotion.Domain.Audits.inspector_issue_code(),
+          details: CDPotion.Domain.Audits.inspector_issue_details(),
+          issueId: CDPotion.Domain.Audits.issue_id() | nil
         }
 
-  @doc "A unique identifier for the type of issue. Each type may use one of the
+  @typedoc "A unique identifier for the type of issue. Each type may use one of the
 optional fields in InspectorIssueDetails to convey more specific
 information about the kind of issue."
-  @type InspectorIssueCode ::
+  @type inspector_issue_code ::
           :CookieIssue
           | :MixedContentIssue
           | :BlockedByResponseIssue
@@ -304,62 +307,71 @@ information about the kind of issue."
           | :StylesheetLoadingIssue
           | :FederatedAuthUserInfoRequestIssue
 
-  @doc "This struct holds a list of optional fields with additional information
+  @typedoc "This struct holds a list of optional fields with additional information
 specific to the kind of issue. When adding a new issue code, please also
 add a new optional field to this type."
-  @type InspectorIssueDetails :: %{
-          attributionReportingIssueDetails: Audits.AttributionReportingIssueDetails | nil,
-          blockedByResponseIssueDetails: Audits.BlockedByResponseIssueDetails | nil,
-          bounceTrackingIssueDetails: Audits.BounceTrackingIssueDetails | nil,
-          clientHintIssueDetails: Audits.ClientHintIssueDetails | nil,
-          contentSecurityPolicyIssueDetails: Audits.ContentSecurityPolicyIssueDetails | nil,
-          cookieIssueDetails: Audits.CookieIssueDetails | nil,
-          corsIssueDetails: Audits.CorsIssueDetails | nil,
-          deprecationIssueDetails: Audits.DeprecationIssueDetails | nil,
-          federatedAuthRequestIssueDetails: Audits.FederatedAuthRequestIssueDetails | nil,
+  @type inspector_issue_details :: %{
+          attributionReportingIssueDetails:
+            CDPotion.Domain.Audits.attribution_reporting_issue_details() | nil,
+          blockedByResponseIssueDetails:
+            CDPotion.Domain.Audits.blocked_by_response_issue_details() | nil,
+          bounceTrackingIssueDetails:
+            CDPotion.Domain.Audits.bounce_tracking_issue_details() | nil,
+          clientHintIssueDetails: CDPotion.Domain.Audits.client_hint_issue_details() | nil,
+          contentSecurityPolicyIssueDetails:
+            CDPotion.Domain.Audits.content_security_policy_issue_details() | nil,
+          cookieIssueDetails: CDPotion.Domain.Audits.cookie_issue_details() | nil,
+          corsIssueDetails: CDPotion.Domain.Audits.cors_issue_details() | nil,
+          deprecationIssueDetails: CDPotion.Domain.Audits.deprecation_issue_details() | nil,
+          federatedAuthRequestIssueDetails:
+            CDPotion.Domain.Audits.federated_auth_request_issue_details() | nil,
           federatedAuthUserInfoRequestIssueDetails:
-            Audits.FederatedAuthUserInfoRequestIssueDetails | nil,
-          genericIssueDetails: Audits.GenericIssueDetails | nil,
-          heavyAdIssueDetails: Audits.HeavyAdIssueDetails | nil,
-          lowTextContrastIssueDetails: Audits.LowTextContrastIssueDetails | nil,
-          mixedContentIssueDetails: Audits.MixedContentIssueDetails | nil,
-          navigatorUserAgentIssueDetails: Audits.NavigatorUserAgentIssueDetails | nil,
-          quirksModeIssueDetails: Audits.QuirksModeIssueDetails | nil,
-          sharedArrayBufferIssueDetails: Audits.SharedArrayBufferIssueDetails | nil,
-          stylesheetLoadingIssueDetails: Audits.StylesheetLoadingIssueDetails | nil
+            CDPotion.Domain.Audits.federated_auth_user_info_request_issue_details() | nil,
+          genericIssueDetails: CDPotion.Domain.Audits.generic_issue_details() | nil,
+          heavyAdIssueDetails: CDPotion.Domain.Audits.heavy_ad_issue_details() | nil,
+          lowTextContrastIssueDetails:
+            CDPotion.Domain.Audits.low_text_contrast_issue_details() | nil,
+          mixedContentIssueDetails: CDPotion.Domain.Audits.mixed_content_issue_details() | nil,
+          navigatorUserAgentIssueDetails:
+            CDPotion.Domain.Audits.navigator_user_agent_issue_details() | nil,
+          quirksModeIssueDetails: CDPotion.Domain.Audits.quirks_mode_issue_details() | nil,
+          sharedArrayBufferIssueDetails:
+            CDPotion.Domain.Audits.shared_array_buffer_issue_details() | nil,
+          stylesheetLoadingIssueDetails:
+            CDPotion.Domain.Audits.stylesheet_loading_issue_details() | nil
         }
 
-  @doc "A unique id for a DevTools inspector issue. Allows other entities (e.g.
+  @typedoc "A unique id for a DevTools inspector issue. Allows other entities (e.g.
 exceptions, CDP message, console messages, etc.) to reference an issue."
-  @type IssueId :: String.t()
+  @type issue_id :: String.t()
 
-  @doc "description not provided :("
-  @type LowTextContrastIssueDetails :: %{
+  @typedoc "description not provided :("
+  @type low_text_contrast_issue_details :: %{
           contrastRatio: number(),
           fontSize: String.t(),
           fontWeight: String.t(),
           thresholdAA: number(),
           thresholdAAA: number(),
-          violatingNodeId: DOM.BackendNodeId,
+          violatingNodeId: CDPotion.Domain.DOM.backend_node_id(),
           violatingNodeSelector: String.t()
         }
 
-  @doc "description not provided :("
-  @type MixedContentIssueDetails :: %{
-          frame: Audits.AffectedFrame | nil,
+  @typedoc "description not provided :("
+  @type mixed_content_issue_details :: %{
+          frame: CDPotion.Domain.Audits.affected_frame() | nil,
           insecureURL: String.t(),
           mainResourceURL: String.t(),
-          request: Audits.AffectedRequest | nil,
-          resolutionStatus: Audits.MixedContentResolutionStatus,
-          resourceType: Audits.MixedContentResourceType | nil
+          request: CDPotion.Domain.Audits.affected_request() | nil,
+          resolutionStatus: CDPotion.Domain.Audits.mixed_content_resolution_status(),
+          resourceType: CDPotion.Domain.Audits.mixed_content_resource_type() | nil
         }
 
-  @doc "description not provided :("
-  @type MixedContentResolutionStatus ::
+  @typedoc "description not provided :("
+  @type mixed_content_resolution_status ::
           :MixedContentBlocked | :MixedContentAutomaticallyUpgraded | :MixedContentWarning
 
-  @doc "description not provided :("
-  @type MixedContentResourceType ::
+  @typedoc "description not provided :("
+  @type mixed_content_resource_type ::
           :AttributionSrc
           | :Audio
           | :Beacon
@@ -388,49 +400,49 @@ exceptions, CDP message, console messages, etc.) to reference an issue."
           | :XMLHttpRequest
           | :XSLT
 
-  @doc "description not provided :("
-  @type NavigatorUserAgentIssueDetails :: %{
-          location: Audits.SourceCodeLocation | nil,
+  @typedoc "description not provided :("
+  @type navigator_user_agent_issue_details :: %{
+          location: CDPotion.Domain.Audits.source_code_location() | nil,
           url: String.t()
         }
 
-  @doc "Details for issues about documents in Quirks Mode
+  @typedoc "Details for issues about documents in Quirks Mode
 or Limited Quirks Mode that affects page layouting."
-  @type QuirksModeIssueDetails :: %{
-          documentNodeId: DOM.BackendNodeId,
-          frameId: Page.FrameId,
+  @type quirks_mode_issue_details :: %{
+          documentNodeId: CDPotion.Domain.DOM.backend_node_id(),
+          frameId: CDPotion.Domain.Page.frame_id(),
           isLimitedQuirksMode: boolean(),
-          loaderId: Network.LoaderId,
+          loaderId: CDPotion.Domain.Network.loader_id(),
           url: String.t()
         }
 
-  @doc "Details for a issue arising from an SAB being instantiated in, or
+  @typedoc "Details for a issue arising from an SAB being instantiated in, or
 transferred to a context that is not cross-origin isolated."
-  @type SharedArrayBufferIssueDetails :: %{
+  @type shared_array_buffer_issue_details :: %{
           isWarning: boolean(),
-          sourceCodeLocation: Audits.SourceCodeLocation,
-          type: Audits.SharedArrayBufferIssueType
+          sourceCodeLocation: CDPotion.Domain.Audits.source_code_location(),
+          type: CDPotion.Domain.Audits.shared_array_buffer_issue_type()
         }
 
-  @doc "description not provided :("
-  @type SharedArrayBufferIssueType :: :TransferIssue | :CreationIssue
+  @typedoc "description not provided :("
+  @type shared_array_buffer_issue_type :: :TransferIssue | :CreationIssue
 
-  @doc "description not provided :("
-  @type SourceCodeLocation :: %{
+  @typedoc "description not provided :("
+  @type source_code_location :: %{
           columnNumber: integer(),
           lineNumber: integer(),
-          scriptId: Runtime.ScriptId | nil,
+          scriptId: CDPotion.Domain.Runtime.script_id() | nil,
           url: String.t()
         }
 
-  @doc "description not provided :("
-  @type StyleSheetLoadingIssueReason :: :LateImportRule | :RequestFailed
+  @typedoc "description not provided :("
+  @type style_sheet_loading_issue_reason :: :LateImportRule | :RequestFailed
 
-  @doc "This issue warns when a referenced stylesheet couldn't be loaded."
-  @type StylesheetLoadingIssueDetails :: %{
-          failedRequestInfo: Audits.FailedRequestInfo | nil,
-          sourceCodeLocation: Audits.SourceCodeLocation,
-          styleSheetLoadingIssueReason: Audits.StyleSheetLoadingIssueReason
+  @typedoc "This issue warns when a referenced stylesheet couldn't be loaded."
+  @type stylesheet_loading_issue_details :: %{
+          failedRequestInfo: CDPotion.Domain.Audits.failed_request_info() | nil,
+          sourceCodeLocation: CDPotion.Domain.Audits.source_code_location(),
+          styleSheetLoadingIssueReason: CDPotion.Domain.Audits.style_sheet_loading_issue_reason()
         }
 
   @doc """

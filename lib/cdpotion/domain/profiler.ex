@@ -1,48 +1,48 @@
 defmodule CDPotion.Domain.Profiler do
   use CDPotion.Utils
-  @doc "Coverage data for a source range."
-  @type CoverageRange :: %{
+  @typedoc "Coverage data for a source range."
+  @type coverage_range :: %{
           count: integer(),
           endOffset: integer(),
           startOffset: integer()
         }
 
-  @doc "Coverage data for a JavaScript function."
-  @type FunctionCoverage :: %{
+  @typedoc "Coverage data for a JavaScript function."
+  @type function_coverage :: %{
           functionName: String.t(),
           isBlockCoverage: boolean(),
-          ranges: list(Profiler.CoverageRange)
+          ranges: list(CDPotion.Domain.Profiler.coverage_range())
         }
 
-  @doc "Specifies a number of samples attributed to a certain source position."
-  @type PositionTickInfo :: %{
+  @typedoc "Specifies a number of samples attributed to a certain source position."
+  @type position_tick_info :: %{
           line: integer(),
           ticks: integer()
         }
 
-  @doc "Profile."
-  @type Profile :: %{
+  @typedoc "Profile."
+  @type profile :: %{
           endTime: number(),
-          nodes: list(Profiler.ProfileNode),
+          nodes: list(CDPotion.Domain.Profiler.profile_node()),
           samples: list(integer()) | nil,
           startTime: number(),
           timeDeltas: list(integer()) | nil
         }
 
-  @doc "Profile node. Holds callsite information, execution statistics and child nodes."
-  @type ProfileNode :: %{
-          callFrame: Runtime.CallFrame,
+  @typedoc "Profile node. Holds callsite information, execution statistics and child nodes."
+  @type profile_node :: %{
+          callFrame: CDPotion.Domain.Runtime.call_frame(),
           children: list(integer()) | nil,
           deoptReason: String.t() | nil,
           hitCount: integer() | nil,
           id: integer(),
-          positionTicks: list(Profiler.PositionTickInfo) | nil
+          positionTicks: list(CDPotion.Domain.Profiler.position_tick_info()) | nil
         }
 
-  @doc "Coverage data for a JavaScript script."
-  @type ScriptCoverage :: %{
-          functions: list(Profiler.FunctionCoverage),
-          scriptId: Runtime.ScriptId,
+  @typedoc "Coverage data for a JavaScript script."
+  @type script_coverage :: %{
+          functions: list(CDPotion.Domain.Profiler.function_coverage()),
+          scriptId: CDPotion.Domain.Runtime.script_id(),
           url: String.t()
         }
 

@@ -1,43 +1,43 @@
 defmodule CDPotion.Domain.ServiceWorker do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type RegistrationID :: String.t()
+  @typedoc "description not provided :("
+  @type registration_id :: String.t()
 
-  @doc "ServiceWorker error message."
-  @type ServiceWorkerErrorMessage :: %{
+  @typedoc "ServiceWorker error message."
+  @type service_worker_error_message :: %{
           columnNumber: integer(),
           errorMessage: String.t(),
           lineNumber: integer(),
-          registrationId: ServiceWorker.RegistrationID,
+          registrationId: CDPotion.Domain.ServiceWorker.registration_id(),
           sourceURL: String.t(),
           versionId: String.t()
         }
 
-  @doc "ServiceWorker registration."
-  @type ServiceWorkerRegistration :: %{
+  @typedoc "ServiceWorker registration."
+  @type service_worker_registration :: %{
           isDeleted: boolean(),
-          registrationId: ServiceWorker.RegistrationID,
+          registrationId: CDPotion.Domain.ServiceWorker.registration_id(),
           scopeURL: String.t()
         }
 
-  @doc "ServiceWorker version."
-  @type ServiceWorkerVersion :: %{
-          controlledClients: list(Target.TargetID) | nil,
-          registrationId: ServiceWorker.RegistrationID,
-          runningStatus: ServiceWorker.ServiceWorkerVersionRunningStatus,
+  @typedoc "ServiceWorker version."
+  @type service_worker_version :: %{
+          controlledClients: list(CDPotion.Domain.Target.target_id()) | nil,
+          registrationId: CDPotion.Domain.ServiceWorker.registration_id(),
+          runningStatus: CDPotion.Domain.ServiceWorker.service_worker_version_running_status(),
           scriptLastModified: number() | nil,
           scriptResponseTime: number() | nil,
           scriptURL: String.t(),
-          status: ServiceWorker.ServiceWorkerVersionStatus,
-          targetId: Target.TargetID | nil,
+          status: CDPotion.Domain.ServiceWorker.service_worker_version_status(),
+          targetId: CDPotion.Domain.Target.target_id() | nil,
           versionId: String.t()
         }
 
-  @doc "description not provided :("
-  @type ServiceWorkerVersionRunningStatus :: :stopped | :starting | :running | :stopping
+  @typedoc "description not provided :("
+  @type service_worker_version_running_status :: :stopped | :starting | :running | :stopping
 
-  @doc "description not provided :("
-  @type ServiceWorkerVersionStatus ::
+  @typedoc "description not provided :("
+  @type service_worker_version_status ::
           :new | :installing | :installed | :activating | :activated | :redundant
 
   @doc """

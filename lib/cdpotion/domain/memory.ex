@@ -1,24 +1,24 @@
 defmodule CDPotion.Domain.Memory do
   use CDPotion.Utils
-  @doc "Executable module information"
-  @type Module :: %{
+  @typedoc "Executable module information"
+  @type module_info :: %{
           baseAddress: String.t(),
           name: String.t(),
           size: number(),
           uuid: String.t()
         }
 
-  @doc "Memory pressure level."
-  @type PressureLevel :: :moderate | :critical
+  @typedoc "Memory pressure level."
+  @type pressure_level :: :moderate | :critical
 
-  @doc "Array of heap profile samples."
-  @type SamplingProfile :: %{
-          modules: list(Memory.Module),
-          samples: list(Memory.SamplingProfileNode)
+  @typedoc "Array of heap profile samples."
+  @type sampling_profile :: %{
+          modules: list(CDPotion.Domain.Memory.module_info()),
+          samples: list(CDPotion.Domain.Memory.sampling_profile_node())
         }
 
-  @doc "Heap profile sample."
-  @type SamplingProfileNode :: %{
+  @typedoc "Heap profile sample."
+  @type sampling_profile_node :: %{
           size: number(),
           stack: list(String.t()),
           total: number()

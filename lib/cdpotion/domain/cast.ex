@@ -1,7 +1,7 @@
 defmodule CDPotion.Domain.Cast do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type Sink :: %{
+  @typedoc "description not provided :("
+  @type sink :: %{
           id: String.t(),
           name: String.t(),
           session: String.t() | nil

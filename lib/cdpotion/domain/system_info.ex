@@ -1,7 +1,7 @@
 defmodule CDPotion.Domain.SystemInfo do
   use CDPotion.Utils
-  @doc "Describes a single graphics processor (GPU)."
-  @type GPUDevice :: %{
+  @typedoc "Describes a single graphics processor (GPU)."
+  @type gpu_device :: %{
           deviceId: number(),
           deviceString: String.t(),
           driverVendor: String.t(),
@@ -12,59 +12,59 @@ defmodule CDPotion.Domain.SystemInfo do
           vendorString: String.t()
         }
 
-  @doc "Provides information about the GPU(s) on the system."
-  @type GPUInfo :: %{
+  @typedoc "Provides information about the GPU(s) on the system."
+  @type gpu_info :: %{
           auxAttributes: map() | nil,
-          devices: list(SystemInfo.GPUDevice),
+          devices: list(CDPotion.Domain.SystemInfo.gpu_device()),
           driverBugWorkarounds: list(String.t()),
           featureStatus: map() | nil,
-          imageDecoding: list(SystemInfo.ImageDecodeAcceleratorCapability),
-          videoDecoding: list(SystemInfo.VideoDecodeAcceleratorCapability),
-          videoEncoding: list(SystemInfo.VideoEncodeAcceleratorCapability)
+          imageDecoding: list(CDPotion.Domain.SystemInfo.image_decode_accelerator_capability()),
+          videoDecoding: list(CDPotion.Domain.SystemInfo.video_decode_accelerator_capability()),
+          videoEncoding: list(CDPotion.Domain.SystemInfo.video_encode_accelerator_capability())
         }
 
-  @doc "Describes a supported image decoding profile with its associated minimum and
+  @typedoc "Describes a supported image decoding profile with its associated minimum and
 maximum resolutions and subsampling."
-  @type ImageDecodeAcceleratorCapability :: %{
-          imageType: SystemInfo.ImageType,
-          maxDimensions: SystemInfo.Size,
-          minDimensions: SystemInfo.Size,
-          subsamplings: list(SystemInfo.SubsamplingFormat)
+  @type image_decode_accelerator_capability :: %{
+          imageType: CDPotion.Domain.SystemInfo.image_type(),
+          maxDimensions: CDPotion.Domain.SystemInfo.size(),
+          minDimensions: CDPotion.Domain.SystemInfo.size(),
+          subsamplings: list(CDPotion.Domain.SystemInfo.subsampling_format())
         }
 
-  @doc "Image format of a given image."
-  @type ImageType :: :jpeg | :webp | :unknown
+  @typedoc "Image format of a given image."
+  @type image_type :: :jpeg | :webp | :unknown
 
-  @doc "Represents process info."
-  @type ProcessInfo :: %{
+  @typedoc "Represents process info."
+  @type process_info :: %{
           cpuTime: number(),
           id: integer(),
           type: String.t()
         }
 
-  @doc "Describes the width and height dimensions of an entity."
-  @type Size :: %{
+  @typedoc "Describes the width and height dimensions of an entity."
+  @type size :: %{
           height: integer(),
           width: integer()
         }
 
-  @doc "YUV subsampling type of the pixels of a given image."
-  @type SubsamplingFormat :: :yuv420 | :yuv422 | :yuv444
+  @typedoc "YUV subsampling type of the pixels of a given image."
+  @type subsampling_format :: :yuv420 | :yuv422 | :yuv444
 
-  @doc "Describes a supported video decoding profile with its associated minimum and
+  @typedoc "Describes a supported video decoding profile with its associated minimum and
 maximum resolutions."
-  @type VideoDecodeAcceleratorCapability :: %{
-          maxResolution: SystemInfo.Size,
-          minResolution: SystemInfo.Size,
+  @type video_decode_accelerator_capability :: %{
+          maxResolution: CDPotion.Domain.SystemInfo.size(),
+          minResolution: CDPotion.Domain.SystemInfo.size(),
           profile: String.t()
         }
 
-  @doc "Describes a supported video encoding profile with its associated maximum
+  @typedoc "Describes a supported video encoding profile with its associated maximum
 resolution and maximum framerate."
-  @type VideoEncodeAcceleratorCapability :: %{
+  @type video_encode_accelerator_capability :: %{
           maxFramerateDenominator: integer(),
           maxFramerateNumerator: integer(),
-          maxResolution: SystemInfo.Size,
+          maxResolution: CDPotion.Domain.SystemInfo.size(),
           profile: String.t()
         }
 

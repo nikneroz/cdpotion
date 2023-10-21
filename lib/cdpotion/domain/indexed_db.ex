@@ -1,54 +1,54 @@
 defmodule CDPotion.Domain.IndexedDB do
   use CDPotion.Utils
-  @doc "Data entry."
-  @type DataEntry :: %{
-          key: Runtime.RemoteObject,
-          primaryKey: Runtime.RemoteObject,
-          value: Runtime.RemoteObject
+  @typedoc "Data entry."
+  @type data_entry :: %{
+          key: CDPotion.Domain.Runtime.remote_object(),
+          primaryKey: CDPotion.Domain.Runtime.remote_object(),
+          value: CDPotion.Domain.Runtime.remote_object()
         }
 
-  @doc "Database with an array of object stores."
-  @type DatabaseWithObjectStores :: %{
+  @typedoc "Database with an array of object stores."
+  @type database_with_object_stores :: %{
           name: String.t(),
-          objectStores: list(IndexedDB.ObjectStore),
+          objectStores: list(CDPotion.Domain.IndexedDB.object_store()),
           version: number()
         }
 
-  @doc "Key."
-  @type Key :: %{
-          array: list(IndexedDB.Key) | nil,
+  @typedoc "Key."
+  @type key :: %{
+          array: list(CDPotion.Domain.IndexedDB.key()) | nil,
           date: number() | nil,
           number: number() | nil,
           string: String.t() | nil,
           type: :number | :string | :date | :array
         }
 
-  @doc "Key path."
-  @type KeyPath :: %{
+  @typedoc "Key path."
+  @type key_path :: %{
           array: list(String.t()) | nil,
           string: String.t() | nil,
           type: :null | :string | :array
         }
 
-  @doc "Key range."
-  @type KeyRange :: %{
-          lower: IndexedDB.Key | nil,
+  @typedoc "Key range."
+  @type key_range :: %{
+          lower: CDPotion.Domain.IndexedDB.key() | nil,
           lowerOpen: boolean(),
-          upper: IndexedDB.Key | nil,
+          upper: CDPotion.Domain.IndexedDB.key() | nil,
           upperOpen: boolean()
         }
 
-  @doc "Object store."
-  @type ObjectStore :: %{
+  @typedoc "Object store."
+  @type object_store :: %{
           autoIncrement: boolean(),
-          indexes: list(IndexedDB.ObjectStoreIndex),
-          keyPath: IndexedDB.KeyPath,
+          indexes: list(CDPotion.Domain.IndexedDB.object_store_index()),
+          keyPath: CDPotion.Domain.IndexedDB.key_path(),
           name: String.t()
         }
 
-  @doc "Object store index."
-  @type ObjectStoreIndex :: %{
-          keyPath: IndexedDB.KeyPath,
+  @typedoc "Object store index."
+  @type object_store_index :: %{
+          keyPath: CDPotion.Domain.IndexedDB.key_path(),
           multiEntry: boolean(),
           name: String.t(),
           unique: boolean()

@@ -1,53 +1,53 @@
 defmodule CDPotion.Domain.LayerTree do
   use CDPotion.Utils
-  @doc "Information about a compositing layer."
-  @type Layer :: %{
+  @typedoc "Information about a compositing layer."
+  @type layer :: %{
           anchorX: number() | nil,
           anchorY: number() | nil,
           anchorZ: number() | nil,
-          backendNodeId: DOM.BackendNodeId | nil,
+          backendNodeId: CDPotion.Domain.DOM.backend_node_id() | nil,
           drawsContent: boolean(),
           height: number(),
           invisible: boolean() | nil,
-          layerId: LayerTree.LayerId,
+          layerId: CDPotion.Domain.LayerTree.layer_id(),
           offsetX: number(),
           offsetY: number(),
           paintCount: integer(),
-          parentLayerId: LayerTree.LayerId | nil,
-          scrollRects: list(LayerTree.ScrollRect) | nil,
-          stickyPositionConstraint: LayerTree.StickyPositionConstraint | nil,
+          parentLayerId: CDPotion.Domain.LayerTree.layer_id() | nil,
+          scrollRects: list(CDPotion.Domain.LayerTree.scroll_rect()) | nil,
+          stickyPositionConstraint: CDPotion.Domain.LayerTree.sticky_position_constraint() | nil,
           transform: list(number()) | nil,
           width: number()
         }
 
-  @doc "Unique Layer identifier."
-  @type LayerId :: String.t()
+  @typedoc "Unique Layer identifier."
+  @type layer_id :: String.t()
 
-  @doc "Array of timings, one per paint step."
-  @type PaintProfile :: list(number())
+  @typedoc "Array of timings, one per paint step."
+  @type paint_profile :: list(number())
 
-  @doc "Serialized fragment of layer picture along with its offset within the layer."
-  @type PictureTile :: %{
+  @typedoc "Serialized fragment of layer picture along with its offset within the layer."
+  @type picture_tile :: %{
           picture: String.t(),
           x: number(),
           y: number()
         }
 
-  @doc "Rectangle where scrolling happens on the main thread."
-  @type ScrollRect :: %{
-          rect: DOM.Rect,
+  @typedoc "Rectangle where scrolling happens on the main thread."
+  @type scroll_rect :: %{
+          rect: CDPotion.Domain.DOM.rect(),
           type: :RepaintsOnScroll | :TouchEventHandler | :WheelEventHandler
         }
 
-  @doc "Unique snapshot identifier."
-  @type SnapshotId :: String.t()
+  @typedoc "Unique snapshot identifier."
+  @type snapshot_id :: String.t()
 
-  @doc "Sticky position constraints."
-  @type StickyPositionConstraint :: %{
-          containingBlockRect: DOM.Rect,
-          nearestLayerShiftingContainingBlock: LayerTree.LayerId | nil,
-          nearestLayerShiftingStickyBox: LayerTree.LayerId | nil,
-          stickyBoxRect: DOM.Rect
+  @typedoc "Sticky position constraints."
+  @type sticky_position_constraint :: %{
+          containingBlockRect: CDPotion.Domain.DOM.rect(),
+          nearestLayerShiftingContainingBlock: CDPotion.Domain.LayerTree.layer_id() | nil,
+          nearestLayerShiftingStickyBox: CDPotion.Domain.LayerTree.layer_id() | nil,
+          stickyBoxRect: CDPotion.Domain.DOM.rect()
         }
 
   @doc """

@@ -1,18 +1,18 @@
 defmodule CDPotion.Domain.Autofill do
   use CDPotion.Utils
-  @doc "description not provided :("
-  @type Address :: %{
-          fields: list(Autofill.AddressField)
+  @typedoc "description not provided :("
+  @type address :: %{
+          fields: list(CDPotion.Domain.Autofill.address_field())
         }
 
-  @doc "description not provided :("
-  @type AddressField :: %{
+  @typedoc "description not provided :("
+  @type address_field :: %{
           name: String.t(),
           value: String.t()
         }
 
-  @doc "description not provided :("
-  @type CreditCard :: %{
+  @typedoc "description not provided :("
+  @type credit_card :: %{
           cvc: String.t(),
           expiryMonth: String.t(),
           expiryYear: String.t(),

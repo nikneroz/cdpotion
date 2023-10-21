@@ -1,12 +1,12 @@
 defmodule CDPotion.Domain.Log do
   use CDPotion.Utils
-  @doc "Log entry."
-  @type LogEntry :: %{
-          args: list(Runtime.RemoteObject) | nil,
+  @typedoc "Log entry."
+  @type log_entry :: %{
+          args: list(CDPotion.Domain.Runtime.remote_object()) | nil,
           category: :cors | nil,
           level: :verbose | :info | :warning | :error,
           lineNumber: integer() | nil,
-          networkRequestId: Network.RequestId | nil,
+          networkRequestId: CDPotion.Domain.Network.request_id() | nil,
           source:
             :xml
             | :javascript
@@ -21,15 +21,15 @@ defmodule CDPotion.Domain.Log do
             | :intervention
             | :recommendation
             | :other,
-          stackTrace: Runtime.StackTrace | nil,
+          stackTrace: CDPotion.Domain.Runtime.stack_trace() | nil,
           text: String.t(),
-          timestamp: Runtime.Timestamp,
+          timestamp: CDPotion.Domain.Runtime.timestamp(),
           url: String.t() | nil,
           workerId: String.t() | nil
         }
 
-  @doc "Violation configuration setting."
-  @type ViolationSetting :: %{
+  @typedoc "Violation configuration setting."
+  @type violation_setting :: %{
           name:
             :longTask
             | :longLayout

@@ -1,40 +1,40 @@
 defmodule CDPotion.Domain.Fetch do
   use CDPotion.Utils
-  @doc "Authorization challenge for HTTP status code 401 or 407."
-  @type AuthChallenge :: %{
+  @typedoc "Authorization challenge for HTTP status code 401 or 407."
+  @type auth_challenge :: %{
           origin: String.t(),
           realm: String.t(),
           scheme: String.t(),
           source: :Server | :Proxy | nil
         }
 
-  @doc "Response to an AuthChallenge."
-  @type AuthChallengeResponse :: %{
+  @typedoc "Response to an AuthChallenge."
+  @type auth_challenge_response :: %{
           password: String.t() | nil,
           response: :Default | :CancelAuth | :ProvideCredentials,
           username: String.t() | nil
         }
 
-  @doc "Response HTTP header entry"
-  @type HeaderEntry :: %{
+  @typedoc "Response HTTP header entry"
+  @type header_entry :: %{
           name: String.t(),
           value: String.t()
         }
 
-  @doc "Unique request identifier."
-  @type RequestId :: String.t()
+  @typedoc "Unique request identifier."
+  @type request_id :: String.t()
 
-  @doc "description not provided :("
-  @type RequestPattern :: %{
-          requestStage: Fetch.RequestStage | nil,
-          resourceType: Network.ResourceType | nil,
+  @typedoc "description not provided :("
+  @type request_pattern :: %{
+          requestStage: CDPotion.Domain.Fetch.request_stage() | nil,
+          resourceType: CDPotion.Domain.Network.resource_type() | nil,
           urlPattern: String.t() | nil
         }
 
-  @doc "Stages of the request to handle. Request will intercept before the request is
+  @typedoc "Stages of the request to handle. Request will intercept before the request is
 sent. Response will intercept after the response is received (but before response
 body is received)."
-  @type RequestStage :: :Request | :Response
+  @type request_stage :: :Request | :Response
 
   @doc """
   Disables the fetch domain.

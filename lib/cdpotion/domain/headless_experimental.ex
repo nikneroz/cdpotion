@@ -1,7 +1,7 @@
 defmodule CDPotion.Domain.HeadlessExperimental do
   use CDPotion.Utils
-  @doc "Encoding options for a screenshot."
-  @type ScreenshotParams :: %{
+  @typedoc "Encoding options for a screenshot."
+  @type screenshot_params :: %{
           format: :jpeg | :png | :webp | nil,
           optimizeForSpeed: boolean() | nil,
           quality: integer() | nil

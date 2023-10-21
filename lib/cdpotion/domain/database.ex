@@ -1,18 +1,18 @@
 defmodule CDPotion.Domain.Database do
   use CDPotion.Utils
-  @doc "Database object."
-  @type Database :: %{
+  @typedoc "Database object."
+  @type database :: %{
           domain: String.t(),
-          id: Database.DatabaseId,
+          id: CDPotion.Domain.Database.database_id(),
           name: String.t(),
           version: String.t()
         }
 
-  @doc "Unique identifier of Database object."
-  @type DatabaseId :: String.t()
+  @typedoc "Unique identifier of Database object."
+  @type database_id :: String.t()
 
-  @doc "Database error."
-  @type Error :: %{
+  @typedoc "Database error."
+  @type error :: %{
           code: integer(),
           message: String.t()
         }
